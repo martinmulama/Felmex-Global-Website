@@ -1,0 +1,85 @@
+.cnt-page {
+  --cnt-max-width: var(--site-content-max-width);
+  --cnt-gutter: clamp(1rem, 2.4vw, 1.75rem);
+  --cnt-accent: #1c6dab;
+  --cnt-accent-strong: #14598d;
+  --cnt-accent-soft: rgba(74, 150, 213, 0.14);
+  --cnt-surface: #f5f9fd;
+  --cnt-surface-strong: #ffffff;
+  --cnt-surface-muted: #ebf2f9;
+  --cnt-panel: rgba(255, 255, 255, 0.84);
+  --cnt-panel-strong: rgba(255, 255, 255, 0.95);
+  --cnt-ink-900: #0b1b2b;
+  --cnt-ink-700: #2c4255;
+  --cnt-ink-600: #4a6073;
+  --cnt-ink-500: #61778b;
+  --cnt-border: rgba(13, 41, 68, 0.14);
+  --cnt-border-strong: rgba(13, 41, 68, 0.22);
+  --cnt-shadow: 0 22px 50px rgba(12, 34, 56, 0.1);
+  --cnt-shadow-tight: 0 14px 30px rgba(12, 34, 56, 0.08);
+  --cnt-font-sans: var(--site-font-sans);
+  position: relative;
+  overflow-x: clip;
+  overflow-y: visible;
+  font-family: var(--cnt-font-sans);
+  color: var(--cnt-ink-900);
+  background:
+    radial-gradient(circle at 8% 10%, rgba(121, 193, 241, 0.2), transparent 24%),
+    radial-gradient(circle at 92% 0%, rgba(28, 109, 171, 0.14), transparent 28%),
+    linear-gradient(180deg, #fcfdff 0%, #f3f8fc 100%);
+}
+
+.cnt-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(7, 28, 53, 0.02) 0, rgba(7, 28, 53, 0.02) 1px, transparent 1px, transparent 100%),
+    linear-gradient(180deg, rgba(7, 28, 53, 0.018) 0, rgba(7, 28, 53, 0.018) 1px, transparent 1px, transparent 100%);
+  background-size: 90px 90px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.cnt-container {
+  width: min(100% - (var(--cnt-gutter) * 2), var(--cnt-max-width));
+  margin-inline: auto;
+}
+
+.cnt-section-kicker,
+.cnt-form-kicker,
+.cnt-hero-panel-label,
+.cnt-office-region {
+  margin: 0;
+  color: var(--cnt-accent);
+  font-size: var(--site-fs-kicker);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cnt-section-title,
+.cnt-form-title {
+  margin: 0;
+  color: var(--cnt-ink-900);
+  font-size: var(--site-section-title-size);
+  line-height: var(--site-section-title-line-height);
+  letter-spacing: var(--site-section-title-tracking);
+  text-wrap: balance;
+}
+
+.cnt-section-text,
+.cnt-form-copy {
+  margin: 0;
+  color: var(--cnt-ink-600);
+  font-size: var(--site-fs-body);
+  line-height: var(--site-lh-body-loose);
+}
+
+.cnt-form-note,
+.cnt-form-status {
+  margin: 0;
+  color: var(--cnt-ink-500);
+  font-size: var(--site-fs-body-sm);
+  line-height: 1.65;
+}

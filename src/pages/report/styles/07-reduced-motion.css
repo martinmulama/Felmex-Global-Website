@@ -1,0 +1,14 @@
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .report-feature-figure img,
+  .report-stat-card,
+  .report-end-link,
+  .report-back-link,
+  .report-not-found-link,
+  .report-rail-list a,
+  .report-sources a {
+    transition: none;
+  }
+}
+

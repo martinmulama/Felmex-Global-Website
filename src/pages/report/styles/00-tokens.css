@@ -1,0 +1,43 @@
+/* -------------------------------------------------
+   ReportPage - Premium Editorial, Blue and White
+   Consistent with the Projects page design system
+   ------------------------------------------------- */
+
+.report-page {
+  --blue-950: #06172b;
+  --blue-900: #0c2340;
+  --blue-800: #123358;
+  --blue-700: #1a4876;
+  --blue-600: #1f5a96;
+  --blue-500: #2472bc;
+  --blue-400: #4b9fe0;
+  --blue-300: #82c4f5;
+  --blue-200: #c0dff9;
+  --blue-100: #e4f1fc;
+  --blue-50: #f0f7fd;
+
+  --white: #ffffff;
+  --ink: var(--blue-900);
+  --muted: var(--blue-700);
+  --faint: var(--blue-600);
+
+  --border: rgba(30, 72, 120, 0.1);
+  --border-strong: rgba(30, 72, 120, 0.17);
+
+  --accent: var(--blue-500);
+  --accent-hover: var(--blue-600);
+
+  --font-display: var(--site-font-display);
+  --font-body: var(--site-font-sans);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--white);
+  padding: clamp(1.5rem, 3vw, 2.5rem) 0 clamp(3rem, 5.5vw, 5rem);
+}

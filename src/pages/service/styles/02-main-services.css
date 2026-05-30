@@ -1,0 +1,196 @@
+.svc-main {
+  position: relative;
+  padding: clamp(2.35rem, 4.6vw, 3.85rem) 0;
+  background:
+    radial-gradient(circle at 84% 18%, rgba(74, 150, 213, 0.12), transparent 24%),
+    linear-gradient(180deg, #f7fbff 0%, #eef4fa 100%);
+}
+
+.svc-main::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(17, 57, 90, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 57, 90, 0.05) 1px, transparent 1px);
+  background-size: 120px 120px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 86%);
+}
+
+.svc-main-shell {
+  position: relative;
+  z-index: 1;
+  width: min(100% - 2rem, 1120px);
+}
+
+.svc-main-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: clamp(0.9rem, 1.9vw, 1.5rem);
+  align-items: start;
+}
+
+.svc-main-primary,
+.svc-main-secondary {
+  display: grid;
+  gap: clamp(0.65rem, 1.5vw, 1rem);
+  align-content: start;
+}
+
+.svc-page.is-reveal-ready .svc-main-secondary {
+  opacity: 0;
+  will-change: opacity;
+}
+
+.svc-main-secondary.is-visible {
+  opacity: 1;
+  animation: svcCatalogFadeIn 0.54s ease 110ms both;
+}
+
+@keyframes svcCatalogFadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.svc-main-header {
+  display: grid;
+  gap: 0.55rem;
+  max-width: 20.5rem;
+}
+
+.svc-main-header .svc-section-title {
+  max-width: 10.5ch;
+  font-size: var(--fs-section-title);
+}
+
+.svc-main-header .svc-section-text {
+  max-width: 28rem;
+  font-size: var(--fs-body);
+  line-height: 1.64;
+}
+
+.svc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  padding: 1px;
+  border-radius: 1.15rem;
+  background: transparent;
+}
+
+.svc-card {
+  appearance: none;
+  position: relative;
+  width: 100%;
+  min-height: clamp(7.25rem, 7.8vw, 8.25rem);
+  border: 0;
+  border-radius: 0;
+  background: rgba(247, 251, 255, 0.12);
+  box-shadow: none;
+  padding: clamp(0.72rem, 1vw, 0.9rem);
+  display: grid;
+  align-content: start;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 0.45rem;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition:
+    background 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.svc-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(28, 109, 171, 0), rgba(28, 109, 171, 0));
+  transition: background 0.22s ease;
+}
+
+.svc-card:hover,
+.svc-card:focus-visible {
+  background: rgba(255, 255, 255, 0.42);
+  box-shadow: inset 0 0 0 1px rgba(28, 109, 171, 0.08);
+}
+
+.svc-card.is-active {
+  background: linear-gradient(180deg, rgba(248, 252, 255, 0.74) 0%, rgba(237, 246, 253, 0.58) 100%);
+  box-shadow: inset 0 0 0 1px rgba(28, 109, 171, 0.12);
+}
+
+.svc-card:hover::before,
+.svc-card:focus-visible::before,
+.svc-card.is-active::before {
+  background: linear-gradient(90deg, #6fc2ee 0%, #1c6dab 100%);
+}
+
+.svc-card:focus-visible {
+  outline: 2px solid rgba(28, 109, 171, 0.34);
+  outline-offset: -2px;
+}
+
+.svc-card-icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(114, 183, 235, 0.3);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.68) 0%, rgba(235, 244, 252, 0.78) 100%);
+}
+
+.svc-icon-svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.svc-icon-duo {
+  fill: rgba(74, 150, 213, 0.18);
+}
+
+.svc-icon-path {
+  fill: none;
+  stroke: #1a4876;
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.svc-card-name,
+.svc-card-summary {
+  margin: 0;
+}
+
+.svc-card-name {
+  color: var(--svc-ink-900);
+  max-width: 14ch;
+  font-size: var(--fs-body);
+  line-height: 1.16;
+  letter-spacing: 0;
+  font-weight: 800;
+  text-wrap: balance;
+}
+
+.svc-card-summary {
+  color: var(--svc-ink-600);
+  max-width: 28ch;
+  font-size: var(--site-fs-button);
+  line-height: 1.52;
+}
+
+.svc-card-arrow {
+  display: none;
+  color: var(--svc-accent);
+  font-size: 1.15rem;
+  line-height: 1;
+  font-weight: 700;
+}

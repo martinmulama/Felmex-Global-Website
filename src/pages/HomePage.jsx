@@ -1,0 +1,2910 @@
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import './HomePage.css';
+import { CONTACT_CHANNELS } from '../data/contact';
+import { MQ } from '../constants/breakpoints';
+import { ONGOING_PROJECTS } from './projects/data';
+import {
+  CLIENT_QUOTES,
+  FINAL_CTA_FEATURES,
+  LANDING_STATS,
+  OVERVIEW_CHAIN_STEPS,
+  TESTIMONIAL_STACK_MOBILE_QUERY,
+} from './home/data';
+
+const LANDING_METRIC_COPIES = 4;
+const HOME_PROJECT_THUMBNAIL_COPIES = 2;
+const HOME_PROJECT_PREVIEW =
+  ONGOING_PROJECTS.find((project) => project.id === 'border-continuity') ?? ONGOING_PROJECTS[0];
+const HOME_PROJECT_PREVIEW_PARAGRAPHS = [
+  HOME_PROJECT_PREVIEW.lead,
+  HOME_PROJECT_PREVIEW.body,
+  'The sharp point is continuity: every document, release note, and dispatch decision has to protect the next movement before the border process is finished.',
+];
+const HOME_PROJECT_PREVIEW_META = HOME_PROJECT_PREVIEW.meta.slice(-2);
+const HOME_PROJECT_PREVIEW_SERVICES = HOME_PROJECT_PREVIEW.services.slice(0, 2);
+const HOME_MOBILE_PROJECTS = [
+  HOME_PROJECT_PREVIEW,
+  ...ONGOING_PROJECTS.filter((project) => project.id !== HOME_PROJECT_PREVIEW.id),
+].slice(0, 3);
+const HOME_PROJECT_THUMBNAILS = ONGOING_PROJECTS.filter(
+  (project) => project.id !== HOME_PROJECT_PREVIEW.id
+).slice(0, 6);
+const JOURNAL_PROJECT_TITLE = 'Projects planned around real handoffs.';
+const JOURNAL_OOG_TITLE = 'Built for the Extra ordinary- OOG-Project Logistics.';
+const JOURNAL_PROJECT_TITLE_LINES = ['Projects planned around', 'real handoffs.'];
+const JOURNAL_OOG_TITLE_LINES = ['Built for the Extra ordinary-', 'OOG-Project Logistics.'];
+const OOG_PROJECT_CAPABILITIES = [
+  {
+    index: '01',
+    icon: 'survey',
+    title: 'Engineering & Planning',
+    text: 'Route surveys, load analysis, and lift planning tailored for complex and oversized cargo.',
+    image: '/project-hero-1536.webp',
+    video: '/oog-project-logistics-preview.mp4',
+  },
+  {
+    index: '02',
+    icon: 'vessel',
+    title: 'Specialized Equipment',
+    text: 'Access to specialized trailers, cranes, and lifting gear to handle all dimensions.',
+    image: '/service-oog-project-3d-cutout-v2.webp',
+  },
+  {
+    index: '03',
+    icon: 'checklist',
+    title: 'Multi-Modal Execution',
+    text: 'Seamless coordination across sea, land, and air to support on-time, damage-free delivery.',
+    image: '/felmex-overview-port-lift-1536.webp',
+  },
+  {
+    index: '04',
+    icon: 'operator',
+    title: 'Permits & Compliance',
+    text: 'End-to-end handling of permits, escorts, and regulatory requirements across all jurisdictions.',
+    image: '/air-freight.webp',
+  },
+  {
+    index: '05',
+    icon: 'control',
+    title: 'End-to-End Project Control',
+    text: 'Dedicated project teams providing real-time updates, risk management, and complete visibility.',
+    image: '/road-freight.webp',
+  },
+];
+const TESTIMONIAL_PARTNERS = [
+  { name: 'Maersk', logo: '/partners/maersk.svg' },
+  { name: 'DHL', logo: '/partners/dhl.svg' },
+  { name: 'Nestle' },
+  { name: 'Olam' },
+  { name: 'Dangote' },
+];
+
+const HERO_ROUTE_STRIP = [
+  'Africa',
+  'Europe',
+  'Asia',
+  'Middle East',
+  'Americas',
+  'Oceania',
+];
+const HOME_SERVICE_FEATURES = [
+  {
+    number: '01',
+    label: 'Air Freight',
+    icon: 'air',
+    image: '/service-air-3d-cutout-v2.webp',
+    imageWidth: 1280,
+    imageHeight: 853,
+    href: '/services#svc-deep-dive-air-freight',
+    summary:
+      'Priority air movements for time-sensitive cargo, with routing, uplift coordination, and handoff visibility kept in one operating flow.',
+    details: ['Urgent cargo planning', 'Airport handling coordination', 'Clear status updates'],
+  },
+  {
+    number: '02',
+    label: 'Sea Freight',
+    icon: 'sea',
+    image: '/service-sea-3d-cutout.webp',
+    imageWidth: 1280,
+    imageHeight: 751,
+    href: '/services#svc-deep-dive-sea-freight',
+    summary:
+      'Ocean freight support for planned volume, FCL/LCL moves, and port-side coordination from booking through release.',
+    details: ['Carrier and sailing options', 'Port documentation support', 'Container movement control'],
+  },
+  {
+    number: '03',
+    label: 'Rail Freight',
+    icon: 'rail',
+    image: '/service-rail-3d-cutout-v2.webp',
+    imageWidth: 1280,
+    imageHeight: 853,
+    href: '/services#svc-deep-dive-rail-freight',
+    summary:
+      'Rail-linked freight for stable corridors, heavy cargo, and inland connectivity where predictability matters more than improvisation.',
+    details: ['Corridor planning', 'Containerized rail movement', 'Inland handoff coordination'],
+  },
+  {
+    number: '04',
+    label: 'Road Freight',
+    icon: 'road',
+    image: '/service-road-3d-cutout-v2.webp',
+    imageWidth: 1280,
+    imageHeight: 823,
+    href: '/services#svc-deep-dive-road-freight',
+    summary:
+      'Dependable inland movement for domestic and cross-border cargo, with routing, dispatch, and delivery coordination handled end-to-end.',
+    details: ['Cross-border dispatch', 'Domestic route planning', 'Delivery handoff control'],
+  },
+  {
+    number: '05',
+    label: 'Cold & General Warehousing',
+    icon: 'warehouse',
+    image: '/service-warehouse-3d-cutout-v2.webp',
+    imageWidth: 1280,
+    imageHeight: 853,
+    href: '/services#svc-deep-dive-cold-general-warehousing',
+    summary:
+      'Controlled storage, handling, and dispatch readiness for cold-chain and general cargo that needs visibility before release.',
+    details: ['Cold and ambient storage', 'Stock visibility controls', 'Pick-pack dispatch staging'],
+  },
+  {
+    number: '06',
+    label: 'OOG Project Logistics',
+    icon: 'project',
+    image: '/service-oog-project-3d-cutout-v2.webp',
+    imageWidth: 1280,
+    imageHeight: 853,
+    href: '/services#svc-deep-dive-oog-project-logistics',
+    summary:
+      'Specialist planning for oversized and project cargo, from route checks and permits through lift coordination and final placement.',
+    details: ['Route feasibility planning', 'Permit coordination', 'Specialist lift oversight'],
+  },
+  {
+    number: '07',
+    label: 'FMCG Inter-Cross Border Distribution',
+    icon: 'distribution',
+    image: '/felmex-overview-3d.webp',
+    imageWidth: 1280,
+    imageHeight: 860,
+    href: '/services#svc-deep-dive-distribution',
+    summary:
+      'Fast-moving regional distribution for FMCG replenishment cycles, with routing, dispatch, and delivery checkpoints kept visible.',
+    details: ['Replenishment lane planning', 'Multi-drop delivery coordination', 'Cycle performance visibility'],
+  },
+];
+
+function ServiceCatalogIcon({ kind }) {
+  const icons = {
+    air: (
+      <path
+        d="M20.2 4.4 3.8 11.2a0.9 0.9 0 0 0 .05 1.68l5.85 1.78 1.78 5.85a0.9 0.9 0 0 0 1.68.05L20.2 4.4Zm-8.48 9.26L7.6 12.42l8.06-3.34-3.94 4.58Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.65"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    ),
+    sea: (
+      <>
+        <path
+          d="M4.1 14.1h15.8M6.2 12.2V8.1h11.6v4.1M9.4 8.1V5.7h5.2v2.4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m4.8 16.2 1.8 1.6 1.8-1.6 1.8 1.6 1.8-1.6 1.8 1.6 1.8-1.6 1.8 1.6 1.8-1.6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    rail: (
+      <>
+        <path
+          d="M7.1 4.9h9.8a2 2 0 0 1 2 2v7.9a2 2 0 0 1-2 2H7.1a2 2 0 0 1-2-2V6.9a2 2 0 0 1 2-2Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8 8h8M8.3 12.2h.01M15.7 12.2h.01M8.4 19.1l2.2-2.3M15.6 19.1l-2.2-2.3"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    road: (
+      <>
+        <path
+          d="M4.3 8h10.2v7.4H4.3V8Zm10.2 2.2h3.2l2 2.4v2.8h-5.2v-5.2Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M7.7 17.2a1.45 1.45 0 1 0 0-2.9 1.45 1.45 0 0 0 0 2.9Zm9 0a1.45 1.45 0 1 0 0-2.9 1.45 1.45 0 0 0 0 2.9Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+        />
+      </>
+    ),
+    warehouse: (
+      <>
+        <path
+          d="M4.5 10.2 12 5.4l7.5 4.8v8.3h-15v-8.3Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M7.4 18.5v-5.4h9.2v5.4M9.2 15.1h5.6M9.2 12.9h5.6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    project: (
+      <>
+        <path
+          d="M7.2 18.3h9.6M8.2 18.3l2-8.2h3.6l2 8.2M9.4 12.7h5.2M12 4.6v5.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M9.5 6.2 12 4.6l2.5 1.6M12 10.1l1.5 1.5-1.5 1.5-1.5-1.5L12 10.1Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    distribution: (
+      <>
+        <path
+          d="M4.4 6.1h5.4v5.4H4.4V6.1Zm9.8 0h5.4v4.2h-5.4V6.1ZM4.4 15h4.4v3.9H4.4V15Zm8.1-1.9h7.1v5.8h-7.1v-5.8Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M9.8 8.8h4.4M8.8 16.9h3.7M15.4 10.3v2.8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+  };
+
+  return (
+    <span className="landing-service-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        {icons[kind] ?? icons.air}
+      </svg>
+    </span>
+  );
+}
+
+function OogCapabilityIcon({ kind }) {
+  const icons = {
+    survey: (
+      <>
+        <path
+          d="M8.2 4.7h7.6a1.4 1.4 0 0 1 1.4 1.4v12.8a1.4 1.4 0 0 1-1.4 1.4H8.2a1.4 1.4 0 0 1-1.4-1.4V6.1a1.4 1.4 0 0 1 1.4-1.4Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M9.4 8.5h5.2M9.4 11.3h4.2M9.4 14.1h2.7M15.8 19.8l3.1 3.1M15 17.1a3.1 3.1 0 1 0 6.2 0 3.1 3.1 0 0 0-6.2 0Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    vessel: (
+      <>
+        <path
+          d="M4.2 14h15.6M6.1 12V8.2h11.8V12M9.5 8.2V5.9h5v2.3"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m4.9 16.4 1.8 1.6 1.8-1.6 1.8 1.6 1.8-1.6 1.8 1.6 1.8-1.6 1.8 1.6 1.8-1.6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    checklist: (
+      <>
+        <path
+          d="M8.4 5.1h7.2a1.6 1.6 0 0 1 1.6 1.6v11.8a1.6 1.6 0 0 1-1.6 1.6H8.4a1.6 1.6 0 0 1-1.6-1.6V6.7a1.6 1.6 0 0 1 1.6-1.6Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m9.3 9.5.9.9 1.7-1.9M13.7 9.6h2M9.3 13.1l.9.9 1.7-1.9M13.7 13.2h2M9.3 16.7l.9.9 1.7-1.9M13.7 16.8h2"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    operator: (
+      <>
+        <path
+          d="M8.7 10.1V8.7a3.3 3.3 0 0 1 6.6 0v1.4M7.7 10.1h8.6M9.2 12.2a3.1 3.1 0 0 0 5.6 0M6.2 20.1c.6-2.9 2.7-4.5 5.8-4.5s5.2 1.6 5.8 4.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    control: (
+      <>
+        <path
+          d="m12 4.2 6.5 3.7v8.2L12 19.8l-6.5-3.7V7.9L12 4.2Zm0 0v7.5m6.5-3.8L12 11.7 5.5 7.9"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8.9 14.2 12 16l3.1-1.8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+  };
+
+  return (
+    <span className="landing-oog-card-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        {icons[kind] ?? icons.control}
+      </svg>
+    </span>
+  );
+}
+
+function HeroRoutePin() {
+  return (
+    <span className="hero-route-pin" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        <path
+          d="M12 21s6.4-6.2 6.4-11.2a6.4 6.4 0 1 0-12.8 0C5.6 14.8 12 21 12 21Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle cx="12" cy="9.8" r="2.15" fill="none" stroke="currentColor" strokeWidth="1.75" />
+      </svg>
+    </span>
+  );
+}
+
+function OverviewProcessIcon({ kind }) {
+  const icons = {
+    box: (
+      <path
+        d="m12 4.4 6.4 3.6v7.9L12 19.6l-6.4-3.7V8L12 4.4Zm0 0v7.4m6.4-3.8L12 11.8 5.6 8"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    ),
+    document: (
+      <>
+        <path
+          d="M7.4 4.7h6.7l2.5 2.7v11.9H7.4V4.7Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M14.1 4.9v2.7h2.5M10 11.2h4M10 14.2h4M10 17h2.3"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    transit: (
+      <>
+        <path
+          d="M8.2 15.2h7.6M9.3 15.2l1.1-5.2h3.2l1.1 5.2M10.2 12.1h3.6M12 5.2v4.8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M9.8 6.7 12 5.2l2.2 1.5M7.2 17.7h9.6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    shield: (
+      <>
+        <path
+          d="M12 4.4 6.5 6.5v4.6c0 3.6 2.2 6.7 5.5 8 3.3-1.3 5.5-4.4 5.5-8V6.5L12 4.4Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m9.8 11.9 1.5 1.5 3-3.3"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    warehouse: (
+      <>
+        <path
+          d="M5.7 10.2 12 6.1l6.3 4.1v8H5.7v-8Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8.4 18.2v-5.1h7.2v5.1M9.7 15.1h4.6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    truck: (
+      <>
+        <path
+          d="M5.3 8.8h9.1v6.5H5.3V8.8Zm9.1 2h2.8l1.8 2.1v2.4h-4.6v-4.5Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8.1 17.2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5Zm8.1 0a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+        />
+      </>
+    ),
+  };
+
+  return (
+    <svg viewBox="0 0 24 24" focusable="false">
+      {icons[kind] ?? icons.box}
+    </svg>
+  );
+}
+
+function FinalCtaIcon({ kind }) {
+  const icons = {
+    shield: (
+      <>
+        <path
+          d="M12 3.6 6.4 5.8v4.6c0 3.6 2.2 6.8 5.6 8.2 3.4-1.4 5.6-4.6 5.6-8.2V5.8L12 3.6Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m9.6 11.6 1.8 1.8 3.2-3.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    clock: (
+      <>
+        <path
+          d="M12 5v2.1m0 9.8V19m7-7h-2.1M7.1 12H5m11.7 4.7-1.5-1.5M8.8 8.8 7.3 7.3"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="6.8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeDasharray="1.8 2.6"
+          strokeLinecap="round"
+        />
+        <path
+          d="M12 9.1v3.2l2.4 1.3"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    user: (
+      <>
+        <circle cx="12" cy="8.4" r="3.1" fill="none" stroke="currentColor" strokeWidth="1.8" />
+        <path
+          d="M6.6 18.1c.7-2.6 2.9-4.1 5.4-4.1s4.7 1.5 5.4 4.1"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    plane: (
+      <path
+        d="M20.5 4.5 4.5 11l5.6 1.7 1.7 5.6 8.7-13.8Zm-9 7.2 5.2-2.2-2.6 3"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    ),
+    truck: (
+      <>
+        <path
+          d="M4.5 8h9v6.5h-9V8Zm9 2.2h3l2 2.1v2.2h-1.4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle cx="8" cy="17.2" r="1.7" fill="none" stroke="currentColor" strokeWidth="1.8" />
+        <circle cx="16" cy="17.2" r="1.7" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      </>
+    ),
+  };
+
+  return (
+    <span className={`landing-close-feature-icon landing-close-feature-icon--${kind}`} aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        {icons[kind] ?? icons.user}
+      </svg>
+    </span>
+  );
+}
+
+function bindWindowScroll(update) {
+  let rafId = null;
+
+  const runUpdate = () => {
+    rafId = null;
+    update();
+  };
+
+  const queueUpdate = () => {
+    if (rafId !== null) return;
+    rafId = window.requestAnimationFrame(runUpdate);
+  };
+
+  queueUpdate();
+  window.addEventListener('scroll', queueUpdate, { passive: true });
+  window.addEventListener('resize', queueUpdate);
+
+  return () => {
+    if (rafId !== null) {
+      window.cancelAnimationFrame(rafId);
+    }
+    window.removeEventListener('scroll', queueUpdate);
+    window.removeEventListener('resize', queueUpdate);
+  };
+}
+
+let gsapLoadPromise = null;
+let scrollTriggerLoadPromise = null;
+
+function loadGsap() {
+  if (!gsapLoadPromise) {
+    gsapLoadPromise = import('gsap').then((module) => module.gsap);
+  }
+
+  return gsapLoadPromise;
+}
+
+function loadScrollTrigger() {
+  if (!scrollTriggerLoadPromise) {
+    scrollTriggerLoadPromise = Promise.all([loadGsap(), import('gsap/ScrollTrigger')]).then(
+      ([gsap, scrollTriggerModule]) => {
+        const { ScrollTrigger } = scrollTriggerModule;
+        gsap.registerPlugin(ScrollTrigger);
+        return { gsap, ScrollTrigger };
+      }
+    );
+  }
+
+  return scrollTriggerLoadPromise;
+}
+
+function clearInlineMotionStyles(elements, properties) {
+  elements.forEach((element) => {
+    properties.forEach((property) => element.style.removeProperty(property));
+  });
+}
+
+export function HomePage() {
+  const overviewRef = useRef(null);
+  const overviewProcessRef = useRef(null);
+  const testimonialsSectionRef = useRef(null);
+  const testimonialsPartnersRef = useRef(null);
+  const journalSectionRef = useRef(null);
+  const journalPinWrapperRef = useRef(null);
+  const journalDesktopStageRef = useRef(null);
+  const journalDesktopViewportRef = useRef(null);
+  const journalDesktopTrackRef = useRef(null);
+  const journalMobileTrackRef = useRef(null);
+  const journalTitleRef = useRef(null);
+  const journalTitleProjectRef = useRef(null);
+  const journalTitleOogRef = useRef(null);
+  const journalScrollTriggerRef = useRef(null);
+  const journalCarouselDelayRef = useRef(null);
+  const journalMobileScrollFrameRef = useRef(null);
+  const closeSectionRef = useRef(null);
+  const heroRouteStripRef = useRef(null);
+  const servicesListRef = useRef(null);
+  const testimonialsTitleDroppedRef = useRef(false);
+  const [isHeroEntered, setIsHeroEntered] = useState(false);
+  const [isOverviewVisible, setIsOverviewVisible] = useState(false);
+  const [isTestimonialsTitleDropped, setIsTestimonialsTitleDropped] = useState(false);
+  const [isCloseVisible, setIsCloseVisible] = useState(false);
+  const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(1);
+  const [activeMobileProjectIndex, setActiveMobileProjectIndex] = useState(0);
+  const [testimonialSlideDirection, setTestimonialSlideDirection] = useState('next');
+  const [isTestimonialStackMobile, setIsTestimonialStackMobile] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia(TESTIMONIAL_STACK_MOBILE_QUERY).matches
+  );
+  const [isMobileViewport, setIsMobileViewport] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia(MQ.mobile).matches
+  );
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+
+  const showPreviousTestimonial = () => {
+    setTestimonialSlideDirection('previous');
+    setActiveTestimonialIndex((currentIndex) =>
+      currentIndex === 0 ? CLIENT_QUOTES.length - 1 : currentIndex - 1
+    );
+  };
+
+  const showNextTestimonial = () => {
+    setTestimonialSlideDirection('next');
+    setActiveTestimonialIndex((currentIndex) =>
+      currentIndex === CLIENT_QUOTES.length - 1 ? 0 : currentIndex + 1
+    );
+  };
+
+  const showTestimonial = (targetIndex) => {
+    if (targetIndex === activeTestimonialIndex) return;
+
+    const forwardDistance =
+      (targetIndex - activeTestimonialIndex + CLIENT_QUOTES.length) % CLIENT_QUOTES.length;
+    const backwardDistance =
+      (activeTestimonialIndex - targetIndex + CLIENT_QUOTES.length) % CLIENT_QUOTES.length;
+
+    setTestimonialSlideDirection(forwardDistance <= backwardDistance ? 'next' : 'previous');
+    setActiveTestimonialIndex(targetIndex);
+  };
+
+  const visibleTestimonials = [-1, 0, 1].map((offset) => {
+    const index = (activeTestimonialIndex + offset + CLIENT_QUOTES.length) % CLIENT_QUOTES.length;
+    return {
+      index,
+      isActive: offset === 0,
+      quote: CLIENT_QUOTES[index],
+    };
+  });
+  const shouldUseStaticHeroMedia = isMobileViewport || prefersReducedMotion;
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+
+    const mediaQuery = window.matchMedia(MQ.mobile);
+    const syncMobileViewport = () => setIsMobileViewport(mediaQuery.matches);
+    syncMobileViewport();
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', syncMobileViewport);
+      return () => mediaQuery.removeEventListener('change', syncMobileViewport);
+    }
+
+    mediaQuery.addListener(syncMobileViewport);
+    return () => mediaQuery.removeListener(syncMobileViewport);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+
+    const mediaQuery = window.matchMedia(TESTIMONIAL_STACK_MOBILE_QUERY);
+    const syncTestimonialStackMode = () => setIsTestimonialStackMobile(mediaQuery.matches);
+    syncTestimonialStackMode();
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', syncTestimonialStackMode);
+      return () => mediaQuery.removeEventListener('change', syncTestimonialStackMode);
+    }
+
+    mediaQuery.addListener(syncTestimonialStackMode);
+    return () => mediaQuery.removeListener(syncTestimonialStackMode);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncReducedMotion = () => setPrefersReducedMotion(mediaQuery.matches);
+    syncReducedMotion();
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', syncReducedMotion);
+      return () => mediaQuery.removeEventListener('change', syncReducedMotion);
+    }
+
+    mediaQuery.addListener(syncReducedMotion);
+    return () => mediaQuery.removeListener(syncReducedMotion);
+  }, []);
+
+  useEffect(() => {
+    const track = journalMobileTrackRef.current;
+    if (!isMobileViewport || !track || typeof window === 'undefined') return undefined;
+
+    const syncActiveMobileProject = () => {
+      journalMobileScrollFrameRef.current = null;
+
+      const firstCard = track.querySelector('.landing-journal-mobile-card');
+      if (!firstCard) return;
+
+      const styles = window.getComputedStyle(track);
+      const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
+      const cardSpan = firstCard.getBoundingClientRect().width + gap;
+      if (cardSpan <= 0) return;
+
+      const nextIndex = Math.min(
+        HOME_MOBILE_PROJECTS.length - 1,
+        Math.max(0, Math.round(track.scrollLeft / cardSpan))
+      );
+
+      setActiveMobileProjectIndex((currentIndex) =>
+        currentIndex === nextIndex ? currentIndex : nextIndex
+      );
+    };
+
+    const queueActiveMobileProjectSync = () => {
+      if (journalMobileScrollFrameRef.current !== null) return;
+
+      journalMobileScrollFrameRef.current = window.requestAnimationFrame(syncActiveMobileProject);
+    };
+
+    queueActiveMobileProjectSync();
+    track.addEventListener('scroll', queueActiveMobileProjectSync, { passive: true });
+    window.addEventListener('resize', queueActiveMobileProjectSync);
+
+    return () => {
+      if (journalMobileScrollFrameRef.current !== null) {
+        window.cancelAnimationFrame(journalMobileScrollFrameRef.current);
+        journalMobileScrollFrameRef.current = null;
+      }
+
+      track.removeEventListener('scroll', queueActiveMobileProjectSync);
+      window.removeEventListener('resize', queueActiveMobileProjectSync);
+    };
+  }, [isMobileViewport]);
+
+  useEffect(() => {
+    let rafOne = null;
+    let rafTwo = null;
+
+    setIsHeroEntered(false);
+    rafOne = window.requestAnimationFrame(() => {
+      rafTwo = window.requestAnimationFrame(() => {
+        setIsHeroEntered(true);
+      });
+    });
+
+    return () => {
+      if (rafOne !== null) window.cancelAnimationFrame(rafOne);
+      if (rafTwo !== null) window.cancelAnimationFrame(rafTwo);
+    };
+  }, []);
+
+  useEffect(() => {
+    const strip = heroRouteStripRef.current;
+    if (!strip || isMobileViewport) return undefined;
+
+    const routePieces = Array.from(
+      strip.querySelectorAll('.hero-route-kicker, .hero-route-item, .hero-route-connector')
+    );
+    let animationContext = null;
+    let isCancelled = false;
+    let loadedGsap = null;
+
+    if (prefersReducedMotion) {
+      strip.style.opacity = '1';
+      strip.style.visibility = 'visible';
+      strip.style.transform = 'translate3d(0, 0, 0)';
+      routePieces.forEach((piece) => {
+        piece.style.opacity = '1';
+        piece.style.visibility = 'visible';
+        piece.style.transform = 'none';
+        piece.style.clipPath = 'inset(0% 0% 0% 0%)';
+      });
+      return () => {
+        clearInlineMotionStyles([strip, ...routePieces], [
+          'opacity',
+          'visibility',
+          'transform',
+          'clip-path',
+          'transform-origin',
+        ]);
+      };
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+
+        loadGsap().then((gsap) => {
+          if (isCancelled) return;
+          loadedGsap = gsap;
+          animationContext = gsap.context(() => {
+            const routeItems = gsap.utils.toArray('.hero-route-kicker, .hero-route-item', strip);
+            const connectors = gsap.utils.toArray('.hero-route-connector', strip);
+
+            gsap.set(strip, { autoAlpha: 1, y: 0 });
+            gsap.set(routeItems, {
+              autoAlpha: 0,
+              x: -18,
+              clipPath: 'inset(0% 100% 0% 0%)',
+            });
+            gsap.set(connectors, {
+              autoAlpha: 0,
+              scaleX: 0,
+              transformOrigin: 'left center',
+            });
+
+            const timeline = gsap.timeline({
+              defaults: {
+                ease: 'power3.out',
+                overwrite: 'auto',
+              },
+            });
+
+            routePieces.forEach((piece, index) => {
+              if (piece.classList.contains('hero-route-connector')) {
+                timeline.to(
+                  piece,
+                  {
+                    autoAlpha: 1,
+                    scaleX: 1,
+                    duration: 0.24,
+                  },
+                  index === 1 ? '>-0.04' : '>-0.14'
+                );
+                return;
+              }
+
+              timeline.to(
+                piece,
+                {
+                  autoAlpha: 1,
+                  x: 0,
+                  clipPath: 'inset(0% 0% 0% 0%)',
+                  duration: index === 0 ? 0.28 : 0.3,
+                },
+                index === 0 ? 0 : '>-0.12'
+              );
+            });
+          }, strip);
+        });
+      },
+      {
+        threshold: 0.28,
+        rootMargin: '0px 0px -8% 0px',
+      }
+    );
+
+    observer.observe(strip);
+
+    return () => {
+      isCancelled = true;
+      observer.disconnect();
+      animationContext?.revert();
+      if (loadedGsap) {
+        loadedGsap.set(strip, { clearProps: 'opacity,visibility,transform' });
+        loadedGsap.set(routePieces, {
+          clearProps: 'opacity,visibility,transform,clipPath,transformOrigin',
+        });
+      }
+    };
+  }, [isMobileViewport, prefersReducedMotion]);
+
+  useEffect(() => {
+    const process = overviewProcessRef.current;
+    if (!process) return undefined;
+
+    const processCards = Array.from(process.querySelectorAll('.landing-overview-chain-card'));
+    const processConnectors = Array.from(process.querySelectorAll('.landing-overview-chain-link-line'));
+    const processArrows = Array.from(process.querySelectorAll('.landing-overview-chain-link-arrow'));
+    const processPieces = [...processCards, ...processConnectors, ...processArrows];
+    let animationContext = null;
+    let isCancelled = false;
+    let loadedGsap = null;
+
+    if (prefersReducedMotion) {
+      processPieces.forEach((piece) => {
+        piece.style.opacity = '1';
+        piece.style.visibility = 'visible';
+        piece.style.transform = 'none';
+        piece.style.clipPath = 'inset(0% 0% 0% 0%)';
+      });
+      return () => {
+        clearInlineMotionStyles(processPieces, [
+          'opacity',
+          'visibility',
+          'transform',
+          'clip-path',
+          'transform-origin',
+        ]);
+      };
+    }
+
+    processCards.forEach((card) => {
+      card.style.opacity = '0';
+      card.style.visibility = 'hidden';
+      card.style.transform = 'translate3d(0, 18px, 0)';
+      card.style.clipPath = 'inset(0% 0% 16% 0%)';
+    });
+    processConnectors.forEach((connector) => {
+      connector.style.opacity = '0';
+      connector.style.visibility = 'hidden';
+      connector.style.transform = 'scaleX(0)';
+      connector.style.transformOrigin = 'left center';
+    });
+    processArrows.forEach((arrow) => {
+      arrow.style.opacity = '0';
+      arrow.style.visibility = 'hidden';
+      arrow.style.transform = 'translate3d(-4px, 0, 0)';
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+
+        loadGsap().then((gsap) => {
+          if (isCancelled) return;
+          loadedGsap = gsap;
+          animationContext = gsap.context(() => {
+            const timeline = gsap.timeline({
+              defaults: {
+                ease: 'power3.out',
+                overwrite: 'auto',
+              },
+            });
+
+            processCards.forEach((card, index) => {
+              timeline.to(
+                card,
+                {
+                  autoAlpha: 1,
+                  y: 0,
+                  clipPath: 'inset(0% 0% 0% 0%)',
+                  duration: index === 0 ? 0.3 : 0.34,
+                },
+                index === 0 ? 0 : '>-0.12'
+              );
+
+              const connector = processConnectors[index];
+              const arrow = processArrows[index];
+              if (!connector) return;
+
+              timeline.to(
+                connector,
+                {
+                  autoAlpha: 1,
+                  scaleX: 1,
+                  duration: 0.24,
+                },
+                '>-0.1'
+              );
+
+              if (!arrow) return;
+
+              timeline.to(
+                arrow,
+                {
+                  autoAlpha: 1,
+                  x: 0,
+                  duration: 0.16,
+                },
+                '>-0.04'
+              );
+            });
+          }, process);
+        });
+      },
+      {
+        threshold: 0.24,
+        rootMargin: '0px 0px -8% 0px',
+      }
+    );
+
+    observer.observe(process);
+
+    return () => {
+      isCancelled = true;
+      observer.disconnect();
+      animationContext?.revert();
+      if (loadedGsap) {
+        loadedGsap.set(processPieces, {
+          clearProps: 'opacity,visibility,transform,clipPath,transformOrigin',
+        });
+      } else {
+        clearInlineMotionStyles(processPieces, [
+          'opacity',
+          'visibility',
+          'transform',
+          'clip-path',
+          'transform-origin',
+        ]);
+      }
+    };
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    const node = overviewRef.current;
+    if (!node) return undefined;
+
+    if (prefersReducedMotion) {
+      setIsOverviewVisible(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        setIsOverviewVisible(true);
+        observer.disconnect();
+      },
+      {
+        threshold: 0.24,
+        rootMargin: '0px 0px -10% 0px',
+      }
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, [prefersReducedMotion, isMobileViewport]);
+
+  useEffect(() => {
+    const list = servicesListRef.current;
+    if (!list || isMobileViewport) return undefined;
+
+    const serviceEntries = Array.from(list.querySelectorAll('.landing-service-entry'));
+    const servicePieces = serviceEntries.flatMap((entry) =>
+      Array.from(entry.querySelectorAll('.landing-service-figure, .landing-service-copy'))
+    );
+    const contexts = new Map();
+    let isCancelled = false;
+    let loadedGsap = null;
+
+    if (prefersReducedMotion) {
+      servicePieces.forEach((piece) => {
+        piece.style.opacity = '1';
+        piece.style.visibility = 'visible';
+        piece.style.transform = 'none';
+        piece.style.clipPath = 'inset(0% 0% 0% 0%)';
+      });
+      return () => {
+        clearInlineMotionStyles(servicePieces, [
+          'opacity',
+          'visibility',
+          'transform',
+          'clip-path',
+        ]);
+      };
+    }
+
+    serviceEntries.forEach((entry) => {
+      const pieces = entry.querySelectorAll('.landing-service-figure, .landing-service-copy');
+      pieces.forEach((piece) => {
+        piece.style.opacity = '0';
+        piece.style.visibility = 'hidden';
+        piece.style.transform = 'translate3d(26px, 0, 0)';
+        piece.style.clipPath = 'inset(0% 0% 0% 100%)';
+      });
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          const serviceEntry = entry.target;
+          observer.unobserve(serviceEntry);
+
+          loadGsap().then((gsap) => {
+            if (isCancelled) return;
+            loadedGsap = gsap;
+            const animationContext = gsap.context(() => {
+              const figure = serviceEntry.querySelector('.landing-service-figure');
+              const copy = serviceEntry.querySelector('.landing-service-copy');
+              const pieces = [figure, copy].filter(Boolean);
+
+              gsap
+                .timeline({
+                  defaults: {
+                    ease: 'power3.out',
+                    overwrite: 'auto',
+                  },
+                })
+                .to(figure, {
+                  autoAlpha: 1,
+                  x: 0,
+                  clipPath: 'inset(0% 0% 0% 0%)',
+                  duration: 0.32,
+                })
+                .to(
+                  copy,
+                  {
+                    autoAlpha: 1,
+                    x: 0,
+                    clipPath: 'inset(0% 0% 0% 0%)',
+                    duration: 0.3,
+                  },
+                  '>-0.14'
+                );
+
+              gsap.set(pieces, { clearProps: 'visibility' });
+            }, serviceEntry);
+
+            contexts.set(serviceEntry, animationContext);
+          });
+        });
+      },
+      {
+        threshold: 0.22,
+        rootMargin: '0px 0px -12% 0px',
+      }
+    );
+
+    serviceEntries.forEach((entry) => observer.observe(entry));
+
+    return () => {
+      isCancelled = true;
+      observer.disconnect();
+      contexts.forEach((context) => context.revert());
+      if (loadedGsap) {
+        loadedGsap.set(servicePieces, {
+          clearProps: 'opacity,visibility,transform,clipPath',
+        });
+      } else {
+        clearInlineMotionStyles(servicePieces, [
+          'opacity',
+          'visibility',
+          'transform',
+          'clip-path',
+        ]);
+      }
+    };
+  }, [isMobileViewport, prefersReducedMotion]);
+
+  useEffect(() => {
+    testimonialsTitleDroppedRef.current = isTestimonialsTitleDropped;
+  }, [isTestimonialsTitleDropped]);
+
+  useEffect(() => {
+    const node = overviewRef.current;
+    if (!node) return undefined;
+
+    const applyOverviewMotion = (progress) => {
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const imageY = (1 - eased) * 42;
+      const imageScale = 0.94 + eased * 0.06;
+      const imageOpacity = 0.58 + eased * 0.42;
+
+      node.style.setProperty('--overview-image-y', `${imageY.toFixed(2)}px`);
+      node.style.setProperty('--overview-image-scale', imageScale.toFixed(4));
+      node.style.setProperty('--overview-image-opacity', imageOpacity.toFixed(4));
+    };
+
+    if (prefersReducedMotion) {
+      applyOverviewMotion(1);
+      return undefined;
+    }
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+    const updateOverviewMotion = () => {
+      const rect = node.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
+      const start = viewportHeight * 0.94;
+      const end = viewportHeight * 0.18;
+      const progress = clamp((start - rect.top) / Math.max(start - end, 1), 0, 1);
+      applyOverviewMotion(progress);
+    };
+
+    return bindWindowScroll(updateOverviewMotion);
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    const node = testimonialsSectionRef.current;
+    if (!node) return undefined;
+
+    if (prefersReducedMotion) {
+      testimonialsTitleDroppedRef.current = true;
+      setIsTestimonialsTitleDropped(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        testimonialsTitleDroppedRef.current = true;
+        setIsTestimonialsTitleDropped(true);
+        observer.disconnect();
+      },
+      {
+        threshold: 0,
+        rootMargin: '0px 0px -24% 0px',
+      }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    const node = testimonialsPartnersRef.current;
+    if (!node) return undefined;
+
+    const partnerLabel = node.querySelector('.landing-testimonial-partners-title');
+    const partnerItems = Array.from(node.querySelectorAll('.landing-testimonial-partner'));
+    const partnerPieces = [partnerLabel, ...partnerItems].filter(Boolean);
+    let animationContext = null;
+    let isCancelled = false;
+    let loadedGsap = null;
+
+    if (prefersReducedMotion) {
+      partnerPieces.forEach((piece) => {
+        piece.style.opacity = '1';
+        piece.style.visibility = 'visible';
+        piece.style.transform = 'none';
+        piece.style.clipPath = 'inset(0% 0% 0% 0%)';
+      });
+      return () => {
+        clearInlineMotionStyles(partnerPieces, [
+          'opacity',
+          'visibility',
+          'transform',
+          'clip-path',
+        ]);
+      };
+    }
+
+    partnerPieces.forEach((piece) => {
+      piece.style.opacity = '0';
+      piece.style.visibility = 'hidden';
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+
+        loadGsap().then((gsap) => {
+          if (isCancelled) return;
+          loadedGsap = gsap;
+          animationContext = gsap.context(() => {
+            gsap.set(partnerLabel, {
+              autoAlpha: 0,
+              x: -18,
+              clipPath: 'inset(0% 100% 0% 0%)',
+            });
+
+            partnerItems.forEach((partner, index) => {
+              const direction = ['bottom', 'top', 'left', 'right', 'bottom'][index % 5];
+              const offset = 20;
+
+              gsap.set(partner, {
+                autoAlpha: 0,
+                x: direction === 'left' ? -offset : direction === 'right' ? offset : 0,
+                y: direction === 'top' ? -offset : direction === 'bottom' ? offset : 0,
+                clipPath:
+                  direction === 'left'
+                    ? 'inset(0% 100% 0% 0%)'
+                    : direction === 'right'
+                      ? 'inset(0% 0% 0% 100%)'
+                      : direction === 'top'
+                        ? 'inset(100% 0% 0% 0%)'
+                        : 'inset(0% 0% 100% 0%)',
+              });
+            });
+
+            const timeline = gsap.timeline({
+              defaults: {
+                ease: 'power3.out',
+                overwrite: 'auto',
+              },
+            });
+
+            timeline.to(partnerLabel, {
+              autoAlpha: 1,
+              x: 0,
+              clipPath: 'inset(0% 0% 0% 0%)',
+              duration: 0.28,
+            });
+
+            partnerItems.forEach((partner, index) => {
+              timeline.to(
+                partner,
+                {
+                  autoAlpha: 1,
+                  x: 0,
+                  y: 0,
+                  clipPath: 'inset(0% 0% 0% 0%)',
+                  duration: 0.32,
+                },
+                index === 0 ? '>-0.06' : '>-0.16'
+              );
+            });
+          }, node);
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '0px 0px -8% 0px',
+      }
+    );
+
+    observer.observe(node);
+    return () => {
+      isCancelled = true;
+      observer.disconnect();
+      animationContext?.revert();
+      if (loadedGsap) {
+        loadedGsap.set(partnerPieces, {
+          clearProps: 'opacity,visibility,transform,clipPath',
+        });
+      } else {
+        clearInlineMotionStyles(partnerPieces, [
+          'opacity',
+          'visibility',
+          'transform',
+          'clip-path',
+        ]);
+      }
+    };
+  }, [prefersReducedMotion]);
+
+  useLayoutEffect(() => {
+    const pinWrapper = journalPinWrapperRef.current;
+    const stage = journalDesktopStageRef.current;
+    const viewport = journalDesktopViewportRef.current;
+    const track = journalDesktopTrackRef.current;
+    if (!pinWrapper || !stage || !viewport || !track || typeof window === 'undefined') return undefined;
+
+    const journalTitle = journalTitleRef.current;
+    const projectTitle = journalTitleProjectRef.current;
+    const oogTitle = journalTitleOogRef.current;
+    let isOogTitleActive = false;
+    let titleTween = null;
+    let gsapInstance = null;
+    let scrollTriggerInstance = null;
+    let isCancelled = false;
+    let hasStartedSetup = false;
+    let animationContext = null;
+    let refreshFrameId = null;
+    let resizeObserver = null;
+    let setupObserver = null;
+    let mediaElements = [];
+    const layoutSettleFrameIds = [];
+
+    const clearThumbnailCarouselDelay = () => {
+      if (journalCarouselDelayRef.current === null) return;
+      window.clearTimeout(journalCarouselDelayRef.current);
+      journalCarouselDelayRef.current = null;
+    };
+
+    const stopThumbnailCarousel = () => {
+      clearThumbnailCarouselDelay();
+      journalSectionRef.current?.classList.remove('is-carousel-running');
+    };
+
+    const startThumbnailCarousel = () => {
+      const node = journalSectionRef.current;
+      if (!node || node.classList.contains('is-carousel-running')) return;
+      clearThumbnailCarouselDelay();
+      journalCarouselDelayRef.current = window.setTimeout(() => {
+        node.classList.add('is-carousel-running');
+        journalCarouselDelayRef.current = null;
+      }, 420);
+    };
+
+    const setTitleLayerTransform = (node, yPercent) => {
+      node.style.opacity = '1';
+      node.style.visibility = 'visible';
+      node.style.transform = `translate3d(0, ${yPercent}%, 0)`;
+    };
+
+    const setJournalTitle = (shouldUseOogTitle, immediate = false) => {
+      if (!journalTitle || !projectTitle || !oogTitle) return;
+      if (isOogTitleActive === shouldUseOogTitle && !immediate) return;
+
+      isOogTitleActive = shouldUseOogTitle;
+      journalTitle.setAttribute(
+        'aria-label',
+        shouldUseOogTitle ? JOURNAL_OOG_TITLE : JOURNAL_PROJECT_TITLE
+      );
+
+      titleTween?.kill();
+
+      const enteringTitle = shouldUseOogTitle ? oogTitle : projectTitle;
+      const leavingTitle = shouldUseOogTitle ? projectTitle : oogTitle;
+      const enterYPercent = shouldUseOogTitle ? 100 : -100;
+      const leaveYPercent = shouldUseOogTitle ? -100 : 100;
+
+      if (immediate || !gsapInstance) {
+        setTitleLayerTransform(enteringTitle, 0);
+        setTitleLayerTransform(leavingTitle, leaveYPercent);
+        return;
+      }
+
+      titleTween = gsapInstance
+        .timeline({
+          defaults: {
+            duration: 0.58,
+            ease: 'power3.inOut',
+            overwrite: 'auto',
+          },
+        })
+        .set(enteringTitle, { autoAlpha: 1, y: 0, yPercent: enterYPercent }, 0)
+        .to(leavingTitle, { y: 0, yPercent: leaveYPercent }, 0)
+        .to(enteringTitle, { y: 0, yPercent: 0 }, 0);
+    };
+
+    const syncJournalTitle = () => {
+      const firstOogRail = track.querySelector('.landing-oog-card');
+      if (!firstOogRail) {
+        setJournalTitle(false);
+        return;
+      }
+
+      const rootStyles = window.getComputedStyle(document.documentElement);
+      const viewportRect = viewport.getBoundingClientRect();
+      const railRect = firstOogRail.getBoundingClientRect();
+      const rootFontSize = Number.parseFloat(rootStyles.fontSize) || 16;
+      const contentMaxWidth =
+        Number.parseFloat(rootStyles.getPropertyValue('--site-content-max-width')) ||
+        Number.parseFloat(rootStyles.getPropertyValue('--max-width')) ||
+        viewportRect.width;
+      const contentLeftEdge =
+        viewportRect.left + Math.max(rootFontSize, (viewportRect.width - contentMaxWidth) / 2);
+
+      setJournalTitle(railRect.left <= contentLeftEdge);
+    };
+
+    const clearTrackTransform = () => {
+      if (gsapInstance) {
+        gsapInstance.set(track, { clearProps: 'transform' });
+        return;
+      }
+
+      track.style.removeProperty('transform');
+    };
+
+    const clearHorizontalMotion = () => {
+      journalScrollTriggerRef.current?.kill();
+      journalScrollTriggerRef.current = null;
+      stopThumbnailCarousel();
+      setJournalTitle(false, true);
+      pinWrapper.style.removeProperty('--landing-journal-pin-distance');
+      clearTrackTransform();
+    };
+
+    if (isMobileViewport || prefersReducedMotion) {
+      clearHorizontalMotion();
+      return undefined;
+    }
+
+    const getHeaderClearance = () => {
+      const rawValue = window
+        .getComputedStyle(document.documentElement)
+        .getPropertyValue('--site-header-clearance');
+      return Number.parseFloat(rawValue) || 0;
+    };
+    const getTravelDistance = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
+    const getHandoffDistance = () => {
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
+      return Math.min(220, Math.max(120, viewportHeight * 0.16));
+    };
+    const getReleaseDistance = () => {
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
+      return Math.min(520, Math.max(280, viewportHeight * 0.36));
+    };
+    const getScrollDistance = () =>
+      Math.max(getHandoffDistance() + getTravelDistance() + getReleaseDistance(), 1);
+    const syncPinnedScrollDistance = () => {
+      const stageHeight = Math.ceil(stage.getBoundingClientRect().height || stage.offsetHeight || 1);
+      pinWrapper.style.setProperty(
+        '--landing-journal-pin-distance',
+        `${stageHeight + getScrollDistance()}px`
+      );
+    };
+
+    const runScrollTriggerRefresh = () => {
+      syncPinnedScrollDistance();
+      const currentTrigger = journalScrollTriggerRef.current;
+      if (!currentTrigger || !scrollTriggerInstance) return;
+
+      scrollTriggerInstance.refresh();
+    };
+
+    const queueScrollTriggerRefresh = () => {
+      if (refreshFrameId !== null) {
+        window.cancelAnimationFrame(refreshFrameId);
+      }
+
+      refreshFrameId = window.requestAnimationFrame(() => {
+        refreshFrameId = null;
+        runScrollTriggerRefresh();
+      });
+    };
+
+    const waitForAnimationFrame = () =>
+      new Promise((resolve) => {
+        const frameId = window.requestAnimationFrame(resolve);
+        layoutSettleFrameIds.push(frameId);
+      });
+
+    const createHorizontalScrollTrigger = () => {
+      if (isCancelled || !gsapInstance) return;
+
+      animationContext = gsapInstance.context(() => {
+        gsapInstance.set(track, { x: 0 });
+        setJournalTitle(false, true);
+
+        const timeline = gsapInstance.timeline({
+          scrollTrigger: {
+            trigger: pinWrapper,
+            start: () => `top top+=${getHeaderClearance()}`,
+            end: () => `+=${getScrollDistance()}`,
+            scrub: 1.05,
+            invalidateOnRefresh: true,
+            onEnter: () => {
+              startThumbnailCarousel();
+              syncJournalTitle();
+            },
+            onEnterBack: () => {
+              startThumbnailCarousel();
+              syncJournalTitle();
+            },
+            onLeave: () => {
+              stopThumbnailCarousel();
+              syncJournalTitle();
+            },
+            onLeaveBack: () => {
+              stopThumbnailCarousel();
+              setJournalTitle(false);
+            },
+            onRefreshInit: () => {
+              stopThumbnailCarousel();
+              setJournalTitle(false, true);
+            },
+            onUpdate: syncJournalTitle,
+            onRefresh: (self) => {
+              if (self.isActive) startThumbnailCarousel();
+              syncJournalTitle();
+            },
+          },
+        });
+
+        timeline
+          .to(track, {
+            x: 0,
+            duration: () => getHandoffDistance(),
+            ease: 'none',
+          })
+          .to(track, {
+            x: () => -getTravelDistance(),
+            duration: () => Math.max(getTravelDistance(), 1),
+            ease: 'none',
+          })
+          .to(track, {
+            x: () => -getTravelDistance(),
+            duration: () => getReleaseDistance(),
+            ease: 'none',
+          });
+
+        journalScrollTriggerRef.current = timeline.scrollTrigger;
+      }, pinWrapper);
+
+      runScrollTriggerRefresh();
+    };
+
+    const settleLayoutThenCreateTrigger = async () => {
+      if (document.fonts?.ready) {
+        await document.fonts.ready.catch(() => undefined);
+      }
+
+      if (isCancelled) return;
+      await waitForAnimationFrame();
+      if (isCancelled) return;
+      await waitForAnimationFrame();
+      createHorizontalScrollTrigger();
+    };
+
+    const refreshScrollTrigger = () => queueScrollTriggerRefresh();
+
+    const setupPinnedJournal = async () => {
+      if (hasStartedSetup) return;
+      hasStartedSetup = true;
+
+      const loadedModules = await loadScrollTrigger().catch(() => null);
+      if (!loadedModules || isCancelled) return;
+
+      gsapInstance = loadedModules.gsap;
+      scrollTriggerInstance = loadedModules.ScrollTrigger;
+
+      mediaElements = Array.from(stage.querySelectorAll('img'));
+      mediaElements.forEach((mediaElement) => {
+        if (mediaElement.complete) return;
+        mediaElement.addEventListener('load', refreshScrollTrigger, { once: true });
+        mediaElement.addEventListener('error', refreshScrollTrigger, { once: true });
+      });
+
+      resizeObserver =
+        typeof ResizeObserver === 'function'
+          ? new ResizeObserver(() => {
+              queueScrollTriggerRefresh();
+            })
+          : null;
+
+      resizeObserver?.observe(viewport);
+      resizeObserver?.observe(track);
+      resizeObserver?.observe(stage);
+      window.addEventListener('load', refreshScrollTrigger, { once: true });
+      settleLayoutThenCreateTrigger();
+    };
+
+    const beginSetup = () => {
+      setupObserver?.disconnect();
+      setupPinnedJournal();
+    };
+
+    if (typeof IntersectionObserver === 'function') {
+      setupObserver = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          beginSetup();
+        },
+        {
+          rootMargin: '1200px 0px',
+          threshold: 0,
+        }
+      );
+      setupObserver.observe(pinWrapper);
+    } else {
+      beginSetup();
+    }
+
+    return () => {
+      isCancelled = true;
+      setupObserver?.disconnect();
+      if (refreshFrameId !== null) {
+        window.cancelAnimationFrame(refreshFrameId);
+      }
+      layoutSettleFrameIds.forEach((frameId) => {
+        window.cancelAnimationFrame(frameId);
+      });
+      window.removeEventListener('load', refreshScrollTrigger);
+      mediaElements.forEach((mediaElement) => {
+        mediaElement.removeEventListener('load', refreshScrollTrigger);
+        mediaElement.removeEventListener('error', refreshScrollTrigger);
+      });
+      resizeObserver?.disconnect();
+      journalScrollTriggerRef.current = null;
+      titleTween?.kill();
+      stopThumbnailCarousel();
+      setJournalTitle(false, true);
+      pinWrapper.style.removeProperty('--landing-journal-pin-distance');
+      animationContext?.revert();
+      clearTrackTransform();
+    };
+  }, [isMobileViewport, prefersReducedMotion]);
+
+  useEffect(() => {
+    const stage = journalDesktopStageRef.current;
+    const viewport = journalDesktopViewportRef.current;
+    if (!stage || !viewport || typeof window === 'undefined') return undefined;
+
+    const videos = Array.from(stage.querySelectorAll('.landing-oog-card-video'));
+    if (videos.length === 0) return undefined;
+
+    const pauseVideo = (video) => {
+      video.pause();
+    };
+
+    const playVideo = (video) => {
+      const playAttempt = video.play();
+      if (playAttempt && typeof playAttempt.catch === 'function') {
+        playAttempt.catch(() => undefined);
+      }
+    };
+
+    videos.forEach(pauseVideo);
+
+    if (isMobileViewport || prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
+      return () => {
+        videos.forEach(pauseVideo);
+      };
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target;
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
+            playVideo(video);
+            return;
+          }
+
+          pauseVideo(video);
+        });
+      },
+      {
+        root: viewport,
+        threshold: [0, 0.45, 0.75],
+      }
+    );
+
+    videos.forEach((video) => {
+      observer.observe(video);
+    });
+
+    return () => {
+      observer.disconnect();
+      videos.forEach(pauseVideo);
+    };
+  }, [isMobileViewport, prefersReducedMotion]);
+
+  useEffect(() => {
+    const node = closeSectionRef.current;
+    if (!node) return undefined;
+
+    if (prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
+      setIsCloseVisible(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        setIsCloseVisible(true);
+        observer.disconnect();
+      },
+      {
+        threshold: 0.18,
+        rootMargin: '0px 0px -16% 0px',
+      }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    const node = closeSectionRef.current;
+    if (!node) return undefined;
+
+    const closeCards = Array.from(node.querySelectorAll('.landing-close-feature'));
+    if (closeCards.length === 0) return undefined;
+    let animationContext = null;
+    let isCancelled = false;
+    let loadedGsap = null;
+
+    if (prefersReducedMotion) {
+      closeCards.forEach((card) => {
+        card.style.opacity = '1';
+        card.style.visibility = 'visible';
+        card.style.transform = 'none';
+        card.style.clipPath = 'inset(0% 0% 0% 0%)';
+      });
+      return () => {
+        clearInlineMotionStyles(closeCards, [
+          'opacity',
+          'visibility',
+          'transform',
+          'clip-path',
+        ]);
+      };
+    }
+
+    closeCards.forEach((card) => {
+      card.style.opacity = '0';
+      card.style.visibility = 'hidden';
+      card.style.transform = 'translate3d(-42px, 0, 0)';
+      card.style.clipPath = 'inset(0% 100% 0% 0%)';
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+
+        loadGsap().then((gsap) => {
+          if (isCancelled) return;
+          loadedGsap = gsap;
+          animationContext = gsap.context(() => {
+            const timeline = gsap.timeline({
+              defaults: {
+                ease: 'power3.out',
+                overwrite: 'auto',
+              },
+            });
+
+            closeCards.forEach((card, index) => {
+              timeline.to(
+                card,
+                {
+                  autoAlpha: 1,
+                  x: 0,
+                  clipPath: 'inset(0% 0% 0% 0%)',
+                  duration: index === 0 ? 0.38 : 0.42,
+                },
+                index === 0 ? 0 : '>-0.16'
+              );
+            });
+          }, node);
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '0px 0px -12% 0px',
+      }
+    );
+
+    observer.observe(node);
+
+    return () => {
+      isCancelled = true;
+      observer.disconnect();
+      animationContext?.revert();
+      if (loadedGsap) {
+        loadedGsap.set(closeCards, {
+          clearProps: 'opacity,visibility,transform,clipPath',
+        });
+      } else {
+        clearInlineMotionStyles(closeCards, [
+          'opacity',
+          'visibility',
+          'transform',
+          'clip-path',
+        ]);
+      }
+    };
+  }, [prefersReducedMotion]);
+
+  return (
+    <>
+      <section className={`hero${isHeroEntered ? ' is-hero-entered' : ''}`} aria-label="Felmex hero">
+        <div className="hero-layout">
+          <figure className="hero-visual hero-visual--left" aria-label="Felmex logistics in motion">
+            {shouldUseStaticHeroMedia ? (
+              <img
+                src="/hero-video-poster.webp"
+                alt=""
+                width="540"
+                height="960"
+                fetchPriority="high"
+                loading="eager"
+                decoding="sync"
+              />
+            ) : (
+              <video
+                className="hero-video"
+                width="540"
+                height="960"
+                poster="/hero-video-poster.webp"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-hidden="true"
+              >
+                <source src="/hero-video-540.webm" type="video/webm" />
+                <source src="/hero-video-540.mp4" type="video/mp4" />
+              </video>
+            )}
+          </figure>
+
+          <div className="hero-canvas" aria-label="Felmex brand promise">
+            <span className="hero-cross hero-cross--top-left" aria-hidden="true" />
+            <span className="hero-cross hero-cross--bottom-right" aria-hidden="true" />
+            <span className="hero-diagonal hero-diagonal--left" aria-hidden="true" />
+            <span className="hero-diagonal hero-diagonal--right" aria-hidden="true" />
+
+            <div className="hero-overlay">
+              <div className="hero-panel">
+                <p className="hero-brand">Felmex</p>
+                <span className="hero-rule" aria-hidden="true" />
+                <h1 className="hero-title">
+                  <span className="hero-title-line">
+                    <span>Delivering</span>
+                  </span>
+                  <span className="hero-title-line">
+                    <span>
+                      <span className="hero-title-accent">Tomorrow&rsquo;s</span>
+                    </span>
+                  </span>
+                  <span className="hero-title-line">
+                    <span>
+                      Trade <span className="hero-title-accent">Today</span>
+                    </span>
+                  </span>
+                </h1>
+                <span className="hero-rule hero-rule--small" aria-hidden="true" />
+                <a className="hero-tagline" href="/contact">
+                  <span className="hero-tagline-copy">
+                    Your logistics partner across sea, air, and land.
+                  </span>
+                  <span className="hero-tagline-action">
+                    Contact us
+                    <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
+                      <path
+                        d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {!isMobileViewport ? (
+            <figure className="hero-visual hero-visual--right" aria-label="Container truck in motion">
+              <img
+                src="/right-side-image-cutout.webp"
+                alt=""
+                width="1024"
+                height="1536"
+                fetchPriority="high"
+                loading="eager"
+                decoding="sync"
+              />
+            </figure>
+          ) : null}
+
+          <div
+            ref={heroRouteStripRef}
+            className="hero-route-strip"
+            aria-label="Regions served"
+          >
+            <span className="hero-route-kicker">Serving</span>
+            {HERO_ROUTE_STRIP.map((region, index) => (
+              <Fragment key={region}>
+                {index > 0 ? (
+                  <span className="hero-route-connector" aria-hidden="true" />
+                ) : null}
+                <div className="hero-route-item">
+                  <HeroRoutePin />
+                  <span className="hero-route-copy">{region}</span>
+                </div>
+              </Fragment>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="about"
+        ref={overviewRef}
+        className={`landing-overview${isOverviewVisible ? ' is-visible' : ''}`}
+        aria-label="Company overview"
+      >
+        <div className="container landing-overview-shell">
+          <div className="landing-overview-copy landing-reveal-group">
+            <p className="landing-section-label landing-reveal-item">Built for cross-border trade</p>
+            <h2 className="landing-section-title landing-section-title--overview">
+              <span
+                className="landing-title-line landing-title-line--desktop landing-reveal-line"
+                style={{ '--reveal-delay': '0ms' }}
+              >
+                <span>One accountable</span>
+              </span>
+              <span
+                className="landing-title-line landing-title-line--desktop landing-reveal-line"
+                style={{ '--reveal-delay': '110ms' }}
+              >
+                <span>logistics partner</span>
+              </span>
+              <span
+                className="landing-title-line landing-title-line--desktop landing-title-line--accent landing-reveal-line"
+                style={{ '--reveal-delay': '220ms' }}
+              >
+                <span>from booking</span>
+              </span>
+              <span
+                className="landing-title-line landing-title-line--desktop landing-title-line--accent landing-reveal-line"
+                style={{ '--reveal-delay': '330ms' }}
+              >
+                <span>to proof of delivery.</span>
+              </span>
+              <span
+                className="landing-title-line landing-title-line--mobile landing-reveal-line"
+                style={{ '--reveal-delay': '0ms' }}
+              >
+                <span>One accountable logistics partner</span>
+              </span>
+              <span
+                className="landing-title-line landing-title-line--mobile landing-title-line--accent landing-reveal-line"
+                style={{ '--reveal-delay': '120ms' }}
+              >
+                <span>from booking to proof of delivery.</span>
+              </span>
+            </h2>
+            <p className="landing-section-text landing-reveal-item" style={{ '--reveal-delay': '360ms' }}>
+              Felmex supports importers, exporters, distributors, and project cargo teams with a
+              practical model: clear planning, visible execution, and strong control through every
+              handoff.
+            </p>
+            <div className="landing-overview-actions landing-reveal-item" style={{ '--reveal-delay': '460ms' }}>
+              <a className="landing-primary-link" href="#services-catalog">
+                Explore services
+              </a>
+              <a className="landing-secondary-link" href="/about">
+                About Felmex
+              </a>
+            </div>
+          </div>
+
+          <div className="landing-overview-stage">
+            <div className="landing-overview-visual landing-reveal-item" style={{ '--reveal-delay': '180ms' }}>
+              <picture>
+                <source
+                  media="(max-width: 960px)"
+                  srcSet="/felmex-overview-container-mobile-cutout.webp"
+                />
+                <source
+                  media="(min-width: 961px)"
+                  srcSet="/second-section-image-1420.webp"
+                  type="image/webp"
+                />
+                <img
+                  className="landing-overview-image"
+                  src="/felmex-overview-3d.webp"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  width="1280"
+                  height="860"
+                />
+              </picture>
+            </div>
+
+            <div
+              ref={overviewProcessRef}
+              className="landing-overview-chain"
+              role="list"
+              aria-label="Chain process"
+            >
+              {OVERVIEW_CHAIN_STEPS.map((step, index) => (
+                <div className="landing-overview-chain-segment" key={step.title}>
+                  <article className="landing-overview-chain-card" role="listitem">
+                    <span className="landing-overview-chain-number">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <div className="landing-overview-chain-icon" aria-hidden="true">
+                      <OverviewProcessIcon kind={step.icon} />
+                    </div>
+                    <div className="landing-overview-chain-copy">
+                      <p className="landing-overview-chain-title">{step.title}</p>
+                      <p className="landing-overview-chain-text">{step.text}</p>
+                    </div>
+                  </article>
+                  {index < OVERVIEW_CHAIN_STEPS.length - 1 ? (
+                    <div className="landing-overview-chain-link" aria-hidden="true">
+                      <span className="landing-overview-chain-link-line" />
+                      <span className="landing-overview-chain-link-arrow" />
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="landing-metric-marquee">
+          <div className="landing-metric-scroll-layer">
+            <div
+              className="landing-metric-track"
+              aria-label="Key company metrics"
+              style={{ '--landing-metric-copy-count': LANDING_METRIC_COPIES }}
+            >
+              {Array.from({ length: LANDING_METRIC_COPIES }).map((_, groupIndex) => (
+                <div
+                  key={`landing-metric-group-${groupIndex}`}
+                  className="landing-metric-track-group"
+                  role={groupIndex === 0 ? 'list' : 'presentation'}
+                  aria-hidden={groupIndex === 0 ? undefined : 'true'}
+                >
+                  {LANDING_STATS.map((item) => (
+                    <article
+                      key={`${groupIndex}-${item.label}`}
+                      className="landing-metric-card landing-metric-card--strip"
+                      role={groupIndex === 0 ? 'listitem' : undefined}
+                    >
+                      <p className="landing-metric-value">{item.value}</p>
+                      <h3 className="landing-metric-label">{item.label}</h3>
+                      <p className="landing-metric-detail">{item.detail}</p>
+                    </article>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" className="landing-services" aria-label="Services overview">
+        <div className="container landing-services-shell" id="services-catalog">
+          <div
+            ref={servicesListRef}
+            className="landing-services-list"
+            aria-label="Core service lines"
+          >
+            {HOME_SERVICE_FEATURES.map((service) => (
+              <article className="landing-service-entry" key={service.label}>
+                <div className="landing-service-copy">
+                  <ServiceCatalogIcon kind={service.icon} />
+                  <div className="landing-service-body">
+                    <p className="landing-service-index">{service.number}</p>
+                    <h3 className="landing-service-name">{service.label}</h3>
+                    <p className="landing-service-summary">{service.summary}</p>
+                    <ul className="landing-service-points" aria-label={`${service.label} support areas`}>
+                      {service.details.map((detail) => (
+                        <li key={detail}>{detail}</li>
+                      ))}
+                    </ul>
+                    <a className="landing-service-learn-link" href={service.href}>
+                      <span>Learn more</span>
+                      <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
+                        <path
+                          d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+                <figure className="landing-service-figure">
+                  <img
+                    className="landing-service-image"
+                    src={service.image}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    fetchPriority="low"
+                    sizes="(min-width: 1081px) 58vw, 100vw"
+                    width={service.imageWidth}
+                    height={service.imageHeight}
+                  />
+                </figure>
+              </article>
+            ))}
+          </div>
+
+          <div className="landing-services-mobile-action" aria-label="Services section action">
+            <a className="landing-secondary-link landing-services-link" href="/services">
+              <span>View all services</span>
+              <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
+                <path
+                  d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
+
+          <aside className="landing-services-aside" aria-label="Services section introduction">
+            <div className="landing-services-sticky">
+              <p className="landing-section-label">Core service lines</p>
+              <h2 className="landing-section-title landing-services-title">
+                <span className="landing-title-line">
+                  <span>Services built around the way</span>
+                </span>
+                <span className="landing-title-line landing-title-line--accent">
+                  <span>cargo actually moves.</span>
+                </span>
+              </h2>
+              <p className="landing-section-text landing-services-intro">
+                Start with the major lanes. Each service is planned around clear routing, practical
+                handoffs, and updates your team can act on.
+              </p>
+              <a className="landing-secondary-link landing-services-link" href="/services">
+                <span>View all services</span>
+                <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
+                  <path
+                    d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section
+        id="clients"
+        ref={testimonialsSectionRef}
+        className={`landing-testimonials${isTestimonialsTitleDropped ? ' is-title-dropped' : ''}`}
+        aria-label="Client testimonials"
+      >
+        <div className="container landing-testimonials-shell">
+          <header className="landing-testimonials-header">
+            <p className="landing-section-label">Client testimonials</p>
+            <h2 className="landing-section-title landing-testimonials-title">
+              <span className="landing-title-line landing-testimonials-title-line">
+                <span>
+                  Trusted by <span className="landing-testimonials-title-accent">operations teams</span>
+                </span>
+              </span>
+              <span className="landing-title-line landing-testimonials-title-line">
+                <span>
+                  across <span className="landing-testimonials-title-accent">Africa</span> and{' '}
+                  <span className="landing-testimonials-title-accent">global trade.</span>
+                </span>
+              </span>
+            </h2>
+            <p className="landing-section-text landing-testimonials-text">
+              Teams rely on Felmex for calm communication, disciplined execution, and fast
+              response when plans change.
+            </p>
+          </header>
+        </div>
+
+        <div className="landing-testimonials-bleed">
+          <div className="landing-testimonials-content">
+            <div
+              key={`${activeTestimonialIndex}-${testimonialSlideDirection}`}
+              className={`landing-testimonials-accordion is-active-1 is-sliding-${testimonialSlideDirection}`}
+              role="list"
+              aria-label="Client testimonials"
+            >
+              {visibleTestimonials.map(({ quote, index, isActive: isActiveSlide }) => {
+                const isActive = !isTestimonialStackMobile && isActiveSlide;
+                const isExpanded = isTestimonialStackMobile || isActive;
+                const detailId = `testimonial-detail-${index}`;
+
+                return (
+                  <article
+                    key={quote.company}
+                    className={`landing-testimonial-panel ${quote.tone}${isActive ? ' is-active' : ''}`}
+                    role="listitem"
+                  >
+                    <button
+                      type="button"
+                      className="landing-testimonial-trigger"
+                      onClick={
+                        isTestimonialStackMobile ? undefined : () => showTestimonial(index)
+                      }
+                      aria-expanded={isExpanded}
+                      aria-controls={detailId}
+                    >
+                      <div className="landing-testimonial-visual">
+                        <img
+                          className="landing-testimonial-photo"
+                          src={quote.image}
+                          alt=""
+                          aria-hidden="true"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <div className="landing-testimonial-visual-copy">
+                          <p className="landing-testimonial-card-name">{quote.companyShort}</p>
+                          <p className="landing-testimonial-card-sector">{quote.sector}</p>
+                        </div>
+                      </div>
+
+                      <div
+                        id={detailId}
+                        className="landing-testimonial-detail"
+                        aria-hidden={false}
+                      >
+                        <span className="landing-testimonial-mark" aria-hidden="true">
+                          &ldquo;
+                        </span>
+                        <blockquote className="landing-testimonial-quote">
+                          &ldquo;{quote.quote}&rdquo;
+                        </blockquote>
+                        <span className="landing-testimonial-rule" aria-hidden="true" />
+                        <div className="landing-testimonial-meta">
+                          <p className="landing-testimonial-source">{quote.role}</p>
+                          <p className="landing-testimonial-company">{quote.company}</p>
+                        </div>
+                      </div>
+                    </button>
+                  </article>
+                );
+              })}
+            </div>
+            <button
+              type="button"
+              className="landing-testimonial-nav landing-testimonial-nav--previous"
+              onClick={showPreviousTestimonial}
+              aria-label="Show previous testimonial"
+            >
+              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                <path
+                  d="M14.8 5.6 8.4 12l6.4 6.4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+            <button
+              type="button"
+              className="landing-testimonial-nav landing-testimonial-nav--next"
+              onClick={showNextTestimonial}
+              aria-label="Show next testimonial"
+            >
+              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                <path
+                  d="m9.2 5.6 6.4 6.4-6.4 6.4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+            <div className="landing-testimonial-dots" aria-label="Select testimonial">
+              {CLIENT_QUOTES.map((quote, index) => (
+                <button
+                  key={quote.company}
+                  type="button"
+                  className={index === activeTestimonialIndex ? 'is-active' : undefined}
+                  onClick={() => showTestimonial(index)}
+                  aria-label={`Show testimonial from ${quote.company}`}
+                  aria-current={index === activeTestimonialIndex ? 'true' : undefined}
+                />
+              ))}
+            </div>
+            <div
+              ref={testimonialsPartnersRef}
+              className="landing-testimonial-partners"
+              aria-label="Trusted by leading companies"
+            >
+              <p className="landing-testimonial-partners-title">Trusted by leading companies</p>
+              <div className="landing-testimonial-partner-row">
+                {TESTIMONIAL_PARTNERS.map((partner, index) => (
+                  <span
+                    className={`landing-testimonial-partner landing-testimonial-partner--from-${
+                      ['bottom', 'top', 'left', 'right', 'bottom'][index % 5]
+                    }`}
+                    key={partner.name}
+                  >
+                    {partner.logo ? (
+                      <img src={partner.logo} alt={partner.name} loading="lazy" decoding="async" />
+                    ) : (
+                      <span>{partner.name}</span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="blog"
+        ref={journalSectionRef}
+        className="landing-journal"
+        aria-label="Project previews"
+      >
+        <div ref={journalPinWrapperRef} className="landing-journal-pin-wrap">
+          <div ref={journalDesktopStageRef} className="landing-journal-shell">
+            <header className="landing-journal-expanse">
+              <p className="landing-section-label">Projects preview</p>
+              <h2
+                ref={journalTitleRef}
+                className="landing-section-title landing-journal-expanse-title landing-journal-title-stack"
+                aria-label={JOURNAL_PROJECT_TITLE}
+              >
+                <span
+                  ref={journalTitleProjectRef}
+                  className="landing-journal-title-layer landing-journal-title-layer--project"
+                  aria-hidden="true"
+                >
+                  {JOURNAL_PROJECT_TITLE_LINES.map((line, index) => (
+                    <span className="landing-journal-title-segment" key={line}>
+                      {index === JOURNAL_PROJECT_TITLE_LINES.length - 1 ? (
+                        <span className="site-section-title-accent">{line}</span>
+                      ) : (
+                        line
+                      )}
+                    </span>
+                  ))}
+                </span>
+                <span
+                  ref={journalTitleOogRef}
+                  className="landing-journal-title-layer landing-journal-title-layer--oog"
+                  aria-hidden="true"
+                >
+                  {JOURNAL_OOG_TITLE_LINES.map((line, index) => (
+                    <span className="landing-journal-title-segment" key={line}>
+                      {index === JOURNAL_OOG_TITLE_LINES.length - 1 ? (
+                        <span className="site-section-title-accent">{line}</span>
+                      ) : (
+                        line
+                      )}
+                    </span>
+                  ))}
+                </span>
+              </h2>
+              <p className="landing-section-text landing-journal-expanse-copy">
+                A wider look at the cargo programs, customs handoffs, and inland routes Felmex
+                coordinates from port release to final site delivery.
+              </p>
+            </header>
+
+            <div className="landing-journal-split">
+              {!isMobileViewport ? (
+                <div
+                  className="landing-journal-pane landing-journal-pane--desk landing-journal-horizontal-stage"
+                >
+                  <div
+                    ref={journalDesktopViewportRef}
+                    className="landing-journal-horizontal-viewport"
+                    aria-label="Project preview and OOG capability panels"
+                  >
+                    <div ref={journalDesktopTrackRef} className="landing-journal-horizontal-track">
+                      <section className="landing-journal-horizontal-panel landing-journal-horizontal-panel--preview">
+                        <div className="landing-journal-editorial">
+                          <article className="landing-journal-preview">
+                            <div className="landing-journal-preview-shell">
+                              <div className="landing-journal-preview-copy">
+                                <div className="landing-journal-preview-meta">
+                                  <p className="landing-journal-preview-label">{HOME_PROJECT_PREVIEW.eyebrow}</p>
+                                  <p className="landing-journal-preview-kicker">Projects page preview</p>
+                                </div>
+                                <h3 className="landing-journal-preview-title">
+                                  <span className="landing-journal-preview-title-stage">
+                                    {HOME_PROJECT_PREVIEW.title}
+                                  </span>
+                                </h3>
+                                <div className="landing-journal-preview-body">
+                                  {HOME_PROJECT_PREVIEW_PARAGRAPHS.map((paragraph) => (
+                                    <p key={paragraph}>{paragraph}</p>
+                                  ))}
+                                </div>
+
+                                <div className="landing-journal-preview-meta-grid" role="list" aria-label="Project details">
+                                  {HOME_PROJECT_PREVIEW_META.map((item) => (
+                                    <div
+                                      key={item.label}
+                                      className="landing-journal-preview-meta-item"
+                                      role="listitem"
+                                    >
+                                      <span>{item.label}</span>
+                                      <span>{item.value}</span>
+                                    </div>
+                                  ))}
+                                </div>
+
+                                <div className="landing-journal-preview-services" role="list" aria-label="Services involved">
+                                  {HOME_PROJECT_PREVIEW_SERVICES.map((service) => (
+                                    <span key={service} className="landing-journal-preview-service" role="listitem">
+                                      {service}
+                                    </span>
+                                  ))}
+                                </div>
+
+                                <div className="landing-journal-preview-actions">
+                                  <a className="landing-journal-preview-cta landing-journal-preview-cta--ghost" href="/blog">
+                                    Explore projects
+                                  </a>
+                                </div>
+                              </div>
+
+                              <div className="landing-journal-preview-visual" aria-hidden="true">
+                                <figure className="landing-journal-preview-figure">
+                                  <img
+                                    src={HOME_PROJECT_PREVIEW.image}
+                                    alt=""
+                                    loading="lazy"
+                                    decoding="async"
+                                    width="1600"
+                                    height="1067"
+                                  />
+                                </figure>
+                                <div className="landing-journal-preview-visual-caption">
+                                  <span>{HOME_PROJECT_PREVIEW.index}</span>
+                                  <p>{HOME_PROJECT_PREVIEW.subtitle}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </article>
+
+                          <aside className="landing-journal-thumbnails" aria-label="More project previews">
+                            <header className="landing-journal-thumbnails-head">
+                              <p>More projects</p>
+                              <a href="/blog">View all</a>
+                            </header>
+                            <div className="landing-journal-thumbnail-viewport">
+                              <div
+                                className="landing-journal-thumbnail-list"
+                                aria-label="More project previews"
+                                style={{ '--landing-project-thumbnail-copy-count': HOME_PROJECT_THUMBNAIL_COPIES }}
+                              >
+                                {Array.from({ length: HOME_PROJECT_THUMBNAIL_COPIES }).map((_, groupIndex) => (
+                                  <div
+                                    key={`landing-project-thumbnail-group-${groupIndex}`}
+                                    className="landing-journal-thumbnail-group"
+                                    role={groupIndex === 0 ? 'list' : 'presentation'}
+                                    aria-hidden={groupIndex === 0 ? undefined : 'true'}
+                                  >
+                                    {HOME_PROJECT_THUMBNAILS.map((project) => (
+                                      <a
+                                        key={`${groupIndex}-${project.id}`}
+                                        className="landing-journal-thumbnail"
+                                        href="/blog"
+                                        role={groupIndex === 0 ? 'listitem' : undefined}
+                                        tabIndex={groupIndex === 0 ? undefined : -1}
+                                      >
+                                        <figure className="landing-journal-thumbnail-figure">
+                                          <img
+                                            src={project.image}
+                                            alt=""
+                                            loading="lazy"
+                                            decoding="async"
+                                            width="720"
+                                            height="520"
+                                          />
+                                        </figure>
+                                        <div className="landing-journal-thumbnail-copy">
+                                          <span>{project.index}</span>
+                                          <h3>{project.title}</h3>
+                                          <p className="landing-journal-thumbnail-summary">{project.lead}</p>
+                                          <p className="landing-journal-thumbnail-meta">{project.readTime}</p>
+                                        </div>
+                                      </a>
+                                    ))}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </aside>
+                        </div>
+                      </section>
+
+                      {OOG_PROJECT_CAPABILITIES.map((capability) => (
+                        <article
+                          className="landing-journal-horizontal-panel landing-oog-card"
+                          key={capability.title}
+                          role="listitem"
+                        >
+                          <figure className="landing-oog-card-media">
+                            {capability.video ? (
+                              <video
+                                className="landing-oog-card-video"
+                                aria-hidden="true"
+                                muted
+                                loop
+                                playsInline
+                                preload="none"
+                                poster={capability.image}
+                                width="960"
+                                height="640"
+                              >
+                                <source src={capability.video} type="video/mp4" />
+                              </video>
+                            ) : (
+                              <img
+                                src={capability.image}
+                                alt=""
+                                loading="lazy"
+                                decoding="async"
+                                width="960"
+                                height="640"
+                              />
+                            )}
+                            <OogCapabilityIcon kind={capability.icon} />
+                            <span className="landing-oog-play" aria-hidden="true">
+                              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                                <path d="M9 7.4v9.2L16.4 12 9 7.4Z" fill="currentColor" />
+                              </svg>
+                            </span>
+                          </figure>
+                          <div className="landing-oog-card-body">
+                            <p className="landing-oog-card-index">{capability.index}</p>
+                            <h3>{capability.title}</h3>
+                            <p>{capability.text}</p>
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
+              <section className="landing-journal-mobile-showcase" aria-label="Featured projects">
+                <header className="landing-journal-mobile-showcase-head">
+                  <p>Featured projects</p>
+                  <span>
+                    Swipe to explore
+                    <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
+                      <path
+                        d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </header>
+
+                <div
+                  ref={journalMobileTrackRef}
+                  className="landing-journal-mobile-track"
+                  role="list"
+                  aria-label="Featured project cards"
+                >
+                  {HOME_MOBILE_PROJECTS.map((project) => (
+                    <article className="landing-journal-mobile-card" key={project.id} role="listitem">
+                      <figure className="landing-journal-mobile-card-media">
+                        <img
+                          src={project.image}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          width="720"
+                          height="520"
+                        />
+                      </figure>
+                      <div className="landing-journal-mobile-card-body">
+                        <p className="landing-journal-mobile-card-index">{project.index}</p>
+                        <p className="landing-journal-mobile-card-meta">
+                          <span>{project.eyebrow}</span>
+                          <span>{project.readTime}</span>
+                        </p>
+                        <h3>{project.title}</h3>
+                        <p>{project.lead}</p>
+                        <a href="/blog">
+                          Explore project
+                          <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
+                            <path
+                              d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </a>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+
+                <div className="landing-journal-mobile-dots" aria-hidden="true">
+                  {HOME_MOBILE_PROJECTS.map((project, index) => (
+                    <span
+                      key={`${project.id}-dot`}
+                      className={index === activeMobileProjectIndex ? 'is-active' : undefined}
+                    />
+                  ))}
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="final-conviction"
+        ref={closeSectionRef}
+        className={`landing-close${isCloseVisible ? ' is-visible' : ''}`}
+        aria-label="Final call to action"
+      >
+        <div className="container landing-close-shell">
+          <div className="landing-close-card-grid" role="list" aria-label="Why teams choose Felmex">
+            {FINAL_CTA_FEATURES.map((feature) => (
+              <article
+                key={feature.number}
+                className="landing-close-feature"
+                role="listitem"
+              >
+                <div className="landing-close-feature-media">
+                  <img
+                    className="landing-close-feature-image"
+                    src={feature.image}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    width="1200"
+                    height="1400"
+                  />
+                </div>
+                <div className="landing-close-feature-body">
+                  <span className="landing-close-feature-badge" aria-hidden="true">
+                    <FinalCtaIcon kind={feature.icon} />
+                  </span>
+                  <p className="landing-close-feature-index">{feature.number}</p>
+                  <span className="landing-close-feature-rule" aria-hidden="true" />
+                  <h3 className="landing-close-feature-title">{feature.title}</h3>
+                  <p className="landing-close-feature-text">{feature.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="landing-close-pane landing-close-pane--pitch">
+            <p className="landing-section-label landing-close-label">More than logistics</p>
+            <h2 className="landing-close-title">
+              <span className="landing-close-title-line">
+                <span>Logistics that moves your</span>
+              </span>
+              <span className="landing-close-title-line landing-title-line--accent">
+                <span>business forward.</span>
+              </span>
+            </h2>
+            <p className="landing-close-text">
+              Reliable. Responsive. Results-driven. We simplify cross-border logistics so you can
+              focus on what matters most: growing your business.
+            </p>
+            <div className="landing-close-actions">
+              <a className="landing-close-solution-link" href="/contact">
+                Get a solution
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+            <p className="landing-close-contact-note">
+              <a href={CONTACT_CHANNELS.phoneHref}>{CONTACT_CHANNELS.phoneDisplay}</a>
+              <span aria-hidden="true">/</span>
+              <a href={CONTACT_CHANNELS.emailHref}>{CONTACT_CHANNELS.emailDisplay}</a>
+            </p>
+          </div>
+
+          <div className="landing-close-mobile-outro">
+            <a className="landing-close-solution-link" href="/contact">
+              Get a solution
+              <span aria-hidden="true">→</span>
+            </a>
+            <p className="landing-close-contact-note">
+              <a href={CONTACT_CHANNELS.phoneHref}>{CONTACT_CHANNELS.phoneDisplay}</a>
+              <span aria-hidden="true">/</span>
+              <a href={CONTACT_CHANNELS.emailHref}>{CONTACT_CHANNELS.emailDisplay}</a>
+            </p>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

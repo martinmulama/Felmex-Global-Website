@@ -1,0 +1,122 @@
+.svc-reveal {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.svc-page.is-reveal-ready .svc-reveal {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: none;
+}
+
+.svc-title-stack.is-visible .svc-rise-line:nth-child(1) > span {
+  animation: svcTitleRise 0.54s cubic-bezier(0.22, 1, 0.36, 1) 20ms both;
+}
+
+.svc-title-stack.is-visible .svc-rise-line:nth-child(2) > span {
+  animation: svcTitleRise 0.54s cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+}
+
+@keyframes svcTitleRise {
+  0% {
+    transform: translate3d(0, calc(100% + 0.45rem), 0);
+  }
+
+  78% {
+    transform: translate3d(0, -0.14rem, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes svcSlideInRight {
+  0% {
+    transform: translate3d(calc(100vw + 10rem), 0, 0);
+  }
+
+  72% {
+    transform: translate3d(-1rem, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes svcSlideInLeft {
+  0% {
+    transform: translate3d(calc(-100vw - 10rem), 0, 0);
+  }
+
+  72% {
+    transform: translate3d(1rem, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes svcSlideInRightHard {
+  0% {
+    transform: translate3d(calc(100vw + 16rem), 0, 0);
+  }
+
+  68% {
+    transform: translate3d(-1.4rem, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes svcSlideInLeftHard {
+  0% {
+    transform: translate3d(calc(-100vw - 16rem), 0, 0);
+  }
+
+  68% {
+    transform: translate3d(1.4rem, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes svcPanelInLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-3.25rem, 0, 0);
+  }
+
+  72% {
+    opacity: 1;
+    transform: translate3d(0.45rem, 0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes svcPanelInRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(3.25rem, 0, 0);
+  }
+
+  72% {
+    opacity: 1;
+    transform: translate3d(-0.45rem, 0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}

@@ -1,0 +1,71 @@
+/* Hero */
+
+.report-hero {
+  display: grid;
+  gap: 1.05rem;
+}
+
+.report-back-link {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.36rem;
+  color: var(--accent);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-decoration: none;
+  transition: gap 0.2s var(--ease-out-expo), color 0.2s;
+}
+
+.report-back-link:hover {
+  color: var(--accent-hover);
+  gap: 0.52rem;
+}
+
+.report-kicker {
+  margin: 0;
+  color: var(--accent);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.report-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-hero-title);
+  line-height: 0.95;
+  color: var(--blue-900);
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.report-dek {
+  margin: 0;
+  max-width: 68ch;
+  color: var(--muted);
+  font-size: var(--fs-lead);
+  line-height: 1.64;
+  font-weight: 400;
+}
+
+.report-meta {
+  margin: 0.28rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  color: var(--faint);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.report-meta span:not(:last-child)::after {
+  content: '/';
+  margin-left: 0.5rem;
+  opacity: 0.4;
+}
