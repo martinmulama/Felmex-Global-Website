@@ -149,12 +149,17 @@
   }
 
   .abt-team-card {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(12.5rem, 0.46fr) minmax(0, 1fr);
   }
 
   .abt-team-photo-wrap {
-    min-height: clamp(11rem, 42vw, 15rem);
-    margin: clamp(0.95rem, 3.6vw, 1.25rem) clamp(0.95rem, 3.6vw, 1.25rem) 0;
+    margin: clamp(0.95rem, 2.6vw, 1.2rem) 0 clamp(0.95rem, 2.6vw, 1.2rem)
+      clamp(0.95rem, 2.6vw, 1.2rem);
+  }
+
+  .abt-team-photo {
+    object-position: center 16%;
+    transform: scale(1.015);
   }
 
   .abt-team-body {
@@ -173,6 +178,30 @@
 
   .abt-team-pillar {
     padding: 0.7rem 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .abt-team-card {
+    grid-template-columns: 1fr;
+  }
+
+  .abt-team-photo-wrap {
+    height: clamp(18.5rem, 74vw, 27rem);
+    min-height: 0;
+    margin: clamp(0.95rem, 3.6vw, 1.25rem) clamp(0.95rem, 3.6vw, 1.25rem) 0;
+  }
+
+  .abt-team-photo {
+    object-fit: contain;
+    object-position: center 18%;
+    transform: none;
+    background: #eef4fb;
+  }
+
+  .abt-team-card:hover .abt-team-photo,
+  .abt-team-card:focus-within .abt-team-photo {
+    transform: none;
   }
 }
 
