@@ -863,60 +863,38 @@ export function HomePage() {
     const video = heroVideoRef.current;
     let rafOne = null;
     let rafTwo = null;
-    let fallbackTimer = null;
-    let hasRevealed = false;
-
-    const revealHero = () => {
-      if (hasRevealed) return;
-      hasRevealed = true;
-
-      if (rafOne !== null) window.cancelAnimationFrame(rafOne);
-      if (rafTwo !== null) window.cancelAnimationFrame(rafTwo);
-      if (fallbackTimer !== null) window.clearTimeout(fallbackTimer);
-
-      rafOne = window.requestAnimationFrame(() => {
-        rafTwo = window.requestAnimationFrame(() => {
-          setIsHeroEntered(true);
-        });
-      });
-    };
 
     setIsHeroEntered(false);
+    rafOne = window.requestAnimationFrame(() => {
+      rafTwo = window.requestAnimationFrame(() => {
+        setIsHeroEntered(true);
+      });
+    });
 
-    if (video) {
-      if (video.readyState >= 2) {
-        revealHero();
-        return undefined;
-      }
-
-      const onMediaReady = () => {
-        if (video.readyState >= 2) {
-          revealHero();
-        }
-      };
-
-      video.addEventListener('loadeddata', onMediaReady, { once: true });
-      video.addEventListener('canplay', onMediaReady, { once: true });
-      video.addEventListener('canplaythrough', onMediaReady, { once: true });
-      video.addEventListener('error', revealHero, { once: true });
-      fallbackTimer = window.setTimeout(revealHero, 2500);
-
+    if (!video) {
       return () => {
         if (rafOne !== null) window.cancelAnimationFrame(rafOne);
         if (rafTwo !== null) window.cancelAnimationFrame(rafTwo);
-        if (fallbackTimer !== null) window.clearTimeout(fallbackTimer);
-        video.removeEventListener('loadeddata', onMediaReady);
-        video.removeEventListener('canplay', onMediaReady);
-        video.removeEventListener('canplaythrough', onMediaReady);
       };
     }
 
-    revealHero();
+    const attemptPlay = () => {
+      if (!video.paused) return;
+      video.play().catch(() => {});
+    };
+
+    if (video.readyState >= 2) {
+      attemptPlay();
+    } else {
+      video.addEventListener('loadeddata', attemptPlay, { once: true });
+      video.addEventListener('canplay', attemptPlay, { once: true });
+    }
 
     return () => {
       if (rafOne !== null) window.cancelAnimationFrame(rafOne);
       if (rafTwo !== null) window.cancelAnimationFrame(rafTwo);
-      if (fallbackTimer !== null) window.clearTimeout(fallbackTimer);
+      video.removeEventListener('loadeddata', attemptPlay);
+      video.removeEventListener('canplay', attemptPlay);
     };
   }, []);
 
@@ -1902,8 +1880,6 @@ export function HomePage() {
               muted
               playsInline
               preload="auto"
-              poster="/post-hero-image.webp"
-              fetchPriority="high"
               aria-hidden="true"
             >
               <source src="/Final.mp4" type="video/mp4" />
