@@ -706,6 +706,7 @@ export function HomePage() {
   const journalMobileScrollFrameRef = useRef(null);
   const closeSectionRef = useRef(null);
   const servicesListRef = useRef(null);
+  const heroVideoRef = useRef(null);
   const testimonialsTitleDroppedRef = useRef(false);
   const [isHeroEntered, setIsHeroEntered] = useState(false);
   const [isOverviewVisible, setIsOverviewVisible] = useState(false);
@@ -859,19 +860,63 @@ export function HomePage() {
   }, [isMobileViewport]);
 
   useEffect(() => {
+    const video = heroVideoRef.current;
     let rafOne = null;
     let rafTwo = null;
+    let fallbackTimer = null;
+    let hasRevealed = false;
+
+    const revealHero = () => {
+      if (hasRevealed) return;
+      hasRevealed = true;
+
+      if (rafOne !== null) window.cancelAnimationFrame(rafOne);
+      if (rafTwo !== null) window.cancelAnimationFrame(rafTwo);
+      if (fallbackTimer !== null) window.clearTimeout(fallbackTimer);
+
+      rafOne = window.requestAnimationFrame(() => {
+        rafTwo = window.requestAnimationFrame(() => {
+          setIsHeroEntered(true);
+        });
+      });
+    };
 
     setIsHeroEntered(false);
-    rafOne = window.requestAnimationFrame(() => {
-      rafTwo = window.requestAnimationFrame(() => {
-        setIsHeroEntered(true);
-      });
-    });
+
+    if (video) {
+      if (video.readyState >= 2) {
+        revealHero();
+        return undefined;
+      }
+
+      const onMediaReady = () => {
+        if (video.readyState >= 2) {
+          revealHero();
+        }
+      };
+
+      video.addEventListener('loadeddata', onMediaReady, { once: true });
+      video.addEventListener('canplay', onMediaReady, { once: true });
+      video.addEventListener('canplaythrough', onMediaReady, { once: true });
+      video.addEventListener('error', revealHero, { once: true });
+      fallbackTimer = window.setTimeout(revealHero, 2500);
+
+      return () => {
+        if (rafOne !== null) window.cancelAnimationFrame(rafOne);
+        if (rafTwo !== null) window.cancelAnimationFrame(rafTwo);
+        if (fallbackTimer !== null) window.clearTimeout(fallbackTimer);
+        video.removeEventListener('loadeddata', onMediaReady);
+        video.removeEventListener('canplay', onMediaReady);
+        video.removeEventListener('canplaythrough', onMediaReady);
+      };
+    }
+
+    revealHero();
 
     return () => {
       if (rafOne !== null) window.cancelAnimationFrame(rafOne);
       if (rafTwo !== null) window.cancelAnimationFrame(rafTwo);
+      if (fallbackTimer !== null) window.clearTimeout(fallbackTimer);
     };
   }, []);
 
@@ -1849,6 +1894,7 @@ export function HomePage() {
         <div className="hero-layout">
           <figure className="hero-visual hero-visual--left" aria-label="Felmex logistics in motion">
             <video
+              ref={heroVideoRef}
               className="hero-video"
               width="540"
               height="960"
@@ -1856,6 +1902,8 @@ export function HomePage() {
               muted
               playsInline
               preload="auto"
+              poster="/post-hero-image.webp"
+              fetchPriority="high"
               aria-hidden="true"
             >
               <source src="/Final.mp4" type="video/mp4" />
