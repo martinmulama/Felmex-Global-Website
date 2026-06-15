@@ -93,7 +93,7 @@
 .abt-team-body::before {
   content: '“';
   order: 1;
-  color: color-mix(in srgb, var(--abt-team-accent) 82%, #1684f2);
+  color: color-mix(in srgb, var(--abt-team-accent) 82%, var(--site-brand-navy));
   font-family: var(--site-font-display);
   display: block;
   font-size: var(--fs-hero-title);
@@ -136,7 +136,7 @@
   width: 2.1rem;
   height: 2px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--abt-team-accent) 74%, #1684f2);
+  background: color-mix(in srgb, var(--abt-team-accent) 74%, var(--site-brand-navy));
 }
 
 .abt-team-focus {

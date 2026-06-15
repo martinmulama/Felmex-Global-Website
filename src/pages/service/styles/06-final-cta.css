@@ -2,9 +2,9 @@
   position: relative;
   padding: clamp(2.35rem, 4.6vw, 3.85rem) 0;
   background:
-    radial-gradient(circle at 16% 20%, rgba(111, 194, 238, 0.12), transparent 26%),
-    radial-gradient(circle at 84% 16%, rgba(74, 150, 213, 0.14), transparent 24%),
-    linear-gradient(180deg, #081728 0%, #0d2134 62%, #12273b 100%);
+    radial-gradient(circle at 16% 20%, rgba(var(--site-brand-navy-rgb), 0.12), transparent 26%),
+    radial-gradient(circle at 84% 16%, rgba(var(--site-brand-navy-rgb), 0.14), transparent 24%),
+    var(--site-brand-navy-gradient);
 }
 
 .svc-final-cta::before {
@@ -24,7 +24,7 @@
   inset: auto 0 0;
   height: clamp(3.5rem, 10vw, 5.5rem);
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(18, 39, 59, 0) 0%, rgba(18, 39, 59, 0.92) 100%);
+  background: linear-gradient(180deg, rgba(var(--site-brand-navy-rgb), 0) 0%, rgba(var(--site-brand-navy-rgb), 0.92) 100%);
 }
 
 .svc-final-cta .svc-container {
@@ -67,13 +67,13 @@
 .svc-final-cta-title {
   max-width: 12.75ch;
   font-size: var(--fs-section-title);
-  color: #f2fbff;
+  color: var(--site-on-navy);
 }
 
 .svc-final-cta-sub {
   margin: 0;
   max-width: 28rem;
-  color: rgba(210, 234, 255, 0.84);
+  color: var(--site-on-navy-muted);
   font-size: var(--fs-body);
   line-height: 1.68;
 }

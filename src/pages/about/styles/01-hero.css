@@ -98,8 +98,8 @@
 }
 
 .abt-title-accent {
-  color: #1d63d1;
-  text-shadow: 0 12px 28px rgba(74, 129, 219, 0.12);
+  color: var(--abt-accent);
+  text-shadow: 0 12px 28px rgba(var(--site-brand-navy-rgb), 0.12);
 }
 
 .abt-hero-title-line {
@@ -155,8 +155,8 @@
 }
 
 .abt-hero-actions .abt-btn-primary {
-  background: linear-gradient(180deg, #1f8fcb 0%, #176da7 100%);
-  border-color: rgba(152, 213, 249, 0.24);
+  background: linear-gradient(180deg, var(--site-brand-navy) 0%, var(--site-brand-navy-deep) 100%);
+  border-color: rgba(var(--site-brand-navy-rgb), 0.24);
 }
 
 .abt-hero-actions .abt-btn-ghost {

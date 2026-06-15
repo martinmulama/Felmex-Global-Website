@@ -210,9 +210,15 @@
   min-height: 0;
   overflow: clip;
   background:
-    linear-gradient(180deg, rgba(23, 62, 110, 0.16) 0, rgba(23, 62, 110, 0.16) 1px, transparent 1px, transparent 100%),
-    linear-gradient(180deg, #0a2343 0%, #081b33 100%);
-  color: #e7f0f8;
+    linear-gradient(
+      180deg,
+      rgba(var(--site-brand-navy-rgb), 0.16) 0,
+      rgba(var(--site-brand-navy-rgb), 0.16) 1px,
+      transparent 1px,
+      transparent 100%
+    ),
+    var(--site-brand-navy-gradient);
+  color: var(--site-on-navy);
   box-shadow: none;
 }
 

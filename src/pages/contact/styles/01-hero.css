@@ -88,8 +88,8 @@
 }
 
 .cnt-title-accent {
-  color: #1d63d1;
-  text-shadow: 0 12px 28px rgba(74, 129, 219, 0.12);
+  color: var(--cnt-accent);
+  text-shadow: 0 12px 28px rgba(var(--site-brand-navy-rgb), 0.12);
 }
 
 .cnt-hero-title-line {
@@ -157,8 +157,8 @@
 }
 
 .cnt-btn-primary {
-  background: linear-gradient(180deg, #1f8fcb 0%, #176da7 100%);
-  border-color: rgba(152, 213, 249, 0.22);
+  background: linear-gradient(180deg, var(--site-brand-navy) 0%, var(--site-brand-navy-deep) 100%);
+  border-color: rgba(var(--site-brand-navy-rgb), 0.22);
   color: #ffffff;
 }
 

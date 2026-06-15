@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './HomePage.css';
 import { CONTACT_CHANNELS } from '../data/contact';
 import { MQ } from '../constants/breakpoints';
@@ -79,20 +79,12 @@ const TESTIMONIAL_PARTNERS = [
   { name: 'Dangote' },
 ];
 
-const HERO_ROUTE_STRIP = [
-  'Africa',
-  'Europe',
-  'Asia',
-  'Middle East',
-  'Americas',
-  'Oceania',
-];
 const HOME_SERVICE_FEATURES = [
   {
     number: '01',
     label: 'Air Freight',
     icon: 'air',
-    image: '/service-air-3d-cutout-v2.webp',
+    image: '/felmex-colors-air.webp',
     imageWidth: 1280,
     imageHeight: 853,
     href: '/services#svc-deep-dive-air-freight',
@@ -104,9 +96,9 @@ const HOME_SERVICE_FEATURES = [
     number: '02',
     label: 'Sea Freight',
     icon: 'sea',
-    image: '/service-sea-3d-cutout.webp',
+    image: '/ship-service-catalog.webp',
     imageWidth: 1280,
-    imageHeight: 751,
+    imageHeight: 853,
     href: '/services#svc-deep-dive-sea-freight',
     summary:
       'Ocean freight support for planned volume, FCL/LCL moves, and port-side coordination from booking through release.',
@@ -128,9 +120,9 @@ const HOME_SERVICE_FEATURES = [
     number: '04',
     label: 'Road Freight',
     icon: 'road',
-    image: '/service-road-3d-cutout-v2.webp',
+    image: '/road-service-catalog.webp',
     imageWidth: 1280,
-    imageHeight: 823,
+    imageHeight: 720,
     href: '/services#svc-deep-dive-road-freight',
     summary:
       'Dependable inland movement for domestic and cross-border cargo, with routing, dispatch, and delivery coordination handled end-to-end.',
@@ -415,24 +407,6 @@ function OogCapabilityIcon({ kind }) {
     <span className="landing-oog-card-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24" focusable="false">
         {icons[kind] ?? icons.control}
-      </svg>
-    </span>
-  );
-}
-
-function HeroRoutePin() {
-  return (
-    <span className="hero-route-pin" aria-hidden="true">
-      <svg viewBox="0 0 24 24" focusable="false">
-        <path
-          d="M12 21s6.4-6.2 6.4-11.2a6.4 6.4 0 1 0-12.8 0C5.6 14.8 12 21 12 21Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.75"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="12" cy="9.8" r="2.15" fill="none" stroke="currentColor" strokeWidth="1.75" />
       </svg>
     </span>
   );
@@ -731,7 +705,6 @@ export function HomePage() {
   const journalCarouselDelayRef = useRef(null);
   const journalMobileScrollFrameRef = useRef(null);
   const closeSectionRef = useRef(null);
-  const heroRouteStripRef = useRef(null);
   const servicesListRef = useRef(null);
   const testimonialsTitleDroppedRef = useRef(false);
   const [isHeroEntered, setIsHeroEntered] = useState(false);
@@ -791,8 +764,6 @@ export function HomePage() {
       quote: CLIENT_QUOTES[index],
     };
   });
-  const shouldUseStaticHeroMedia = isMobileViewport || prefersReducedMotion;
-
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
 
@@ -903,118 +874,6 @@ export function HomePage() {
       if (rafTwo !== null) window.cancelAnimationFrame(rafTwo);
     };
   }, []);
-
-  useEffect(() => {
-    const strip = heroRouteStripRef.current;
-    if (!strip || isMobileViewport) return undefined;
-
-    const routePieces = Array.from(
-      strip.querySelectorAll('.hero-route-kicker, .hero-route-item, .hero-route-connector')
-    );
-    let animationContext = null;
-    let isCancelled = false;
-    let loadedGsap = null;
-
-    if (prefersReducedMotion) {
-      strip.style.opacity = '1';
-      strip.style.visibility = 'visible';
-      strip.style.transform = 'translate3d(0, 0, 0)';
-      routePieces.forEach((piece) => {
-        piece.style.opacity = '1';
-        piece.style.visibility = 'visible';
-        piece.style.transform = 'none';
-        piece.style.clipPath = 'inset(0% 0% 0% 0%)';
-      });
-      return () => {
-        clearInlineMotionStyles([strip, ...routePieces], [
-          'opacity',
-          'visibility',
-          'transform',
-          'clip-path',
-          'transform-origin',
-        ]);
-      };
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        observer.disconnect();
-
-        loadGsap().then((gsap) => {
-          if (isCancelled) return;
-          loadedGsap = gsap;
-          animationContext = gsap.context(() => {
-            const routeItems = gsap.utils.toArray('.hero-route-kicker, .hero-route-item', strip);
-            const connectors = gsap.utils.toArray('.hero-route-connector', strip);
-
-            gsap.set(strip, { autoAlpha: 1, y: 0 });
-            gsap.set(routeItems, {
-              autoAlpha: 0,
-              x: -18,
-              clipPath: 'inset(0% 100% 0% 0%)',
-            });
-            gsap.set(connectors, {
-              autoAlpha: 0,
-              scaleX: 0,
-              transformOrigin: 'left center',
-            });
-
-            const timeline = gsap.timeline({
-              defaults: {
-                ease: 'power3.out',
-                overwrite: 'auto',
-              },
-            });
-
-            routePieces.forEach((piece, index) => {
-              if (piece.classList.contains('hero-route-connector')) {
-                timeline.to(
-                  piece,
-                  {
-                    autoAlpha: 1,
-                    scaleX: 1,
-                    duration: 0.24,
-                  },
-                  index === 1 ? '>-0.04' : '>-0.14'
-                );
-                return;
-              }
-
-              timeline.to(
-                piece,
-                {
-                  autoAlpha: 1,
-                  x: 0,
-                  clipPath: 'inset(0% 0% 0% 0%)',
-                  duration: index === 0 ? 0.28 : 0.3,
-                },
-                index === 0 ? 0 : '>-0.12'
-              );
-            });
-          }, strip);
-        });
-      },
-      {
-        threshold: 0.28,
-        rootMargin: '0px 0px -8% 0px',
-      }
-    );
-
-    observer.observe(strip);
-
-    return () => {
-      isCancelled = true;
-      observer.disconnect();
-      animationContext?.revert();
-      if (loadedGsap) {
-        loadedGsap.set(strip, { clearProps: 'opacity,visibility,transform' });
-        loadedGsap.set(routePieces, {
-          clearProps: 'opacity,visibility,transform,clipPath,transformOrigin',
-        });
-      }
-    };
-  }, [isMobileViewport, prefersReducedMotion]);
 
   useEffect(() => {
     const process = overviewProcessRef.current;
@@ -1989,33 +1848,18 @@ export function HomePage() {
       <section className={`hero${isHeroEntered ? ' is-hero-entered' : ''}`} aria-label="Felmex hero">
         <div className="hero-layout">
           <figure className="hero-visual hero-visual--left" aria-label="Felmex logistics in motion">
-            {shouldUseStaticHeroMedia ? (
-              <img
-                src="/hero-video-poster.webp"
-                alt=""
-                width="540"
-                height="960"
-                fetchPriority="high"
-                loading="eager"
-                decoding="sync"
-              />
-            ) : (
-              <video
-                className="hero-video"
-                width="540"
-                height="960"
-                poster="/hero-video-poster.webp"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                aria-hidden="true"
-              >
-                <source src="/hero-video-540.webm" type="video/webm" />
-                <source src="/hero-video-540.mp4" type="video/mp4" />
-              </video>
-            )}
+            <video
+              className="hero-video"
+              width="540"
+              height="960"
+              autoPlay
+              muted
+              playsInline
+              preload="auto"
+              aria-hidden="true"
+            >
+              <source src="/Final.mp4" type="video/mp4" />
+            </video>
           </figure>
 
           <div className="hero-canvas" aria-label="Felmex brand promise">
@@ -2026,7 +1870,16 @@ export function HomePage() {
 
             <div className="hero-overlay">
               <div className="hero-panel">
-                <p className="hero-brand">Felmex</p>
+                <img
+                  className="hero-logo"
+                  src="/logo-transparent.png"
+                  alt="Felmex Global Logistics"
+                  width="487"
+                  height="170"
+                  fetchpriority="high"
+                  loading="eager"
+                  decoding="async"
+                />
                 <span className="hero-rule" aria-hidden="true" />
                 <h1 className="hero-title">
                   <span className="hero-title-line">
@@ -2034,7 +1887,8 @@ export function HomePage() {
                   </span>
                   <span className="hero-title-line">
                     <span>
-                      <span className="hero-title-accent">Tomorrow&rsquo;s</span>
+                      <span className="hero-title-accent">Tomorrow</span>
+                      &rsquo;s
                     </span>
                   </span>
                   <span className="hero-title-line">
@@ -2044,23 +1898,29 @@ export function HomePage() {
                   </span>
                 </h1>
                 <span className="hero-rule hero-rule--small" aria-hidden="true" />
-                <a className="hero-tagline" href="/contact">
-                  <span className="hero-tagline-copy">
-                    Your logistics partner across sea, air, and land.
+                <p className="hero-brief">
+                  <span className="hero-brief-line">
+                    <span>From East Africa to the world&mdash;Felmex Global Logistics</span>
                   </span>
-                  <span className="hero-tagline-action">
-                    Contact us
-                    <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
-                      <path
-                        d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.8"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                  <span className="hero-brief-line">
+                    <span>delivers seamless multimodal freight, customs clearance,</span>
                   </span>
+                  <span className="hero-brief-line">
+                    <span>and trade solutions for fast-moving global supply chains.</span>
+                  </span>
+                </p>
+                <a className="hero-cta" href="/contact">
+                  <span>Contact us</span>
+                  <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
+                    <path
+                      d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </a>
               </div>
             </div>
@@ -2069,35 +1929,16 @@ export function HomePage() {
           {!isMobileViewport ? (
             <figure className="hero-visual hero-visual--right" aria-label="Container truck in motion">
               <img
-                src="/right-side-image-cutout.webp"
+                src="/Final%20right.png"
                 alt=""
                 width="1024"
                 height="1536"
-                fetchPriority="high"
+                fetchpriority="high"
                 loading="eager"
                 decoding="sync"
               />
             </figure>
           ) : null}
-
-          <div
-            ref={heroRouteStripRef}
-            className="hero-route-strip"
-            aria-label="Regions served"
-          >
-            <span className="hero-route-kicker">Serving</span>
-            {HERO_ROUTE_STRIP.map((region, index) => (
-              <Fragment key={region}>
-                {index > 0 ? (
-                  <span className="hero-route-connector" aria-hidden="true" />
-                ) : null}
-                <div className="hero-route-item">
-                  <HeroRoutePin />
-                  <span className="hero-route-copy">{region}</span>
-                </div>
-              </Fragment>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -2166,23 +2007,16 @@ export function HomePage() {
           <div className="landing-overview-stage">
             <div className="landing-overview-visual landing-reveal-item" style={{ '--reveal-delay': '180ms' }}>
               <picture>
-                <source
-                  media="(max-width: 960px)"
-                  srcSet="/felmex-overview-container-mobile-cutout.webp"
-                />
-                <source
-                  media="(min-width: 961px)"
-                  srcSet="/second-section-image-1420.webp"
-                  type="image/webp"
-                />
                 <img
                   className="landing-overview-image"
-                  src="/felmex-overview-3d.webp"
+                  src="/second-section-image-1420.webp"
+                  srcSet="/second-section-image-640.webp 640w, /second-section-image-960.webp 960w, /second-section-image-1420.webp 1420w"
+                  sizes="(min-width: 961px) min(64vw, 696px), (max-width: 640px) 43vw, 100vw"
                   alt=""
                   loading="lazy"
                   decoding="async"
-                  width="1280"
-                  height="860"
+                  width="1420"
+                  height="947"
                 />
               </picture>
             </div>
@@ -2293,7 +2127,7 @@ export function HomePage() {
                     alt=""
                     loading="lazy"
                     decoding="async"
-                    fetchPriority="low"
+                    fetchpriority="low"
                     sizes="(min-width: 1081px) 58vw, 100vw"
                     width={service.imageWidth}
                     height={service.imageHeight}

@@ -1,9 +1,9 @@
 .cnt-page {
   --cnt-max-width: var(--site-content-max-width);
   --cnt-gutter: clamp(1rem, 2.4vw, 1.75rem);
-  --cnt-accent: #1c6dab;
-  --cnt-accent-strong: #14598d;
-  --cnt-accent-soft: rgba(74, 150, 213, 0.14);
+  --cnt-accent: var(--site-brand-navy);
+  --cnt-accent-strong: var(--site-brand-navy-deep);
+  --cnt-accent-soft: rgba(var(--site-brand-navy-rgb), 0.14);
   --cnt-surface: #f5f9fd;
   --cnt-surface-strong: #ffffff;
   --cnt-surface-muted: #ebf2f9;
@@ -24,8 +24,8 @@
   font-family: var(--cnt-font-sans);
   color: var(--cnt-ink-900);
   background:
-    radial-gradient(circle at 8% 10%, rgba(121, 193, 241, 0.2), transparent 24%),
-    radial-gradient(circle at 92% 0%, rgba(28, 109, 171, 0.14), transparent 28%),
+    radial-gradient(circle at 8% 10%, rgba(var(--site-brand-navy-rgb), 0.12), transparent 24%),
+    radial-gradient(circle at 92% 0%, rgba(var(--site-brand-navy-rgb), 0.1), transparent 28%),
     linear-gradient(180deg, #fcfdff 0%, #f3f8fc 100%);
 }
 

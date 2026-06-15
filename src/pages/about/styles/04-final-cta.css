@@ -2,9 +2,14 @@
   position: relative;
   padding: clamp(2.3rem, 4.8vw, 3.9rem) 0;
   background:
-    radial-gradient(circle at 14% 18%, rgba(111, 194, 238, 0.12), transparent 28%),
-    radial-gradient(circle at 84% 16%, rgba(74, 150, 213, 0.14), transparent 24%),
-    linear-gradient(180deg, #081728 0%, #10253a 62%, #12273b 100%);
+    radial-gradient(circle at 14% 18%, rgba(var(--site-brand-navy-rgb), 0.12), transparent 28%),
+    radial-gradient(circle at 84% 16%, rgba(var(--site-brand-navy-rgb), 0.14), transparent 24%),
+    linear-gradient(
+      180deg,
+      var(--site-brand-navy-deep) 0%,
+      #10253a 62%,
+      var(--site-brand-navy) 100%
+    );
 }
 
 .abt-final-cta::before {
@@ -58,7 +63,7 @@
 }
 
 .abt-final-cta .abt-section-kicker {
-  color: #6fc2ee;
+  color: rgba(232, 243, 252, 0.92);
 }
 
 .abt-final-cta-title {

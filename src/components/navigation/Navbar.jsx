@@ -1,7 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { NAV_LINKS } from '../../data/navigation';
 import { CONTACT_CHANNELS } from '../../data/contact';
 import { MQ } from '../../constants/breakpoints';
+
+let navbarGsapLoadPromise = null;
+
+function loadNavbarGsap() {
+  if (!navbarGsapLoadPromise) {
+    navbarGsapLoadPromise = import('gsap').then((module) => module.gsap);
+  }
+
+  return navbarGsapLoadPromise;
+}
 
 export function Navbar() {
   const pathname = typeof window === 'undefined' ? '/' : window.location.pathname;
@@ -11,7 +21,9 @@ export function Navbar() {
   const isServicesPage = pathname === '/services' || pathname.startsWith('/services/');
   const isHomePage = pathname === '/';
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isHomeHeroActive, setIsHomeHeroActive] = useState(isHomePage);
   const headerRef = useRef(null);
+  const hasAnimatedHomeNavRef = useRef(false);
 
   useEffect(() => {
     if (!isMobileMenuOpen) return undefined;
@@ -81,6 +93,146 @@ export function Navbar() {
     };
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined' || !isHomePage) {
+      setIsHomeHeroActive(false);
+      return undefined;
+    }
+
+    let frameId = 0;
+
+    const updateHeroState = () => {
+      frameId = 0;
+      const heroElement = document.querySelector('.hero');
+      const headerHeight = headerRef.current?.getBoundingClientRect().height ?? 0;
+      const nextIsActive = heroElement
+        ? heroElement.getBoundingClientRect().bottom > headerHeight + 1
+        : false;
+
+      setIsHomeHeroActive((current) => (current === nextIsActive ? current : nextIsActive));
+    };
+
+    const queueUpdate = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(updateHeroState);
+    };
+
+    queueUpdate();
+    window.addEventListener('scroll', queueUpdate, { passive: true });
+    window.addEventListener('resize', queueUpdate);
+
+    return () => {
+      window.removeEventListener('scroll', queueUpdate);
+      window.removeEventListener('resize', queueUpdate);
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
+    };
+  }, [isHomePage]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !isHomePage) return undefined;
+
+    loadNavbarGsap();
+    return undefined;
+  }, [isHomePage]);
+
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined' || !isHomePage) {
+      hasAnimatedHomeNavRef.current = true;
+      return undefined;
+    }
+
+    const headerElement = headerRef.current;
+    if (!headerElement) return undefined;
+
+    if (!hasAnimatedHomeNavRef.current) {
+      hasAnimatedHomeNavRef.current = true;
+      return undefined;
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion || isMobileMenuOpen) return undefined;
+
+    const topContactInner = headerElement.querySelector('.top-contact-inner');
+    const navShell = headerElement.querySelector('.nav-shell');
+    const brand = headerElement.querySelector('.brand');
+    const primaryNav = headerElement.querySelector('.primary-nav');
+    const navLinks = headerElement.querySelector('.nav-links');
+    const quoteButton = headerElement.querySelector('.btn-quote-desktop');
+    const revealTargets = [topContactInner, brand].filter(Boolean);
+    const settleTargets = [navShell, primaryNav, navLinks, quoteButton].filter(Boolean);
+    const allTargets = [headerElement, ...revealTargets, ...settleTargets];
+    let isCancelled = false;
+    let timeline;
+
+    loadNavbarGsap().then((gsap) => {
+      if (isCancelled) return;
+
+      gsap.killTweensOf(allTargets);
+
+      timeline = gsap.timeline({
+        defaults: {
+          ease: 'power3.out',
+          overwrite: 'auto',
+        },
+      });
+
+      timeline.fromTo(
+        navShell,
+        {
+          y: isHomeHeroActive ? 5 : -7,
+          scale: isHomeHeroActive ? 1.01 : 0.985,
+        },
+        {
+          y: 0,
+          scale: 1,
+          duration: 0.58,
+          clearProps: 'transform',
+        },
+        0
+      );
+
+      timeline.fromTo(
+        [primaryNav, navLinks, quoteButton].filter(Boolean),
+        {
+          y: isHomeHeroActive ? 3 : -4,
+        },
+        {
+          y: 0,
+          duration: 0.5,
+          stagger: 0.025,
+          clearProps: 'transform',
+        },
+        0.04
+      );
+
+      if (revealTargets.length) {
+        timeline.fromTo(
+          revealTargets,
+          {
+            autoAlpha: isHomeHeroActive ? 1 : 0,
+            y: isHomeHeroActive ? 0 : -8,
+          },
+          {
+            autoAlpha: isHomeHeroActive ? 0 : 1,
+            y: 0,
+            duration: isHomeHeroActive ? 0.26 : 0.4,
+            stagger: isHomeHeroActive ? 0 : 0.04,
+            ease: 'power2.out',
+            clearProps: 'opacity,visibility,transform',
+          },
+          isHomeHeroActive ? 0 : 0.1
+        );
+      }
+    });
+
+    return () => {
+      isCancelled = true;
+      timeline?.kill();
+    };
+  }, [isHomeHeroActive, isHomePage, isMobileMenuOpen]);
+
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
   const resolveNavHref = (item) => {
     if (!item.href) return '/';
@@ -103,7 +255,9 @@ export function Navbar() {
   return (
     <header
       ref={headerRef}
-      className={`site-header${isMobileMenuOpen ? ' is-mobile-menu-open' : ''}`}
+      className={`site-header${isMobileMenuOpen ? ' is-mobile-menu-open' : ''}${
+        isHomeHeroActive ? ' is-home-hero-active' : ''
+      }`}
     >
       <div className="top-contact-strip">
         <div className="container top-contact-inner">

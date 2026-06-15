@@ -8,22 +8,26 @@
   --cta-padding-y: 0.5rem;
   --cta-padding-x: 1rem;
   --cta-letter: 0.04em;
-  --home-accent: #1c6dab;
-  --home-accent-hover: #2a7fbe;
-  --home-accent-rgb: 74, 150, 213;
-  --home-accent-soft-rgb: 121, 193, 241;
+  --home-accent: var(--site-brand-accent);
+  --home-accent-hover: var(--site-brand-accent-hover);
+  --home-accent-rgb: var(--site-brand-accent-rgb);
+  --home-accent-soft-rgb: var(--site-brand-accent-rgb);
   --home-ink-950: #020b18;
   --home-ink-900: #031124;
   --home-ink-850: #041325;
   --home-ink-800: #051a33;
   --home-panel-border: rgba(138, 173, 208, 0.28);
-  --home-panel-bg: linear-gradient(180deg, rgba(7, 19, 38, 0.88) 0%, rgba(2, 12, 27, 0.94) 100%);
-  --home-panel-bg-strong: linear-gradient(165deg, rgba(13, 55, 101, 0.96) 0%, rgba(6, 28, 53, 0.96) 100%);
+  --home-panel-bg: var(--site-brand-navy-gradient);
+  --home-panel-bg-strong: linear-gradient(
+    165deg,
+    rgba(var(--site-brand-navy-rgb), 0.96) 0%,
+    rgba(var(--site-brand-navy-deep-rgb), 0.96) 100%
+  );
   --home-stripe: repeating-linear-gradient(
     -12deg,
-    rgba(146, 205, 245, 0) 0 14px,
-    rgba(146, 205, 245, 0.08) 14px 15px,
-    rgba(146, 205, 245, 0) 15px 42px
+    rgba(var(--site-brand-navy-rgb), 0) 0 14px,
+    rgba(var(--site-brand-navy-rgb), 0.08) 14px 15px,
+    rgba(var(--site-brand-navy-rgb), 0) 15px 42px
   );
   --home-image-filter: saturate(1.04) contrast(1.02);
   --light-surface: #f7fbff;
