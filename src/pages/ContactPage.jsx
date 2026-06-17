@@ -259,11 +259,6 @@ export function ContactPage() {
                         <p className="cnt-office-meta-copy">{office.hours}</p>
                       </div>
                     </div>
-
-                    <a className="cnt-office-directions" href={office.directionsHref}>
-                      <span>Get directions</span>
-                      <span aria-hidden="true">↗</span>
-                    </a>
                   </div>
                 </article>
               ))}

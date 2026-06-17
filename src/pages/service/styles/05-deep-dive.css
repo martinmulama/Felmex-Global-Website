@@ -88,22 +88,22 @@
 }
 
 .svc-deep-dive-nav-button:focus-visible {
-  outline: 2px solid rgba(7, 91, 211, 0.42);
+  outline: 2px solid rgba(var(--site-brand-navy-rgb), 0.42);
   outline-offset: 0.18rem;
 }
 
 .svc-deep-dive-nav-button:hover {
   transform: none;
-  background: rgba(7, 93, 246, 0.055);
-  box-shadow: inset 2px 0 0 rgba(7, 93, 246, 0.22);
+  background: rgba(var(--site-brand-navy-rgb), 0.055);
+  box-shadow: inset 2px 0 0 rgba(var(--site-brand-navy-rgb), 0.22);
 }
 
 .svc-deep-dive-nav-button.is-active {
   transform: none;
   color: #ffffff;
-  background: linear-gradient(135deg, #075df6 0%, #0047d9 100%);
+  background: linear-gradient(135deg, var(--site-brand-navy) 0%, var(--site-brand-navy-deep) 100%);
   box-shadow:
-    0 10px 18px rgba(0, 73, 217, 0.16),
+    0 10px 18px rgba(var(--site-brand-navy-rgb), 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
@@ -115,7 +115,7 @@
   border-radius: 999px;
   border: 1px solid rgba(178, 197, 219, 0.58);
   background: #ffffff;
-  color: #0b3d78;
+  color: var(--site-brand-navy);
   box-shadow:
     0 10px 20px rgba(20, 49, 82, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -123,7 +123,7 @@
 
 .svc-deep-dive-nav-button.is-active .svc-deep-dive-nav-icon {
   border-color: rgba(255, 255, 255, 0.86);
-  color: #075df6;
+  color: var(--site-brand-navy);
   box-shadow:
     0 12px 22px rgba(0, 30, 105, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.96);
@@ -135,7 +135,7 @@
 }
 
 .svc-deep-dive-nav-icon .svc-icon-duo {
-  fill: rgba(7, 93, 246, 0.1);
+  fill: rgba(var(--site-brand-navy-rgb), 0.1);
 }
 
 .svc-deep-dive-nav-icon .svc-icon-path {
@@ -196,12 +196,12 @@
 .svc-deep-dive-help:hover,
 .svc-deep-dive-help:focus-visible {
   transform: none;
-  border-color: rgba(7, 93, 246, 0.2);
+  border-color: rgba(var(--site-brand-navy-rgb), 0.2);
   box-shadow: 0 16px 30px rgba(17, 45, 76, 0.08);
 }
 
 .svc-deep-dive-help:focus-visible {
-  outline: 2px solid rgba(7, 91, 211, 0.38);
+  outline: 2px solid rgba(var(--site-brand-navy-rgb), 0.38);
   outline-offset: 0.18rem;
 }
 
@@ -211,8 +211,12 @@
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: linear-gradient(180deg, #eef5ff 0%, #ddeafe 100%);
-  color: #075df6;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--site-brand-navy-rgb), 0.08) 0%,
+    rgba(var(--site-brand-navy-rgb), 0.16) 100%
+  );
+  color: var(--site-brand-navy);
 }
 
 .svc-deep-dive-help-icon .svc-support-icon-svg {
@@ -243,7 +247,7 @@
 
 .svc-deep-dive-help-link {
   margin-top: 0.28rem;
-  color: #075df6;
+  color: var(--site-brand-navy);
   font-size: var(--fs-caption);
   font-weight: 800;
   line-height: 1.18;
@@ -337,7 +341,7 @@
 
 .svc-deep-dive-kicker {
   margin: 0;
-  color: #075df6;
+  color: var(--site-brand-navy);
   font-size: var(--fs-caption);
   font-weight: 900;
   letter-spacing: 0.14em;

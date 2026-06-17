@@ -4,17 +4,17 @@
    ------------------------------------------------- */
 
 .report-page {
-  --blue-950: #06172b;
-  --blue-900: #0c2340;
-  --blue-800: #123358;
-  --blue-700: #1a4876;
-  --blue-600: #1f5a96;
-  --blue-500: #2472bc;
-  --blue-400: #4b9fe0;
-  --blue-300: #82c4f5;
-  --blue-200: #c0dff9;
-  --blue-100: #e4f1fc;
-  --blue-50: #f0f7fd;
+  --blue-950: var(--site-brand-navy-deep);
+  --blue-900: var(--site-brand-navy);
+  --blue-800: #183248;
+  --blue-700: #223d54;
+  --blue-600: #2c4860;
+  --blue-500: var(--site-brand-navy);
+  --blue-400: #405a70;
+  --blue-300: #73879a;
+  --blue-200: #bac6d0;
+  --blue-100: #e4e9ee;
+  --blue-50: #f2f5f7;
 
   --white: #ffffff;
   --ink: var(--blue-900);

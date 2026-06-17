@@ -91,11 +91,11 @@
 }
 
 .abt-overview-copy .abt-section-kicker {
-  color: #075bd3;
+  color: var(--abt-accent);
 }
 
 .abt-overview-copy .abt-section-text {
-  color: #14598d;
+  color: var(--abt-accent-strong);
 }
 
 .abt-overview-history {
@@ -134,12 +134,12 @@
 .abt-overview-nav-link:hover,
 .abt-overview-nav-link:focus-visible,
 .abt-overview-nav-link.is-active {
-  color: #075bd3;
-  border-bottom-color: rgba(7, 91, 211, 0.34);
+  color: var(--abt-accent);
+  border-bottom-color: rgba(var(--site-brand-navy-rgb), 0.34);
 }
 
 .abt-overview-nav-link:focus-visible {
-  outline: 2px solid rgba(7, 91, 211, 0.42);
+  outline: 2px solid rgba(var(--site-brand-navy-rgb), 0.42);
   outline-offset: 0.28rem;
 }
 
@@ -197,7 +197,7 @@
   background: #ffffff;
   border: 0.38rem solid rgba(224, 235, 249, 0.92);
   box-shadow: inset 0 0 0 1px rgba(151, 192, 232, 0.16);
-  color: #075bd3;
+  color: var(--abt-accent);
 }
 
 .abt-overview-card-icon svg {
@@ -218,7 +218,7 @@
 
 .abt-overview-card-kicker {
   margin: 0;
-  color: #075bd3;
+  color: var(--abt-accent);
   font-size: var(--fs-caption);
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -240,7 +240,7 @@
   width: 3.2rem;
   height: 0.16rem;
   border-radius: 999px;
-  background: linear-gradient(90deg, #2e8bda 0%, #1c6dab 100%);
+  background: linear-gradient(90deg, #344a5d 0%, var(--abt-accent) 100%);
 }
 
 .abt-overview-card-detail {
@@ -298,7 +298,7 @@
   display: grid;
   place-items: center;
   border-radius: 0.42rem;
-  color: #1c6dab;
+  color: var(--abt-accent);
 }
 
 .abt-overview-card-list-icon svg {
@@ -325,9 +325,9 @@
   height: 1.7rem;
   margin-top: 0.06rem;
   border-radius: 999px;
-  border: 1px solid rgba(7, 91, 211, 0.32);
+  border: 1px solid rgba(var(--site-brand-navy-rgb), 0.32);
   background: radial-gradient(circle, currentColor 0 0.24rem, transparent 0.26rem);
-  color: #075bd3;
+  color: var(--abt-accent);
 }
 
 .abt-overview-card-rail {
@@ -351,7 +351,7 @@
 
 .abt-overview-card-summary-label {
   margin: 0;
-  color: #1c6dab;
+  color: var(--abt-accent);
   font-size: var(--fs-caption);
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -387,7 +387,7 @@
   height: 1.7rem;
   display: grid;
   place-items: center;
-  color: #1c6dab;
+  color: var(--abt-accent);
 }
 
 .abt-overview-card-footer-icon svg {
@@ -534,7 +534,7 @@
 }
 
 .abt-reach-index {
-  color: rgba(28, 109, 171, 0.58);
+  color: rgba(var(--site-brand-navy-rgb), 0.58);
   font-size: var(--fs-caption);
   font-weight: 900;
   letter-spacing: 0.14em;
@@ -544,8 +544,8 @@
   width: 0.42rem;
   height: 0.42rem;
   border-radius: 999px;
-  background: rgba(7, 91, 211, 0.34);
-  box-shadow: 0 0 0 0.22rem rgba(7, 91, 211, 0.045);
+  background: rgba(var(--site-brand-navy-rgb), 0.34);
+  box-shadow: 0 0 0 0.22rem rgba(var(--site-brand-navy-rgb), 0.045);
 }
 
 .abt-reach-connector {
@@ -557,7 +557,7 @@
   transform-origin: left center;
   background-image: repeating-linear-gradient(
     90deg,
-    rgba(7, 91, 211, 0.3) 0 1px,
+    rgba(var(--site-brand-navy-rgb), 0.3) 0 1px,
     transparent 1px 7px
   );
 }
@@ -575,7 +575,11 @@
   position: absolute;
   inset: 0;
   opacity: 0.74;
-  background: linear-gradient(135deg, rgba(108, 181, 239, 0.9), rgba(28, 109, 171, 0.58));
+  background: linear-gradient(
+    135deg,
+    rgba(var(--site-brand-navy-rgb), 0.74),
+    rgba(var(--site-brand-navy-rgb), 0.58)
+  );
   mask-image: var(--abt-continent-fill-image);
   mask-repeat: no-repeat;
   mask-position: left center;
@@ -604,7 +608,7 @@
 
 .abt-reach-continent-outline {
   opacity: 0.92;
-  filter: drop-shadow(0 0.45rem 0.7rem rgba(28, 109, 171, 0.12));
+  filter: drop-shadow(0 0.45rem 0.7rem rgba(var(--site-brand-navy-rgb), 0.12));
 }
 
 .abt-reach-step-label,

@@ -165,7 +165,7 @@ export const TEAM_MEMBERS = [
     base: 'Mombasa Hub',
     experience: '10+ years in operations control',
     specialties: ['Air and sea handoffs', 'Milestone governance', 'Exception recovery'],
-    accent: '#1d63ee',
+    accent: 'var(--site-brand-navy)',
   },
   {
     id: 'sarah',

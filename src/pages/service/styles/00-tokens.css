@@ -2,9 +2,9 @@
   --svc-max-width: var(--site-wide-max-width);
   --svc-gutter: clamp(1.1rem, 2.4vw, 2rem);
   --svc-gutter-wide: clamp(1.2rem, 3vw, 2.8rem);
-  --svc-accent: #1c6dab;
-  --svc-accent-strong: #14598d;
-  --svc-accent-soft: rgba(74, 150, 213, 0.14);
+  --svc-accent: var(--site-brand-navy);
+  --svc-accent-strong: var(--site-brand-navy-deep);
+  --svc-accent-soft: rgba(var(--site-brand-navy-rgb), 0.14);
   --svc-surface: #f7fbff;
   --svc-surface-strong: #ffffff;
   --svc-surface-muted: #eef4fa;
@@ -25,7 +25,7 @@
   font-family: var(--svc-font-sans);
   color: var(--svc-ink-900);
   background:
-    radial-gradient(circle at 12% 10%, rgba(121, 193, 241, 0.16), transparent 24%),
+    radial-gradient(circle at 12% 10%, rgba(var(--site-brand-navy-rgb), 0.1), transparent 24%),
     linear-gradient(180deg, #fbfdff 0%, #f3f7fb 100%);
 }
 
