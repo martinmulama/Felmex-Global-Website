@@ -22,6 +22,7 @@ const HOME_PROJECT_PREVIEW_PARAGRAPHS = [
 ];
 const HOME_PROJECT_PREVIEW_META = HOME_PROJECT_PREVIEW.meta.slice(-2);
 const HOME_PROJECT_PREVIEW_SERVICES = HOME_PROJECT_PREVIEW.services.slice(0, 2);
+const HERO_MEDIA_READY_TIMEOUT_MS = 1800;
 const HOME_MOBILE_PROJECTS = [
   HOME_PROJECT_PREVIEW,
   ...ONGOING_PROJECTS.filter((project) => project.id !== HOME_PROJECT_PREVIEW.id),
@@ -707,6 +708,7 @@ export function HomePage() {
   const closeSectionRef = useRef(null);
   const servicesListRef = useRef(null);
   const heroVideoRef = useRef(null);
+  const heroRightImageRef = useRef(null);
   const testimonialsTitleDroppedRef = useRef(false);
   const [isHeroEntered, setIsHeroEntered] = useState(false);
   const [isOverviewVisible, setIsOverviewVisible] = useState(false);
@@ -861,40 +863,110 @@ export function HomePage() {
 
   useEffect(() => {
     const video = heroVideoRef.current;
+    const rightImage = heroRightImageRef.current;
     let rafOne = null;
     let rafTwo = null;
+    let timeoutId = null;
+    let isCancelled = false;
+    const cleanups = [];
 
-    setIsHeroEntered(false);
-    rafOne = window.requestAnimationFrame(() => {
-      rafTwo = window.requestAnimationFrame(() => {
-        setIsHeroEntered(true);
+    const queueHeroEntrance = () => {
+      if (isCancelled) return;
+
+      rafOne = window.requestAnimationFrame(() => {
+        rafTwo = window.requestAnimationFrame(() => {
+          if (!isCancelled) {
+            setIsHeroEntered(true);
+          }
+        });
       });
-    });
-
-    if (!video) {
-      return () => {
-        if (rafOne !== null) window.cancelAnimationFrame(rafOne);
-        if (rafTwo !== null) window.cancelAnimationFrame(rafTwo);
-      };
-    }
+    };
 
     const attemptPlay = () => {
-      if (!video.paused) return;
+      if (!video || !video.paused) return;
+
       video.play().catch(() => {});
     };
 
-    if (video.readyState >= 2) {
+    const waitForVideoFrame = () =>
+      new Promise((resolve) => {
+        if (!video || video.readyState >= 2) {
+          resolve();
+          return;
+        }
+
+        let isSettled = false;
+        const settle = () => {
+          if (isSettled) return;
+          isSettled = true;
+          video.removeEventListener('loadeddata', settle);
+          video.removeEventListener('canplay', settle);
+          video.removeEventListener('error', settle);
+          resolve();
+        };
+
+        video.addEventListener('loadeddata', settle, { once: true });
+        video.addEventListener('canplay', settle, { once: true });
+        video.addEventListener('error', settle, { once: true });
+        cleanups.push(settle);
+      });
+
+    const waitForRightImage = () =>
+      new Promise((resolve) => {
+        if (!rightImage) {
+          resolve();
+          return;
+        }
+
+        const decodeImage = () => {
+          if (typeof rightImage.decode !== 'function') {
+            resolve();
+            return;
+          }
+
+          rightImage.decode().catch(() => {}).then(resolve);
+        };
+
+        if (rightImage.complete && rightImage.naturalWidth > 0) {
+          decodeImage();
+          return;
+        }
+
+        let isSettled = false;
+        const settle = () => {
+          if (isSettled) return;
+          isSettled = true;
+          rightImage.removeEventListener('load', settle);
+          rightImage.removeEventListener('error', settle);
+          decodeImage();
+        };
+
+        rightImage.addEventListener('load', settle, { once: true });
+        rightImage.addEventListener('error', settle, { once: true });
+        cleanups.push(settle);
+      });
+
+    setIsHeroEntered(false);
+    attemptPlay();
+
+    const mediaReady = Promise.all([waitForVideoFrame(), waitForRightImage()]);
+    const fallbackReady = new Promise((resolve) => {
+      timeoutId = window.setTimeout(resolve, HERO_MEDIA_READY_TIMEOUT_MS);
+    });
+
+    Promise.race([mediaReady, fallbackReady]).then(() => {
+      if (isCancelled) return;
+
       attemptPlay();
-    } else {
-      video.addEventListener('loadeddata', attemptPlay, { once: true });
-      video.addEventListener('canplay', attemptPlay, { once: true });
-    }
+      queueHeroEntrance();
+    });
 
     return () => {
+      isCancelled = true;
+      cleanups.forEach((cleanup) => cleanup());
+      if (timeoutId !== null) window.clearTimeout(timeoutId);
       if (rafOne !== null) window.cancelAnimationFrame(rafOne);
       if (rafTwo !== null) window.cancelAnimationFrame(rafTwo);
-      video.removeEventListener('loadeddata', attemptPlay);
-      video.removeEventListener('canplay', attemptPlay);
     };
   }, []);
 
@@ -1880,6 +1952,7 @@ export function HomePage() {
               muted
               playsInline
               preload="auto"
+              poster="/hero-video-poster.webp"
               aria-hidden="true"
             >
               <source src="/Final.mp4" type="video/mp4" />
@@ -1953,7 +2026,8 @@ export function HomePage() {
           {!isMobileViewport ? (
             <figure className="hero-visual hero-visual--right" aria-label="Container truck in motion">
               <img
-                src="/Final%20right.png"
+                ref={heroRightImageRef}
+                src="/final-right.webp"
                 alt=""
                 width="1024"
                 height="1536"
