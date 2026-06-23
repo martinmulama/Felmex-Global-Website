@@ -648,6 +648,101 @@ function clearInlineMotionStyles(elements, properties) {
   });
 }
 
+function HeroTransportIcon({ kind }) {
+  const icons = {
+    air: (
+      <path
+        d="M12 3.7v16.6M4.4 13.7 12 9.6l7.6 4.1M7.3 19.2 12 16.5l4.7 2.7"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    ),
+    sea: (
+      <>
+        <path
+          d="M5.2 13.1h13.6l-1.8 4.2H7l-1.8-4.2ZM7.4 12.9V9.3h9.2v3.6M10 9.3V6.8h4v2.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M5.3 19.5c.9.6 1.8.6 2.7 0s1.8-.6 2.7 0 1.8.6 2.7 0 1.8-.6 2.7 0 1.8.6 2.7 0"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    road: (
+      <>
+        <path
+          d="M3.8 8.3h10.1v7H3.8v-7Zm10.1 2h3.4l2.9 2.8v2.2h-6.3v-5Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle cx="7.1" cy="17.2" r="1.5" fill="none" stroke="currentColor" strokeWidth="1.9" />
+        <circle cx="16.9" cy="17.2" r="1.5" fill="none" stroke="currentColor" strokeWidth="1.9" />
+      </>
+    ),
+    rail: (
+      <>
+        <path
+          d="M8.1 4.6h7.8a2 2 0 0 1 2 2v8.7a2 2 0 0 1-2 2H8.1a2 2 0 0 1-2-2V6.6a2 2 0 0 1 2-2Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8.5 8.3h7M8.5 12.1h7M9.1 20l2-2.7m3.8 0 2 2.7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    partner: (
+      <>
+        <path
+          d="m8.5 11.4 2.5-2.5a2.2 2.2 0 0 1 3.1 0l1 1 1.4-1.4a2.1 2.1 0 0 1 3 0l1.5 1.5-4.2 5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.55"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m3 10 1.5-1.5a2.1 2.1 0 0 1 3 0l4.6 4.6a1.5 1.5 0 0 1-2.1 2.1l-.4-.4a1.5 1.5 0 0 1-2.1 2.1l-.5-.5a1.5 1.5 0 0 1-2.1 2.1L3 16.6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.55"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+  };
+
+  return (
+    <svg className={`hero-right-icon hero-right-icon--${kind}`} viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+      {icons[kind] ?? icons.air}
+    </svg>
+  );
+}
+
 export function HomePage() {
   const overviewRef = useRef(null);
   const testimonialsSectionRef = useRef(null);
@@ -1849,17 +1944,11 @@ export function HomePage() {
                 <span className="hero-rule" aria-hidden="true" />
                 <h1 className="hero-title">
                   <span className="hero-title-line">
-                    <span>Delivering</span>
+                    <span>Delivering Tomorrow&rsquo;s</span>
                   </span>
                   <span className="hero-title-line">
                     <span>
-                      <span className="hero-title-accent">Tomorrow</span>
-                      &rsquo;s
-                    </span>
-                  </span>
-                  <span className="hero-title-line">
-                    <span>
-                      Trade <span className="hero-title-accent">Today</span>
+                      Trade <span className="hero-title-accent">Today.</span>
                     </span>
                   </span>
                 </h1>
@@ -1893,9 +1982,10 @@ export function HomePage() {
           </div>
 
           {!isMobileViewport ? (
-            <figure className="hero-visual hero-visual--right" aria-label="Container truck in motion">
+            <figure className="hero-visual hero-visual--right" aria-label="Felmex global coverage highlights">
               <img
                 ref={heroRightImageRef}
+                className="hero-right-legacy-image"
                 src="/final-right.webp"
                 alt=""
                 width="1024"
@@ -1904,6 +1994,30 @@ export function HomePage() {
                 loading="eager"
                 decoding="sync"
               />
+              <div className="hero-right-board" aria-hidden="true">
+                <div className="hero-right-card hero-right-card--coverage">
+                  <div className="hero-coverage-icons">
+                    <HeroTransportIcon kind="air" />
+                    <span className="hero-coverage-dot" />
+                    <HeroTransportIcon kind="sea" />
+                    <span className="hero-coverage-dot" />
+                    <HeroTransportIcon kind="road" />
+                    <span className="hero-coverage-dot" />
+                    <HeroTransportIcon kind="rail" />
+                  </div>
+                  <p>Multimodal Coverage</p>
+                </div>
+                <div className="hero-right-card hero-right-card--countries">
+                  <p className="hero-country-value">6+</p>
+                  <p className="hero-country-label">Continents Served</p>
+                  <p className="hero-trusted-note">Trusted by businesses across <strong>Africa, Europe, Asia, the Middle East, the Americas, and Oceania</strong>.</p>
+                </div>
+                <div className="hero-right-card hero-right-card--partner">
+                  <HeroTransportIcon kind="partner" />
+                  <p className="hero-partner-title">East Africa&rsquo;s Global Partner</p>
+                  <p className="hero-partner-label">Trusted Supply Chain Solutions</p>
+                </div>
+              </div>
             </figure>
           ) : null}
         </div>
