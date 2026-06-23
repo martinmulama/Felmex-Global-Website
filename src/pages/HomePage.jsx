@@ -7,7 +7,6 @@ import {
   CLIENT_QUOTES,
   FINAL_CTA_FEATURES,
   LANDING_STATS,
-  OVERVIEW_CHAIN_STEPS,
   TESTIMONIAL_STACK_MOBILE_QUERY,
 } from './home/data';
 
@@ -23,6 +22,9 @@ const HOME_PROJECT_PREVIEW_PARAGRAPHS = [
 const HOME_PROJECT_PREVIEW_META = HOME_PROJECT_PREVIEW.meta.slice(-2);
 const HOME_PROJECT_PREVIEW_SERVICES = HOME_PROJECT_PREVIEW.services.slice(0, 2);
 const HERO_MEDIA_READY_TIMEOUT_MS = 1800;
+const SERVICE_CATALOG_IMAGE_WIDTHS = [640, 960, 1280];
+const SERVICE_CATALOG_IMAGE_SIZES =
+  '(min-width: 1081px) min(36rem, 52vw), (max-width: 640px) 82vw, 100vw';
 const HOME_MOBILE_PROJECTS = [
   HOME_PROJECT_PREVIEW,
   ...ONGOING_PROJECTS.filter((project) => project.id !== HOME_PROJECT_PREVIEW.id),
@@ -166,6 +168,18 @@ const HOME_SERVICE_FEATURES = [
     details: ['Replenishment lane planning', 'Multi-drop delivery coordination', 'Cycle performance visibility'],
   },
 ];
+
+function getResponsiveImagePath(imagePath, width) {
+  if (width === 1280) return imagePath;
+
+  return imagePath.replace(/\.webp$/u, `-${width}.webp`);
+}
+
+function getServiceCatalogSrcSet(imagePath) {
+  return SERVICE_CATALOG_IMAGE_WIDTHS.map(
+    (width) => `${getResponsiveImagePath(imagePath, width)} ${width}w`
+  ).join(', ');
+}
 
 function ServiceCatalogIcon({ kind }) {
   const icons = {
@@ -413,113 +427,59 @@ function OogCapabilityIcon({ kind }) {
   );
 }
 
-function OverviewProcessIcon({ kind }) {
+function HomeOverviewIcon({ kind }) {
   const icons = {
-    box: (
-      <path
-        d="m12 4.4 6.4 3.6v7.9L12 19.6l-6.4-3.7V8L12 4.4Zm0 0v7.4m6.4-3.8L12 11.8 5.6 8"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    ),
-    document: (
+    vision: (
       <>
         <path
-          d="M7.4 4.7h6.7l2.5 2.7v11.9H7.4V4.7Z"
+          d="M2.7 12s3.45-5.1 9.3-5.1 9.3 5.1 9.3 5.1-3.45 5.1-9.3 5.1S2.7 12 2.7 12Z"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.75"
+          strokeWidth="1.45"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <path
-          d="M14.1 4.9v2.7h2.5M10 11.2h4M10 14.2h4M10 17h2.3"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.75"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <circle cx="12" cy="12" r="2.35" fill="none" stroke="currentColor" strokeWidth="1.45" />
       </>
     ),
-    transit: (
+    mission: (
       <>
         <path
-          d="M8.2 15.2h7.6M9.3 15.2l1.1-5.2h3.2l1.1 5.2M10.2 12.1h3.6M12 5.2v4.8"
+          d="M12 20.25a8.25 8.25 0 1 1 7.7-11.2"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.75"
+          strokeWidth="1.45"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
-          d="M9.8 6.7 12 5.2l2.2 1.5M7.2 17.7h9.6"
+          d="M12 16.3a4.3 4.3 0 1 1 3.9-6.1M12 12l5.4-5.4m.35 3.1-.35-3.1 3.1.35"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.75"
+          strokeWidth="1.45"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
+        <circle cx="12" cy="12" r="1.05" fill="currentColor" />
       </>
     ),
-    shield: (
+    about: (
       <>
         <path
-          d="M12 4.4 6.5 6.5v4.6c0 3.6 2.2 6.7 5.5 8 3.3-1.3 5.5-4.4 5.5-8V6.5L12 4.4Z"
+          d="M5.2 10.4 12 6.1l6.8 4.3v9.2H5.2v-9.2Z"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.75"
+          strokeWidth="1.45"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
-          d="m9.8 11.9 1.5 1.5 3-3.3"
+          d="M8.3 19.6v-6.1h7.4v6.1M10.3 15.35h1.1M12.7 15.35h1.1M10.3 17.4h1.1M12.7 17.4h1.1M5.2 10.4v9.2H2.95v-7.65l2.25-1.55Zm13.6 0 2.25 1.55v7.65H18.8"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.75"
+          strokeWidth="1.45"
           strokeLinecap="round"
           strokeLinejoin="round"
-        />
-      </>
-    ),
-    warehouse: (
-      <>
-        <path
-          d="M5.7 10.2 12 6.1l6.3 4.1v8H5.7v-8Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.75"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M8.4 18.2v-5.1h7.2v5.1M9.7 15.1h4.6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.75"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    truck: (
-      <>
-        <path
-          d="M5.3 8.8h9.1v6.5H5.3V8.8Zm9.1 2h2.8l1.8 2.1v2.4h-4.6v-4.5Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.75"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M8.1 17.2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5Zm8.1 0a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.75"
         />
       </>
     ),
@@ -527,7 +487,7 @@ function OverviewProcessIcon({ kind }) {
 
   return (
     <svg viewBox="0 0 24 24" focusable="false">
-      {icons[kind] ?? icons.box}
+      {icons[kind] ?? icons.vision}
     </svg>
   );
 }
@@ -690,7 +650,6 @@ function clearInlineMotionStyles(elements, properties) {
 
 export function HomePage() {
   const overviewRef = useRef(null);
-  const overviewProcessRef = useRef(null);
   const testimonialsSectionRef = useRef(null);
   const testimonialsPartnersRef = useRef(null);
   const journalSectionRef = useRef(null);
@@ -709,6 +668,8 @@ export function HomePage() {
   const servicesListRef = useRef(null);
   const heroVideoRef = useRef(null);
   const heroRightImageRef = useRef(null);
+  const serviceImagePreloadersRef = useRef([]);
+  const hasPreloadedServiceImagesRef = useRef(false);
   const testimonialsTitleDroppedRef = useRef(false);
   const [isHeroEntered, setIsHeroEntered] = useState(false);
   const [isOverviewVisible, setIsOverviewVisible] = useState(false);
@@ -971,139 +932,6 @@ export function HomePage() {
   }, []);
 
   useEffect(() => {
-    const process = overviewProcessRef.current;
-    if (!process) return undefined;
-
-    const processCards = Array.from(process.querySelectorAll('.landing-overview-chain-card'));
-    const processConnectors = Array.from(process.querySelectorAll('.landing-overview-chain-link-line'));
-    const processArrows = Array.from(process.querySelectorAll('.landing-overview-chain-link-arrow'));
-    const processPieces = [...processCards, ...processConnectors, ...processArrows];
-    let animationContext = null;
-    let isCancelled = false;
-    let loadedGsap = null;
-
-    if (prefersReducedMotion) {
-      processPieces.forEach((piece) => {
-        piece.style.opacity = '1';
-        piece.style.visibility = 'visible';
-        piece.style.transform = 'none';
-        piece.style.clipPath = 'inset(0% 0% 0% 0%)';
-      });
-      return () => {
-        clearInlineMotionStyles(processPieces, [
-          'opacity',
-          'visibility',
-          'transform',
-          'clip-path',
-          'transform-origin',
-        ]);
-      };
-    }
-
-    processCards.forEach((card) => {
-      card.style.opacity = '0';
-      card.style.visibility = 'hidden';
-      card.style.transform = 'translate3d(0, 18px, 0)';
-      card.style.clipPath = 'inset(0% 0% 16% 0%)';
-    });
-    processConnectors.forEach((connector) => {
-      connector.style.opacity = '0';
-      connector.style.visibility = 'hidden';
-      connector.style.transform = 'scaleX(0)';
-      connector.style.transformOrigin = 'left center';
-    });
-    processArrows.forEach((arrow) => {
-      arrow.style.opacity = '0';
-      arrow.style.visibility = 'hidden';
-      arrow.style.transform = 'translate3d(-4px, 0, 0)';
-    });
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        observer.disconnect();
-
-        loadGsap().then((gsap) => {
-          if (isCancelled) return;
-          loadedGsap = gsap;
-          animationContext = gsap.context(() => {
-            const timeline = gsap.timeline({
-              defaults: {
-                ease: 'power3.out',
-                overwrite: 'auto',
-              },
-            });
-
-            processCards.forEach((card, index) => {
-              timeline.to(
-                card,
-                {
-                  autoAlpha: 1,
-                  y: 0,
-                  clipPath: 'inset(0% 0% 0% 0%)',
-                  duration: index === 0 ? 0.3 : 0.34,
-                },
-                index === 0 ? 0 : '>-0.12'
-              );
-
-              const connector = processConnectors[index];
-              const arrow = processArrows[index];
-              if (!connector) return;
-
-              timeline.to(
-                connector,
-                {
-                  autoAlpha: 1,
-                  scaleX: 1,
-                  duration: 0.24,
-                },
-                '>-0.1'
-              );
-
-              if (!arrow) return;
-
-              timeline.to(
-                arrow,
-                {
-                  autoAlpha: 1,
-                  x: 0,
-                  duration: 0.16,
-                },
-                '>-0.04'
-              );
-            });
-          }, process);
-        });
-      },
-      {
-        threshold: 0.24,
-        rootMargin: '0px 0px -8% 0px',
-      }
-    );
-
-    observer.observe(process);
-
-    return () => {
-      isCancelled = true;
-      observer.disconnect();
-      animationContext?.revert();
-      if (loadedGsap) {
-        loadedGsap.set(processPieces, {
-          clearProps: 'opacity,visibility,transform,clipPath,transformOrigin',
-        });
-      } else {
-        clearInlineMotionStyles(processPieces, [
-          'opacity',
-          'visibility',
-          'transform',
-          'clip-path',
-          'transform-origin',
-        ]);
-      }
-    };
-  }, [prefersReducedMotion]);
-
-  useEffect(() => {
     const node = overviewRef.current;
     if (!node) return undefined;
 
@@ -1128,6 +956,47 @@ export function HomePage() {
 
     return () => observer.disconnect();
   }, [prefersReducedMotion, isMobileViewport]);
+
+  useEffect(() => {
+    const list = servicesListRef.current;
+    if (!list || typeof window === 'undefined') return undefined;
+
+    const preloadServiceImages = () => {
+      if (hasPreloadedServiceImagesRef.current) return;
+
+      hasPreloadedServiceImagesRef.current = true;
+      serviceImagePreloadersRef.current = HOME_SERVICE_FEATURES.map((service, index) => {
+        const image = new Image();
+        image.decoding = 'async';
+        image.sizes = SERVICE_CATALOG_IMAGE_SIZES;
+        image.srcset = getServiceCatalogSrcSet(service.image);
+
+        if ('fetchPriority' in image) {
+          image.fetchPriority = index < 2 ? 'high' : 'auto';
+        }
+
+        image.src = service.image;
+        return image;
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+
+        preloadServiceImages();
+        observer.disconnect();
+      },
+      {
+        threshold: 0,
+        rootMargin: '900px 0px 900px 0px',
+      }
+    );
+
+    observer.observe(list);
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const list = servicesListRef.current;
@@ -2047,107 +1916,79 @@ export function HomePage() {
         aria-label="Company overview"
       >
         <div className="container landing-overview-shell">
-          <div className="landing-overview-copy landing-reveal-group">
-            <p className="landing-section-label landing-reveal-item">Built for cross-border trade</p>
-            <h2 className="landing-section-title landing-section-title--overview">
-              <span
-                className="landing-title-line landing-title-line--desktop landing-reveal-line"
-                style={{ '--reveal-delay': '0ms' }}
-              >
-                <span>One accountable</span>
+          <div className="landing-overview-intro landing-reveal-group">
+            <span className="landing-overview-rule landing-reveal-item" aria-hidden="true" />
+            <h2 className="landing-overview-title">
+              <span className="landing-overview-title-line landing-reveal-line" style={{ '--reveal-delay': '0ms' }}>
+                <span>Moving Your Business</span>
               </span>
-              <span
-                className="landing-title-line landing-title-line--desktop landing-reveal-line"
-                style={{ '--reveal-delay': '110ms' }}
-              >
-                <span>logistics partner</span>
-              </span>
-              <span
-                className="landing-title-line landing-title-line--desktop landing-title-line--accent landing-reveal-line"
-                style={{ '--reveal-delay': '220ms' }}
-              >
-                <span>from booking</span>
-              </span>
-              <span
-                className="landing-title-line landing-title-line--desktop landing-title-line--accent landing-reveal-line"
-                style={{ '--reveal-delay': '330ms' }}
-              >
-                <span>to proof of delivery.</span>
-              </span>
-              <span
-                className="landing-title-line landing-title-line--mobile landing-reveal-line"
-                style={{ '--reveal-delay': '0ms' }}
-              >
-                <span>One accountable logistics partner</span>
-              </span>
-              <span
-                className="landing-title-line landing-title-line--mobile landing-title-line--accent landing-reveal-line"
-                style={{ '--reveal-delay': '120ms' }}
-              >
-                <span>from booking to proof of delivery.</span>
+              <span className="landing-overview-title-line landing-reveal-line" style={{ '--reveal-delay': '110ms' }}>
+                <span>
+                  Forward, <strong>Together.</strong>
+                </span>
               </span>
             </h2>
-            <p className="landing-section-text landing-reveal-item" style={{ '--reveal-delay': '360ms' }}>
-              Felmex supports importers, exporters, distributors, and project cargo teams with a
-              practical model: clear planning, visible execution, and strong control through every
-              handoff.
+            <p className="landing-overview-lede landing-reveal-item" style={{ '--reveal-delay': '260ms' }}>
+              We combine global reach with local expertise to deliver logistics solutions that drive
+              efficiency, reduce costs, and connect your business to new opportunities.
             </p>
-            <div className="landing-overview-actions landing-reveal-item" style={{ '--reveal-delay': '460ms' }}>
-              <a className="landing-primary-link" href="#services-catalog">
-                Explore services
+            <div className="landing-overview-actions landing-reveal-item" style={{ '--reveal-delay': '360ms' }}>
+              <a className="landing-overview-button landing-overview-button--primary" href="/contact">
+                Contact Sales
               </a>
-              <a className="landing-secondary-link" href="/about">
-                About Felmex
+              <a className="landing-overview-button landing-overview-button--secondary" href="#services-catalog">
+                <span>Get Started</span>
+                <span className="landing-overview-button-arrow" aria-hidden="true">
+                  -&gt;
+                </span>
               </a>
             </div>
           </div>
 
-          <div className="landing-overview-stage">
-            <div className="landing-overview-visual landing-reveal-item" style={{ '--reveal-delay': '180ms' }}>
-              <picture>
-                <img
-                  className="landing-overview-image"
-                  src="/second-section-image-1420.webp"
-                  srcSet="/second-section-image-640.webp 640w, /second-section-image-960.webp 960w, /second-section-image-1420.webp 1420w"
-                  sizes="(min-width: 961px) min(64vw, 696px), (max-width: 640px) 43vw, 100vw"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  width="1420"
-                  height="947"
-                />
-              </picture>
-            </div>
-
-            <div
-              ref={overviewProcessRef}
-              className="landing-overview-chain"
-              role="list"
-              aria-label="Chain process"
+          <div className="landing-overview-statement-grid" aria-label="Felmex mission, vision, and company overview">
+            <article
+              className="landing-overview-statement landing-overview-statement--about landing-reveal-item"
+              style={{ '--reveal-delay': '0ms' }}
             >
-              {OVERVIEW_CHAIN_STEPS.map((step, index) => (
-                <div className="landing-overview-chain-segment" key={step.title}>
-                  <article className="landing-overview-chain-card" role="listitem">
-                    <span className="landing-overview-chain-number">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <div className="landing-overview-chain-icon" aria-hidden="true">
-                      <OverviewProcessIcon kind={step.icon} />
-                    </div>
-                    <div className="landing-overview-chain-copy">
-                      <p className="landing-overview-chain-title">{step.title}</p>
-                      <p className="landing-overview-chain-text">{step.text}</p>
-                    </div>
-                  </article>
-                  {index < OVERVIEW_CHAIN_STEPS.length - 1 ? (
-                    <div className="landing-overview-chain-link" aria-hidden="true">
-                      <span className="landing-overview-chain-link-line" />
-                      <span className="landing-overview-chain-link-arrow" />
-                    </div>
-                  ) : null}
-                </div>
-              ))}
-            </div>
+              <div className="landing-overview-icon" aria-hidden="true">
+                <HomeOverviewIcon kind="about" />
+              </div>
+              <h3>About Us</h3>
+              <span className="landing-overview-card-rule" aria-hidden="true" />
+              <p>
+                FELMEX Global Logistics is an envisioned global multimodal service provider,
+                delivering integrated solutions across air, sea, road, and rail. We simplify complex
+                supply chains, connect businesses to international markets, and ensure efficiency,
+                transparency, and reliability at every step.
+              </p>
+            </article>
+            <article
+              className="landing-overview-statement landing-overview-statement--mission landing-reveal-item"
+              style={{ '--reveal-delay': '90ms' }}
+            >
+              <div className="landing-overview-icon" aria-hidden="true">
+                <HomeOverviewIcon kind="mission" />
+              </div>
+              <h3>Mission</h3>
+              <span className="landing-overview-card-rule" aria-hidden="true" />
+              <p>
+                FELMEX Global Logistics exists to simplify complexity in international trade. We
+                integrate air, sea, road, and rail services into one cohesive network, ensuring
+                reliable, transparent, and future-ready supply chain solutions for our partners
+                worldwide.
+              </p>
+            </article>
+            <article className="landing-overview-statement landing-overview-statement--vision landing-reveal-item">
+              <div className="landing-overview-icon" aria-hidden="true">
+                <HomeOverviewIcon kind="vision" />
+              </div>
+              <span className="landing-overview-card-rule" aria-hidden="true" />
+              <h3>Vision</h3>
+              <p>
+                Redefine global logistics by delivering seamless, multimodal solutions that connect
+                businesses, markets, and communities with efficiency &amp; integrity.
+              </p>
+            </article>
           </div>
         </div>
 
@@ -2190,7 +2031,7 @@ export function HomePage() {
             className="landing-services-list"
             aria-label="Core service lines"
           >
-            {HOME_SERVICE_FEATURES.map((service) => (
+            {HOME_SERVICE_FEATURES.map((service, index) => (
               <article className="landing-service-entry" key={service.label}>
                 <div className="landing-service-copy">
                   <ServiceCatalogIcon kind={service.icon} />
@@ -2222,11 +2063,12 @@ export function HomePage() {
                   <img
                     className="landing-service-image"
                     src={service.image}
+                    srcSet={getServiceCatalogSrcSet(service.image)}
                     alt=""
                     loading="lazy"
                     decoding="async"
-                    fetchpriority="low"
-                    sizes="(min-width: 1081px) 58vw, 100vw"
+                    fetchpriority={index < 2 ? 'auto' : 'low'}
+                    sizes={SERVICE_CATALOG_IMAGE_SIZES}
                     width={service.imageWidth}
                     height={service.imageHeight}
                   />
