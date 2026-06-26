@@ -6,11 +6,9 @@ import { ONGOING_PROJECTS } from './projects/data';
 import {
   CLIENT_QUOTES,
   FINAL_CTA_FEATURES,
-  LANDING_STATS,
   TESTIMONIAL_STACK_MOBILE_QUERY,
 } from './home/data';
 
-const LANDING_METRIC_COPIES = 4;
 const HOME_PROJECT_THUMBNAIL_COPIES = 2;
 const HOME_PROJECT_PREVIEW =
   ONGOING_PROJECTS.find((project) => project.id === 'border-continuity') ?? ONGOING_PROJECTS[0];
@@ -24,7 +22,7 @@ const HOME_PROJECT_PREVIEW_SERVICES = HOME_PROJECT_PREVIEW.services.slice(0, 2);
 const HERO_MEDIA_READY_TIMEOUT_MS = 1800;
 const SERVICE_CATALOG_IMAGE_WIDTHS = [640, 960, 1280];
 const SERVICE_CATALOG_IMAGE_SIZES =
-  '(min-width: 1081px) min(36rem, 52vw), (max-width: 640px) 82vw, 100vw';
+  '(min-width: 1081px) min(60rem, 68vw), (max-width: 640px) 92vw, 100vw';
 const HOME_MOBILE_PROJECTS = [
   HOME_PROJECT_PREVIEW,
   ...ONGOING_PROJECTS.filter((project) => project.id !== HOME_PROJECT_PREVIEW.id),
@@ -85,99 +83,97 @@ const TESTIMONIAL_PARTNERS = [
 const HOME_SERVICE_FEATURES = [
   {
     number: '01',
-    label: 'Air Freight',
+    label: 'Multimodal Transport Solutions',
     icon: 'air',
-    image: '/felmex-colors-air.webp',
-    imageWidth: 1280,
-    imageHeight: 853,
-    href: '/services#svc-deep-dive-air-freight',
-    summary:
-      'Priority air movements for time-sensitive cargo, with routing, uplift coordination, and handoff visibility kept in one operating flow.',
-    details: ['Urgent cargo planning', 'Airport handling coordination', 'Clear status updates'],
+    image: '/hero-air-panel.webp',
+    imageWidth: 209,
+    imageHeight: 871,
+    imageWidths: [209],
+    href: '/services',
+    summary: 'Seamless integration of air, sea, road, and rail across one accountable operating plan.',
+    mediaTone: 'air',
   },
   {
     number: '02',
-    label: 'Sea Freight',
+    label: 'International Freight Forwarding',
     icon: 'sea',
     image: '/ship-service-catalog.webp',
     imageWidth: 1280,
     imageHeight: 853,
     href: '/services#svc-deep-dive-sea-freight',
-    summary:
-      'Ocean freight support for planned volume, FCL/LCL moves, and port-side coordination from booking through release.',
-    details: ['Carrier and sailing options', 'Port documentation support', 'Container movement control'],
+    summary: 'End-to-end cargo movement across global trade routes, carrier options, and port handoffs.',
+    mediaTone: 'ship',
   },
   {
     number: '03',
-    label: 'Rail Freight',
-    icon: 'rail',
-    image: '/service-rail-3d-cutout-v2.webp',
-    imageWidth: 1280,
-    imageHeight: 853,
-    href: '/services#svc-deep-dive-rail-freight',
-    summary:
-      'Rail-linked freight for stable corridors, heavy cargo, and inland connectivity where predictability matters more than improvisation.',
-    details: ['Corridor planning', 'Containerized rail movement', 'Inland handoff coordination'],
+    label: 'Customs & Trade Facilitation',
+    icon: 'customs',
+    image: '/hero-road-panel.webp',
+    imageWidth: 864,
+    imageHeight: 1821,
+    imageWidths: [864],
+    href: '/services#svc-deep-dive-customs-clearance-brokerage',
+    summary: 'Clearance expertise, document discipline, and compliance support before border friction builds.',
+    mediaTone: 'road',
   },
   {
     number: '04',
-    label: 'Road Freight',
-    icon: 'road',
-    image: '/road-service-catalog.webp',
-    imageWidth: 1280,
-    imageHeight: 720,
-    href: '/services#svc-deep-dive-road-freight',
-    summary:
-      'Dependable inland movement for domestic and cross-border cargo, with routing, dispatch, and delivery coordination handled end-to-end.',
-    details: ['Cross-border dispatch', 'Domestic route planning', 'Delivery handoff control'],
+    label: 'Supply Chain Management',
+    icon: 'rail',
+    image: '/hero-rail-panel.webp',
+    imageWidth: 864,
+    imageHeight: 1821,
+    imageWidths: [864],
+    href: '/services#svc-deep-dive-fmcg-inter-cross-border-distribution',
+    summary: 'Optimized workflows for efficient replenishment, handoff control, and cost-aware movement.',
+    mediaTone: 'rail',
   },
   {
     number: '05',
-    label: 'Cold & General Warehousing',
+    label: 'Warehousing & Distribution',
     icon: 'warehouse',
-    image: '/service-warehouse-3d-cutout-v2.webp',
-    imageWidth: 1280,
-    imageHeight: 853,
+    image: '/cold-general-warehousing.webp',
+    imageWidth: 1536,
+    imageHeight: 1024,
+    imageWidths: [1536],
     href: '/services#svc-deep-dive-cold-general-warehousing',
-    summary:
-      'Controlled storage, handling, and dispatch readiness for cold-chain and general cargo that needs visibility before release.',
-    details: ['Cold and ambient storage', 'Stock visibility controls', 'Pick-pack dispatch staging'],
-  },
-  {
-    number: '06',
-    label: 'OOG Project Logistics',
-    icon: 'project',
-    image: '/service-oog-project-3d-cutout-v2.webp',
-    imageWidth: 1280,
-    imageHeight: 853,
-    href: '/services#svc-deep-dive-oog-project-logistics',
-    summary:
-      'Specialist planning for oversized and project cargo, from route checks and permits through lift coordination and final placement.',
-    details: ['Route feasibility planning', 'Permit coordination', 'Specialist lift oversight'],
-  },
-  {
-    number: '07',
-    label: 'FMCG Inter-Cross Border Distribution',
-    icon: 'distribution',
-    image: '/felmex-overview-3d.webp',
-    imageWidth: 1280,
-    imageHeight: 860,
-    href: '/services#svc-deep-dive-distribution',
-    summary:
-      'Fast-moving regional distribution for FMCG replenishment cycles, with routing, dispatch, and delivery checkpoints kept visible.',
-    details: ['Replenishment lane planning', 'Multi-drop delivery coordination', 'Cycle performance visibility'],
+    summary: 'Secure storage, stock visibility, staging, and timely delivery from one controlled flow.',
+    mediaTone: 'warehouse',
   },
 ];
 
-function getResponsiveImagePath(imagePath, width) {
-  if (width === 1280) return imagePath;
+const HOME_CHOICE_FEATURES = [
+  {
+    number: '01',
+    icon: 'globe',
+    titleLines: ['Global reach', 'with local expertise'],
+    text: 'We operate across major international markets while keeping a strong understanding of local needs.',
+  },
+  {
+    number: '02',
+    icon: 'shield',
+    titleLines: ['Transparent and', 'reliable operations'],
+    text: 'Our processes are built on clarity, accountability, and a commitment to getting it right, every time.',
+  },
+  {
+    number: '03',
+    icon: 'handshake',
+    titleLines: ['Trusted partnerships', 'built on integrity'],
+    text: 'We believe in long-term relationships founded on trust, respect, and delivering on our promises.',
+  },
+];
+
+function getResponsiveImagePath(imagePath, width, sourceWidth = 1280) {
+  if (width === sourceWidth) return imagePath;
 
   return imagePath.replace(/\.webp$/u, `-${width}.webp`);
 }
 
-function getServiceCatalogSrcSet(imagePath) {
-  return SERVICE_CATALOG_IMAGE_WIDTHS.map(
-    (width) => `${getResponsiveImagePath(imagePath, width)} ${width}w`
+function getServiceCatalogSrcSet(service) {
+  const widths = service.imageWidths ?? SERVICE_CATALOG_IMAGE_WIDTHS;
+
+  return widths.map(
+    (width) => `${getResponsiveImagePath(service.image, width, service.imageWidth)} ${width}w`
   ).join(', ');
 }
 
@@ -271,6 +267,25 @@ function ServiceCatalogIcon({ kind }) {
         />
       </>
     ),
+    customs: (
+      <>
+        <path
+          d="M12 4.1 5.2 6.8v5.5c0 3.7 2.7 6.6 6.8 7.6 4.1-1 6.8-3.9 6.8-7.6V6.8L12 4.1Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M9.1 12.2h5.8M9.1 9.7h5.8M10.2 14.8h3.6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+        />
+      </>
+    ),
     project: (
       <>
         <path
@@ -317,6 +332,79 @@ function ServiceCatalogIcon({ kind }) {
     <span className="landing-service-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24" focusable="false">
         {icons[kind] ?? icons.air}
+      </svg>
+    </span>
+  );
+}
+
+function WhyChooseIcon({ kind }) {
+  const icons = {
+    globe: (
+      <>
+        <circle
+          cx="12"
+          cy="12"
+          r="8.9"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+        />
+        <path
+          d="M3.6 9.1c2.8.4 4.7 1.5 5.8 3.3 1 1.7.8 3.6-.5 5.8m5.8-14.4c-.8 1.4-1 2.8-.5 4 .5 1.3 1.8 2.2 3.9 2.8M6.7 5.9c1.6.8 3.1 1.1 4.4.8 1.3-.2 2.5-1 3.6-2.2M20.7 11.6c-1.5-.4-2.8-.2-3.9.4-1.3.8-2.2 2.2-2.7 4.4-.2 1-.1 2 .2 3M10.2 20.6c.6-1.9.4-3.5-.6-4.7-.7-.9-1.8-1.4-3.3-1.7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    shield: (
+      <>
+        <path
+          d="M12 3.5 5.4 6.1v5.4c0 4.1 2.6 7.4 6.6 8.8 4-1.4 6.6-4.7 6.6-8.8V6.1L12 3.5Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m8.8 12.2 2.1 2.1 4.4-4.7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    handshake: (
+      <>
+        <path
+          d="m3.2 12.9 2.2-5.1 3.3 1.4-2.2 5.1-3.3-1.4Zm17.6 0-2.2-5.1-3.3 1.4 2.2 5.1 3.3-1.4Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.55"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m7.1 13.4 2.1-2.1a2.15 2.15 0 0 1 3 0l.6.6 1.1-1.1a2.05 2.05 0 0 1 2.9 0l.5.5m-7.7 5.3.7.7a1.22 1.22 0 0 0 1.7-1.7l.6.6a1.22 1.22 0 0 0 1.7-1.7l.6.6a1.22 1.22 0 0 0 1.7-1.7l-4.1-4.1m-5.5 4.6 1.7 1.7m7.6-2.9-2.8-2.8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.55"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+  };
+
+  return (
+    <span className={`landing-why-card-icon landing-why-card-icon--${kind}`} aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        {icons[kind] ?? icons.globe}
       </svg>
     </span>
   );
@@ -770,6 +858,7 @@ export function HomePage() {
   const [isOverviewVisible, setIsOverviewVisible] = useState(false);
   const [isTestimonialsTitleDropped, setIsTestimonialsTitleDropped] = useState(false);
   const [isCloseVisible, setIsCloseVisible] = useState(false);
+  const [activeServiceIndex, setActiveServiceIndex] = useState(0);
   const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(1);
   const [activeMobileProjectIndex, setActiveMobileProjectIndex] = useState(0);
   const [testimonialSlideDirection, setTestimonialSlideDirection] = useState('next');
@@ -1064,7 +1153,7 @@ export function HomePage() {
         const image = new Image();
         image.decoding = 'async';
         image.sizes = SERVICE_CATALOG_IMAGE_SIZES;
-        image.srcset = getServiceCatalogSrcSet(service.image);
+        image.srcset = getServiceCatalogSrcSet(service);
 
         if ('fetchPriority' in image) {
           image.fetchPriority = index < 2 ? 'high' : 'auto';
@@ -1091,6 +1180,55 @@ export function HomePage() {
     observer.observe(list);
 
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const list = servicesListRef.current;
+    if (!list || typeof window === 'undefined') return undefined;
+
+    const serviceEntries = Array.from(list.querySelectorAll('.landing-service-entry'));
+    let frameId = null;
+
+    const syncActiveService = () => {
+      frameId = null;
+
+      const targetY = window.innerHeight * 0.48;
+      let nextIndex = 0;
+      let shortestDistance = Number.POSITIVE_INFINITY;
+
+      serviceEntries.forEach((entry, index) => {
+        const rect = entry.getBoundingClientRect();
+        const cardFocusY = rect.top + rect.height * 0.42;
+        const distance = Math.abs(cardFocusY - targetY);
+
+        if (distance < shortestDistance) {
+          shortestDistance = distance;
+          nextIndex = index;
+        }
+      });
+
+      setActiveServiceIndex((currentIndex) =>
+        currentIndex === nextIndex ? currentIndex : nextIndex
+      );
+    };
+
+    const queueActiveServiceSync = () => {
+      if (frameId !== null) return;
+      frameId = window.requestAnimationFrame(syncActiveService);
+    };
+
+    queueActiveServiceSync();
+    window.addEventListener('scroll', queueActiveServiceSync, { passive: true });
+    window.addEventListener('resize', queueActiveServiceSync);
+
+    return () => {
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+
+      window.removeEventListener('scroll', queueActiveServiceSync);
+      window.removeEventListener('resize', queueActiveServiceSync);
+    };
   }, []);
 
   useEffect(() => {
@@ -1982,40 +2120,39 @@ export function HomePage() {
           </div>
 
           {!isMobileViewport ? (
-            <figure className="hero-visual hero-visual--right" aria-label="Felmex global coverage highlights">
-              <img
-                ref={heroRightImageRef}
-                className="hero-right-legacy-image"
-                src="/final-right.webp"
-                alt=""
-                width="1024"
-                height="1536"
-                fetchpriority="high"
-                loading="eager"
-                decoding="sync"
-              />
-              <div className="hero-right-board" aria-hidden="true">
-                <div className="hero-right-card hero-right-card--coverage">
-                  <div className="hero-coverage-icons">
-                    <HeroTransportIcon kind="air" />
-                    <span className="hero-coverage-dot" />
-                    <HeroTransportIcon kind="sea" />
-                    <span className="hero-coverage-dot" />
-                    <HeroTransportIcon kind="road" />
-                    <span className="hero-coverage-dot" />
-                    <HeroTransportIcon kind="rail" />
-                  </div>
-                  <p>Multimodal Coverage</p>
+            <figure className="hero-visual hero-visual--right" aria-label="Felmex multimodal routes">
+              <div className="hero-right-stair" aria-hidden="true">
+                <div className="hero-route-panel hero-route-panel--road">
+                  <img
+                    ref={heroRightImageRef}
+                    src="/hero-road-panel.webp"
+                    alt=""
+                    width="864"
+                    height="1821"
+                    fetchpriority="high"
+                    loading="eager"
+                    decoding="sync"
+                  />
                 </div>
-                <div className="hero-right-card hero-right-card--countries">
-                  <p className="hero-country-value">6+</p>
-                  <p className="hero-country-label">Continents Served</p>
-                  <p className="hero-trusted-note">Trusted by businesses across <strong>Africa, Europe, Asia, the Middle East, the Americas, and Oceania</strong>.</p>
+                <div className="hero-route-panel hero-route-panel--rail">
+                  <img
+                    src="/hero-rail-panel.webp"
+                    alt=""
+                    width="864"
+                    height="1821"
+                    loading="eager"
+                    decoding="async"
+                  />
                 </div>
-                <div className="hero-right-card hero-right-card--partner">
-                  <HeroTransportIcon kind="partner" />
-                  <p className="hero-partner-title">East Africa&rsquo;s Global Partner</p>
-                  <p className="hero-partner-label">Trusted Supply Chain Solutions</p>
+                <div className="hero-route-panel hero-route-panel--air">
+                  <img
+                    src="/hero-air-panel.webp"
+                    alt=""
+                    width="209"
+                    height="871"
+                    loading="eager"
+                    decoding="async"
+                  />
                 </div>
               </div>
             </figure>
@@ -2106,78 +2243,56 @@ export function HomePage() {
           </div>
         </div>
 
-        <div className="landing-metric-marquee">
-          <div className="landing-metric-scroll-layer">
-            <div
-              className="landing-metric-track"
-              aria-label="Key company metrics"
-              style={{ '--landing-metric-copy-count': LANDING_METRIC_COPIES }}
-            >
-              {Array.from({ length: LANDING_METRIC_COPIES }).map((_, groupIndex) => (
-                <div
-                  key={`landing-metric-group-${groupIndex}`}
-                  className="landing-metric-track-group"
-                  role={groupIndex === 0 ? 'list' : 'presentation'}
-                  aria-hidden={groupIndex === 0 ? undefined : 'true'}
-                >
-                  {LANDING_STATS.map((item) => (
-                    <article
-                      key={`${groupIndex}-${item.label}`}
-                      className="landing-metric-card landing-metric-card--strip"
-                      role={groupIndex === 0 ? 'listitem' : undefined}
-                    >
-                      <p className="landing-metric-value">{item.value}</p>
-                      <h3 className="landing-metric-label">{item.label}</h3>
-                      <p className="landing-metric-detail">{item.detail}</p>
-                    </article>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
       </section>
 
       <section id="services" className="landing-services" aria-label="Services overview">
         <div className="container landing-services-shell" id="services-catalog">
+          <aside className="landing-services-aside" aria-label="Services section introduction">
+            <div className="landing-services-sticky">
+              <p className="landing-section-label">Our services</p>
+              <h2 className="landing-section-title landing-services-title">
+                <span className="landing-title-line">
+                  <span>Moving Cargo</span>
+                </span>
+                <span className="landing-title-line">
+                  <span>Without</span>
+                </span>
+                <span className="landing-title-line landing-title-line--accent">
+                  <span>Compromise.</span>
+                </span>
+              </h2>
+              <span className="landing-services-rule" aria-hidden="true" />
+              <p className="landing-section-text landing-services-intro">
+                End-to-end logistics solutions powered by global reach, advanced technology, and a
+                commitment to excellence.
+              </p>
+              <a className="landing-secondary-link landing-services-link" href="/services">
+                <span className="landing-services-link-icon" aria-hidden="true">
+                  -&gt;
+                </span>
+                <span>View all services</span>
+              </a>
+            </div>
+          </aside>
+
           <div
             ref={servicesListRef}
             className="landing-services-list"
             aria-label="Core service lines"
           >
             {HOME_SERVICE_FEATURES.map((service, index) => (
-              <article className="landing-service-entry" key={service.label}>
-                <div className="landing-service-copy">
-                  <ServiceCatalogIcon kind={service.icon} />
-                  <div className="landing-service-body">
-                    <p className="landing-service-index">{service.number}</p>
-                    <h3 className="landing-service-name">{service.label}</h3>
-                    <p className="landing-service-summary">{service.summary}</p>
-                    <ul className="landing-service-points" aria-label={`${service.label} support areas`}>
-                      {service.details.map((detail) => (
-                        <li key={detail}>{detail}</li>
-                      ))}
-                    </ul>
-                    <a className="landing-service-learn-link" href={service.href}>
-                      <span>Learn more</span>
-                      <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
-                        <path
-                          d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.8"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
+              <article
+                id={`home-service-${service.number}`}
+                className={`landing-service-entry landing-service-entry--${service.mediaTone}${
+                  activeServiceIndex === index ? ' is-active' : ''
+                }`}
+                key={service.label}
+              >
                 <figure className="landing-service-figure">
                   <img
                     className="landing-service-image"
                     src={service.image}
-                    srcSet={getServiceCatalogSrcSet(service.image)}
+                    srcSet={getServiceCatalogSrcSet(service)}
                     alt=""
                     loading="lazy"
                     decoding="async"
@@ -2187,56 +2302,56 @@ export function HomePage() {
                     height={service.imageHeight}
                   />
                 </figure>
+                <div className="landing-service-copy">
+                  <p className="landing-service-index">{service.number}</p>
+                  <span className="landing-service-rule" aria-hidden="true" />
+                  <ServiceCatalogIcon kind={service.icon} />
+                  <div className="landing-service-body">
+                    <h3 className="landing-service-name">{service.label}</h3>
+                    <p className="landing-service-summary">{service.summary}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="why-choose-felmex" className="landing-why" aria-labelledby="why-choose-title">
+        <div className="landing-why-shell">
+          <div className="landing-why-staircase" role="list" aria-label="Reasons to choose Felmex">
+            {HOME_CHOICE_FEATURES.map((feature) => (
+              <article className="landing-why-card" key={feature.number} role="listitem">
+                <span className="landing-why-card-number">{feature.number}</span>
+                <div className="landing-why-card-content">
+                  <WhyChooseIcon kind={feature.icon} />
+                  <h3>
+                    {feature.titleLines.map((line) => (
+                      <span key={line}>{line}</span>
+                    ))}
+                  </h3>
+                  <span className="landing-why-card-rule" aria-hidden="true" />
+                  <p>{feature.text}</p>
+                </div>
               </article>
             ))}
           </div>
 
-          <div className="landing-services-mobile-action" aria-label="Services section action">
-            <a className="landing-secondary-link landing-services-link" href="/services">
-              <span>View all services</span>
-              <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
-                <path
-                  d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
+          <div className="landing-why-copy">
+            <p className="landing-why-kicker">Why choose Felmex?</p>
+            <span className="landing-why-copy-rule" aria-hidden="true" />
+            <h2 id="why-choose-title" className="landing-why-title">
+              <span>More than logistics.</span>
+              <span>A partnership</span>
+              <span>
+                you can <strong>trust.</strong>
+              </span>
+            </h2>
+            <p className="landing-why-text">
+              We combine global reach with local expertise to deliver solutions that drive
+              efficiency, reduce costs, and connect your business to new opportunities.
+            </p>
           </div>
-
-          <aside className="landing-services-aside" aria-label="Services section introduction">
-            <div className="landing-services-sticky">
-              <p className="landing-section-label">Core service lines</p>
-              <h2 className="landing-section-title landing-services-title">
-                <span className="landing-title-line">
-                  <span>Services built around the way</span>
-                </span>
-                <span className="landing-title-line landing-title-line--accent">
-                  <span>cargo actually moves.</span>
-                </span>
-              </h2>
-              <p className="landing-section-text landing-services-intro">
-                Start with the major lanes. Each service is planned around clear routing, practical
-                handoffs, and updates your team can act on.
-              </p>
-              <a className="landing-secondary-link landing-services-link" href="/services">
-                <span>View all services</span>
-                <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
-                  <path
-                    d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </a>
-            </div>
-          </aside>
         </div>
       </section>
 
