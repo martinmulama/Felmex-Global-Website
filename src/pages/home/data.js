@@ -66,12 +66,12 @@ export const CLIENT_QUOTES = [
   },
   {
     mark: 'PA',
-    companyShort: 'Pan-African',
+    companyShort: 'Pharmaceutical',
     sector: 'Distributor',
     image: '/testimonials/testimonial-test-1.webp',
     quote: 'Clear comms. Fewer delays. Stronger results.',
     role: 'Logistics Operations Head',
-    company: 'Pan-African Distributor',
+    company: 'Pharmaceutical Distributor',
     tone: 'is-sage',
   },
 ];
@@ -108,5 +108,3 @@ export const OVERVIEW_CHAIN_STEPS = [
     icon: 'truck',
   },
 ];
-
-export const TESTIMONIAL_STACK_MOBILE_QUERY = '(max-width: 900px)';

@@ -3,11 +3,7 @@ import './HomePage.css';
 import { CONTACT_CHANNELS } from '../data/contact';
 import { MQ } from '../constants/breakpoints';
 import { ONGOING_PROJECTS } from './projects/data';
-import {
-  CLIENT_QUOTES,
-  FINAL_CTA_FEATURES,
-  TESTIMONIAL_STACK_MOBILE_QUERY,
-} from './home/data';
+import { CLIENT_QUOTES, FINAL_CTA_FEATURES } from './home/data';
 
 const HOME_PROJECT_THUMBNAIL_COPIES = 2;
 const HOME_PROJECT_PREVIEW =
@@ -19,7 +15,6 @@ const HOME_PROJECT_PREVIEW_PARAGRAPHS = [
 ];
 const HOME_PROJECT_PREVIEW_META = HOME_PROJECT_PREVIEW.meta.slice(-2);
 const HOME_PROJECT_PREVIEW_SERVICES = HOME_PROJECT_PREVIEW.services.slice(0, 2);
-const HERO_MEDIA_READY_TIMEOUT_MS = 1800;
 const SERVICE_CATALOG_IMAGE_WIDTHS = [640, 960, 1280];
 const SERVICE_CATALOG_IMAGE_SIZES =
   '(min-width: 1081px) min(60rem, 68vw), (max-width: 640px) 92vw, 100vw';
@@ -72,14 +67,6 @@ const OOG_PROJECT_CAPABILITIES = [
     image: '/road-freight.webp',
   },
 ];
-const TESTIMONIAL_PARTNERS = [
-  { name: 'Maersk', logo: '/partners/maersk.svg' },
-  { name: 'DHL', logo: '/partners/dhl.svg' },
-  { name: 'Nestle' },
-  { name: 'Olam' },
-  { name: 'Dangote' },
-];
-
 const HOME_SERVICE_FEATURES = [
   {
     number: '01',
@@ -736,105 +723,9 @@ function clearInlineMotionStyles(elements, properties) {
   });
 }
 
-function HeroTransportIcon({ kind }) {
-  const icons = {
-    air: (
-      <path
-        d="M12 3.7v16.6M4.4 13.7 12 9.6l7.6 4.1M7.3 19.2 12 16.5l4.7 2.7"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    ),
-    sea: (
-      <>
-        <path
-          d="M5.2 13.1h13.6l-1.8 4.2H7l-1.8-4.2ZM7.4 12.9V9.3h9.2v3.6M10 9.3V6.8h4v2.5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.9"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M5.3 19.5c.9.6 1.8.6 2.7 0s1.8-.6 2.7 0 1.8.6 2.7 0 1.8-.6 2.7 0 1.8.6 2.7 0"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.7"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    road: (
-      <>
-        <path
-          d="M3.8 8.3h10.1v7H3.8v-7Zm10.1 2h3.4l2.9 2.8v2.2h-6.3v-5Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.9"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="7.1" cy="17.2" r="1.5" fill="none" stroke="currentColor" strokeWidth="1.9" />
-        <circle cx="16.9" cy="17.2" r="1.5" fill="none" stroke="currentColor" strokeWidth="1.9" />
-      </>
-    ),
-    rail: (
-      <>
-        <path
-          d="M8.1 4.6h7.8a2 2 0 0 1 2 2v8.7a2 2 0 0 1-2 2H8.1a2 2 0 0 1-2-2V6.6a2 2 0 0 1 2-2Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.9"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M8.5 8.3h7M8.5 12.1h7M9.1 20l2-2.7m3.8 0 2 2.7"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.9"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    partner: (
-      <>
-        <path
-          d="m8.5 11.4 2.5-2.5a2.2 2.2 0 0 1 3.1 0l1 1 1.4-1.4a2.1 2.1 0 0 1 3 0l1.5 1.5-4.2 5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.55"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="m3 10 1.5-1.5a2.1 2.1 0 0 1 3 0l4.6 4.6a1.5 1.5 0 0 1-2.1 2.1l-.4-.4a1.5 1.5 0 0 1-2.1 2.1l-.5-.5a1.5 1.5 0 0 1-2.1 2.1L3 16.6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.55"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-  };
-
-  return (
-    <svg className={`hero-right-icon hero-right-icon--${kind}`} viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-      {icons[kind] ?? icons.air}
-    </svg>
-  );
-}
-
 export function HomePage() {
   const overviewRef = useRef(null);
   const testimonialsSectionRef = useRef(null);
-  const testimonialsPartnersRef = useRef(null);
   const journalSectionRef = useRef(null);
   const journalPinWrapperRef = useRef(null);
   const journalDesktopStageRef = useRef(null);
@@ -849,24 +740,14 @@ export function HomePage() {
   const journalMobileScrollFrameRef = useRef(null);
   const closeSectionRef = useRef(null);
   const servicesListRef = useRef(null);
-  const heroVideoRef = useRef(null);
-  const heroRightImageRef = useRef(null);
   const serviceImagePreloadersRef = useRef([]);
   const hasPreloadedServiceImagesRef = useRef(false);
   const testimonialsTitleDroppedRef = useRef(false);
-  const [isHeroEntered, setIsHeroEntered] = useState(false);
   const [isOverviewVisible, setIsOverviewVisible] = useState(false);
   const [isTestimonialsTitleDropped, setIsTestimonialsTitleDropped] = useState(false);
   const [isCloseVisible, setIsCloseVisible] = useState(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
-  const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(1);
   const [activeMobileProjectIndex, setActiveMobileProjectIndex] = useState(0);
-  const [testimonialSlideDirection, setTestimonialSlideDirection] = useState('next');
-  const [isTestimonialStackMobile, setIsTestimonialStackMobile] = useState(
-    () =>
-      typeof window !== 'undefined' &&
-      window.matchMedia(TESTIMONIAL_STACK_MOBILE_QUERY).matches
-  );
   const [isMobileViewport, setIsMobileViewport] = useState(
     () =>
       typeof window !== 'undefined' &&
@@ -878,40 +759,6 @@ export function HomePage() {
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
 
-  const showPreviousTestimonial = () => {
-    setTestimonialSlideDirection('previous');
-    setActiveTestimonialIndex((currentIndex) =>
-      currentIndex === 0 ? CLIENT_QUOTES.length - 1 : currentIndex - 1
-    );
-  };
-
-  const showNextTestimonial = () => {
-    setTestimonialSlideDirection('next');
-    setActiveTestimonialIndex((currentIndex) =>
-      currentIndex === CLIENT_QUOTES.length - 1 ? 0 : currentIndex + 1
-    );
-  };
-
-  const showTestimonial = (targetIndex) => {
-    if (targetIndex === activeTestimonialIndex) return;
-
-    const forwardDistance =
-      (targetIndex - activeTestimonialIndex + CLIENT_QUOTES.length) % CLIENT_QUOTES.length;
-    const backwardDistance =
-      (activeTestimonialIndex - targetIndex + CLIENT_QUOTES.length) % CLIENT_QUOTES.length;
-
-    setTestimonialSlideDirection(forwardDistance <= backwardDistance ? 'next' : 'previous');
-    setActiveTestimonialIndex(targetIndex);
-  };
-
-  const visibleTestimonials = [-1, 0, 1].map((offset) => {
-    const index = (activeTestimonialIndex + offset + CLIENT_QUOTES.length) % CLIENT_QUOTES.length;
-    return {
-      index,
-      isActive: offset === 0,
-      quote: CLIENT_QUOTES[index],
-    };
-  });
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
 
@@ -926,22 +773,6 @@ export function HomePage() {
 
     mediaQuery.addListener(syncMobileViewport);
     return () => mediaQuery.removeListener(syncMobileViewport);
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-
-    const mediaQuery = window.matchMedia(TESTIMONIAL_STACK_MOBILE_QUERY);
-    const syncTestimonialStackMode = () => setIsTestimonialStackMobile(mediaQuery.matches);
-    syncTestimonialStackMode();
-
-    if (typeof mediaQuery.addEventListener === 'function') {
-      mediaQuery.addEventListener('change', syncTestimonialStackMode);
-      return () => mediaQuery.removeEventListener('change', syncTestimonialStackMode);
-    }
-
-    mediaQuery.addListener(syncTestimonialStackMode);
-    return () => mediaQuery.removeListener(syncTestimonialStackMode);
   }, []);
 
   useEffect(() => {
@@ -1005,115 +836,6 @@ export function HomePage() {
       window.removeEventListener('resize', queueActiveMobileProjectSync);
     };
   }, [isMobileViewport]);
-
-  useEffect(() => {
-    const video = heroVideoRef.current;
-    const rightImage = heroRightImageRef.current;
-    let rafOne = null;
-    let rafTwo = null;
-    let timeoutId = null;
-    let isCancelled = false;
-    const cleanups = [];
-
-    const queueHeroEntrance = () => {
-      if (isCancelled) return;
-
-      rafOne = window.requestAnimationFrame(() => {
-        rafTwo = window.requestAnimationFrame(() => {
-          if (!isCancelled) {
-            setIsHeroEntered(true);
-          }
-        });
-      });
-    };
-
-    const attemptPlay = () => {
-      if (!video || !video.paused) return;
-
-      video.play().catch(() => {});
-    };
-
-    const waitForVideoFrame = () =>
-      new Promise((resolve) => {
-        if (!video || video.readyState >= 2) {
-          resolve();
-          return;
-        }
-
-        let isSettled = false;
-        const settle = () => {
-          if (isSettled) return;
-          isSettled = true;
-          video.removeEventListener('loadeddata', settle);
-          video.removeEventListener('canplay', settle);
-          video.removeEventListener('error', settle);
-          resolve();
-        };
-
-        video.addEventListener('loadeddata', settle, { once: true });
-        video.addEventListener('canplay', settle, { once: true });
-        video.addEventListener('error', settle, { once: true });
-        cleanups.push(settle);
-      });
-
-    const waitForRightImage = () =>
-      new Promise((resolve) => {
-        if (!rightImage) {
-          resolve();
-          return;
-        }
-
-        const decodeImage = () => {
-          if (typeof rightImage.decode !== 'function') {
-            resolve();
-            return;
-          }
-
-          rightImage.decode().catch(() => {}).then(resolve);
-        };
-
-        if (rightImage.complete && rightImage.naturalWidth > 0) {
-          decodeImage();
-          return;
-        }
-
-        let isSettled = false;
-        const settle = () => {
-          if (isSettled) return;
-          isSettled = true;
-          rightImage.removeEventListener('load', settle);
-          rightImage.removeEventListener('error', settle);
-          decodeImage();
-        };
-
-        rightImage.addEventListener('load', settle, { once: true });
-        rightImage.addEventListener('error', settle, { once: true });
-        cleanups.push(settle);
-      });
-
-    setIsHeroEntered(false);
-    attemptPlay();
-
-    const mediaReady = Promise.all([waitForVideoFrame(), waitForRightImage()]);
-    const fallbackReady = new Promise((resolve) => {
-      timeoutId = window.setTimeout(resolve, HERO_MEDIA_READY_TIMEOUT_MS);
-    });
-
-    Promise.race([mediaReady, fallbackReady]).then(() => {
-      if (isCancelled) return;
-
-      attemptPlay();
-      queueHeroEntrance();
-    });
-
-    return () => {
-      isCancelled = true;
-      cleanups.forEach((cleanup) => cleanup());
-      if (timeoutId !== null) window.clearTimeout(timeoutId);
-      if (rafOne !== null) window.cancelAnimationFrame(rafOne);
-      if (rafTwo !== null) window.cancelAnimationFrame(rafTwo);
-    };
-  }, []);
 
   useEffect(() => {
     const node = overviewRef.current;
@@ -1407,129 +1129,6 @@ export function HomePage() {
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, [prefersReducedMotion]);
-
-  useEffect(() => {
-    const node = testimonialsPartnersRef.current;
-    if (!node) return undefined;
-
-    const partnerLabel = node.querySelector('.landing-testimonial-partners-title');
-    const partnerItems = Array.from(node.querySelectorAll('.landing-testimonial-partner'));
-    const partnerPieces = [partnerLabel, ...partnerItems].filter(Boolean);
-    let animationContext = null;
-    let isCancelled = false;
-    let loadedGsap = null;
-
-    if (prefersReducedMotion) {
-      partnerPieces.forEach((piece) => {
-        piece.style.opacity = '1';
-        piece.style.visibility = 'visible';
-        piece.style.transform = 'none';
-        piece.style.clipPath = 'inset(0% 0% 0% 0%)';
-      });
-      return () => {
-        clearInlineMotionStyles(partnerPieces, [
-          'opacity',
-          'visibility',
-          'transform',
-          'clip-path',
-        ]);
-      };
-    }
-
-    partnerPieces.forEach((piece) => {
-      piece.style.opacity = '0';
-      piece.style.visibility = 'hidden';
-    });
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        observer.disconnect();
-
-        loadGsap().then((gsap) => {
-          if (isCancelled) return;
-          loadedGsap = gsap;
-          animationContext = gsap.context(() => {
-            gsap.set(partnerLabel, {
-              autoAlpha: 0,
-              x: -18,
-              clipPath: 'inset(0% 100% 0% 0%)',
-            });
-
-            partnerItems.forEach((partner, index) => {
-              const direction = ['bottom', 'top', 'left', 'right', 'bottom'][index % 5];
-              const offset = 20;
-
-              gsap.set(partner, {
-                autoAlpha: 0,
-                x: direction === 'left' ? -offset : direction === 'right' ? offset : 0,
-                y: direction === 'top' ? -offset : direction === 'bottom' ? offset : 0,
-                clipPath:
-                  direction === 'left'
-                    ? 'inset(0% 100% 0% 0%)'
-                    : direction === 'right'
-                      ? 'inset(0% 0% 0% 100%)'
-                      : direction === 'top'
-                        ? 'inset(100% 0% 0% 0%)'
-                        : 'inset(0% 0% 100% 0%)',
-              });
-            });
-
-            const timeline = gsap.timeline({
-              defaults: {
-                ease: 'power3.out',
-                overwrite: 'auto',
-              },
-            });
-
-            timeline.to(partnerLabel, {
-              autoAlpha: 1,
-              x: 0,
-              clipPath: 'inset(0% 0% 0% 0%)',
-              duration: 0.28,
-            });
-
-            partnerItems.forEach((partner, index) => {
-              timeline.to(
-                partner,
-                {
-                  autoAlpha: 1,
-                  x: 0,
-                  y: 0,
-                  clipPath: 'inset(0% 0% 0% 0%)',
-                  duration: 0.32,
-                },
-                index === 0 ? '>-0.06' : '>-0.16'
-              );
-            });
-          }, node);
-        });
-      },
-      {
-        threshold: 0.2,
-        rootMargin: '0px 0px -8% 0px',
-      }
-    );
-
-    observer.observe(node);
-    return () => {
-      isCancelled = true;
-      observer.disconnect();
-      animationContext?.revert();
-      if (loadedGsap) {
-        loadedGsap.set(partnerPieces, {
-          clearProps: 'opacity,visibility,transform,clipPath',
-        });
-      } else {
-        clearInlineMotionStyles(partnerPieces, [
-          'opacity',
-          'visibility',
-          'transform',
-          'clip-path',
-        ]);
-      }
-    };
   }, [prefersReducedMotion]);
 
   useLayoutEffect(() => {
@@ -2042,121 +1641,63 @@ export function HomePage() {
 
   return (
     <>
-      <section className={`hero${isHeroEntered ? ' is-hero-entered' : ''}`} aria-label="Felmex hero">
+      <section className="hero" aria-label="Felmex hero">
         <div className="hero-layout">
-          <figure className="hero-visual hero-visual--left" aria-label="Felmex logistics in motion">
+          <div className="hero-media" aria-hidden="true">
             <video
-              ref={heroVideoRef}
               className="hero-video"
-              width="540"
-              height="960"
+              src="/Final.mp4"
+              poster="/hero-video-poster.webp"
               autoPlay
               muted
               playsInline
-              preload="auto"
-              poster="/hero-video-poster.webp"
-              aria-hidden="true"
-            >
-              <source src="/Final.mp4" type="video/mp4" />
-            </video>
-          </figure>
+              preload="metadata"
+            />
+          </div>
 
-          <div className="hero-canvas" aria-label="Felmex brand promise">
-            <span className="hero-cross hero-cross--top-left" aria-hidden="true" />
-            <span className="hero-cross hero-cross--bottom-right" aria-hidden="true" />
-            <span className="hero-diagonal hero-diagonal--left" aria-hidden="true" />
-            <span className="hero-diagonal hero-diagonal--right" aria-hidden="true" />
+          <div className="hero-content">
+            <img
+              className="hero-logo"
+              src="/logo-transparent.png"
+              width="487"
+              height="170"
+              alt="Felmex Global Logistics"
+            />
 
-            <div className="hero-overlay">
-              <div className="hero-panel">
-                <img
-                  className="hero-logo"
-                  src="/logo-transparent.png"
-                  alt="Felmex Global Logistics"
-                  width="487"
-                  height="170"
-                  fetchpriority="high"
-                  loading="eager"
-                  decoding="async"
-                />
-                <span className="hero-rule" aria-hidden="true" />
-                <h1 className="hero-title">
-                  <span className="hero-title-line">
-                    <span>Delivering Tomorrow&rsquo;s</span>
-                  </span>
-                  <span className="hero-title-line">
-                    <span>
-                      Trade <span className="hero-title-accent">Today.</span>
-                    </span>
-                  </span>
-                </h1>
-                <span className="hero-rule hero-rule--small" aria-hidden="true" />
-                <p className="hero-brief">
-                  <span className="hero-brief-line">
-                    <span>From East Africa to the world&mdash;Felmex Global Logistics</span>
-                  </span>
-                  <span className="hero-brief-line">
-                    <span>delivers seamless multimodal freight, customs clearance,</span>
-                  </span>
-                  <span className="hero-brief-line">
-                    <span>and trade solutions for fast-moving global supply chains.</span>
-                  </span>
-                </p>
-                <a className="hero-cta" href="/contact">
-                  <span>Contact us</span>
-                  <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
-                    <path
-                      d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </a>
-              </div>
+            <div className="hero-copy">
+              <span className="hero-rule" aria-hidden="true" />
+              <h1 className="hero-title">
+                <span>Delivering Tomorrow&rsquo;s</span>
+                <span>
+                  Trade <strong>Today.</strong>
+                </span>
+              </h1>
+              <span className="hero-rule hero-rule--after" aria-hidden="true" />
+              <p className="hero-lede">
+                From East Africa to the world&mdash;Felmex Global Logistics delivers seamless
+                multimodal freight, customs clearance, and trade solutions for fast-moving global
+                supply chains.
+              </p>
+              <a className="hero-cta" href="/contact" aria-label="Contact Felmex Global Logistics">
+                <span>Contact Us</span>
+                <span className="hero-cta-arrow" aria-hidden="true">
+                  -&gt;
+                </span>
+              </a>
             </div>
           </div>
 
-          {!isMobileViewport ? (
-            <figure className="hero-visual hero-visual--right" aria-label="Felmex multimodal routes">
-              <div className="hero-right-stair" aria-hidden="true">
-                <div className="hero-route-panel hero-route-panel--road">
-                  <img
-                    ref={heroRightImageRef}
-                    src="/hero-road-panel.webp"
-                    alt=""
-                    width="864"
-                    height="1821"
-                    fetchpriority="high"
-                    loading="eager"
-                    decoding="sync"
-                  />
-                </div>
-                <div className="hero-route-panel hero-route-panel--rail">
-                  <img
-                    src="/hero-rail-panel.webp"
-                    alt=""
-                    width="864"
-                    height="1821"
-                    loading="eager"
-                    decoding="async"
-                  />
-                </div>
-                <div className="hero-route-panel hero-route-panel--air">
-                  <img
-                    src="/hero-air-panel.webp"
-                    alt=""
-                    width="209"
-                    height="871"
-                    loading="eager"
-                    decoding="async"
-                  />
-                </div>
-              </div>
+          <div className="hero-staircase" aria-hidden="true">
+            <figure className="hero-panel hero-panel--road">
+              <img src="/hero-road-panel.webp" width="864" height="1821" alt="" />
             </figure>
-          ) : null}
+            <figure className="hero-panel hero-panel--rail">
+              <img src="/hero-rail-panel.webp" width="864" height="1821" alt="" />
+            </figure>
+            <figure className="hero-panel hero-panel--air">
+              <img src="/hero-air-panel.webp" width="209" height="871" alt="" />
+            </figure>
+          </div>
         </div>
       </section>
 
@@ -2366,14 +1907,11 @@ export function HomePage() {
             <p className="landing-section-label">Client testimonials</p>
             <h2 className="landing-section-title landing-testimonials-title">
               <span className="landing-title-line landing-testimonials-title-line">
-                <span>
-                  Trusted by <span className="landing-testimonials-title-accent">operations teams</span>
-                </span>
+                <span>Driving Operations Across Africa</span>
               </span>
               <span className="landing-title-line landing-testimonials-title-line">
                 <span>
-                  across <span className="landing-testimonials-title-accent">Africa</span> and{' '}
-                  <span className="landing-testimonials-title-accent">global trade.</span>
+                  and <span className="landing-testimonials-title-accent">International markets.</span>
                 </span>
               </span>
             </h2>
@@ -2387,136 +1925,46 @@ export function HomePage() {
         <div className="landing-testimonials-bleed">
           <div className="landing-testimonials-content">
             <div
-              key={`${activeTestimonialIndex}-${testimonialSlideDirection}`}
-              className={`landing-testimonials-accordion is-active-1 is-sliding-${testimonialSlideDirection}`}
+              className="landing-testimonials-accordion"
               role="list"
               aria-label="Client testimonials"
             >
-              {visibleTestimonials.map(({ quote, index, isActive: isActiveSlide }) => {
-                const isActive = !isTestimonialStackMobile && isActiveSlide;
-                const isExpanded = isTestimonialStackMobile || isActive;
-                const detailId = `testimonial-detail-${index}`;
-
-                return (
-                  <article
-                    key={quote.company}
-                    className={`landing-testimonial-panel ${quote.tone}${isActive ? ' is-active' : ''}`}
-                    role="listitem"
-                  >
-                    <button
-                      type="button"
-                      className="landing-testimonial-trigger"
-                      onClick={
-                        isTestimonialStackMobile ? undefined : () => showTestimonial(index)
-                      }
-                      aria-expanded={isExpanded}
-                      aria-controls={detailId}
-                    >
-                      <div className="landing-testimonial-visual">
-                        <img
-                          className="landing-testimonial-photo"
-                          src={quote.image}
-                          alt=""
-                          aria-hidden="true"
-                          loading="lazy"
-                          decoding="async"
-                        />
-                        <div className="landing-testimonial-visual-copy">
-                          <p className="landing-testimonial-card-name">{quote.companyShort}</p>
-                          <p className="landing-testimonial-card-sector">{quote.sector}</p>
-                        </div>
-                      </div>
-
-                      <div
-                        id={detailId}
-                        className="landing-testimonial-detail"
-                        aria-hidden={false}
-                      >
-                        <span className="landing-testimonial-mark" aria-hidden="true">
-                          &ldquo;
-                        </span>
-                        <blockquote className="landing-testimonial-quote">
-                          &ldquo;{quote.quote}&rdquo;
-                        </blockquote>
-                        <span className="landing-testimonial-rule" aria-hidden="true" />
-                        <div className="landing-testimonial-meta">
-                          <p className="landing-testimonial-source">{quote.role}</p>
-                          <p className="landing-testimonial-company">{quote.company}</p>
-                        </div>
-                      </div>
-                    </button>
-                  </article>
-                );
-              })}
-            </div>
-            <button
-              type="button"
-              className="landing-testimonial-nav landing-testimonial-nav--previous"
-              onClick={showPreviousTestimonial}
-              aria-label="Show previous testimonial"
-            >
-              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                <path
-                  d="M14.8 5.6 8.4 12l6.4 6.4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <button
-              type="button"
-              className="landing-testimonial-nav landing-testimonial-nav--next"
-              onClick={showNextTestimonial}
-              aria-label="Show next testimonial"
-            >
-              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                <path
-                  d="m9.2 5.6 6.4 6.4-6.4 6.4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <div className="landing-testimonial-dots" aria-label="Select testimonial">
               {CLIENT_QUOTES.map((quote, index) => (
-                <button
+                <article
                   key={quote.company}
-                  type="button"
-                  className={index === activeTestimonialIndex ? 'is-active' : undefined}
-                  onClick={() => showTestimonial(index)}
-                  aria-label={`Show testimonial from ${quote.company}`}
-                  aria-current={index === activeTestimonialIndex ? 'true' : undefined}
-                />
-              ))}
-            </div>
-            <div
-              ref={testimonialsPartnersRef}
-              className="landing-testimonial-partners"
-              aria-label="Trusted by leading companies"
-            >
-              <p className="landing-testimonial-partners-title">Trusted by leading companies</p>
-              <div className="landing-testimonial-partner-row">
-                {TESTIMONIAL_PARTNERS.map((partner, index) => (
-                  <span
-                    className={`landing-testimonial-partner landing-testimonial-partner--from-${
-                      ['bottom', 'top', 'left', 'right', 'bottom'][index % 5]
-                    }`}
-                    key={partner.name}
-                  >
-                    {partner.logo ? (
-                      <img src={partner.logo} alt={partner.name} loading="lazy" decoding="async" />
-                    ) : (
-                      <span>{partner.name}</span>
-                    )}
+                  className={`landing-testimonial-panel ${quote.tone}`}
+                  role="listitem"
+                >
+                  <span className="landing-testimonial-index" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
                   </span>
-                ))}
-              </div>
+
+                  <div className="landing-testimonial-detail">
+                    <span className="landing-testimonial-mark" aria-hidden="true">
+                      &ldquo;
+                    </span>
+                    <blockquote className="landing-testimonial-quote">
+                      &ldquo;{quote.quote}&rdquo;
+                    </blockquote>
+                    <span className="landing-testimonial-rule" aria-hidden="true" />
+                    <div className="landing-testimonial-meta">
+                      <p className="landing-testimonial-source">{quote.role}</p>
+                      <p className="landing-testimonial-company">{quote.company}</p>
+                    </div>
+                  </div>
+
+                  <figure className="landing-testimonial-visual">
+                    <img
+                      className="landing-testimonial-photo"
+                      src={quote.image}
+                      alt=""
+                      aria-hidden="true"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </figure>
+                </article>
+              ))}
             </div>
           </div>
         </div>
