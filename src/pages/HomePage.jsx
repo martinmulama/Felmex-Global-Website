@@ -1,9 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './HomePage.css';
-import { CONTACT_CHANNELS } from '../data/contact';
 import { MQ } from '../constants/breakpoints';
 import { ONGOING_PROJECTS } from './projects/data';
-import { CLIENT_QUOTES, FINAL_CTA_FEATURES } from './home/data';
+import { CLIENT_QUOTES } from './home/data';
 
 const HOME_PROJECT_THUMBNAIL_COPIES = 2;
 const HOME_PROJECT_PREVIEW =
@@ -564,105 +563,6 @@ function HomeOverviewIcon({ kind }) {
     <svg viewBox="0 0 24 24" focusable="false">
       {icons[kind] ?? icons.vision}
     </svg>
-  );
-}
-
-function FinalCtaIcon({ kind }) {
-  const icons = {
-    shield: (
-      <>
-        <path
-          d="M12 3.6 6.4 5.8v4.6c0 3.6 2.2 6.8 5.6 8.2 3.4-1.4 5.6-4.6 5.6-8.2V5.8L12 3.6Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="m9.6 11.6 1.8 1.8 3.2-3.5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    clock: (
-      <>
-        <path
-          d="M12 5v2.1m0 9.8V19m7-7h-2.1M7.1 12H5m11.7 4.7-1.5-1.5M8.8 8.8 7.3 7.3"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.7"
-          strokeLinecap="round"
-        />
-        <circle
-          cx="12"
-          cy="12"
-          r="6.8"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.7"
-          strokeDasharray="1.8 2.6"
-          strokeLinecap="round"
-        />
-        <path
-          d="M12 9.1v3.2l2.4 1.3"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    user: (
-      <>
-        <circle cx="12" cy="8.4" r="3.1" fill="none" stroke="currentColor" strokeWidth="1.8" />
-        <path
-          d="M6.6 18.1c.7-2.6 2.9-4.1 5.4-4.1s4.7 1.5 5.4 4.1"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    plane: (
-      <path
-        d="M20.5 4.5 4.5 11l5.6 1.7 1.7 5.6 8.7-13.8Zm-9 7.2 5.2-2.2-2.6 3"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    ),
-    truck: (
-      <>
-        <path
-          d="M4.5 8h9v6.5h-9V8Zm9 2.2h3l2 2.1v2.2h-1.4"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="8" cy="17.2" r="1.7" fill="none" stroke="currentColor" strokeWidth="1.8" />
-        <circle cx="16" cy="17.2" r="1.7" fill="none" stroke="currentColor" strokeWidth="1.8" />
-      </>
-    ),
-  };
-
-  return (
-    <span className={`landing-close-feature-icon landing-close-feature-icon--${kind}`} aria-hidden="true">
-      <svg viewBox="0 0 24 24" focusable="false">
-        {icons[kind] ?? icons.user}
-      </svg>
-    </span>
   );
 }
 
@@ -1970,392 +1870,103 @@ export function HomePage() {
         </div>
       </section>
 
-      <section
-        id="blog"
-        ref={journalSectionRef}
-        className="landing-journal"
-        aria-label="Project previews"
-      >
-        <div ref={journalPinWrapperRef} className="landing-journal-pin-wrap">
-          <div ref={journalDesktopStageRef} className="landing-journal-shell">
-            <header className="landing-journal-expanse">
-              <p className="landing-section-label">Projects preview</p>
-              <h2
-                ref={journalTitleRef}
-                className="landing-section-title landing-journal-expanse-title landing-journal-title-stack"
-                aria-label={JOURNAL_PROJECT_TITLE}
-              >
+      <div className="scroll-wrapper landing-final-curtain">
+        <section
+          id="blog"
+          ref={journalSectionRef}
+          className="feature-section landing-journal"
+          aria-label="Project previews"
+        >
+          <div ref={journalPinWrapperRef} className="landing-journal-pin-wrap">
+            <div ref={journalDesktopStageRef} className="landing-journal-shell">
+              <div className="landing-project-preview-stage">
                 <span
-                  ref={journalTitleProjectRef}
-                  className="landing-journal-title-layer landing-journal-title-layer--project"
+                  className="landing-project-preview-ornament landing-project-preview-ornament--left"
                   aria-hidden="true"
                 >
-                  {JOURNAL_PROJECT_TITLE_LINES.map((line, index) => (
-                    <span className="landing-journal-title-segment" key={line}>
-                      {index === JOURNAL_PROJECT_TITLE_LINES.length - 1 ? (
-                        <span className="site-section-title-accent">{line}</span>
-                      ) : (
-                        line
-                      )}
-                    </span>
-                  ))}
+                  <svg viewBox="0 0 348 160" focusable="false">
+                    <path d="M0 1H169C174.5 1 179 5.5 179 11V52C179 57.5 183.5 62 189 62H262C267.5 62 272 66.5 272 72V113C272 118.5 276.5 123 282 123H338C343.5 123 347 127.5 347 133V160" />
+                  </svg>
                 </span>
                 <span
-                  ref={journalTitleOogRef}
-                  className="landing-journal-title-layer landing-journal-title-layer--oog"
+                  className="landing-project-preview-ornament landing-project-preview-ornament--right"
                   aria-hidden="true"
                 >
-                  {JOURNAL_OOG_TITLE_LINES.map((line, index) => (
-                    <span className="landing-journal-title-segment" key={line}>
-                      {index === JOURNAL_OOG_TITLE_LINES.length - 1 ? (
-                        <span className="site-section-title-accent">{line}</span>
-                      ) : (
-                        line
-                      )}
-                    </span>
-                  ))}
+                  <svg viewBox="0 0 348 160" focusable="false">
+                    <path d="M0 1H169C174.5 1 179 5.5 179 11V52C179 57.5 183.5 62 189 62H262C267.5 62 272 66.5 272 72V113C272 118.5 276.5 123 282 123H338C343.5 123 347 127.5 347 133V160" />
+                  </svg>
                 </span>
-              </h2>
-              <p className="landing-section-text landing-journal-expanse-copy">
-                A wider look at the cargo programs, customs handoffs, and inland routes Felmex
-                coordinates from port release to final site delivery.
-              </p>
-            </header>
+                <header className="landing-project-preview-intro">
+                  <p className="landing-project-preview-label">Projects Preview</p>
+                  <h2 className="landing-project-preview-title">
+                    Ongoing logistics
+                    <span>
+                      in motion<span className="landing-project-preview-dot">.</span>
+                    </span>
+                  </h2>
+                  <span className="landing-project-preview-rule" aria-hidden="true" />
+                  <p className="landing-project-preview-copy">
+                    <span>A wider look at the cargo programs, customs handoffs,</span>
+                    <span>and inland routes Felmex coordinates from port release</span>
+                    <span>to final site delivery.</span>
+                  </p>
+                  <a className="landing-project-preview-link" href="/blog">
+                    <span className="landing-project-preview-link-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <path
+                          d="M5 12h13M13 6.5 18.5 12 13 17.5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    <span>View all projects</span>
+                  </a>
+                </header>
 
-            <div className="landing-journal-split">
-              {!isMobileViewport ? (
-                <div
-                  className="landing-journal-pane landing-journal-pane--desk landing-journal-horizontal-stage"
-                >
-                  <div
-                    ref={journalDesktopViewportRef}
-                    className="landing-journal-horizontal-viewport"
-                    aria-label="Project preview and OOG capability panels"
-                  >
-                    <div ref={journalDesktopTrackRef} className="landing-journal-horizontal-track">
-                      <section className="landing-journal-horizontal-panel landing-journal-horizontal-panel--preview">
-                        <div className="landing-journal-editorial">
-                          <article className="landing-journal-preview">
-                            <div className="landing-journal-preview-shell">
-                              <div className="landing-journal-preview-copy">
-                                <div className="landing-journal-preview-meta">
-                                  <p className="landing-journal-preview-label">{HOME_PROJECT_PREVIEW.eyebrow}</p>
-                                  <p className="landing-journal-preview-kicker">Projects page preview</p>
-                                </div>
-                                <h3 className="landing-journal-preview-title">
-                                  <span className="landing-journal-preview-title-stage">
-                                    {HOME_PROJECT_PREVIEW.title}
-                                  </span>
-                                </h3>
-                                <div className="landing-journal-preview-body">
-                                  {HOME_PROJECT_PREVIEW_PARAGRAPHS.map((paragraph) => (
-                                    <p key={paragraph}>{paragraph}</p>
-                                  ))}
-                                </div>
-
-                                <div className="landing-journal-preview-meta-grid" role="list" aria-label="Project details">
-                                  {HOME_PROJECT_PREVIEW_META.map((item) => (
-                                    <div
-                                      key={item.label}
-                                      className="landing-journal-preview-meta-item"
-                                      role="listitem"
-                                    >
-                                      <span>{item.label}</span>
-                                      <span>{item.value}</span>
-                                    </div>
-                                  ))}
-                                </div>
-
-                                <div className="landing-journal-preview-services" role="list" aria-label="Services involved">
-                                  {HOME_PROJECT_PREVIEW_SERVICES.map((service) => (
-                                    <span key={service} className="landing-journal-preview-service" role="listitem">
-                                      {service}
-                                    </span>
-                                  ))}
-                                </div>
-
-                                <div className="landing-journal-preview-actions">
-                                  <a className="landing-journal-preview-cta landing-journal-preview-cta--ghost" href="/blog">
-                                    Explore projects
-                                  </a>
-                                </div>
-                              </div>
-
-                              <div className="landing-journal-preview-visual" aria-hidden="true">
-                                <figure className="landing-journal-preview-figure">
-                                  <img
-                                    src={HOME_PROJECT_PREVIEW.image}
-                                    alt=""
-                                    loading="lazy"
-                                    decoding="async"
-                                    width="1600"
-                                    height="1067"
-                                  />
-                                </figure>
-                                <div className="landing-journal-preview-visual-caption">
-                                  <span>{HOME_PROJECT_PREVIEW.index}</span>
-                                  <p>{HOME_PROJECT_PREVIEW.subtitle}</p>
-                                </div>
-                              </div>
-                            </div>
-                          </article>
-
-                          <aside className="landing-journal-thumbnails" aria-label="More project previews">
-                            <header className="landing-journal-thumbnails-head">
-                              <p>More projects</p>
-                              <a href="/blog">View all</a>
-                            </header>
-                            <div className="landing-journal-thumbnail-viewport">
-                              <div
-                                className="landing-journal-thumbnail-list"
-                                aria-label="More project previews"
-                                style={{ '--landing-project-thumbnail-copy-count': HOME_PROJECT_THUMBNAIL_COPIES }}
-                              >
-                                {Array.from({ length: HOME_PROJECT_THUMBNAIL_COPIES }).map((_, groupIndex) => (
-                                  <div
-                                    key={`landing-project-thumbnail-group-${groupIndex}`}
-                                    className="landing-journal-thumbnail-group"
-                                    role={groupIndex === 0 ? 'list' : 'presentation'}
-                                    aria-hidden={groupIndex === 0 ? undefined : 'true'}
-                                  >
-                                    {HOME_PROJECT_THUMBNAILS.map((project) => (
-                                      <a
-                                        key={`${groupIndex}-${project.id}`}
-                                        className="landing-journal-thumbnail"
-                                        href="/blog"
-                                        role={groupIndex === 0 ? 'listitem' : undefined}
-                                        tabIndex={groupIndex === 0 ? undefined : -1}
-                                      >
-                                        <figure className="landing-journal-thumbnail-figure">
-                                          <img
-                                            src={project.image}
-                                            alt=""
-                                            loading="lazy"
-                                            decoding="async"
-                                            width="720"
-                                            height="520"
-                                          />
-                                        </figure>
-                                        <div className="landing-journal-thumbnail-copy">
-                                          <span>{project.index}</span>
-                                          <h3>{project.title}</h3>
-                                          <p className="landing-journal-thumbnail-summary">{project.lead}</p>
-                                          <p className="landing-journal-thumbnail-meta">{project.readTime}</p>
-                                        </div>
-                                      </a>
-                                    ))}
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          </aside>
-                        </div>
-                      </section>
-
-                      {OOG_PROJECT_CAPABILITIES.map((capability) => (
-                        <article
-                          className="landing-journal-horizontal-panel landing-oog-card"
-                          key={capability.title}
-                          role="listitem"
-                        >
-                          <figure className="landing-oog-card-media">
-                            {capability.video ? (
-                              <video
-                                className="landing-oog-card-video"
-                                aria-hidden="true"
-                                muted
-                                loop
-                                playsInline
-                                preload="none"
-                                poster={capability.image}
-                                width="960"
-                                height="640"
-                              >
-                                <source src={capability.video} type="video/mp4" />
-                              </video>
-                            ) : (
-                              <img
-                                src={capability.image}
-                                alt=""
-                                loading="lazy"
-                                decoding="async"
-                                width="960"
-                                height="640"
-                              />
-                            )}
-                            <OogCapabilityIcon kind={capability.icon} />
-                            <span className="landing-oog-play" aria-hidden="true">
-                              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                                <path d="M9 7.4v9.2L16.4 12 9 7.4Z" fill="currentColor" />
-                              </svg>
-                            </span>
-                          </figure>
-                          <div className="landing-oog-card-body">
-                            <p className="landing-oog-card-index">{capability.index}</p>
-                            <h3>{capability.title}</h3>
-                            <p>{capability.text}</p>
-                          </div>
-                        </article>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ) : null}
-
-              <section className="landing-journal-mobile-showcase" aria-label="Featured projects">
-                <header className="landing-journal-mobile-showcase-head">
-                  <p>Featured projects</p>
-                  <span>
-                    Swipe to explore
-                    <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
+                <div className="landing-project-preview-controlbar" aria-hidden="true">
+                  <span className="landing-project-preview-nav landing-project-preview-nav--down">
+                    <svg viewBox="0 0 24 24" focusable="false">
                       <path
-                        d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
+                        d="M12 5v13m-5.5-5.5L12 18l5.5-5.5"
                         fill="none"
                         stroke="currentColor"
-                        strokeWidth="1.8"
+                        strokeWidth="2.4"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       />
                     </svg>
                   </span>
-                </header>
-
-                <div
-                  ref={journalMobileTrackRef}
-                  className="landing-journal-mobile-track"
-                  role="list"
-                  aria-label="Featured project cards"
-                >
-                  {HOME_MOBILE_PROJECTS.map((project) => (
-                    <article className="landing-journal-mobile-card" key={project.id} role="listitem">
-                      <figure className="landing-journal-mobile-card-media">
-                        <img
-                          src={project.image}
-                          alt=""
-                          loading="lazy"
-                          decoding="async"
-                          width="720"
-                          height="520"
-                        />
-                      </figure>
-                      <div className="landing-journal-mobile-card-body">
-                        <p className="landing-journal-mobile-card-index">{project.index}</p>
-                        <p className="landing-journal-mobile-card-meta">
-                          <span>{project.eyebrow}</span>
-                          <span>{project.readTime}</span>
-                        </p>
-                        <h3>{project.title}</h3>
-                        <p>{project.lead}</p>
-                        <a href="/blog">
-                          Explore project
-                          <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
-                            <path
-                              d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </a>
-                      </div>
-                    </article>
-                  ))}
+                  <span className="landing-project-preview-scroll-text">Scroll to explore</span>
                 </div>
-
-                <div className="landing-journal-mobile-dots" aria-hidden="true">
-                  {HOME_MOBILE_PROJECTS.map((project, index) => (
-                    <span
-                      key={`${project.id}-dot`}
-                      className={index === activeMobileProjectIndex ? 'is-active' : undefined}
-                    />
-                  ))}
-                </div>
-              </section>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section
-        id="final-conviction"
-        ref={closeSectionRef}
-        className={`landing-close${isCloseVisible ? ' is-visible' : ''}`}
-        aria-label="Final call to action"
-      >
-        <div className="container landing-close-shell">
-          <div className="landing-close-card-grid" role="list" aria-label="Why teams choose Felmex">
-            {FINAL_CTA_FEATURES.map((feature) => (
-              <article
-                key={feature.number}
-                className="landing-close-feature"
-                role="listitem"
-              >
-                <div className="landing-close-feature-media">
-                  <img
-                    className="landing-close-feature-image"
-                    src={feature.image}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    width="1200"
-                    height="1400"
-                  />
-                </div>
-                <div className="landing-close-feature-body">
-                  <span className="landing-close-feature-badge" aria-hidden="true">
-                    <FinalCtaIcon kind={feature.icon} />
-                  </span>
-                  <p className="landing-close-feature-index">{feature.number}</p>
-                  <span className="landing-close-feature-rule" aria-hidden="true" />
-                  <h3 className="landing-close-feature-title">{feature.title}</h3>
-                  <p className="landing-close-feature-text">{feature.description}</p>
-                </div>
-              </article>
-            ))}
+        <section
+          id="final-conviction"
+          ref={closeSectionRef}
+          className={`rising-group landing-close${isCloseVisible ? ' is-visible' : ''}`}
+          aria-label="Project handling"
+        >
+          <div className="final-section-canvas landing-close-canvas">
+            <aside className="banner-card landing-project-preview-process landing-project-preview-process--handoff">
+              <p>
+                <span>At Felmex, every project is managed with a commitment to precision,</span>
+                <span>transparency, and reliability. From initial planning to final delivery, our</span>
+                <span>teams ensure every detail is coordinated across customs, carriers,</span>
+                <span>and on-ground partners. With real-time visibility and proactive</span>
+                <span>communication, we minimize risk, keep cargo moving,</span>
+                <span>and deliver results our clients can depend on.</span>
+              </p>
+            </aside>
           </div>
-
-          <div className="landing-close-pane landing-close-pane--pitch">
-            <p className="landing-section-label landing-close-label">More than logistics</p>
-            <h2 className="landing-close-title">
-              <span className="landing-close-title-line">
-                <span>Logistics that moves your</span>
-              </span>
-              <span className="landing-close-title-line landing-title-line--accent">
-                <span>business forward.</span>
-              </span>
-            </h2>
-            <p className="landing-close-text">
-              Reliable. Responsive. Results-driven. We simplify cross-border logistics so you can
-              focus on what matters most: growing your business.
-            </p>
-            <div className="landing-close-actions">
-              <a className="landing-close-solution-link" href="/contact">
-                Get a solution
-                <span aria-hidden="true">→</span>
-              </a>
-            </div>
-            <p className="landing-close-contact-note">
-              <a href={CONTACT_CHANNELS.phoneHref}>{CONTACT_CHANNELS.phoneDisplay}</a>
-              <span aria-hidden="true">/</span>
-              <a href={CONTACT_CHANNELS.emailHref}>{CONTACT_CHANNELS.emailDisplay}</a>
-            </p>
-          </div>
-
-          <div className="landing-close-mobile-outro">
-            <a className="landing-close-solution-link" href="/contact">
-              Get a solution
-              <span aria-hidden="true">→</span>
-            </a>
-            <p className="landing-close-contact-note">
-              <a href={CONTACT_CHANNELS.phoneHref}>{CONTACT_CHANNELS.phoneDisplay}</a>
-              <span aria-hidden="true">/</span>
-              <a href={CONTACT_CHANNELS.emailHref}>{CONTACT_CHANNELS.emailDisplay}</a>
-            </p>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </>
   );
 }
