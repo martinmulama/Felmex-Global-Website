@@ -5,9 +5,9 @@
   --hero-header-bleed: clamp(1.45rem, 2vw, 2.25rem);
   --hero-stage-height: max(100svh, 42rem);
   --hero-stage-block: calc(var(--hero-stage-height) + var(--hero-header-bleed));
-  --hero-left-width: clamp(17rem, 24.8vw, 26rem);
-  --hero-content-inset-start: clamp(2.35rem, 4vw, 4rem);
-  --hero-content-inset-end: clamp(1rem, 2.1vw, 2.2rem);
+  --hero-left-width: var(--home-hero-left-width);
+  --hero-content-inset-start: var(--home-hero-content-inset-start);
+  --hero-content-inset-end: var(--home-hero-content-inset-end);
   --hero-red: var(--site-brand-red);
   --hero-blue: #061f3d;
   position: relative;
@@ -217,9 +217,9 @@
 
 @media (max-width: 1340px) and (min-width: 1181px) {
   .hero {
-    --hero-left-width: clamp(18.5rem, 24.8vw, 21rem);
-    --hero-content-inset-start: clamp(2rem, 3vw, 2.8rem);
-    --hero-content-inset-end: clamp(0.8rem, 1.4vw, 1.2rem);
+    --hero-left-width: var(--home-hero-left-width);
+    --hero-content-inset-start: var(--home-hero-content-inset-start);
+    --hero-content-inset-end: var(--home-hero-content-inset-end);
   }
 
   .hero-layout {
@@ -234,9 +234,9 @@
 
 @media (max-width: 1180px) and (min-width: 961px) {
   .hero {
-    --hero-left-width: clamp(14.5rem, 24vw, 18rem);
-    --hero-content-inset-start: clamp(1.45rem, 2.8vw, 2.1rem);
-    --hero-content-inset-end: clamp(0.6rem, 1.2vw, 1rem);
+    --hero-left-width: var(--home-hero-left-width);
+    --hero-content-inset-start: var(--home-hero-content-inset-start);
+    --hero-content-inset-end: var(--home-hero-content-inset-end);
   }
 
   .hero-layout {
