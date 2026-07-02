@@ -8282,6 +8282,8 @@
   --final-section-navy: #031a39;
   --final-section-card-border: rgba(189, 217, 245, 0.18);
   --final-section-card-shadow: 0 1.8rem 4.8rem rgba(0, 12, 36, 0.22);
+  --project-preview-navy: #071b35;
+  --project-preview-red: var(--site-brand-red);
   --project-preview-banner-height: clamp(17.4rem, 28.35svh, 18.15rem);
   --final-section-banner-overlap: clamp(21.1rem, 34.85svh, 22.35rem);
   --project-preview-banner-tail-height: max(
@@ -8314,8 +8316,8 @@
 }
 
 .landing-project-preview-stage {
-  --project-preview-navy: #062452;
-  --project-preview-red: #ff1a16;
+  --project-preview-navy: #071b35;
+  --project-preview-red: var(--site-brand-red);
   position: relative;
   display: grid;
   grid-template-columns: 1fr;
@@ -8416,6 +8418,10 @@
 
 .landing-project-preview-title > span {
   display: block;
+}
+
+.landing-project-preview-title-accent {
+  color: var(--project-preview-red);
 }
 
 .landing-project-preview-dot {
@@ -8520,6 +8526,7 @@
 
 .scroll-wrapper > .rising-group,
 .landing-close {
+  --project-preview-red: var(--site-brand-red);
   min-height: 100svh;
   background: transparent;
   color: #ffffff;
@@ -8534,10 +8541,12 @@
 
 .final-section-canvas > .banner-card,
 .landing-close .landing-project-preview-process--handoff {
+  --project-preview-banner-radius: 1rem;
   position: relative;
   z-index: 3;
   isolation: isolate;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
   width: min(calc(100% - clamp(2rem, 18vw, 24rem)), 48.8125rem);
   max-width: 48.8125rem;
@@ -8545,7 +8554,7 @@
   margin: calc(-1 * var(--final-section-banner-overlap)) auto 0;
   padding: clamp(3rem, 5.7svh, 3.65rem) clamp(3rem, 5.4vw, 4.6rem);
   border: 0;
-  border-radius: 1rem;
+  border-radius: var(--project-preview-banner-radius);
   background:
     radial-gradient(circle at 50% -8%, rgba(11, 55, 103, 0.82), rgba(11, 55, 103, 0) 42%),
     linear-gradient(180deg, #062b5d 0%, var(--final-section-navy) 100%);
@@ -8573,19 +8582,20 @@
 .landing-close .landing-project-preview-process--handoff::after {
   content: '';
   position: absolute;
-  top: calc(100% - 1px);
+  top: calc(100% - var(--project-preview-banner-radius));
   right: 0;
   left: 0;
   z-index: -1;
-  height: var(--project-preview-banner-tail-height);
+  height: calc(var(--project-preview-banner-tail-height) + var(--project-preview-banner-radius) + 1px);
   background: var(--final-section-navy);
   pointer-events: none;
 }
 
 .landing-project-preview-process p {
-  max-width: 72ch;
+  width: min(100%, 40rem);
+  max-width: 40rem;
   color: rgba(255, 255, 255, 0.96);
-  font-size: 1.16rem;
+  font-size: clamp(1.02rem, 0.98vw, 1.1rem);
   font-weight: 500;
   line-height: 1.58;
   letter-spacing: 0;
@@ -8594,6 +8604,12 @@
 
 .landing-project-preview-process p span {
   display: block;
+}
+
+@media (min-width: 921px) {
+  .landing-project-preview-process p span {
+    white-space: nowrap;
+  }
 }
 
 @media (max-width: 1180px) {
@@ -8624,7 +8640,7 @@
 @media (min-width: 921px) and (max-height: 760px) {
   .landing-final-curtain {
     --project-preview-banner-height: clamp(13.5rem, 30svh, 15.5rem);
-    --final-section-banner-overlap: clamp(12.5rem, 28svh, 16.5rem);
+    --final-section-banner-overlap: clamp(17rem, 43svh, 21.1rem);
   }
 
   .landing-project-preview-stage {
@@ -8666,6 +8682,12 @@
   }
 }
 
+@media (min-width: 921px) and (min-height: 761px) and (max-height: 820px) {
+  .landing-final-curtain {
+    --final-section-banner-overlap: clamp(17rem, 36svh, 18.5rem);
+  }
+}
+
 @media (max-width: 920px) {
   .landing-final-curtain {
     --project-preview-banner-height: clamp(14.6rem, 29svh, 16.8rem);
@@ -8697,6 +8719,7 @@
   .landing-project-preview-copy span,
   .landing-project-preview-process p span {
     display: inline;
+    white-space: normal;
   }
 
   .landing-project-preview-copy span:not(:last-child)::after,
@@ -8768,10 +8791,11 @@
 
   .final-section-canvas > .banner-card,
   .landing-close .landing-project-preview-process--handoff {
+    --project-preview-banner-radius: 0.82rem;
     width: min(calc(100% - 1.35rem), 32rem);
     min-height: var(--project-preview-banner-height);
     padding: 2rem 1.2rem;
-    border-radius: 0.82rem;
+    border-radius: var(--project-preview-banner-radius);
   }
 
   .landing-project-preview-process p {
