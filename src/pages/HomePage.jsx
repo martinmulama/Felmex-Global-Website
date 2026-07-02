@@ -1901,7 +1901,10 @@ export function HomePage() {
                   <h2 className="landing-project-preview-title">
                     Ongoing logistics
                     <span>
-                      in motion<span className="landing-project-preview-dot">.</span>
+                      in{' '}
+                      <span className="landing-project-preview-title-accent">
+                        motion<span className="landing-project-preview-dot">.</span>
+                      </span>
                     </span>
                   </h2>
                   <span className="landing-project-preview-rule" aria-hidden="true" />
