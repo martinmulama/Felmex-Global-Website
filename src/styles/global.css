@@ -43,8 +43,8 @@
   --site-content-max-width: 1120px;
   --site-wide-max-width: 1240px;
   --max-width: var(--site-content-max-width);
-  --site-font-sans: 'Montserrat', 'Aptos Display', Aptos, 'Avenir Next', 'Segoe UI', Arial, sans-serif;
-  --site-font-display: 'Eurostile', 'Microgramma D Extended', 'Square 721', 'Bank Gothic',
+  --site-font-sans: 'Inter', 'Segoe UI', Arial, sans-serif;
+  --site-font-display: 'Rajdhani', 'Eurostile', 'Microgramma D Extended', 'Square 721', 'Bank Gothic',
     var(--site-font-sans);
   --site-header-clearance: 3.55rem;
   --site-nav-height: clamp(3.2rem, 3.8vw, 3.55rem);

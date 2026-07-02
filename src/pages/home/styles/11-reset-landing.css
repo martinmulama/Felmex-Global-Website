@@ -7365,7 +7365,7 @@
   --final-section-navy: #031530;
   --final-section-card-border: rgba(189, 217, 245, 0.24);
   --final-section-card-shadow: 0 2rem 5.6rem rgba(0, 8, 25, 0.36);
-  --project-preview-stage-pad-top: clamp(2.8rem, 5svh, 4.2rem);
+  --project-preview-stage-pad-top: clamp(0.8rem, 2.4svh, 1.6rem);
   --project-preview-board-height: min(
     clamp(42rem, 48.4vw, 48.35rem),
     calc(100vh - clamp(13.5rem, 24svh, 16rem))
@@ -7469,8 +7469,9 @@
   display: grid;
   align-content: start;
   justify-items: start;
-  gap: clamp(1.55rem, 2.1vw, 2rem);
-  padding-top: clamp(3.2rem, 5.8vw, 4.55rem);
+  gap: clamp(0.9rem, 1.3vw, 1.3rem);
+  padding-top: 0;
+  margin-top: -2.8rem;
 }
 
 .landing-project-preview-label,
@@ -7496,7 +7497,8 @@
   display: grid;
   gap: 0.04em;
   max-width: 16ch;
-  color: #071b3c;
+  margin-top: -0.8rem;
+  color: var(--project-preview-red);
   font-family: var(--site-font-display);
   font-size: clamp(2.05rem, 2.55vw, 2.65rem);
   font-weight: 900;
@@ -7522,6 +7524,7 @@
 
 .landing-project-preview-copy {
   max-width: 30ch;
+  margin-top: -0.5rem;
   color: #071b3c;
   font-size: clamp(1rem, 1.08vw, 1.13rem);
   line-height: 1.72;
