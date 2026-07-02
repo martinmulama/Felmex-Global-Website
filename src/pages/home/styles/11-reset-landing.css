@@ -8541,6 +8541,7 @@
 
 .final-section-canvas > .banner-card,
 .landing-close .landing-project-preview-process--handoff {
+  --project-preview-banner-radius: 1rem;
   position: relative;
   z-index: 3;
   isolation: isolate;
@@ -8553,7 +8554,7 @@
   margin: calc(-1 * var(--final-section-banner-overlap)) auto 0;
   padding: clamp(3rem, 5.7svh, 3.65rem) clamp(3rem, 5.4vw, 4.6rem);
   border: 0;
-  border-radius: 1rem;
+  border-radius: var(--project-preview-banner-radius);
   background:
     radial-gradient(circle at 50% -8%, rgba(11, 55, 103, 0.82), rgba(11, 55, 103, 0) 42%),
     linear-gradient(180deg, #062b5d 0%, var(--final-section-navy) 100%);
@@ -8581,11 +8582,11 @@
 .landing-close .landing-project-preview-process--handoff::after {
   content: '';
   position: absolute;
-  top: calc(100% - 1px);
+  top: calc(100% - var(--project-preview-banner-radius));
   right: 0;
   left: 0;
   z-index: -1;
-  height: var(--project-preview-banner-tail-height);
+  height: calc(var(--project-preview-banner-tail-height) + var(--project-preview-banner-radius) + 1px);
   background: var(--final-section-navy);
   pointer-events: none;
 }
@@ -8790,10 +8791,11 @@
 
   .final-section-canvas > .banner-card,
   .landing-close .landing-project-preview-process--handoff {
+    --project-preview-banner-radius: 0.82rem;
     width: min(calc(100% - 1.35rem), 32rem);
     min-height: var(--project-preview-banner-height);
     padding: 2rem 1.2rem;
-    border-radius: 0.82rem;
+    border-radius: var(--project-preview-banner-radius);
   }
 
   .landing-project-preview-process p {
