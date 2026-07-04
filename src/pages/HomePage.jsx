@@ -149,6 +149,43 @@ const HOME_CHOICE_FEATURES = [
   },
 ];
 
+const FINAL_OPERATION_STEPS = [
+  {
+    key: 'source',
+    label: 'Source',
+    text: 'Eliminate procurement bottlenecks with our direct vendor-integration network. We manage high-volume material acquisition efficiently to protect your margins from day one.',
+  },
+  {
+    key: 'store',
+    label: 'Store',
+    text: 'Cut your warehousing overhead in half. We house your assets in secure, strategically located fulfillment hubs designed for rapid enterprise-level inventory rotation.',
+  },
+  {
+    key: 'process',
+    label: 'Process',
+    text: 'Zero errors, maximum speed. Our automated order-mapping technology instantly picks, packs, and labels your shipments the moment a customer clicks buy.',
+  },
+  {
+    key: 'ship',
+    label: 'Ship',
+    text: 'Bypass delays with the fastest transit times on the market. We leverage deep carrier discounts and smart route-optimization to deliver your goods at lightning speed for the lowest cost.',
+  },
+  {
+    key: 'scale',
+    label: 'Scale',
+    text: 'Turn logistical efficiency into explosive business growth. Our frictionless, end-to-end infrastructure expands effortlessly alongside your rising volume, allowing you to dominate new markets without limits.',
+  },
+];
+
+const FINAL_PARTNER_LOGOS = [
+  { type: 'mask', label: 'Maersk', className: 'landing-final-partner-mask--maersk' },
+  { type: 'text', label: 'DHL', className: 'landing-final-partner--dhl' },
+  { type: 'text', label: 'Coca-Cola', className: 'landing-final-partner--coca' },
+  { type: 'text', label: 'Nestle', className: 'landing-final-partner--nestle' },
+  { type: 'text', label: 'P&G', className: 'landing-final-partner--pg' },
+  { type: 'text', label: 'Unilever', className: 'landing-final-partner--unilever' },
+];
+
 function getResponsiveImagePath(imagePath, width, sourceWidth = 1280) {
   if (width === sourceWidth) return imagePath;
 
@@ -557,6 +594,26 @@ function HomeOverviewIcon({ kind }) {
         />
       </>
     ),
+    integrity: (
+      <>
+        <path
+          d="M12 3.5 5.4 6.1v5.4c0 4.1 2.6 7.4 6.6 8.8 4-1.4 6.6-4.7 6.6-8.8V6.1L12 3.5Z"
+          fill="none"
+          stroke="#071b35"
+          strokeWidth="1.45"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m8.8 12.2 2.1 2.1 4.4-4.7"
+          fill="none"
+          stroke="#ed1c24"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
   };
 
   return (
@@ -647,6 +704,7 @@ export function HomePage() {
   const [isTestimonialsTitleDropped, setIsTestimonialsTitleDropped] = useState(false);
   const [isCloseVisible, setIsCloseVisible] = useState(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
+  const [activeFinalOperation, setActiveFinalOperation] = useState(FINAL_OPERATION_STEPS[0].key);
   const [activeMobileProjectIndex, setActiveMobileProjectIndex] = useState(0);
   const [isMobileViewport, setIsMobileViewport] = useState(
     () =>
@@ -658,6 +716,9 @@ export function HomePage() {
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
+  const activeFinalOperationStep =
+    FINAL_OPERATION_STEPS.find((step) => step.key === activeFinalOperation) ??
+    FINAL_OPERATION_STEPS[0];
 
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
@@ -1608,45 +1669,43 @@ export function HomePage() {
         aria-label="Company overview"
       >
         <div className="container landing-overview-shell">
-          <div className="landing-overview-intro landing-reveal-group">
-            <span className="landing-overview-rule landing-reveal-item" aria-hidden="true" />
-            <h2 className="landing-overview-title">
-              <span className="landing-overview-title-line landing-reveal-line" style={{ '--reveal-delay': '0ms' }}>
-                <span>Moving Your Business</span>
-              </span>
-              <span className="landing-overview-title-line landing-reveal-line" style={{ '--reveal-delay': '110ms' }}>
-                <span>
-                  Forward, <strong>Together.</strong>
-                </span>
-              </span>
-            </h2>
-            <p className="landing-overview-lede landing-reveal-item" style={{ '--reveal-delay': '260ms' }}>
-              We combine global reach with local expertise to deliver logistics solutions that drive
-              efficiency, reduce costs, and connect your business to new opportunities.
-            </p>
-            <div className="landing-overview-actions landing-reveal-item" style={{ '--reveal-delay': '360ms' }}>
-              <a className="landing-overview-button landing-overview-button--primary" href="/contact">
-                Contact Sales
-              </a>
-              <a className="landing-overview-button landing-overview-button--secondary" href="#services-catalog">
-                <span>Get Started</span>
-                <span className="landing-overview-button-arrow" aria-hidden="true">
-                  -&gt;
-                </span>
-              </a>
-            </div>
-          </div>
-
           <div className="landing-overview-statement-grid" aria-label="Felmex mission, vision, and company overview">
+            <article className="landing-overview-statement landing-overview-statement--vision landing-reveal-item">
+              <span className="landing-overview-card-rule" aria-hidden="true" />
+              <div className="landing-overview-icon" aria-hidden="true">
+                <HomeOverviewIcon kind="vision" />
+              </div>
+              <h3>Vision</h3>
+              <p>
+                Redefine global logistics by delivering seamless, multimodal solutions that connect
+                businesses, markets, and communities with efficiency &amp; integrity.
+              </p>
+            </article>
+            <article
+              className="landing-overview-statement landing-overview-statement--mission landing-reveal-item"
+              style={{ '--reveal-delay': '90ms' }}
+            >
+              <span className="landing-overview-card-rule" aria-hidden="true" />
+              <div className="landing-overview-icon" aria-hidden="true">
+                <HomeOverviewIcon kind="mission" />
+              </div>
+              <h3>Mission</h3>
+              <p>
+                FELMEX Global Logistics exists to simplify complexity in international trade. We
+                integrate air, sea, road, and rail services into one cohesive network, ensuring
+                reliable, transparent, and future-ready supply chain solutions for our partners
+                worldwide.
+              </p>
+            </article>
             <article
               className="landing-overview-statement landing-overview-statement--about landing-reveal-item"
-              style={{ '--reveal-delay': '0ms' }}
+              style={{ '--reveal-delay': '180ms' }}
             >
+              <span className="landing-overview-card-rule" aria-hidden="true" />
               <div className="landing-overview-icon" aria-hidden="true">
                 <HomeOverviewIcon kind="about" />
               </div>
               <h3>About Us</h3>
-              <span className="landing-overview-card-rule" aria-hidden="true" />
               <p>
                 FELMEX Global Logistics is an envisioned global multimodal service provider,
                 delivering integrated solutions across air, sea, road, and rail. We simplify complex
@@ -1655,32 +1714,42 @@ export function HomePage() {
               </p>
             </article>
             <article
-              className="landing-overview-statement landing-overview-statement--mission landing-reveal-item"
-              style={{ '--reveal-delay': '90ms' }}
+              className="landing-overview-statement landing-overview-statement--integrity landing-reveal-item"
+              style={{ '--reveal-delay': '270ms' }}
             >
-              <div className="landing-overview-icon" aria-hidden="true">
-                <HomeOverviewIcon kind="mission" />
-              </div>
-              <h3>Mission</h3>
-              <span className="landing-overview-card-rule" aria-hidden="true" />
-              <p>
-                FELMEX Global Logistics exists to simplify complexity in international trade. We
-                integrate air, sea, road, and rail services into one cohesive network, ensuring
-                reliable, transparent, and future-ready supply chain solutions for our partners
-                worldwide.
-              </p>
-            </article>
-            <article className="landing-overview-statement landing-overview-statement--vision landing-reveal-item">
-              <div className="landing-overview-icon" aria-hidden="true">
-                <HomeOverviewIcon kind="vision" />
+              <div className="landing-overview-icon landing-overview-icon--integrity" aria-hidden="true">
+                <HomeOverviewIcon kind="integrity" />
               </div>
               <span className="landing-overview-card-rule" aria-hidden="true" />
-              <h3>Vision</h3>
+              <h3>Integrity &amp; Due Diligence</h3>
               <p>
-                Redefine global logistics by delivering seamless, multimodal solutions that connect
-                businesses, markets, and communities with efficiency &amp; integrity.
+                We are committed to conducting business with integrity and transparency. Our
+                Integrity Due Diligence process ensures that every partner, supplier and agent we
+                work with meets the highest ethical and compliance standards.
+              </p>
+              <p>
+                This safeguards our operations, protects our clients and reinforces our dedication
+                to responsible logistics solutions.
               </p>
             </article>
+          </div>
+
+          <div className="landing-overview-intro landing-reveal-group">
+            <span className="landing-overview-rule landing-reveal-item" aria-hidden="true" />
+            <h2 className="landing-overview-title">
+              <span className="landing-overview-title-line landing-reveal-line" style={{ '--reveal-delay': '0ms' }}>
+                <span>Moving Your Business Forward,</span>
+              </span>
+              <span className="landing-overview-title-line landing-reveal-line" style={{ '--reveal-delay': '110ms' }}>
+                <span>
+                  <strong>Together.</strong>
+                </span>
+              </span>
+            </h2>
+            <p className="landing-overview-lede landing-reveal-item" style={{ '--reveal-delay': '260ms' }}>
+              We combine global reach with local expertise to deliver logistics solutions that drive
+              efficiency, reduce costs, and connect your business to new opportunities.
+            </p>
           </div>
         </div>
 
@@ -1954,7 +2023,7 @@ export function HomePage() {
           id="final-conviction"
           ref={closeSectionRef}
           className={`rising-group landing-close${isCloseVisible ? ' is-visible' : ''}`}
-          aria-label="Project handling"
+          aria-label="Final logistics flow"
         >
           <div className="final-section-canvas landing-close-canvas">
             <aside className="banner-card landing-project-preview-process landing-project-preview-process--handoff">
@@ -1967,6 +2036,96 @@ export function HomePage() {
                 <span>and deliver results our clients can depend on.</span>
               </p>
             </aside>
+
+            <div className="landing-final-flow" aria-label="Felmex operations model">
+              <div className="landing-final-step-frame" aria-hidden="true" />
+              <nav className="landing-final-step-nav" aria-label="Operations stages" role="tablist">
+                {FINAL_OPERATION_STEPS.map((step) => {
+                  const isActive = step.key === activeFinalOperation;
+
+                  return (
+                    <button
+                      id={`landing-final-tab-${step.key}`}
+                      className={`landing-final-step-button${isActive ? ' is-active' : ''}`}
+                      key={step.key}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      aria-controls="landing-final-operation-panel"
+                      onClick={(event) => {
+                        setActiveFinalOperation(step.key);
+                        event.currentTarget.scrollIntoView({
+                          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                          block: 'nearest',
+                          inline: 'center',
+                        });
+                      }}
+                    >
+                      <span>{step.label}</span>
+                      <span className="landing-final-step-dot" aria-hidden="true" />
+                    </button>
+                  );
+                })}
+              </nav>
+
+              <p
+                id="landing-final-operation-panel"
+                className="landing-final-operation-copy"
+                role="tabpanel"
+                aria-labelledby={`landing-final-tab-${activeFinalOperationStep.key}`}
+              >
+                {activeFinalOperationStep.text}
+              </p>
+
+              <div className="landing-final-partners" aria-label="Trusted by industry leaders">
+                <p className="landing-final-partner-kicker">Trusted By Industry Leaders</p>
+                <div className="landing-final-partner-rail">
+                  <div className="landing-final-partner-track">
+                    {[0, 1, 2, 3].map((setIndex) => (
+                      <div
+                        className="landing-final-partner-set"
+                        key={setIndex}
+                        aria-hidden={setIndex !== 0}
+                      >
+                        {FINAL_PARTNER_LOGOS.map((partner) => (
+                          <div className="landing-final-partner-item" key={`${setIndex}-${partner.label}`}>
+                            {partner.type === 'image' ? (
+                              <img src={partner.src} alt={partner.label} loading="lazy" decoding="async" />
+                            ) : partner.type === 'mask' ? (
+                              <span
+                                className={`landing-final-partner-mask ${partner.className}`}
+                                role="img"
+                                aria-label={partner.label}
+                              />
+                            ) : (
+                              <span className={`landing-final-partner-name ${partner.className}`}>
+                                {partner.label}
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="landing-final-cta">
+              <h2>
+                Let&rsquo;s Move Your Business Forward, <strong>Together.</strong>
+              </h2>
+              <p>
+                Partner with FELMEX Global Logistics for seamless, reliable, and scalable
+                logistics solutions that drive growth and open new opportunities.
+              </p>
+              <a className="landing-final-cta-link" href="/contact">
+                <span>Get in Touch</span>
+                <span className="landing-final-cta-arrow" aria-hidden="true">
+                  -&gt;
+                </span>
+              </a>
+            </div>
           </div>
         </section>
       </div>
