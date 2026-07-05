@@ -5669,6 +5669,11 @@
   margin-left: calc(var(--catalog-step) * -0.38);
 }
 
+.landing-service-entry:nth-child(6) {
+  z-index: 6;
+  margin-left: calc(var(--catalog-step) * -0.58);
+}
+
 .landing-service-entry + .landing-service-entry {
   margin-top: 0;
 }
@@ -5763,6 +5768,10 @@
 
 .landing-service-entry--warehouse .landing-service-image {
   object-position: 63% center;
+}
+
+.landing-service-entry--parcel .landing-service-image {
+  object-position: 55% center;
 }
 
 .landing-service-copy {
@@ -5905,6 +5914,10 @@
 
   .landing-service-entry:nth-child(5) {
     margin-left: calc(-1 * clamp(0.9rem, 2.3vw, 2rem));
+  }
+
+  .landing-service-entry:nth-child(6) {
+    margin-left: calc(-1 * clamp(1.25rem, 3vw, 2.55rem));
   }
 
   .landing-service-copy {
@@ -6101,7 +6114,8 @@
   }
 
   .landing-service-entry--ship .landing-service-image,
-  .landing-service-entry--warehouse .landing-service-image {
+  .landing-service-entry--warehouse .landing-service-image,
+  .landing-service-entry--parcel .landing-service-image {
     object-position: center center;
   }
 }
@@ -8515,9 +8529,9 @@
   margin-top: clamp(1.45rem, 2.7svh, 1.75rem);
   max-width: none;
   color: var(--project-preview-navy);
-  font-size: 1.34rem;
+  font-size: clamp(1rem, 1.12vw, 1.16rem);
   font-weight: 500;
-  line-height: 1.55;
+  line-height: 1.72;
   letter-spacing: 0;
 }
 
@@ -8734,7 +8748,7 @@
   color: rgba(255, 255, 255, 0.88);
   font: inherit;
   font-family: var(--site-font-display);
-  font-size: clamp(1.25rem, 2.2vw, 1.9rem);
+  font-size: clamp(1.05rem, 1.48vw, 1.38rem);
   font-weight: 850;
   line-height: 1;
   letter-spacing: 0;
@@ -8767,10 +8781,6 @@
   outline-offset: -0.45rem;
 }
 
-.landing-final-step-button.is-active {
-  transform: translateY(-2px);
-}
-
 .landing-final-step-dot {
   width: 0.45rem;
   aspect-ratio: 1;
@@ -8779,11 +8789,18 @@
   box-shadow: 0 0 0 0.16rem rgba(237, 0, 9, 0.12);
 }
 
-.landing-final-operation-copy {
+.landing-final-operation-panel {
   width: min(calc(100% - 3rem), 54rem);
-  min-height: clamp(5.8rem, 10vw, 8.2rem);
+  height: clamp(6.6rem, 10vw, 8.2rem);
   margin: clamp(3.5rem, 7vw, 5.25rem) auto 0;
+  display: grid;
+  place-items: center;
+}
+
+.landing-final-operation-copy {
+  margin: 0;
   color: rgba(255, 255, 255, 0.96);
+  font-family: var(--site-font-sans);
   font-size: clamp(1.15rem, 1.85vw, 1.75rem);
   font-weight: 500;
   line-height: 1.42;
@@ -8935,9 +8952,9 @@
   max-width: 22ch;
   color: var(--project-preview-navy);
   font-family: var(--site-font-display);
-  font-size: clamp(2rem, 3.4vw, 3.15rem);
-  font-weight: 850;
-  line-height: 1.12;
+  font-size: clamp(2.25rem, 2.68vw, 3rem);
+  font-weight: 800;
+  line-height: 1.16;
   letter-spacing: 0;
   text-wrap: balance;
 }
@@ -8951,9 +8968,9 @@
   max-width: 47rem;
   margin-top: clamp(1.25rem, 2.3vw, 1.75rem);
   color: var(--project-preview-navy);
-  font-size: clamp(1rem, 1.3vw, 1.35rem);
+  font-size: clamp(1rem, 1.12vw, 1.16rem);
   font-weight: 500;
-  line-height: 1.5;
+  line-height: 1.62;
   letter-spacing: 0;
 }
 
@@ -8961,16 +8978,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(1.2rem, 2.8vw, 2rem);
-  min-width: min(100%, 22.75rem);
-  min-height: clamp(4.2rem, 6vw, 4.75rem);
+  gap: clamp(0.9rem, 2vw, 1.45rem);
+  min-width: min(100%, 18.5rem);
+  min-height: clamp(3.45rem, 4.8vw, 4rem);
   margin-top: clamp(1.8rem, 3.2vw, 2.35rem);
-  padding: 0.95rem clamp(1.7rem, 4.2vw, 3rem);
+  padding: 0.85rem clamp(1.45rem, 3.4vw, 2.4rem);
   border-radius: 8px;
   background: var(--site-brand-red);
   color: #ffffff;
   font-family: var(--site-font-display);
-  font-size: clamp(1.1rem, 1.75vw, 1.62rem);
+  font-size: clamp(0.95rem, 1.08vw, 1.12rem);
   font-weight: 850;
   line-height: 1;
   letter-spacing: 0;
@@ -9103,9 +9120,12 @@
     top: clamp(1.4rem, 3.4svh, 2.2rem);
   }
 
-  .landing-final-operation-copy {
-    min-height: 4.8rem;
+  .landing-final-operation-panel {
+    height: 5.4rem;
     margin-top: clamp(2.3rem, 4.6svh, 3rem);
+  }
+
+  .landing-final-operation-copy {
     font-size: clamp(1rem, 1.08vw, 1.14rem);
     line-height: 1.42;
   }
@@ -9146,11 +9166,12 @@
   }
 
   .landing-project-preview-title {
-    font-size: clamp(2rem, 6vw, 2.55rem);
+    font-size: clamp(1.32rem, 4vw, 2.05rem);
   }
 
   .landing-project-preview-copy {
-    font-size: 1.05rem;
+    font-size: clamp(0.98rem, 2.4vw, 1.12rem);
+    line-height: 1.66;
   }
 
   .landing-project-preview-copy span,
@@ -9206,14 +9227,17 @@
     min-width: 8.6rem;
     min-height: 4.15rem;
     padding-inline: 1rem;
-    font-size: clamp(1.12rem, 4.4vw, 1.42rem);
+    font-size: clamp(0.98rem, 3.5vw, 1.18rem);
     scroll-snap-align: center;
   }
 
-  .landing-final-operation-copy {
+  .landing-final-operation-panel {
     width: min(calc(100% - 2rem), 42rem);
-    min-height: 7.4rem;
+    height: 7.4rem;
     margin-top: clamp(2.1rem, 6vw, 3rem);
+  }
+
+  .landing-final-operation-copy {
     font-size: clamp(1rem, 3.2vw, 1.2rem);
     line-height: 1.5;
   }
@@ -9233,7 +9257,8 @@
   }
 
   .landing-final-cta h2 {
-    max-width: 17ch;
+    max-width: 21ch;
+    font-size: clamp(1.32rem, 4vw, 2.05rem);
   }
 }
 
@@ -9266,7 +9291,7 @@
 
   .landing-project-preview-title {
     margin-top: 1.45rem;
-    font-size: clamp(1.9rem, 9vw, 2.25rem);
+    font-size: clamp(1.08rem, 4.35vw, 1.5rem);
   }
 
   .landing-project-preview-copy {
@@ -9310,15 +9335,18 @@
     min-width: 7.5rem;
     min-height: 3.8rem;
     padding: 0 0.85rem 0.88rem;
-    font-size: 1.08rem;
+    font-size: 0.96rem;
   }
 
   .landing-final-step-dot {
     width: 0.38rem;
   }
 
+  .landing-final-operation-panel {
+    height: 8.7rem;
+  }
+
   .landing-final-operation-copy {
-    min-height: 8.7rem;
     font-size: 0.98rem;
     line-height: 1.55;
   }
@@ -9361,8 +9389,8 @@
   }
 
   .landing-final-cta h2 {
-    max-width: 13ch;
-    font-size: clamp(1.9rem, 9vw, 2.35rem);
+    max-width: 22ch;
+    font-size: clamp(1.08rem, 4.35vw, 1.5rem);
   }
 
   .landing-final-cta p {

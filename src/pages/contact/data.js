@@ -1,4 +1,4 @@
-import { CONTACT_CHANNELS } from '../../data/contact';
+import { CONTACT_CHANNELS, MAIN_OFFICE_ADDRESS_LINES } from '../../data/contact';
 
 export const CONTACT_HIGHLIGHTS = [
   {
@@ -26,11 +26,7 @@ export const CONTACT_OFFICES = [
     city: 'Nairobi',
     label: 'Head Office',
     note: 'Primary commercial and coordination desk.',
-    addressLines: [
-      'Silverstone Godowns - Warehouse no. 4',
-      'Old Mombasa Road',
-      'Nairobi, Kenya',
-    ],
+    addressLines: MAIN_OFFICE_ADDRESS_LINES,
     phones: [CONTACT_CHANNELS.phoneDisplay],
     email: CONTACT_CHANNELS.emailDisplay,
     hours: 'Mon - Fri / 08:00 - 17:30 EAT',
