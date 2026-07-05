@@ -126,6 +126,19 @@ const HOME_SERVICE_FEATURES = [
     summary: 'Secure storage, stock visibility, staging, and timely delivery from one controlled flow.',
     mediaTone: 'warehouse',
   },
+  {
+    number: '06',
+    label: 'Parcel & Courier',
+    icon: 'parcel',
+    image: '/parcel-courier-service-catalog.webp',
+    imageWidth: 1536,
+    imageHeight: 1024,
+    imageWidths: [640, 960, 1536],
+    href: '/services',
+    summary:
+      'Dependable local and international movement for documents, parcels, e-commerce, medical, and commercial cargo.',
+    mediaTone: 'parcel',
+  },
 ];
 
 const HOME_CHOICE_FEATURES = [
@@ -287,6 +300,33 @@ function ServiceCatalogIcon({ kind }) {
           strokeWidth="1.65"
           strokeLinecap="round"
           strokeLinejoin="round"
+        />
+      </>
+    ),
+    parcel: (
+      <>
+        <path
+          d="M5.1 8.1 12 4.4l6.9 3.7v7.8L12 19.6l-6.9-3.7V8.1Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M5.1 8.1 12 11.8l6.9-3.7M12 11.8v7.8M8.5 6.3l6.9 3.7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M3.4 13.4h3.2M4.1 16.2h2.6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
         />
       </>
     ),
@@ -2052,13 +2092,8 @@ export function HomePage() {
                       role="tab"
                       aria-selected={isActive}
                       aria-controls="landing-final-operation-panel"
-                      onClick={(event) => {
+                      onClick={() => {
                         setActiveFinalOperation(step.key);
-                        event.currentTarget.scrollIntoView({
-                          behavior: prefersReducedMotion ? 'auto' : 'smooth',
-                          block: 'nearest',
-                          inline: 'center',
-                        });
                       }}
                     >
                       <span>{step.label}</span>
@@ -2068,14 +2103,14 @@ export function HomePage() {
                 })}
               </nav>
 
-              <p
+              <div
                 id="landing-final-operation-panel"
-                className="landing-final-operation-copy"
+                className="landing-final-operation-panel"
                 role="tabpanel"
                 aria-labelledby={`landing-final-tab-${activeFinalOperationStep.key}`}
               >
-                {activeFinalOperationStep.text}
-              </p>
+                <h2 className="landing-final-operation-copy">{activeFinalOperationStep.text}</h2>
+              </div>
 
               <div className="landing-final-partners" aria-label="Trusted by industry leaders">
                 <p className="landing-final-partner-kicker">Trusted By Industry Leaders</p>
