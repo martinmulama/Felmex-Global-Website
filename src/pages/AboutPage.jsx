@@ -561,9 +561,8 @@ export function AboutPage() {
                 {OVERVIEW_CARDS.map((card) => (
                   <a
                     key={card.id}
-                    className={`abt-overview-nav-link${
-                      activeOverviewId === card.id ? ' is-active' : ''
-                    }`}
+                    className={`abt-overview-nav-link${activeOverviewId === card.id ? ' is-active' : ''
+                      }`}
                     href={`#abt-overview-${card.id}`}
                     onClick={(event) => scrollToOverviewCard(event, card.id)}
                     aria-current={activeOverviewId === card.id ? 'true' : undefined}
@@ -648,44 +647,44 @@ export function AboutPage() {
               role="list"
               aria-label="Felmex regional expansion timeline"
             >
-            {CONTINENT_REACH.map((item, index) => (
-              <article
-                key={item.id}
-                className="abt-reach-step"
-                role="listitem"
-                style={{ '--abt-delay': `${index * 70}ms` }}
-              >
-                <div className="abt-reach-step-head">
-                  <span className="abt-reach-index">{String(index + 1).padStart(2, '0')}</span>
-                  <span className="abt-reach-dot" aria-hidden="true" />
-                </div>
-                <span
-                  className="abt-reach-continent"
-                  style={{ '--abt-continent-fill-image': `url('/continents/${item.id}-fill.webp')` }}
-                  aria-hidden="true"
+              {CONTINENT_REACH.map((item, index) => (
+                <article
+                  key={item.id}
+                  className="abt-reach-step"
+                  role="listitem"
+                  style={{ '--abt-delay': `${index * 70}ms` }}
                 >
-                  <img
-                    className="abt-reach-continent-fill"
-                    src={`/continents/${item.id}-fill.webp`}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <img
-                    className="abt-reach-continent-outline"
-                    src={`/continents/${item.id}-outline.webp`}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </span>
-                <p className="abt-reach-step-label">{item.label}</p>
-                <p className="abt-reach-step-text">{item.copy}</p>
-                {index < CONTINENT_REACH.length - 1 ? (
-                  <span className="abt-reach-connector" aria-hidden="true" />
-                ) : null}
-              </article>
-            ))}
+                  <div className="abt-reach-step-head">
+                    <span className="abt-reach-index">{String(index + 1).padStart(2, '0')}</span>
+                    <span className="abt-reach-dot" aria-hidden="true" />
+                  </div>
+                  <span
+                    className="abt-reach-continent"
+                    style={{ '--abt-continent-fill-image': `url('/continents/${item.id}-fill.webp')` }}
+                    aria-hidden="true"
+                  >
+                    <img
+                      className="abt-reach-continent-fill"
+                      src={`/continents/${item.id}-fill.webp`}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <img
+                      className="abt-reach-continent-outline"
+                      src={`/continents/${item.id}-outline.webp`}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
+                  <p className="abt-reach-step-label">{item.label}</p>
+                  <p className="abt-reach-step-text">{item.copy}</p>
+                  {index < CONTINENT_REACH.length - 1 ? (
+                    <span className="abt-reach-connector" aria-hidden="true" />
+                  ) : null}
+                </article>
+              ))}
             </div>
           </div>
         </div>
