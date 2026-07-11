@@ -27,7 +27,7 @@
   z-index: 0;
   display: grid;
   min-height: calc(100svh - var(--site-header-clearance, 0px));
-  padding: clamp(1.2rem, 4.2svh, 2.7rem) 1rem clamp(5rem, 11svh, 7rem);
+  padding: clamp(3rem, 7.8svh, 4.15rem) 1rem clamp(5rem, 11svh, 7rem);
   place-items: start center;
   background: var(--svc-white);
   text-align: center;
@@ -64,10 +64,10 @@
   margin-top: 0.7rem;
   color: var(--svc-ink);
   font-family: var(--site-font-display);
-  font-size: clamp(2.35rem, 2.85vw, 3.35rem);
-  font-size: clamp(2.35rem, min(2.85vw, 9.25cqw), 3.35rem);
+  font-size: clamp(3.08rem, 4.5vw, 4.2rem);
+  font-size: clamp(3.08rem, min(4.5vw, 12.5cqw), 4.2rem);
   font-weight: 800;
-  line-height: 1.09;
+  line-height: 1.04;
   letter-spacing: 0;
   text-wrap: balance;
 }
@@ -532,32 +532,32 @@
   }
 
   .svc-hero {
-    padding-top: clamp(1rem, 3.2svh, 1.65rem);
-    padding-bottom: clamp(3.35rem, 8svh, 4.8rem);
+    padding-top: clamp(3.1rem, 7.7svh, 3.85rem);
+    padding-bottom: clamp(3.6rem, 7.5svh, 4.8rem);
   }
 
   .svc-hero-title {
-    margin-top: 0.55rem;
-    font-size: clamp(2.08rem, 3vw, 2.95rem);
-    font-size: clamp(2.08rem, min(2.62vw, 9.1cqw), 2.95rem);
-    line-height: 1.09;
+    margin-top: 0.62rem;
+    font-size: clamp(3rem, 4.45vw, 4rem);
+    font-size: clamp(3rem, min(4.45vw, 12cqw), 4rem);
+    line-height: 1.04;
   }
 
   .svc-hero-rule {
-    margin-top: clamp(0.9rem, 2.1svh, 1.25rem);
+    margin-top: clamp(1.25rem, 2.8svh, 1.75rem);
   }
 
   .svc-hero-subtitle {
-    margin-top: clamp(0.85rem, 2svh, 1.05rem);
-    line-height: 1.72;
+    margin-top: clamp(1.05rem, 2.2svh, 1.35rem);
+    line-height: 1.82;
   }
 
   .svc-hero-link {
-    margin-top: clamp(1.15rem, 2.7svh, 1.55rem);
+    margin-top: clamp(1.65rem, 3.6svh, 2.25rem);
   }
 
   .svc-hero-link-icon {
-    width: 3.15rem;
+    width: 3.5rem;
   }
 
   .svc-services-content {
@@ -989,7 +989,9 @@
 .svc-flow-copy h3,
 .svc-flow-copy p,
 .svc-handling-heading p,
-.svc-handling-heading h2 {
+.svc-handling-heading h2,
+.svc-handling-final-cta h2,
+.svc-handling-final-cta p {
   margin: 0;
 }
 
@@ -1182,21 +1184,21 @@
 .svc-handling-strip {
   position: relative;
   z-index: 3;
-  padding: clamp(3.4rem, 6vw, 5.7rem) 1rem;
+  overflow: clip;
+  padding: clamp(4.2rem, 7vw, 6.4rem) 0 0;
   background: #ffffff;
   color: var(--svc-ink);
 }
 
 .svc-handling-shell {
-  width: min(100%, 83rem);
-  margin-inline: auto;
+  width: 100%;
 }
 
 .svc-handling-heading {
   display: grid;
-  width: min(100%, 40rem);
+  width: min(100% - 2rem, 46rem);
   margin-inline: auto;
-  gap: 0.55rem;
+  gap: clamp(0.58rem, 1vw, 0.82rem);
   text-align: center;
 }
 
@@ -1210,30 +1212,49 @@
 }
 
 .svc-handling-heading h2 {
+  display: grid;
+  max-width: 20ch;
+  margin-inline: auto;
+  gap: 0.08em;
   color: var(--svc-ink);
   font-family: var(--site-font-display);
   font-size: var(--site-section-title-size);
   font-weight: 800;
   line-height: var(--site-section-title-line-height);
-  letter-spacing: 0;
+  letter-spacing: var(--site-section-title-tracking);
   text-wrap: balance;
+}
+
+.svc-handling-heading h2 span {
+  display: block;
+}
+
+.svc-handling-heading h2 strong {
+  color: var(--svc-red);
+  font-weight: 900;
 }
 
 .svc-handling-strip .svc-handling-grid {
   display: grid;
-  width: min(100%, 83rem);
-  margin-top: clamp(2rem, 3.6vw, 3.1rem);
+  width: min(calc(100% - 2rem), 83rem);
+  margin-inline: auto;
+  margin-top: clamp(2.4rem, 4vw, 3.7rem);
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 1px;
-  border: 1px solid rgba(var(--site-brand-navy-rgb), 0.12);
-  background: rgba(var(--site-brand-navy-rgb), 0.12);
+  gap: 0;
+  border-top: 1px solid rgba(var(--site-brand-navy-rgb), 0.13);
+  background: #ffffff;
 }
 
 .svc-handling-strip .svc-handling-item {
   min-height: clamp(12rem, 13vw, 14rem);
   padding: clamp(1.15rem, 1.9vw, 1.55rem);
-  background: #ffffff;
+  border-right: 1px solid rgba(var(--site-brand-navy-rgb), 0.13);
+  background: transparent;
   color: var(--svc-ink);
+}
+
+.svc-handling-strip .svc-handling-item:last-child {
+  border-right: 0;
 }
 
 .svc-handling-strip .svc-handling-item::after,
@@ -1253,6 +1274,84 @@
 
 .svc-handling-strip .svc-handling-item p {
   color: rgba(7, 27, 53, 0.72);
+}
+
+.svc-handling-final-cta {
+  --svc-final-cta-step: clamp(2rem, 3.8vw, 3.2rem);
+  position: relative;
+  display: grid;
+  justify-items: center;
+  margin-top: clamp(4.2rem, 8vw, 6rem);
+  padding: calc(var(--svc-final-cta-step) + clamp(2.6rem, 4.4vw, 3.7rem))
+    clamp(1.4rem, 4vw, 4rem) clamp(3.6rem, 6vw, 5rem);
+  border-bottom: 2px solid var(--svc-ink);
+  background: #ffffff;
+  color: var(--svc-ink);
+  text-align: center;
+}
+
+.svc-handling-final-cta h2 {
+  max-width: 22ch;
+  color: var(--svc-ink);
+  font-family: var(--site-font-display);
+  font-size: clamp(2.25rem, 2.68vw, 3rem);
+  font-weight: 800;
+  line-height: 1.16;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.svc-handling-final-cta h2 strong {
+  color: var(--svc-red);
+  font-weight: 900;
+}
+
+.svc-handling-final-cta p {
+  max-width: 47rem;
+  margin-top: clamp(1.25rem, 2.3vw, 1.75rem);
+  color: var(--svc-ink);
+  font-size: clamp(1rem, 1.12vw, 1.16rem);
+  font-weight: 500;
+  line-height: 1.62;
+  letter-spacing: 0;
+}
+
+.svc-handling-final-cta-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.9rem, 2vw, 1.45rem);
+  min-width: min(100%, 18.5rem);
+  min-height: clamp(3.45rem, 4.8vw, 4rem);
+  margin-top: clamp(1.8rem, 3.2vw, 2.35rem);
+  padding: 0.85rem clamp(1.45rem, 3.4vw, 2.4rem);
+  border-radius: 8px;
+  background: var(--svc-red);
+  color: #ffffff;
+  font-family: var(--site-font-display);
+  font-size: clamp(0.95rem, 1.08vw, 1.12rem);
+  font-weight: 850;
+  line-height: 1;
+  letter-spacing: 0;
+  text-decoration: none;
+  box-shadow: 0 1rem 2rem rgba(237, 0, 9, 0.24);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.svc-handling-final-cta-link:hover,
+.svc-handling-final-cta-link:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 1.15rem 2.3rem rgba(237, 0, 9, 0.3);
+}
+
+.svc-handling-final-cta-link:focus-visible {
+  outline: 3px solid rgba(237, 0, 9, 0.28);
+  outline-offset: 4px;
+}
+
+.svc-handling-final-cta-arrow {
+  font-size: 1.18em;
+  line-height: 0;
 }
 
 @keyframes svcFlowPanelIn {
@@ -1343,8 +1442,18 @@
   }
 
   .svc-handling-strip .svc-handling-grid {
-    width: min(100%, 43rem);
+    width: min(calc(100% - 2rem), 43rem);
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .svc-handling-final-cta {
+    --svc-final-cta-step: clamp(1.4rem, 5vw, 2.2rem);
+    margin-top: clamp(3.2rem, 7vw, 4.3rem);
+  }
+
+  .svc-handling-final-cta h2 {
+    max-width: 21ch;
+    font-size: clamp(1.32rem, 4vw, 2.05rem);
   }
 }
 
@@ -1428,7 +1537,7 @@
   }
 
   .svc-handling-strip {
-    padding: 3.1rem 0.85rem;
+    padding: 3.1rem 0 0;
   }
 
   .svc-handling-strip .svc-handling-grid {
@@ -1438,8 +1547,33 @@
 
   .svc-handling-strip .svc-handling-item {
     min-height: auto;
-    border-bottom: 0;
+    border-right: 0;
+    border-bottom: 1px solid rgba(var(--site-brand-navy-rgb), 0.11);
     padding: 1.35rem 1rem;
+  }
+
+  .svc-handling-strip .svc-handling-item:last-child {
+    border-bottom: 0;
+  }
+
+  .svc-handling-final-cta {
+    margin-top: 2.8rem;
+    padding-inline: 1.1rem;
+  }
+
+  .svc-handling-final-cta h2 {
+    max-width: 22ch;
+    font-size: clamp(1.08rem, 4.35vw, 1.5rem);
+  }
+
+  .svc-handling-final-cta p {
+    font-size: 0.98rem;
+  }
+
+  .svc-handling-final-cta-link {
+    width: min(100%, 22rem);
+    min-height: 3.95rem;
+    font-size: 1.08rem;
   }
 }
 
@@ -1930,482 +2064,619 @@
   }
 }
 
-/* Screenshot-matched service body */
-.svc-page {
-  --svc-stair-blue-field: #002b66;
-  --svc-stair-navy: #002b66;
-  --svc-stair-navy-dark: #002452;
-  --svc-stair-navy-deep: #001237;
-  --svc-stair-ink: #001e53;
-  --svc-stair-red: #ff2b22;
-  background: var(--svc-stair-navy-deep);
-}
-
-.svc-page .svc-services-canvas {
-  padding-bottom: 0;
-}
-
-.svc-page .svc-services-shot {
+/* Rebuilt service reference section */
+.svc-reference-section {
+  --svc-ref-navy: #031b38;
+  --svc-ref-navy-top: #072a53;
+  --svc-ref-navy-deep: #02142d;
+  --svc-ref-ink: #041d38;
+  --svc-ref-red: #ed1c24;
+  --svc-ref-line: rgba(231, 242, 255, 0.9);
+  --svc-ref-copy: rgba(255, 255, 255, 0.94);
+  --svc-ref-edge-depth: clamp(2.55rem, 3.95vw, 3.2rem);
+  --svc-ref-edge-mid: calc(var(--svc-ref-edge-depth) * 0.66);
+  --svc-ref-edge-high: calc(var(--svc-ref-edge-depth) * 0.33);
   position: relative;
-  z-index: 1;
-  min-height: 0;
-  margin-top: 0;
-  padding: 0 1rem;
+  z-index: 2;
+  margin-top: calc(0rem - var(--svc-curtain-overlap) + clamp(1.35rem, 2.2vw, 1.8rem));
+  padding: clamp(1.7rem, 2.2vw, 2.05rem) 1rem
+    calc(clamp(4.4rem, 7.5vw, 7rem) + var(--svc-ref-edge-depth));
   overflow: clip;
   isolation: isolate;
   background:
-    radial-gradient(ellipse at 50% -4%, rgba(0, 20, 55, 0.42) 0%, rgba(0, 20, 55, 0) 54%),
-    radial-gradient(ellipse at 50% 104%, rgba(0, 17, 50, 0.38) 0%, rgba(0, 17, 50, 0) 58%),
-    radial-gradient(ellipse at 48% 54%, rgba(0, 61, 139, 0.2) 0%, rgba(0, 61, 139, 0) 64%),
-    var(--svc-stair-blue-field);
-  color: var(--svc-stair-ink);
+    radial-gradient(ellipse at 50% 0%, rgba(8, 55, 103, 0.7) 0%, rgba(8, 55, 103, 0) 46%),
+    radial-gradient(ellipse at 50% 48%, rgba(2, 34, 72, 0.72) 0%, rgba(2, 34, 72, 0) 62%),
+    linear-gradient(180deg, var(--svc-ref-navy-top) 0%, var(--svc-ref-navy) 56%, var(--svc-ref-navy-deep) 100%);
+  clip-path: polygon(
+    0 var(--svc-ref-edge-depth),
+    8.55% var(--svc-ref-edge-depth),
+    8.55% var(--svc-ref-edge-mid),
+    10.9% var(--svc-ref-edge-mid),
+    10.9% var(--svc-ref-edge-high),
+    13.2% var(--svc-ref-edge-high),
+    13.2% 0,
+    86.8% 0,
+    86.8% var(--svc-ref-edge-high),
+    89.1% var(--svc-ref-edge-high),
+    89.1% var(--svc-ref-edge-mid),
+    91.45% var(--svc-ref-edge-mid),
+    91.45% var(--svc-ref-edge-depth),
+    100% var(--svc-ref-edge-depth),
+    100% calc(100% - var(--svc-ref-edge-depth)),
+    91.45% calc(100% - var(--svc-ref-edge-depth)),
+    91.45% calc(100% - var(--svc-ref-edge-mid)),
+    89.1% calc(100% - var(--svc-ref-edge-mid)),
+    89.1% calc(100% - var(--svc-ref-edge-high)),
+    86.8% calc(100% - var(--svc-ref-edge-high)),
+    86.8% 100%,
+    13.2% 100%,
+    13.2% calc(100% - var(--svc-ref-edge-high)),
+    10.9% calc(100% - var(--svc-ref-edge-high)),
+    10.9% calc(100% - var(--svc-ref-edge-mid)),
+    8.55% calc(100% - var(--svc-ref-edge-mid)),
+    8.55% calc(100% - var(--svc-ref-edge-depth)),
+    0 calc(100% - var(--svc-ref-edge-depth))
+  );
+  color: #ffffff;
 }
 
-.svc-page .svc-services-shot::before {
-  content: '';
-  position: absolute;
-  inset: -11rem -7vw auto;
-  z-index: -1;
-  height: 22rem;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(3, 26, 57, 0.96), rgba(0, 30, 76, 0));
+.svc-reference-section::before {
+  content: none;
 }
 
-.svc-stair-canvas {
-  position: relative;
-  width: min(100%, 64rem);
-  aspect-ratio: 2 / 3;
+.svc-reference-shell {
+  width: min(100%, 79rem);
   margin-inline: auto;
-  background: transparent;
-  container-type: inline-size;
 }
 
-.svc-stair-service {
+.svc-reference-header {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.svc-reference-mark {
+  display: block;
+  width: clamp(3.35rem, 4.2vw, 4.35rem);
+  height: 0.18rem;
+  background: var(--svc-ref-red);
+}
+
+.svc-reference-title,
+.svc-reference-copy,
+.svc-reference-number,
+.svc-reference-copy-number,
+.svc-reference-card-title,
+.svc-reference-summary {
+  margin: 0;
+}
+
+.svc-reference-title {
+  margin-top: clamp(0.78rem, 1.15vw, 0.95rem);
+  color: #ffffff;
+  font-family: var(--site-font-display);
+  font-size: clamp(2rem, 2.8vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0;
+  text-wrap: balance;
+  text-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.svc-reference-copy {
+  width: min(100%, 56.8rem);
+  margin-top: clamp(0.95rem, 1.45vw, 1.22rem);
+  color: var(--svc-ref-copy);
+  font-size: clamp(0.96rem, 1.15vw, 1.1rem);
+  font-weight: 500;
+  line-height: 1.58;
+  text-wrap: balance;
+}
+
+.svc-reference-nav {
+  width: min(100%, 79rem);
+  margin: clamp(2.25rem, 3.1vw, 2.6rem) auto 0;
+}
+
+.svc-reference-nav-track {
+  position: relative;
+  display: grid;
+  min-height: 8rem;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.svc-reference-nav-rail {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 4rem;
+  overflow: visible;
+  color: var(--svc-ref-line);
   pointer-events: none;
 }
 
-.svc-stair-service::before {
+.svc-reference-nav-rail path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-width: 1.35;
+}
+
+.svc-reference-tab {
+  appearance: none;
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 8rem;
+  align-content: start;
+  justify-items: center;
+  gap: clamp(0.42rem, 0.6vw, 0.55rem);
+  padding: clamp(2.04rem, 2.42vw, 2.38rem) clamp(0.42rem, 0.78vw, 0.74rem) 0.62rem;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.78);
+  font: inherit;
+  cursor: pointer;
+  text-align: center;
+  transition: color 180ms ease;
+}
+
+.svc-reference-tab::before {
   content: '';
   position: absolute;
-  z-index: 0;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.98), #ffffff 58%, rgba(247, 250, 253, 0.98));
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.72) inset,
-    0 18px 42px rgba(0, 16, 45, 0.08);
+  top: 4.2rem;
+  right: 0;
+  bottom: 1.2rem;
+  width: 1px;
+  background: rgba(231, 242, 255, 0.82);
 }
 
-.svc-stair-title-card,
-.svc-stair-detail {
-  pointer-events: auto;
+.svc-reference-tab:last-child::before {
+  content: none;
 }
 
-.svc-stair-title-card {
+.svc-reference-tab-step {
+  display: none;
+}
+
+.svc-reference-tab::after {
+  content: '';
   position: absolute;
-  z-index: 2;
+  bottom: 0.36rem;
+  left: 50%;
+  width: clamp(2.05rem, 2.5vw, 2.6rem);
+  height: 0.14rem;
+  background: var(--svc-ref-red);
+  opacity: 0;
+  transform: translateX(-50%) scaleX(0.58);
+  transform-origin: center;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.svc-reference-tab:hover,
+.svc-reference-tab:focus-visible,
+.svc-reference-tab.is-active {
+  color: #ffffff;
+}
+
+.svc-reference-tab.is-active::after {
+  opacity: 1;
+  transform: translateX(-50%) scaleX(1);
+}
+
+.svc-reference-tab:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.42);
+  outline-offset: -0.28rem;
+}
+
+.svc-reference-tab-icon {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: clamp(1.65rem, 1.9vw, 1.92rem);
+  aspect-ratio: 1;
+  place-items: center;
+  color: currentColor;
+}
+
+.svc-reference-tab-icon .svc-category-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.svc-reference-tab-label {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: 11.6ch;
+  color: currentColor;
+  font-family: var(--site-font-display);
+  font-size: clamp(0.66rem, 0.78vw, 0.78rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.svc-reference-board {
+  width: min(100%, 62.5rem);
+  margin: clamp(2rem, 2.75vw, 2.36rem) auto 0;
+  color: var(--svc-ref-ink);
+}
+
+.svc-reference-card-stack {
+  display: grid;
+  border: 0;
+  background: transparent;
+  box-shadow: 0 24px 52px rgba(0, 14, 36, 0.13);
+}
+
+.svc-reference-card {
+  display: grid;
+  min-height: 0;
+  height: clamp(15.75rem, 15.5vw, 16.15rem);
+  grid-template-columns: minmax(0, 0.49fr) minmax(0, 0.51fr);
+  background: #ffffff;
+}
+
+.svc-reference-card + .svc-reference-card {
+  margin-top: 0;
+}
+
+.svc-reference-title-panel,
+.svc-reference-detail-panel {
+  min-width: 0;
+}
+
+.svc-reference-title-panel {
+  position: relative;
+  z-index: 1;
   display: flex;
+  min-height: inherit;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: center;
   overflow: hidden;
-  padding: var(--svc-stair-title-pad-top, clamp(2.7rem, 4.6cqw, 2.95rem)) 0 0
-    var(--svc-stair-title-pad-left, clamp(2rem, 4.5cqw, 2.9rem));
-  background: var(--svc-stair-blue-field);
+  padding: clamp(2.25rem, 3.8vw, 3.45rem) clamp(2rem, 4vw, 3.65rem);
+  background:
+    radial-gradient(circle at 72% 28%, rgba(8, 55, 103, 0.42), rgba(8, 55, 103, 0) 46%),
+    var(--svc-ref-navy);
   color: #ffffff;
-  box-shadow: none;
-}
-
-.svc-stair-service--left .svc-stair-title-card {
   clip-path: polygon(
     0 0,
     100% 0,
-    100% 33%,
-    91.6% 33%,
-    91.6% 51.5%,
-    84% 51.5%,
-    84% 69.3%,
-    76.8% 69.3%,
-    76.8% 100%,
+    100% 15%,
+    94.5% 15%,
+    94.5% 32%,
+    89% 32%,
+    89% 49%,
+    83.5% 49%,
+    83.5% 66%,
+    78% 66%,
+    78% 100%,
     0 100%
   );
 }
 
-.svc-stair-service--right .svc-stair-title-card {
+.svc-reference-card--reverse .svc-reference-title-panel {
+  order: 2;
+  width: 118%;
+  margin-left: -18%;
+  padding-left: clamp(7.2rem, 10.4vw, 10.8rem);
   clip-path: polygon(
-    16.8% 0,
+    18% 0,
     100% 0,
     100% 100%,
     0 100%,
-    0 77%,
-    5.5% 77%,
-    5.5% 62.4%,
-    11.2% 62.4%,
-    11.2% 45.4%,
-    16.8% 45.4%
+    0 83%,
+    4.5% 83%,
+    4.5% 66%,
+    9% 66%,
+    9% 49%,
+    13.5% 49%,
+    13.5% 32%,
+    18% 32%
   );
 }
 
-.svc-stair-number,
-.svc-stair-copy-number,
-.svc-stair-title,
-.svc-stair-summary {
-  margin: 0;
+.svc-reference-card--reverse .svc-reference-detail-panel {
+  order: 1;
 }
 
-.svc-stair-number,
-.svc-stair-copy-number {
-  color: var(--svc-stair-red);
-  font-size: clamp(0.95rem, 1.76cqw, 1.13rem);
+.svc-reference-detail-panel {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  min-height: inherit;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(1.85rem, 3vw, 2.86rem) clamp(2.2rem, 4.15vw, 4rem);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.99), #ffffff 58%, rgba(247, 250, 253, 0.99));
+  color: var(--svc-ref-ink);
+}
+
+.svc-reference-number,
+.svc-reference-copy-number {
+  color: var(--svc-ref-red);
+  font-size: clamp(0.95rem, 1.35vw, 1.16rem);
   font-weight: 850;
   line-height: 1;
   letter-spacing: 0;
 }
 
-.svc-stair-rule,
-.svc-stair-copy-rule {
+.svc-reference-panel-rule,
+.svc-reference-copy-rule {
   display: block;
-  width: clamp(1.28rem, 2.25cqw, 1.45rem);
-  height: 1px;
-  margin-top: clamp(0.58rem, 0.9cqw, 0.64rem);
-  background: var(--svc-stair-red);
+  width: clamp(1.28rem, 2vw, 1.48rem);
+  height: 2px;
+  margin-top: clamp(0.58rem, 0.9vw, 0.68rem);
+  background: var(--svc-ref-red);
 }
 
-.svc-stair-title {
+.svc-reference-card-title {
   display: grid;
-  margin-top: clamp(0.88rem, 1.7cqw, 1.08rem);
+  margin-top: clamp(0.88rem, 1.7vw, 1.08rem);
   color: #ffffff;
   font-family: var(--home-font-sans, var(--site-font-sans));
-  font-size: clamp(2.15rem, 5cqw, 3.18rem);
+  font-size: clamp(1.82rem, 2.45vw, 2.35rem);
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.08;
   letter-spacing: 0;
+  text-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
 }
 
-.svc-stair-title > span {
+.svc-reference-card-title > span {
   display: block;
 }
 
-.svc-stair-title-dot {
-  display: inline;
-  color: var(--svc-stair-red);
+.svc-reference-title-dot {
+  color: var(--svc-ref-red);
 }
 
-.svc-stair-detail {
-  position: absolute;
-  z-index: 3;
-  width: 33.6%;
-  color: var(--svc-stair-ink);
+.svc-reference-card--title-dense .svc-reference-card-title {
+  font-size: clamp(1.62rem, 2.18vw, 2.08rem);
 }
 
-.svc-stair-summary {
-  color: var(--svc-stair-ink);
-  font-size: clamp(0.78rem, 1.34cqw, 0.88rem);
-  font-weight: 500;
-  line-height: 1.82;
+.svc-reference-card--title-tight .svc-reference-card-title {
+  font-size: clamp(1.46rem, 1.96vw, 1.9rem);
+  line-height: 1.06;
+}
+
+.svc-reference-summary {
+  color: var(--svc-ref-ink);
+  font-size: clamp(0.82rem, 0.98vw, 0.92rem);
+  font-weight: 650;
+  line-height: 1.62;
   letter-spacing: 0;
 }
 
-.svc-stair-summary-line {
+.svc-reference-copy-rule + .svc-reference-summary {
+  margin-top: clamp(1.08rem, 1.6vw, 1.42rem);
+}
+
+.svc-reference-summary-line {
   display: inline;
-  white-space: normal;
 }
 
-.svc-stair-summary--fixed-lines .svc-stair-summary-line {
-  display: block;
-  white-space: nowrap;
-}
-
-.svc-stair-copy-rule + .svc-stair-summary {
-  margin-top: clamp(1.08rem, 2.2cqw, 1.42rem);
-}
-
-.svc-stair-link {
+.svc-reference-link,
+.svc-reference-title-link {
   display: inline-flex;
   align-items: center;
-  gap: clamp(0.95rem, 2.1cqw, 1.35rem);
-  margin-top: clamp(1.35rem, 2.85cqw, 1.85rem);
-  color: var(--svc-stair-ink);
-  font-size: clamp(0.78rem, 1.36cqw, 0.88rem);
+  gap: clamp(0.9rem, 1.6vw, 1.25rem);
+  color: currentColor;
+  font-size: clamp(0.8rem, 0.95vw, 0.92rem);
   font-weight: 850;
   line-height: 1;
   letter-spacing: 0;
   text-decoration: none;
 }
 
-.svc-stair-link-icon {
+.svc-reference-link {
+  margin-top: clamp(1.35rem, 2.1vw, 1.85rem);
+}
+
+.svc-reference-title-link {
+  margin-top: clamp(1.35rem, 2.1vw, 1.85rem);
+  color: #ffffff;
+}
+
+.svc-reference-link-icon {
   display: inline-grid;
-  width: clamp(1.16rem, 2.05cqw, 1.32rem);
-  height: clamp(1.16rem, 2.05cqw, 1.32rem);
+  width: clamp(1.16rem, 1.6vw, 1.36rem);
+  aspect-ratio: 1;
   place-items: center;
-  color: var(--svc-stair-red);
+  color: var(--svc-ref-red);
   transition: transform 180ms ease;
 }
 
-.svc-stair-link-icon svg {
+.svc-reference-link-icon svg {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-.svc-stair-link:hover .svc-stair-link-icon,
-.svc-stair-link:focus-visible .svc-stair-link-icon {
+.svc-reference-link:hover .svc-reference-link-icon,
+.svc-reference-link:focus-visible .svc-reference-link-icon,
+.svc-reference-title-link:hover .svc-reference-link-icon,
+.svc-reference-title-link:focus-visible .svc-reference-link-icon {
   transform: translateX(0.18rem);
 }
 
-.svc-stair-link:focus-visible {
-  outline: 2px solid rgba(255, 43, 34, 0.42);
+.svc-reference-link:focus-visible,
+.svc-reference-title-link:focus-visible {
+  outline: 2px solid rgba(237, 28, 36, 0.42);
   outline-offset: 0.32rem;
 }
 
-.svc-stair-service--01::before {
-  top: 5.9%;
-  left: 47.16%;
-  width: 52.84%;
-  height: 19.03%;
+@media (min-width: 1081px) {
+  .svc-reference-summary--fixed-lines .svc-reference-summary-line {
+    display: block;
+    white-space: nowrap;
+  }
 }
 
-.svc-stair-service--01 .svc-stair-title-card {
-  top: 7.55%;
-  left: 5.96%;
-  width: 46.78%;
-  height: 17.38%;
-  --svc-stair-title-pad-top: clamp(3.2rem, 6.35cqw, 4.08rem);
-  --svc-stair-title-pad-left: clamp(2rem, 4.5cqw, 2.9rem);
-  clip-path: polygon(
-    0 12.4%,
-    90.1% 12.4%,
-    90.1% 0,
-    100% 0,
-    100% 50.7%,
-    91.2% 50.7%,
-    91.2% 66.8%,
-    83.6% 66.8%,
-    83.6% 83.2%,
-    76.3% 83.2%,
-    76.3% 100%,
-    0 100%
-  );
-}
-
-.svc-stair-service--01 .svc-stair-detail {
-  top: 11.7%;
-  left: 57.05%;
-}
-
-.svc-stair-service--02::before {
-  top: 24.93%;
-  left: 5.96%;
-  width: 43.68%;
-  height: 19.08%;
-}
-
-.svc-stair-service--02 .svc-stair-title-card {
-  top: 24.93%;
-  left: 40.43%;
-  width: 59.57%;
-  height: 19.01%;
-  --svc-stair-title-pad-top: clamp(3.15rem, 6.25cqw, 4rem);
-  --svc-stair-title-pad-left: clamp(7rem, 16.1cqw, 10.35rem);
-}
-
-.svc-stair-service--02 .svc-stair-detail {
-  top: 28.84%;
-  left: 10.55%;
-  width: 33.8%;
-}
-
-.svc-stair-service--03::before {
-  top: 44.01%;
-  left: 40.43%;
-  width: 59.57%;
-  height: 17.71%;
-}
-
-.svc-stair-service--03 .svc-stair-title-card {
-  top: 44.01%;
-  left: 5.96%;
-  width: 46.2%;
-  height: 17.71%;
-}
-
-.svc-stair-service--03 .svc-stair-detail {
-  top: 49.02%;
-  left: 56.84%;
-}
-
-.svc-stair-service--04::before {
-  top: 61.72%;
-  left: 5.96%;
-  width: 43.68%;
-  height: 16.34%;
-}
-
-.svc-stair-service--04 .svc-stair-title-card {
-  top: 61.72%;
-  left: 41.2%;
-  width: 58.8%;
-  height: 16.41%;
-  --svc-stair-title-pad-top: clamp(2.65rem, 4.65cqw, 3rem);
-  --svc-stair-title-pad-left: clamp(7rem, 15.65cqw, 10rem);
-}
-
-.svc-stair-service--04 .svc-stair-title {
-  font-size: clamp(2rem, 4.55cqw, 2.92rem);
-}
-
-.svc-stair-service--04 .svc-stair-detail {
-  top: 64.85%;
-  left: 10.55%;
-  width: 33.8%;
-}
-
-.svc-stair-service--05::before {
-  top: 78.06%;
-  left: 40.43%;
-  width: 59.57%;
-  height: 15.36%;
-}
-
-.svc-stair-service--05 .svc-stair-title-card {
-  top: 78.06%;
-  left: 5.96%;
-  width: 45.7%;
-  height: 15.36%;
-}
-
-.svc-stair-service--05 .svc-stair-detail {
-  top: 81.65%;
-  left: 56.84%;
-  width: 33.6%;
-}
-
-.svc-stair-service--title-dense .svc-stair-title {
-  font-size: clamp(1.92rem, 4.55cqw, 2.9rem);
-  line-height: 1.08;
-}
-
-.svc-stair-service--title-tight .svc-stair-title {
-  font-size: clamp(1.68rem, 4.05cqw, 2.52rem);
-  line-height: 1.07;
-}
-
-@media (max-width: 760px) {
-  .svc-page .svc-services-shot {
-    padding: clamp(2.2rem, 8vw, 3.4rem) clamp(0.95rem, 4vw, 1.35rem) clamp(2.8rem, 9vw, 4rem);
+@media (max-width: 1080px) {
+  .svc-reference-board {
+    width: min(100%, 58rem);
   }
 
-  .svc-stair-canvas {
-    display: grid;
-    width: min(100%, 31rem);
-    height: auto;
-    aspect-ratio: auto;
-    gap: 0;
+  .svc-reference-card {
+    height: clamp(14.8rem, 20vw, 15.75rem);
   }
 
-  .svc-stair-service {
-    position: relative;
-    inset: auto;
-    display: grid;
-    pointer-events: auto;
+  .svc-reference-card-title {
+    font-size: clamp(1.72rem, 3.45vw, 2.28rem);
   }
 
-  .svc-stair-service::before {
-    content: none;
+  .svc-reference-card--reverse .svc-reference-title-panel {
+    padding-left: clamp(4.6rem, 8vw, 6.5rem);
+  }
+}
+
+@media (max-width: 920px) {
+  .svc-reference-section {
+    --svc-ref-edge-depth: clamp(1.85rem, 6vw, 2.65rem);
+    padding-top: clamp(2.4rem, 7vw, 3.5rem);
   }
 
-  .svc-stair-service + .svc-stair-service {
-    margin-top: 0;
+  .svc-reference-nav {
+    width: calc(100% + 2rem);
+    margin-inline: -1rem;
   }
 
-  .svc-stair-title-card,
-  .svc-stair-detail,
-  .svc-stair-service--01 .svc-stair-title-card,
-  .svc-stair-service--02 .svc-stair-title-card,
-  .svc-stair-service--03 .svc-stair-title-card,
-  .svc-stair-service--04 .svc-stair-title-card,
-  .svc-stair-service--05 .svc-stair-title-card,
-  .svc-stair-service--01 .svc-stair-detail,
-  .svc-stair-service--02 .svc-stair-detail,
-  .svc-stair-service--03 .svc-stair-detail,
-  .svc-stair-service--04 .svc-stair-detail,
-  .svc-stair-service--05 .svc-stair-detail {
-    position: relative;
-    top: auto;
-    left: auto;
-    width: 100%;
+  .svc-reference-nav-track {
+    display: flex;
+    min-height: 7.2rem;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .svc-reference-nav-rail {
+    width: max(100%, 62.4rem);
+  }
+
+  .svc-reference-nav-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .svc-reference-nav-track::before {
+    right: 1rem;
+    left: 1rem;
+  }
+
+  .svc-reference-tab {
+    flex: 0 0 clamp(8.7rem, 30vw, 10.4rem);
+    scroll-snap-align: center;
+  }
+
+  .svc-reference-board {
+    width: min(100%, 44rem);
+  }
+
+  .svc-reference-card {
+    grid-template-columns: minmax(0, 1fr);
     height: auto;
   }
 
-  .svc-stair-title-card,
-  .svc-stair-service--01 .svc-stair-title-card {
-    min-height: clamp(12rem, 48vw, 15rem);
-    padding: clamp(2rem, 8vw, 2.6rem) clamp(1.7rem, 7vw, 2.25rem);
-    clip-path: polygon(
-      0 0,
-      100% 0,
-      100% 66%,
-      91% 66%,
-      91% 80%,
-      82% 80%,
-      82% 100%,
-      0 100%
-    );
-  }
-
-  .svc-stair-service--right .svc-stair-title-card {
-    clip-path: polygon(
-      0 0,
-      100% 0,
-      100% 66%,
-      91% 66%,
-      91% 80%,
-      82% 80%,
-      82% 100%,
-      0 100%
-    );
-  }
-
-  .svc-stair-title {
-    font-size: clamp(2.4rem, 11vw, 3.25rem);
-  }
-
-  .svc-stair-service--04 .svc-stair-title {
-    font-size: clamp(2.12rem, 9.2vw, 2.8rem);
-  }
-
-  .svc-stair-detail {
-    padding: clamp(1.75rem, 7vw, 2.4rem) clamp(1.7rem, 7vw, 2.25rem) clamp(2.4rem, 8vw, 3rem);
-    background:
-      linear-gradient(135deg, rgba(255, 255, 255, 0.98), #ffffff 58%, rgba(247, 250, 253, 0.98));
-  }
-
-  .svc-stair-service--right .svc-stair-title-card {
+  .svc-reference-title-panel,
+  .svc-reference-card--reverse .svc-reference-title-panel {
     order: 1;
+    width: auto;
+    margin-left: 0;
+    min-height: clamp(12rem, 35vw, 15rem);
+    padding: clamp(2rem, 6vw, 2.6rem) clamp(1.55rem, 5vw, 2.25rem);
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 66%,
+      91% 66%,
+      91% 80%,
+      82% 80%,
+      82% 100%,
+      0 100%
+    );
   }
 
-  .svc-stair-service--right .svc-stair-detail {
+  .svc-reference-detail-panel,
+  .svc-reference-card--reverse .svc-reference-detail-panel {
     order: 2;
+    min-height: auto;
+    padding: clamp(1.75rem, 5vw, 2.4rem) clamp(1.55rem, 5vw, 2.25rem)
+      clamp(2.35rem, 6vw, 3rem);
   }
 
-  .svc-stair-summary {
-    max-width: 34rem;
-    font-size: 0.95rem;
-    line-height: 1.72;
+  .svc-reference-title-link {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .svc-reference-section {
+    --svc-ref-edge-depth: clamp(1.55rem, 7vw, 2.25rem);
+    margin-top: calc(0rem - var(--svc-curtain-overlap));
+    padding: clamp(2.25rem, 7vw, 3.1rem) 0.85rem
+      calc(clamp(3.2rem, 9vw, 4.6rem) + var(--svc-ref-edge-depth));
   }
 
-  .svc-stair-summary-line {
-    white-space: normal;
+  .svc-reference-title {
+    font-size: clamp(1.72rem, 7vw, 2.45rem);
   }
 
-  .svc-stair-link {
-    margin-top: 1.55rem;
-    font-size: 0.88rem;
+  .svc-reference-copy {
+    font-size: 0.94rem;
+    line-height: 1.62;
+  }
+
+  .svc-reference-nav {
+    width: calc(100% + 1.7rem);
+    margin-inline: -0.85rem;
+  }
+
+  .svc-reference-tab {
+    flex-basis: 8.6rem;
+    padding-inline: 0.55rem;
+  }
+
+  .svc-reference-tab-label {
+    font-size: 0.72rem;
+  }
+
+  .svc-reference-board {
+    margin-top: 2rem;
+  }
+
+  .svc-reference-card-title {
+    font-size: clamp(1.78rem, 8.2vw, 2.42rem);
+  }
+
+  .svc-reference-card--title-dense .svc-reference-card-title,
+  .svc-reference-card--title-tight .svc-reference-card-title {
+    font-size: clamp(1.46rem, 7.2vw, 2.08rem);
+  }
+
+  .svc-reference-summary {
+    font-size: 0.92rem;
+    line-height: 1.62;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .svc-stair-link-icon {
+  .svc-reference-tab,
+  .svc-reference-tab-step,
+  .svc-reference-tab::after,
+  .svc-reference-link-icon {
     transition: none;
   }
 }

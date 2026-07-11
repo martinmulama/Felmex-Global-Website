@@ -286,11 +286,6 @@ const SERVICE_CATEGORY_GROUPS = [
   },
 ];
 
-const SERVICE_FLOW_ROUTE_A =
-  'M44 176H0V20Q0 0 20 0H520Q540 0 540 20V90Q540 110 560 110H690Q710 110 710 130V156Q710 176 730 176H1000';
-const SERVICE_FLOW_ROUTE_B =
-  'M0 176H236Q256 176 256 156V94Q256 74 276 74H352Q372 74 372 54V20Q372 0 392 0H562Q582 0 582 20V90Q582 110 602 110H692Q712 110 712 130V156Q712 176 732 176H1000';
-
 const SERVICE_BODY_ITEMS = [
   {
     number: '01',
@@ -311,12 +306,12 @@ const SERVICE_BODY_ITEMS = [
     number: '02',
     titleLines: ['Air', 'Freight'],
     summary:
-      'Fast and secure air freight services to meet your most critical shipping deadlines. With a global network and priority solutions, we ensure speed, reliability, and complete visibility.',
+      'Fast and secure air freight services to meet your urgent shipping needs. With priority handling and global reach, we keep your cargo moving - on time, every time.',
     summaryLines: [
       'Fast and secure air freight services to meet your',
-      'most critical shipping deadlines. With a global',
-      'network and priority solutions, we ensure speed,',
-      'reliability, and complete visibility.',
+      'urgent shipping needs. With priority handling',
+      'and global reach, we keep your cargo moving',
+      '- on time, every time.',
     ],
     href: '/contact',
     titleSide: 'right',
@@ -421,18 +416,6 @@ function ArrowIcon() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </svg>
-  );
-}
-
-function ServiceShieldIcon() {
-  return (
-    <svg viewBox="0 0 64 64" focusable="false" aria-hidden="true">
-      <path
-        d="M32 9.5c7.1 5.1 14.4 5.7 20.1 6.3v14.1c0 12.4-7.6 21.2-20.1 25.2C19.5 51.1 11.9 42.3 11.9 29.9V15.8c5.7-.6 13-1.2 20.1-6.3Z"
-        className="svc-line-icon-stroke"
-      />
-      <path d="m24.1 31.9 5.4 5.4 11.1-12" className="svc-line-icon-accent" />
     </svg>
   );
 }
@@ -640,21 +623,6 @@ function HandlingIcon({ kind }) {
   );
 }
 
-function FlagIcon() {
-  return (
-    <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-      <path
-        d="M7 21V4.5m0 0c2.8-1.5 5.4 1.5 8.2 0 1.2-.6 1.8-.8 2.8-.8v8.4c-1 0-1.6.2-2.8.8-2.8 1.5-5.4-1.5-8.2 0"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export function ServicePage() {
   const [activeCategoryId, setActiveCategoryId] = useState(SERVICE_CATEGORY_GROUPS[0].id);
   const activeCategory =
@@ -685,40 +653,43 @@ export function ServicePage() {
       </section>
 
       <section
-        className="svc-services-canvas"
+        className="svc-reference-section"
         id="svc-services-canvas"
         aria-label="How Felmex handles services"
       >
-        <svg
-          className="svc-services-curtain-shape"
-          viewBox="0 0 1536 320"
-          preserveAspectRatio="none"
-          focusable="false"
-          aria-hidden="true"
-        >
-          <path d="M0 106H207C219 106 227 97 227 84V71C227 56 239 45 255 45H676C689 45 699 35 699 22V18C699 8 708 0 720 0H816C828 0 837 8 837 18V22C837 35 847 45 860 45H1281C1297 45 1309 56 1309 71V84C1309 97 1317 106 1329 106H1536V320H0Z" />
-        </svg>
-        <div className="svc-services-content">
-          <div className="svc-services-badge" aria-hidden="true">
-            <ServiceShieldIcon />
-          </div>
-          <h2 className="svc-services-title">How we handle our services</h2>
-          <p className="svc-services-copy">
-            At Felmex, every service is managed with a commitment to precision, transparency, and
-            reliability. From initial planning to final delivery, our teams ensure every detail is
-            coordinated across customs, carriers, and on-ground partners. With real-time visibility
-            and proactive communication, we minimize risk, keep cargo moving, and deliver results
-            our clients can depend on.
-          </p>
+        <div className="svc-reference-shell">
+          <header className="svc-reference-header">
+            <span className="svc-reference-mark" aria-hidden="true" />
+            <h2 className="svc-reference-title">How we handle our services</h2>
+            <p className="svc-reference-copy">
+              At Felmex, every service is managed with a commitment to precision, transparency, and
+              reliability. From initial planning to final delivery, our teams ensure every detail is
+              coordinated across customs, carriers, and on-ground partners. With real-time visibility
+              and proactive communication, we minimize risk, keep cargo moving, and deliver results
+              our clients can depend on.
+            </p>
+          </header>
 
-          <nav className="svc-category-nav" aria-label="Service categories">
-            <div className="svc-category-nav-scroll" role="tablist" aria-label="Service categories">
+          <nav className="svc-reference-nav" aria-label="Service categories">
+            <div className="svc-reference-nav-track" role="tablist" aria-label="Service categories">
+              <svg
+                className="svc-reference-nav-rail"
+                viewBox="0 0 1200 64"
+                preserveAspectRatio="none"
+                focusable="false"
+                aria-hidden="true"
+              >
+                <path
+                  d="M0 48H24V25H36V5H164V25H176V48H224V25H236V5H364V25H376V48H424V25H436V5H564V25H576V48H624V25H636V5H764V25H776V48H824V25H836V5H964V25H976V48H1024V25H1036V5H1164V25H1176V48H1200"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
               {SERVICE_CATEGORY_GROUPS.map((category) => {
                 const isActive = category.id === activeCategory.id;
 
                 return (
                   <button
-                    className={`svc-category-tab${isActive ? ' is-active' : ''}`}
+                    className={`svc-reference-tab${isActive ? ' is-active' : ''}`}
                     type="button"
                     role="tab"
                     aria-selected={isActive}
@@ -727,87 +698,102 @@ export function ServicePage() {
                     key={category.id}
                     onClick={() => setActiveCategoryId(category.id)}
                   >
-                    <span className="svc-category-tab-icon" aria-hidden="true">
+                    <span className="svc-reference-tab-step" aria-hidden="true" />
+                    <span className="svc-reference-tab-icon" aria-hidden="true">
                       <ServiceCategoryIcon kind={category.icon} />
                     </span>
-                    <span>{category.label}</span>
+                    <span className="svc-reference-tab-label">{category.label}</span>
                   </button>
                 );
               })}
             </div>
           </nav>
-        </div>
-      </section>
 
-      <section
-        className="svc-services-shot"
-        id="svc-services-shot"
-        role="tabpanel"
-        aria-labelledby={`svc-category-tab-${activeCategory.id}`}
-        aria-label={`${activeCategory.label} services`}
-      >
-        <div
-          key={activeCategory.id}
-          className="svc-stair-canvas"
-          role="list"
-          aria-label={`${activeCategory.label} service lines`}
-          data-category={activeCategory.id}
-        >
-          {activeServiceBodyItems.map((item) => {
-            const titleId = `svc-stair-title-${activeCategory.id}-${item.number}`;
-            const titleFitClass = item.titleFit ? ` svc-stair-service--title-${item.titleFit}` : '';
-            const hasFixedSummaryLines = Array.isArray(item.summaryLines) && item.summaryLines.length > 0;
+          <div
+            className="svc-reference-board"
+            id="svc-services-shot"
+            role="tabpanel"
+            aria-labelledby={`svc-category-tab-${activeCategory.id}`}
+            aria-label={`${activeCategory.label} services`}
+          >
+            <div
+              key={activeCategory.id}
+              className="svc-reference-card-stack"
+              role="list"
+              aria-label={`${activeCategory.label} service lines`}
+              data-category={activeCategory.id}
+            >
+              {activeServiceBodyItems.map((item) => {
+                const titleId = `svc-reference-title-${activeCategory.id}-${item.number}`;
+                const titleFitClass = item.titleFit
+                  ? ` svc-reference-card--title-${item.titleFit}`
+                  : '';
+                const sideClass =
+                  item.titleSide === 'right' ? ' svc-reference-card--reverse' : '';
+                const hasFixedSummaryLines =
+                  Array.isArray(item.summaryLines) && item.summaryLines.length > 0;
 
-            return (
-              <article
-                className={`svc-stair-service svc-stair-service--${item.number} svc-stair-service--${item.titleSide}${titleFitClass}`}
-                key={`${activeCategory.id}-${item.number}`}
-                role="listitem"
-              >
-                <div className="svc-stair-title-card" aria-labelledby={titleId}>
-                  <p className="svc-stair-number">{item.number}</p>
-                  <span className="svc-stair-rule" aria-hidden="true" />
-                  <h2 className="svc-stair-title" id={titleId}>
-                    {item.titleLines.map((line, lineIndex) => (
-                      <span key={line}>
-                        {line}
-                        {lineIndex === item.titleLines.length - 1 ? (
-                          <span className="svc-stair-title-dot">.</span>
-                        ) : null}
-                      </span>
-                    ))}
-                  </h2>
-                </div>
-
-                <div className="svc-stair-detail">
-                  {item.showCopyNumber ? (
-                    <>
-                      <p className="svc-stair-copy-number">{item.number}</p>
-                      <span className="svc-stair-copy-rule" aria-hidden="true" />
-                    </>
-                  ) : null}
-                  <p
-                    className={`svc-stair-summary${
-                      hasFixedSummaryLines ? ' svc-stair-summary--fixed-lines' : ''
-                    }`}
+                return (
+                  <article
+                    className={`svc-reference-card${sideClass}${titleFitClass}`}
+                    key={`${activeCategory.id}-${item.number}`}
+                    role="listitem"
+                    aria-labelledby={titleId}
                   >
-                    {(item.summaryLines ?? [item.summary]).map((line, lineIndex, lines) => (
-                      <span className="svc-stair-summary-line" key={line}>
-                        {line}
-                        {lineIndex < lines.length - 1 ? ' ' : null}
-                      </span>
-                    ))}
-                  </p>
-                  <a className="svc-stair-link" href={item.href}>
-                    <span>View details</span>
-                    <span className="svc-stair-link-icon" aria-hidden="true">
-                      <ArrowIcon />
-                    </span>
-                  </a>
-                </div>
-              </article>
-            );
-          })}
+                    <div className="svc-reference-title-panel">
+                      <p className="svc-reference-number">{item.number}</p>
+                      <span className="svc-reference-panel-rule" aria-hidden="true" />
+                      <h3 className="svc-reference-card-title" id={titleId}>
+                        {item.titleLines.map((line, lineIndex) => (
+                          <span key={`${line}-${lineIndex}`}>
+                            {line}
+                            {lineIndex === item.titleLines.length - 1 ? (
+                              <span className="svc-reference-title-dot">.</span>
+                            ) : null}
+                          </span>
+                        ))}
+                      </h3>
+                      {item.titleSide === 'right' ? (
+                        <a className="svc-reference-title-link" href={item.href}>
+                          <span>View details</span>
+                          <span className="svc-reference-link-icon" aria-hidden="true">
+                            <ArrowIcon />
+                          </span>
+                        </a>
+                      ) : null}
+                    </div>
+
+                    <div className="svc-reference-detail-panel">
+                      {item.showCopyNumber ? (
+                        <>
+                          <p className="svc-reference-copy-number">{item.number}</p>
+                          <span className="svc-reference-copy-rule" aria-hidden="true" />
+                        </>
+                      ) : null}
+                      <p
+                        className={`svc-reference-summary${
+                          hasFixedSummaryLines ? ' svc-reference-summary--fixed-lines' : ''
+                        }`}
+                      >
+                        {(item.summaryLines ?? [item.summary]).map((line, lineIndex, lines) => (
+                          <span className="svc-reference-summary-line" key={`${line}-${lineIndex}`}>
+                            {line}
+                            {lineIndex < lines.length - 1 ? ' ' : null}
+                          </span>
+                        ))}
+                      </p>
+                      <a className="svc-reference-link" href={item.href}>
+                        <span>View details</span>
+                        <span className="svc-reference-link-icon" aria-hidden="true">
+                          <ArrowIcon />
+                        </span>
+                      </a>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -815,7 +801,12 @@ export function ServicePage() {
         <div className="svc-handling-shell">
           <div className="svc-handling-heading">
             <p>Service handling principles</p>
-            <h2>Built to keep cargo moving with control.</h2>
+            <h2>
+              <span>Built to keep cargo</span>
+              <span>
+                moving with <strong>control.</strong>
+              </span>
+            </h2>
           </div>
           <div className="svc-handling-grid" role="list" aria-label="Felmex service strengths">
             {SERVICE_HANDLING_PRINCIPLES.map((item) => (
@@ -827,6 +818,21 @@ export function ServicePage() {
                 <p>{item.description}</p>
               </article>
             ))}
+          </div>
+          <div className="svc-handling-final-cta">
+            <h2>
+              Let&rsquo;s Move Your Business Forward, <strong>Together.</strong>
+            </h2>
+            <p>
+              Partner with FELMEX Global Logistics for seamless, reliable, and scalable logistics
+              solutions that drive growth and open new opportunities.
+            </p>
+            <a className="svc-handling-final-cta-link" href="/contact">
+              <span>Get in Touch</span>
+              <span className="svc-handling-final-cta-arrow" aria-hidden="true">
+                -&gt;
+              </span>
+            </a>
           </div>
         </div>
       </section>
