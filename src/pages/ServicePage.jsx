@@ -29,10 +29,19 @@ const SERVICE_HANDLING_PRINCIPLES = [
   },
 ];
 
+const SERVICE_FINAL_BLUE_COPY_LINES = [
+  'At Felmex, every service is managed with a commitment to precision,',
+  'transparency, and reliability. From initial planning to final delivery,',
+  'our teams ensure every detail is coordinated across customs, carriers,',
+  'and on-ground partners. With real-time visibility and proactive communication,',
+  'we minimize risk, keep cargo moving, and deliver results our clients can depend on.',
+];
+
 const SERVICE_CATEGORY_GROUPS = [
   {
     id: 'multimodal',
-    label: 'Multi-Modal Transport Solutions',
+    label: 'Multimodal Transport Solutions',
+    navLabelLines: ['Multimodal', 'Transport', 'Solutions'],
     icon: 'distribution',
     intro:
       'One accountable plan connecting air, sea, road, rail, warehousing, and delivery teams.',
@@ -92,6 +101,7 @@ const SERVICE_CATEGORY_GROUPS = [
   {
     id: 'freight',
     label: 'International Freight Forwarding',
+    navLabelLines: ['International', 'Freight', 'Forwarding'],
     icon: 'sea',
     intro:
       'Structured freight forwarding for global lanes, carrier coordination, and destination handoff control.',
@@ -131,6 +141,7 @@ const SERVICE_CATEGORY_GROUPS = [
   {
     id: 'customs',
     label: 'Customs & Trade Facilitation',
+    navLabelLines: ['Customs & Trade', 'Facilitation'],
     icon: 'customs',
     intro:
       'Compliance-first clearance support that reduces border friction before it becomes cargo delay.',
@@ -170,6 +181,7 @@ const SERVICE_CATEGORY_GROUPS = [
   {
     id: 'supply-chain',
     label: 'Supply Chain Management',
+    navLabelLines: ['Supply Chain', 'Management'],
     icon: 'rail',
     intro:
       'Practical supply chain coordination that turns movement, storage, partners, and reporting into one operating rhythm.',
@@ -209,6 +221,7 @@ const SERVICE_CATEGORY_GROUPS = [
   {
     id: 'warehouse',
     label: 'Warehousing & Distribution',
+    navLabelLines: ['Warehousing &', 'Distribution'],
     icon: 'warehouse',
     intro:
       'Storage, handling, staging, and dispatch built around visibility, protection, and faster release.',
@@ -248,6 +261,7 @@ const SERVICE_CATEGORY_GROUPS = [
   {
     id: 'parcel',
     label: 'Parcel & Courier',
+    navLabelLines: ['Parcel &', 'Courier'],
     icon: 'parcel',
     intro:
       'Reliable document, parcel, e-commerce, medical, and commercial courier movement with clear handoff control.',
@@ -655,35 +669,11 @@ export function ServicePage() {
       <section
         className="svc-reference-section"
         id="svc-services-canvas"
-        aria-label="How Felmex handles services"
+        aria-label="Felmex service categories"
       >
         <div className="svc-reference-shell">
-          <header className="svc-reference-header">
-            <span className="svc-reference-mark" aria-hidden="true" />
-            <h2 className="svc-reference-title">How we handle our services</h2>
-            <p className="svc-reference-copy">
-              At Felmex, every service is managed with a commitment to precision, transparency, and
-              reliability. From initial planning to final delivery, our teams ensure every detail is
-              coordinated across customs, carriers, and on-ground partners. With real-time visibility
-              and proactive communication, we minimize risk, keep cargo moving, and deliver results
-              our clients can depend on.
-            </p>
-          </header>
-
           <nav className="svc-reference-nav" aria-label="Service categories">
             <div className="svc-reference-nav-track" role="tablist" aria-label="Service categories">
-              <svg
-                className="svc-reference-nav-rail"
-                viewBox="0 0 1200 64"
-                preserveAspectRatio="none"
-                focusable="false"
-                aria-hidden="true"
-              >
-                <path
-                  d="M0 48H24V25H36V5H164V25H176V48H224V25H236V5H364V25H376V48H424V25H436V5H564V25H576V48H624V25H636V5H764V25H776V48H824V25H836V5H964V25H976V48H1024V25H1036V5H1164V25H1176V48H1200"
-                  vectorEffect="non-scaling-stroke"
-                />
-              </svg>
               {SERVICE_CATEGORY_GROUPS.map((category) => {
                 const isActive = category.id === activeCategory.id;
 
@@ -696,13 +686,17 @@ export function ServicePage() {
                     aria-controls="svc-services-shot"
                     id={`svc-category-tab-${category.id}`}
                     key={category.id}
+                    aria-label={category.label}
                     onClick={() => setActiveCategoryId(category.id)}
                   >
-                    <span className="svc-reference-tab-step" aria-hidden="true" />
-                    <span className="svc-reference-tab-icon" aria-hidden="true">
-                      <ServiceCategoryIcon kind={category.icon} />
+                    <span className="svc-reference-tab-label">
+                      {(category.navLabelLines ?? [category.label]).map((line) => (
+                        <span className="svc-reference-tab-label-line" key={line}>
+                          {line}
+                        </span>
+                      ))}
                     </span>
-                    <span className="svc-reference-tab-label">{category.label}</span>
+                    <span className="svc-reference-tab-dot" aria-hidden="true" />
                   </button>
                 );
               })}
@@ -820,19 +814,31 @@ export function ServicePage() {
             ))}
           </div>
           <div className="svc-handling-final-cta">
-            <h2>
-              Let&rsquo;s Move Your Business Forward, <strong>Together.</strong>
-            </h2>
-            <p>
-              Partner with FELMEX Global Logistics for seamless, reliable, and scalable logistics
-              solutions that drive growth and open new opportunities.
-            </p>
-            <a className="svc-handling-final-cta-link" href="/contact">
-              <span>Get in Touch</span>
-              <span className="svc-handling-final-cta-arrow" aria-hidden="true">
-                -&gt;
-              </span>
-            </a>
+            <div className="svc-final-blue-copy">
+              <p>
+                {SERVICE_FINAL_BLUE_COPY_LINES.map((line, lineIndex) => (
+                  <span className="svc-final-blue-copy-line" key={line}>
+                    {line}
+                    {lineIndex < SERVICE_FINAL_BLUE_COPY_LINES.length - 1 ? ' ' : null}
+                  </span>
+                ))}
+              </p>
+            </div>
+            <div className="svc-handling-final-cta-body">
+              <h2>
+                Let&rsquo;s Move Your Business Forward, <strong>Together.</strong>
+              </h2>
+              <p>
+                Partner with FELMEX Global Logistics for seamless, reliable, and scalable logistics
+                solutions that drive growth and open new opportunities.
+              </p>
+              <a className="svc-handling-final-cta-link" href="/contact">
+                <span>Get in Touch</span>
+                <span className="svc-handling-final-cta-arrow" aria-hidden="true">
+                  -&gt;
+                </span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
