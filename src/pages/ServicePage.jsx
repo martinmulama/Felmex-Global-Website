@@ -1,140 +1,76 @@
 import { useState } from 'react';
 import './ServicePage.css';
 
-const SERVICE_HANDLING_PRINCIPLES = [
-  {
-    icon: 'globe',
-    title: 'Global Coverage',
-    description: 'Extensive network of trusted partners and carriers worldwide.',
-  },
-  {
-    icon: 'shield',
-    title: 'Reliable & Secure',
-    description: 'Your cargo is protected with industry-leading safety standards.',
-  },
-  {
-    icon: 'cube',
-    title: 'Flexible Solutions',
-    description: 'FCL, LCL, and specialty shipping options tailored to your needs.',
-  },
-  {
-    icon: 'stopwatch',
-    title: 'On-Time Delivery',
-    description: 'Dependable transit times and proactive shipment tracking.',
-  },
-  {
-    icon: 'headset',
-    title: 'Expert Support',
-    description: 'Dedicated logistics experts supporting you every step.',
-  },
-];
-
-const SERVICE_FINAL_BLUE_COPY_LINES = [
-  'At Felmex, every service is managed with a commitment to precision,',
-  'transparency, and reliability. From initial planning to final delivery,',
-  'our teams ensure every detail is coordinated across customs, carriers,',
-  'and on-ground partners. With real-time visibility and proactive communication,',
-  'we minimize risk, keep cargo moving, and deliver results our clients can depend on.',
-];
-
-const SERVICE_CATEGORY_GROUPS = [
+const SERVICE_CATEGORIES = [
   {
     id: 'multimodal',
     label: 'Multimodal Transport Solutions',
-    navLabelLines: ['Multimodal', 'Transport', 'Solutions'],
-    icon: 'distribution',
-    intro:
-      'One accountable plan connecting air, sea, road, rail, warehousing, and delivery teams.',
-    entries: [
+    navLabelLines: ['Multi-Modal', 'Transport Solutions'],
+    kicker: 'Seamless. Connected. Reliable.',
+    titleLines: ['Multi-Modal', 'Transport', 'Solutions'],
+    description:
+      'We move your cargo seamlessly across road, rail, sea and air through integrated solutions that connect more places, reduce transit time and deliver value at every step.',
+    features: [
       {
-        title: 'Customs Clearance',
-        summary:
-          'Fast, compliant, and hassle-free customs clearance with complete documentation support.',
-        metrics: [
-          { value: '10K+', label: 'Shipments Cleared Annually' },
-          { value: '99.2%', label: 'Compliance Accuracy' },
-          { value: '24H', label: 'Average Clearance Time' },
-        ],
+        icon: 'boxPin',
+        title: 'Last Mile',
+        copy: 'Efficient last mile delivery ensuring your cargo reaches its final destination on time.',
       },
       {
-        title: 'Ocean Freight',
-        summary:
-          'Reliable FCL and LCL solutions with global reach and competitive transit times.',
-        metrics: [
-          { value: '150+', label: 'Global Ports Served' },
-          { value: '98%', label: 'On-Time Performance' },
-          { value: '24/7', label: 'Real-Time Tracking' },
-        ],
+        icon: 'plane',
+        title: 'Air',
+        copy: 'Fast and secure air freight solutions for urgent and high-value shipments.',
       },
       {
-        title: 'Air Freight',
-        summary:
-          'Speed-critical shipments delivered with priority handling and global airline partnerships.',
-        metrics: [
-          { value: '200+', label: 'Airlines Partnered' },
-          { value: '120+', label: 'Countries Connected' },
-          { value: '99.7%', label: 'On-Time Performance' },
-        ],
+        icon: 'ship',
+        title: 'Sea',
+        copy: 'Global sea freight connections with major ports worldwide for FCL and LCL cargo.',
       },
       {
-        title: 'Warehousing & Distribution',
-        summary:
-          'Secure storage, inventory management, and efficient distribution tailored to your needs.',
-        metrics: [
-          { value: '500K+', label: 'Sq. Ft. Warehouse Space' },
-          { value: '99.5%', label: 'Inventory Accuracy' },
-          { value: '48H', label: 'Average Order Turnaround' },
-        ],
+        icon: 'train',
+        title: 'Rail',
+        copy: 'Cost-effective rail solutions for long-distance, heavy and time-sensitive cargo.',
       },
       {
-        title: 'Project Cargo',
-        summary:
-          'Specialized handling for oversized and complex cargo with end-to-end expertise.',
-        metrics: [
-          { value: '500+', label: 'Projects Delivered' },
-          { value: '60+', label: 'Heavy Lift Specialists' },
-          { value: '100%', label: 'Safety Record' },
-        ],
+        icon: 'truck',
+        title: 'Road',
+        copy: 'Extensive road network for flexible and reliable door-to-door delivery.',
       },
     ],
   },
   {
     id: 'freight',
     label: 'International Freight Forwarding',
-    navLabelLines: ['International', 'Freight', 'Forwarding'],
-    icon: 'sea',
-    intro:
-      'Structured freight forwarding for global lanes, carrier coordination, and destination handoff control.',
-    entries: [
+    navLabelLines: ['International', 'Freight Forwarding'],
+    kicker: 'Global Reach. Local Expertise.',
+    titleLines: ['International', 'Freight', 'Forwarding'],
+    description:
+      'We simplify complex shipping with reliable international freight forwarding solutions. From origin to destination, cargo moves securely, efficiently and on schedule.',
+    features: [
       {
-        title: 'Ocean Freight',
-        summary:
-          'FCL and LCL cargo is planned with sailing reliability, port readiness, and downstream delivery in view.',
-        highlights: ['Carrier booking', 'Port coordination', 'ETA visibility'],
+        icon: 'globePin',
+        title: 'Global Network',
+        copy: 'Trusted partners and agents worldwide keep shipment handoffs coordinated across borders.',
       },
       {
-        title: 'Air Freight',
-        summary:
-          'Urgent and high-value cargo moves through priority handling, document checks, and destination monitoring.',
-        highlights: ['Priority routing', 'Airport handoff', 'Urgent support'],
+        icon: 'clipboardShield',
+        title: 'End-to-End Solutions',
+        copy: 'Forwarding support covers booking, documents, transit updates and destination handoff.',
       },
       {
-        title: 'Road Linkage',
-        summary:
-          'Inland pickup and delivery legs are tied to freight milestones so port or airport release does not stall.',
-        highlights: ['Dispatch planning', 'Border readiness', 'Delivery control'],
+        icon: 'ship',
+        title: 'Flexible Options',
+        copy: 'Sea, air and land freight options are matched to cargo type, timeline and budget.',
       },
       {
-        title: 'Rail Options',
-        summary:
-          'Corridor-based cargo can shift into rail-connected movement where volume, cost, and reliability align.',
-        highlights: ['Lane review', 'Terminal handoff', 'Mode balance'],
+        icon: 'officer',
+        title: 'Expert Compliance',
+        copy: 'International regulations and documentation are managed to reduce clearance delays.',
       },
       {
-        title: 'Destination Handoff',
-        summary:
-          'Arrival, release, and final delivery are sequenced with clear reporting until the shipment is closed.',
-        highlights: ['Arrival tracking', 'Release support', 'Final delivery'],
+        icon: 'boxPin',
+        title: 'Cargo Visibility',
+        copy: 'Shipment milestones are tracked from origin through final delivery confirmation.',
       },
     ],
   },
@@ -142,39 +78,35 @@ const SERVICE_CATEGORY_GROUPS = [
     id: 'customs',
     label: 'Customs & Trade Facilitation',
     navLabelLines: ['Customs & Trade', 'Facilitation'],
-    icon: 'customs',
-    intro:
-      'Compliance-first clearance support that reduces border friction before it becomes cargo delay.',
-    entries: [
+    kicker: 'Clearance. Compliance. Confidence.',
+    titleLines: ['Customs &', 'Trade', 'Facilitation'],
+    description:
+      'We streamline cross-border trade by simplifying customs procedures and keeping documentation compliant so cargo moves faster and with fewer delays.',
+    features: [
       {
-        title: 'Document Review',
-        summary:
-          'Commercial, transport, and regulatory documents are checked early for gaps that can trigger holds.',
-        highlights: ['Pre-checks', 'Data accuracy', 'Risk flags'],
+        icon: 'documentCheck',
+        title: 'Efficient Clearance',
+        copy: 'Accurate documents and proactive processing support faster customs release.',
       },
       {
-        title: 'Declaration Support',
-        summary:
-          'Clearance entries are prepared with the right classification, values, and supporting details.',
-        highlights: ['Entry preparation', 'Tariff support', 'Submission readiness'],
+        icon: 'shieldCheck',
+        title: 'Compliance',
+        copy: 'Import and export requirements are reviewed against current regulatory expectations.',
       },
       {
-        title: 'Authority Coordination',
-        summary:
-          'We manage communication with relevant agencies and keep clients informed through review stages.',
-        highlights: ['Agency follow-up', 'Stage updates', 'Clear responses'],
+        icon: 'globePin',
+        title: 'Duty Guidance',
+        copy: 'Tariff, duty and exemption guidance helps control landed cost and risk.',
       },
       {
-        title: 'Inspection Handling',
-        summary:
-          'Inspection requests, amendments, and release issues are escalated with practical next steps.',
-        highlights: ['Inspection support', 'Issue response', 'Release focus'],
+        icon: 'documentPen',
+        title: 'Documentation',
+        copy: 'Declarations and supporting paperwork are prepared for smooth submission.',
       },
       {
-        title: 'Trade Advisory',
-        summary:
-          'Recurring clearance patterns are reviewed to help teams improve documentation and future border flow.',
-        highlights: ['Compliance guidance', 'Process learning', 'Better readiness'],
+        icon: 'boxSearch',
+        title: 'Risk Review',
+        copy: 'Classification and inspection risks are flagged early to reduce disruptions.',
       },
     ],
   },
@@ -182,39 +114,35 @@ const SERVICE_CATEGORY_GROUPS = [
     id: 'supply-chain',
     label: 'Supply Chain Management',
     navLabelLines: ['Supply Chain', 'Management'],
-    icon: 'rail',
-    intro:
-      'Practical supply chain coordination that turns movement, storage, partners, and reporting into one operating rhythm.',
-    entries: [
+    kicker: 'Plan. Optimize. Deliver.',
+    titleLines: ['Supply Chain', 'Management'],
+    description:
+      'We design and manage efficient, resilient supply chains that improve control, reduce friction and keep operations moving with clear visibility.',
+    features: [
       {
-        title: 'Demand Alignment',
-        summary:
-          'Shipment planning starts with business timing, replenishment pressure, and the service promise to protect.',
-        highlights: ['Need mapping', 'Flow planning', 'Priority setting'],
+        icon: 'monitorChart',
+        title: 'Strategy',
+        copy: 'Supply chain plans are aligned to service goals, cost pressure and operating rhythm.',
       },
       {
-        title: 'Route Sequencing',
-        summary:
-          'Routes, pickup windows, and handoff responsibilities are organized around reliable execution.',
-        highlights: ['Lane design', 'Window control', 'Partner clarity'],
+        icon: 'gear',
+        title: 'Forecasting',
+        copy: 'Demand planning helps balance stock, capacity and delivery expectations.',
       },
       {
-        title: 'Inventory Flow',
-        summary:
-          'Stock movement is connected to receiving, storage, dispatch, and delivery decisions.',
-        highlights: ['Stock visibility', 'Release timing', 'Fulfillment rhythm'],
+        icon: 'truck',
+        title: 'Sourcing',
+        copy: 'Supplier and procurement coordination supports reliable movement from origin.',
       },
       {
-        title: 'Performance Review',
-        summary:
-          'Operational outcomes are reviewed to improve repeatability, communication, and future planning.',
-        highlights: ['Service checks', 'Root cause review', 'Better cadence'],
+        icon: 'warehouseBox',
+        title: 'Inventory',
+        copy: 'Inventory flow is organized around storage, release timing and dispatch readiness.',
       },
       {
-        title: 'Scalable Control',
-        summary:
-          'The same management rhythm can support new lanes, new markets, and changing cargo patterns.',
-        highlights: ['Growth support', 'Lane expansion', 'Stable process'],
+        icon: 'network',
+        title: 'Visibility',
+        copy: 'Connected milestones make exceptions easier to spot and resolve quickly.',
       },
     ],
   },
@@ -222,39 +150,35 @@ const SERVICE_CATEGORY_GROUPS = [
     id: 'warehouse',
     label: 'Warehousing & Distribution',
     navLabelLines: ['Warehousing &', 'Distribution'],
-    icon: 'warehouse',
-    intro:
-      'Storage, handling, staging, and dispatch built around visibility, protection, and faster release.',
-    entries: [
+    kicker: 'Store. Control. Dispatch.',
+    titleLines: ['Warehousing &', 'Distribution'],
+    description:
+      'We protect, manage and move inventory through secure warehousing and structured distribution workflows built for speed and accuracy.',
+    features: [
       {
-        title: 'Receiving Control',
-        summary:
-          'Inbound cargo is checked against shipment plans and prepared for accurate stock visibility.',
-        highlights: ['Goods verification', 'Receiving records', 'Put-away readiness'],
+        icon: 'warehouse',
+        title: 'Storage',
+        copy: 'Secure storage options are planned around condition, access and dispatch needs.',
       },
       {
-        title: 'Storage Management',
-        summary:
-          'Cold and general storage decisions are made around cargo condition, access needs, and dispatch priority.',
-        highlights: ['Condition care', 'Stock control', 'Space discipline'],
+        icon: 'documentCheck',
+        title: 'Inventory Accuracy',
+        copy: 'Receiving and stock controls keep inventory visible and reliable.',
       },
       {
-        title: 'Pick Pack Staging',
-        summary:
-          'Orders are prepared through structured handling steps that keep outbound cargo accurate and ready.',
-        highlights: ['Order accuracy', 'Handling care', 'Staging flow'],
+        icon: 'boxCheck',
+        title: 'Fulfillment',
+        copy: 'Pick, pack and staging workflows prepare cargo for accurate outbound movement.',
       },
       {
-        title: 'Distribution Dispatch',
-        summary:
-          'Outbound release is coordinated with route plans, vehicle availability, and delivery commitments.',
-        highlights: ['Dispatch timing', 'Route alignment', 'Delivery readiness'],
+        icon: 'truck',
+        title: 'Distribution',
+        copy: 'Outbound dispatch is coordinated with route plans and delivery commitments.',
       },
       {
-        title: 'Proof Closure',
-        summary:
-          'Delivery outcomes and inventory movement are closed with records that support clean reporting.',
-        highlights: ['Proof records', 'Stock updates', 'Service closure'],
+        icon: 'shieldCheck',
+        title: 'Cargo Protection',
+        copy: 'Controlled handling reduces damage, loss and avoidable service delays.',
       },
     ],
   },
@@ -262,162 +186,107 @@ const SERVICE_CATEGORY_GROUPS = [
     id: 'parcel',
     label: 'Parcel & Courier',
     navLabelLines: ['Parcel &', 'Courier'],
-    icon: 'parcel',
-    intro:
-      'Reliable document, parcel, e-commerce, medical, and commercial courier movement with clear handoff control.',
-    entries: [
+    kicker: 'Fast. Tracked. Reliable.',
+    titleLines: ['Parcel &', 'Courier'],
+    description:
+      'We coordinate reliable document, parcel and priority delivery movement with clear tracking from pickup to final handoff.',
+    features: [
       {
-        title: 'Pickup Scheduling',
-        summary:
-          'Collection is planned around sender readiness, route availability, and delivery urgency.',
-        highlights: ['Collection plan', 'Sender updates', 'Priority check'],
+        icon: 'truckFast',
+        title: 'Express Movement',
+        copy: 'Priority courier handling supports time-sensitive documents and commercial parcels.',
       },
       {
-        title: 'Parcel Sorting',
-        summary:
-          'Items are prepared by destination, handling need, and service level before dispatch.',
-        highlights: ['Destination sorting', 'Handling labels', 'Dispatch queue'],
+        icon: 'boxPin',
+        title: 'Tracking',
+        copy: 'Pickup, transit and delivery milestones keep every handoff visible.',
       },
       {
-        title: 'Priority Movement',
-        summary:
-          'Time-sensitive parcels are monitored through movement and handoff points to reduce avoidable waiting.',
-        highlights: ['Fast routing', 'Handoff checks', 'Movement updates'],
+        icon: 'boxShield',
+        title: 'Secure Handling',
+        copy: 'Sensitive and high-value parcels move with careful handling controls.',
       },
       {
-        title: 'Recipient Updates',
-        summary:
-          'Delivery communication keeps the receiving side ready and reduces failed handoff risk.',
-        highlights: ['Arrival notice', 'Contact clarity', 'Handoff readiness'],
+        icon: 'truck',
+        title: 'Last Mile',
+        copy: 'Route planning and recipient checks reduce failed delivery attempts.',
       },
       {
-        title: 'Delivery Confirmation',
-        summary:
-          'Final proof and service notes are captured so clients can close the delivery cycle with confidence.',
-        highlights: ['Proof capture', 'Client update', 'Cycle closure'],
+        icon: 'documentCheck',
+        title: 'Confirmation',
+        copy: 'Proof-of-delivery capture closes the shipment with confidence.',
       },
     ],
   },
 ];
 
-const SERVICE_BODY_ITEMS = [
+const PROCESS_STEPS = [
   {
-    number: '01',
-    titleLines: ['Ocean', 'Freight'],
-    summary:
-      'Reliable and cost-effective ocean freight solutions for shipments of any size, anywhere in the world. We provide flexible options, strong carrier relationships, and expert handling to ensure your cargo arrives safely and on schedule.',
-    summaryLines: [
-      'Reliable and cost-effective ocean freight solutions',
-      'for shipments of any size, anywhere in the world.',
-      'We provide flexible options, strong carrier',
-      'relationships, and expert handling to ensure your',
-      'cargo arrives safely and on schedule.',
-    ],
-    href: '/contact',
-    titleSide: 'left',
+    icon: 'inquiry',
+    title: 'Inquiry',
+    copy: 'Share your requirements and we provide the best solution.',
   },
   {
-    number: '02',
-    titleLines: ['Air', 'Freight'],
-    summary:
-      'Fast and secure air freight services to meet your urgent shipping needs. With priority handling and global reach, we keep your cargo moving - on time, every time.',
-    summaryLines: [
-      'Fast and secure air freight services to meet your',
-      'urgent shipping needs. With priority handling',
-      'and global reach, we keep your cargo moving',
-      '- on time, every time.',
-    ],
-    href: '/contact',
-    titleSide: 'right',
-    showCopyNumber: true,
+    icon: 'planning',
+    title: 'Planning',
+    copy: 'We plan the optimal route and select the right mode of transport.',
   },
   {
-    number: '03',
-    titleLines: ['Customs', 'Brokerage'],
-    summary:
-      'Expert customs clearance and compliance support to keep your cargo moving without delays. We handle documentation, regulatory requirements, and duty optimization with precision.',
-    summaryLines: [
-      'Expert customs clearance and compliance support',
-      'to keep your cargo moving without delays. We',
-      'handle documentation, regulatory requirements,',
-      'and duty optimization with precision.',
-    ],
-    href: '/contact',
-    titleSide: 'left',
+    icon: 'documentation',
+    title: 'Documentation',
+    copy: 'We handle all paperwork and compliance seamlessly.',
   },
   {
-    number: '04',
-    titleLines: ['Warehousing', '& Distribution'],
-    summary:
-      'Secure warehousing and efficient distribution solutions tailored to your supply chain needs. From inventory management to order fulfilment, we help you store smarter and deliver faster.',
-    summaryLines: [
-      'Secure warehousing and efficient distribution',
-      'solutions tailored to your supply chain needs.',
-      'From inventory management to order fulfilment,',
-      'we help you store smarter and deliver faster.',
-    ],
-    href: '/contact',
-    titleSide: 'right',
-    showCopyNumber: true,
+    icon: 'transportation',
+    title: 'Transportation',
+    copy: 'Your cargo is moved safely with real-time tracking and updates.',
   },
   {
-    number: '05',
-    titleLines: ['Courier &', 'Last Mile'],
-    summary:
-      'Dependable last-mile delivery services that ensure your shipments reach their final destination on time. Flexible, tracked, and customer-focused delivery solutions you can count on.',
-    summaryLines: [
-      'Dependable last-mile delivery services that',
-      'ensure your shipments reach their final destination',
-      'on time. Flexible, tracked, and customer-focused',
-      'delivery solutions you can count on.',
-    ],
-    href: '/contact',
-    titleSide: 'left',
+    icon: 'delivery',
+    title: 'Delivery',
+    copy: 'Delivered on time to your destination, every time.',
   },
 ];
 
-function splitServiceTitle(title) {
-  const words = title.trim().split(/\s+/);
+const FINAL_STATEMENT_LINES = [
+  'We go beyond logistics',
+  'to deliver reliability,',
+  'efficiency and peace of mind',
+  'at every step of the journey',
+];
 
-  if (words.length <= 2) {
-    return words;
-  }
-
-  const ampersandIndex = words.indexOf('&');
-  if (ampersandIndex > 0 && ampersandIndex < words.length - 1) {
-    return [words.slice(0, ampersandIndex).join(' '), words.slice(ampersandIndex).join(' ')];
-  }
-
-  const midpoint = Math.ceil(words.length / 2);
-  return [words.slice(0, midpoint).join(' '), words.slice(midpoint).join(' ')];
-}
-
-function getTitleFit(title) {
-  if (title.length > 30) return 'tight';
-  if (title.length > 21) return 'dense';
-  return undefined;
-}
-
-function getServiceBodyItems(category) {
-  if (category.id === 'multimodal') {
-    return SERVICE_BODY_ITEMS;
-  }
-
-  return category.entries.map((entry, index) => {
-    const title = entry.title.trim();
-    const isRightSideTitle = index % 2 === 1;
-
-    return {
-      number: String(index + 1).padStart(2, '0'),
-      titleLines: splitServiceTitle(title),
-      titleFit: getTitleFit(title),
-      summary: entry.summary,
-      href: '/contact',
-      titleSide: isRightSideTitle ? 'right' : 'left',
-      showCopyNumber: isRightSideTitle,
-    };
-  });
-}
+const FAQ_ITEMS = [
+  {
+    question: 'What services does Felmex Global Logistics offer?',
+    answer:
+      'We offer a comprehensive range of logistics solutions including freight forwarding, customs clearance, warehousing & distribution, supply chain management, multi-modal transport, and parcel & courier services.',
+  },
+  {
+    question: 'How do you ensure the safety of our cargo?',
+    answer:
+      'We use documented handling procedures, trusted carrier partners, secure handoffs, and milestone visibility to reduce risk from pickup through final delivery.',
+  },
+  {
+    question: 'Do you handle customs clearance?',
+    answer:
+      'Yes. Our team supports document review, declarations, duty guidance, authority coordination, and clearance follow-up for compliant cross-border movement.',
+  },
+  {
+    question: 'Can you deliver to remote locations?',
+    answer:
+      'Yes. We plan routes across road, rail, sea, air, and last-mile partners so cargo can reach difficult or remote destinations with practical coordination.',
+  },
+  {
+    question: 'How can I get a quote for my shipment?',
+    answer:
+      'Send your shipment origin, destination, cargo details, timeline, and handling requirements through the contact form and our team will respond with the right option.',
+  },
+  {
+    question: 'What industries do you serve?',
+    answer:
+      'We support manufacturing, retail, FMCG, healthcare, project cargo, e-commerce, cold chain, and general commercial supply chains.',
+  },
+];
 
 function ArrowIcon() {
   return (
@@ -434,215 +303,206 @@ function ArrowIcon() {
   );
 }
 
-function ServiceCategoryIcon({ kind }) {
+function ServiceIcon({ kind }) {
   const icons = {
-    air: (
-      <path
-        d="M20.2 4.4 3.8 11.2a0.9 0.9 0 0 0 .05 1.68l5.85 1.78 1.78 5.85a0.9 0.9 0 0 0 1.68.05L20.2 4.4Zm-8.48 9.26L7.6 12.42l8.06-3.34-3.94 4.58Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.65"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    ),
-    sea: (
+    boxPin: (
       <>
-        <path
-          d="M4.1 14.1h15.8M6.2 12.2V8.1h11.6v4.1M9.4 8.1V5.7h5.2v2.4"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="m4.8 16.2 1.8 1.6 1.8-1.6 1.8 1.6 1.8-1.6 1.8 1.6 1.8-1.6 1.8 1.6 1.8-1.6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <path d="M12 18.5 30 9l18 9.5v20L30 48 12 38.5v-20Z" />
+        <path d="M12 18.5 30 28l18-9.5M30 28v20M21 13.7l18 9.5" />
+        <path className="svc-icon-accent" d="M40 40c0 7 8 14 8 14s8-7 8-14a8 8 0 0 0-16 0Z" />
+        <circle className="svc-icon-accent-fill" cx="48" cy="40" r="2.8" />
       </>
     ),
-    rail: (
+    plane: (
       <>
-        <path
-          d="M7.1 4.9h9.8a2 2 0 0 1 2 2v7.9a2 2 0 0 1-2 2H7.1a2 2 0 0 1-2-2V6.9a2 2 0 0 1 2-2Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M8 8h8M8.3 12.2h.01M15.7 12.2h.01M8.4 19.1l2.2-2.3M15.6 19.1l-2.2-2.3"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <path d="M55 13 8 32l17 5 5 17 25-41Z" />
+        <path d="M25 37 55 13 30 54M25 37l-9 10" />
+      </>
+    ),
+    ship: (
+      <>
+        <path d="M13 39h38l-5 10H18l-5-10ZM19 32h26v7H19zM25 24h14v8H25zM31 12h2v12" />
+        <path className="svc-icon-accent" d="M20 33h25v6H20z" />
+        <path d="M27 18h10M12 52c2.2 1.8 4.4 1.8 6.6 0s4.4-1.8 6.6 0 4.4 1.8 6.6 0 4.4-1.8 6.6 0 4.4 1.8 6.6 0 4.4-1.8 6.6 0" />
+      </>
+    ),
+    train: (
+      <>
+        <path d="M21 8h22a6 6 0 0 1 6 6v23a8 8 0 0 1-8 8H23a8 8 0 0 1-8-8V14a6 6 0 0 1 6-6Z" />
+        <path d="M20 19h24M24 53l6-8M40 53l-6-8M20 56h24" />
+        <path className="svc-icon-accent" d="M22 31h.1M42 31h.1" />
+      </>
+    ),
+    truck: (
+      <>
+        <path d="M9 22h30v22H9zM39 30h9l7 8v6H39V30Z" />
+        <circle className="svc-icon-accent" cx="20" cy="47" r="4" />
+        <circle className="svc-icon-accent" cx="47" cy="47" r="4" />
+        <path d="M14 44h2M24 44h19" />
+      </>
+    ),
+    globePin: (
+      <>
+        <circle cx="27" cy="28" r="20" />
+        <path d="M7 28h40M27 8c6 5.8 9 12.5 9 20s-3 14.2-9 20M27 8c-6 5.8-9 12.5-9 20s3 14.2 9 20" />
+        <path d="M44 39.2c0 7.5 8.2 14.8 8.2 14.8s8.2-7.3 8.2-14.8a8.2 8.2 0 0 0-16.4 0Z" />
+        <circle cx="52.2" cy="39.1" r="2.8" />
+      </>
+    ),
+    clipboardShield: (
+      <>
+        <path d="M18 9.5h28v43H18zM25 9.5V6h14v3.5M24.5 21h12M24.5 29h12M24.5 37h8" />
+        <path d="M45 34.5 55 38v7.6c0 5.5-3.5 9.4-10 11.4-6.5-2-10-5.9-10-11.4V38l10-3.5Z" />
+        <path d="m40.6 45.2 3.1 3.1 6-6.2" />
+      </>
+    ),
+    officer: (
+      <>
+        <path d="M21 20h22l-3.5-7h-15L21 20ZM24 20c2.2 3.2 13.8 3.2 16 0M24.5 31.2c0 5.5 3.4 10 7.5 10s7.5-4.5 7.5-10v-4.8h-15v4.8Z" />
+        <path d="M18 56v-5.2c0-5.2 6.3-9.4 14-9.4s14 4.2 14 9.4V56M28 43l4 6 4-6M23 52v4M41 52v4" />
+      </>
+    ),
+    documentCheck: (
+      <>
+        <path d="M18 8h25l8 8v38H18zM43 8v8h8M25 23h15M25 31h11M25 39h8" />
+        <circle cx="45" cy="42" r="10" />
+        <path d="m40.4 42.2 3.2 3.2 6.4-7" />
+      </>
+    ),
+    shieldCheck: (
+      <>
+        <path d="M32 8c8.6 6.1 17.5 6.8 24 7.6v14.8c0 14-9.1 23.1-24 27.6C17.1 53.5 8 44.4 8 30.4V15.6C14.5 14.8 23.4 14.1 32 8Z" />
+        <path d="m21.2 33.2 7 7L43.5 24" />
+      </>
+    ),
+    documentPen: (
+      <>
+        <path d="M17 8h29v48H17zM24 19h14M24 27h14M24 35h9M24 43h7" />
+        <path d="m39 47 13-13 5 5-13 13-7 2 2-7ZM49 37l5 5" />
+      </>
+    ),
+    boxSearch: (
+      <>
+        <path d="M12 20.5 30 11l18 9.5v20L30 50 12 40.5v-20Z" />
+        <path d="M12 20.5 30 30l18-9.5M30 30v20M21 15.7l18 9.5" />
+        <circle cx="46" cy="44" r="9" />
+        <path d="m52.5 50.5 6 6" />
+      </>
+    ),
+    monitorChart: (
+      <>
+        <path d="M11 12h42v31H11zM25 53h14M32 43v10" />
+        <path d="m20 34 8-8 6 5 10-13M41 18h7v7" />
+      </>
+    ),
+    gear: (
+      <>
+        <path d="M32 21a11 11 0 1 0 0 22 11 11 0 0 0 0-22Z" />
+        <path d="M32 8v8M32 48v8M15 15l5.7 5.7M43.3 43.3 49 49M8 32h8M48 32h8M15 49l5.7-5.7M43.3 20.7 49 15" />
+      </>
+    ),
+    warehouseBox: (
+      <>
+        <path d="M10 24 32 10l22 14v30H10V24Z" />
+        <path d="M18 54V34h28v20M24 39h16M24 45h16M32 34v20" />
+        <path d="M26 18h12M22 25h20" />
+      </>
+    ),
+    network: (
+      <>
+        <circle cx="18" cy="39" r="7" />
+        <circle cx="32" cy="18" r="7" />
+        <circle cx="47" cy="44" r="7" />
+        <path d="m22 33 6-9M37 24l7 14M25 40h15" />
       </>
     ),
     warehouse: (
       <>
-        <path
-          d="M4.5 10.2 12 5.4l7.5 4.8v8.3h-15v-8.3Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M7.4 18.5v-5.4h9.2v5.4M9.2 15.1h5.6M9.2 12.9h5.6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <path d="M8 25 32 10l24 15v31H8V25Z" />
+        <path d="M18 56V35h28v21M24 56V43h16v13M20 28h24M27 21h10" />
       </>
     ),
-    parcel: (
+    boxCheck: (
       <>
-        <path
-          d="M5.1 8.1 12 4.4l6.9 3.7v7.8L12 19.6l-6.9-3.7V8.1Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M5.1 8.1 12 11.8l6.9-3.7M12 11.8v7.8M8.5 6.3l6.9 3.7"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M3.4 13.4h3.2M4.1 16.2h2.6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-        />
+        <path d="M12 19 30 9.5 48 19v21L30 49.5 12 40V19Z" />
+        <path d="M12 19 30 28.5 48 19M30 28.5v21M21 14.2l18 9.5" />
+        <path d="m39 43.5 4 4 8-8.5" />
       </>
     ),
-    customs: (
+    boxShield: (
       <>
-        <path
-          d="M12 4.1 5.2 6.8v5.5c0 3.7 2.7 6.6 6.8 7.6 4.1-1 6.8-3.9 6.8-7.6V6.8L12 4.1Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M9.1 12.2h5.8M9.1 9.7h5.8M10.2 14.8h3.6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-        />
+        <path d="M13 20.5 31 11l18 9.5v21L31 51 13 41.5v-21Z" />
+        <path d="M13 20.5 31 30l18-9.5M31 30v21M22 15.7l18 9.5" />
+        <path d="M47 35.5 57 39v7.5c0 5.1-3.4 8.8-10 10.5-6.6-1.7-10-5.4-10-10.5V39l10-3.5Z" />
+        <path d="m42.8 45.6 3.1 3.1 5.6-6" />
       </>
     ),
-    distribution: (
+    truckFast: (
       <>
-        <path
-          d="M4.4 6.1h5.4v5.4H4.4V6.1Zm9.8 0h5.4v4.2h-5.4V6.1ZM4.4 15h4.4v3.9H4.4V15Zm8.1-1.9h7.1v5.8h-7.1v-5.8Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M9.8 8.8h4.4M8.8 16.9h3.7M15.4 10.3v2.8"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <path d="M18 23h25v20H18zM43 30h8l6 7v6H43V30Z" />
+        <circle cx="27" cy="46" r="4" />
+        <circle cx="50" cy="46" r="4" />
+        <path d="M7 27h8M4 35h11M9 43h6" />
       </>
     ),
   };
 
   return (
-    <svg className="svc-category-icon" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-      {icons[kind] ?? icons.distribution}
+    <svg className="svc-line-icon" viewBox="0 0 64 64" focusable="false" aria-hidden="true">
+      {icons[kind] ?? icons.boxPin}
     </svg>
   );
 }
 
-function HandlingIcon({ kind }) {
-  if (kind === 'globe') {
-    return (
-      <svg className="svc-handling-icon" viewBox="0 0 64 64" focusable="false" aria-hidden="true">
-        <circle cx="31" cy="31" r="26" className="svc-line-icon-stroke" />
-        <path d="M5 31h52M31 5c7.2 7.4 10.8 16.1 10.8 26S38.2 49.6 31 57M31 5C23.8 12.4 20.2 21.1 20.2 31S23.8 49.6 31 57" className="svc-line-icon-stroke" />
-        <path d="M11.8 15.2c5.3 3.2 11.7 4.8 19.2 4.8s13.9-1.6 19.2-4.8M11.8 46.8c5.3-3.2 11.7-4.8 19.2-4.8s13.9 1.6 19.2 4.8" className="svc-line-icon-stroke" />
-        <circle cx="55.4" cy="12.1" r="6" className="svc-line-icon-fill" />
-      </svg>
-    );
-  }
-
-  if (kind === 'shield') {
-    return (
-      <svg className="svc-handling-icon" viewBox="0 0 64 64" focusable="false" aria-hidden="true">
-        <path
-          d="M32 7.5c7.7 5.5 15.6 6.1 21.8 6.8v15.4c0 13.4-8.3 22.9-21.8 27.3C18.5 52.6 10.2 43.1 10.2 29.7V14.3c6.2-.7 14.1-1.3 21.8-6.8Z"
-          className="svc-line-icon-stroke"
-        />
-        <path d="m23.6 32 6.1 6.1 12.7-13.5" className="svc-line-icon-accent" />
-      </svg>
-    );
-  }
-
-  if (kind === 'cube') {
-    return (
-      <svg className="svc-handling-icon" viewBox="0 0 64 64" focusable="false" aria-hidden="true">
-        <path d="M32 5.8 55 18.9v26.2L32 58.2 9 45.1V18.9L32 5.8Z" className="svc-line-icon-stroke" />
-        <path d="M9.5 19.1 32 32.2l22.5-13.1M32 32.2v25.3" className="svc-line-icon-stroke" />
-        <path d="m20.8 12.5 22.6 13.1" className="svc-line-icon-stroke" />
-        <circle cx="18.2" cy="43.7" r="2.8" className="svc-line-icon-fill" />
-      </svg>
-    );
-  }
-
-  if (kind === 'stopwatch') {
-    return (
-      <svg className="svc-handling-icon" viewBox="0 0 64 64" focusable="false" aria-hidden="true">
-        <path d="M31.7 16.2a21.2 21.2 0 1 1 0 42.4 21.2 21.2 0 0 1 0-42.4ZM25.1 5.9h13.2M31.7 6.2v8.3M45.9 15.5l4.7-4.7" className="svc-line-icon-stroke" />
-        <path d="M31.7 37.4 43 25.8" className="svc-line-icon-accent" />
-        <circle cx="31.7" cy="37.4" r="3.3" className="svc-line-icon-fill" />
-        <path d="M2.8 27.7h9M6.4 36.8h6.5M2.8 45.9h9" className="svc-line-icon-accent" />
-      </svg>
-    );
-  }
+function ProcessIcon({ kind }) {
+  const icons = {
+    inquiry: (
+      <>
+        <path d="M12 16h27a7 7 0 0 1 7 7v13a7 7 0 0 1-7 7H25l-10 7v-7h-3a7 7 0 0 1-7-7V23a7 7 0 0 1 7-7Z" />
+        <path d="M42 28h7a6 6 0 0 1 6 6v10a6 6 0 0 1-6 6h-2v6l-8-6H28a6 6 0 0 1-5.6-3.8" />
+        <path className="svc-icon-accent" d="M18 29h.1M26 29h.1M34 29h.1" />
+      </>
+    ),
+    planning: (
+      <>
+        <path d="M18 13h28v43H18zM25 13V8h14v5" />
+        <path d="M25 25h14M25 36h14M25 47h14" />
+        <path className="svc-icon-accent" d="M11 27l3 3 6-7M11 38l3 3 6-7M11 49l3 3 6-7" />
+      </>
+    ),
+    documentation: (
+      <>
+        <path d="M18 8h24l9 9v39H18zM42 8v9h9" />
+        <path className="svc-icon-accent" d="M26 27h17M26 36h17M26 45h11" />
+      </>
+    ),
+    transportation: (
+      <>
+        <path d="M10 28 32 16l22 12v24H10z" />
+        <path d="M16 52V33h32v19M22 33v19M32 33v19M42 33v19M27 16v-4h10v4M8 56h48" />
+        <circle className="svc-icon-accent-fill" cx="32" cy="13" r="2.6" />
+      </>
+    ),
+    delivery: (
+      <>
+        <circle cx="32" cy="32" r="24" />
+        <path className="svc-icon-accent" d="m20.5 32.5 7.4 7.4 16.2-17.3" />
+      </>
+    ),
+  };
 
   return (
-    <svg className="svc-handling-icon" viewBox="0 0 64 64" focusable="false" aria-hidden="true">
-      <path d="M9.2 35.5v-5.7c0-12 9.1-21.7 22.8-21.7s22.8 9.7 22.8 21.7v5.7" className="svc-line-icon-stroke" />
-      <path d="M18.8 31.7h-4.1a5 5 0 0 0-5 5v7.5a5 5 0 0 0 5 5h4.1V31.7ZM45.2 31.7h4.1a5 5 0 0 1 5 5v7.5a5 5 0 0 1-5 5h-4.1V31.7Z" className="svc-line-icon-stroke" />
-      <path d="M45.2 49.2c-2.6 4.5-6.8 6.7-12.7 6.7h-5.2" className="svc-line-icon-stroke" />
-      <circle cx="32" cy="55.9" r="4" className="svc-line-icon-fill" />
+    <svg className="svc-process-icon" viewBox="0 0 64 64" focusable="false" aria-hidden="true">
+      {icons[kind] ?? icons.inquiry}
     </svg>
   );
 }
 
 export function ServicePage() {
-  const [activeCategoryId, setActiveCategoryId] = useState(SERVICE_CATEGORY_GROUPS[0].id);
+  const [activeCategoryId, setActiveCategoryId] = useState(SERVICE_CATEGORIES[0].id);
+  const [openFaqIndex, setOpenFaqIndex] = useState(0);
   const activeCategory =
-    SERVICE_CATEGORY_GROUPS.find((category) => category.id === activeCategoryId) ??
-    SERVICE_CATEGORY_GROUPS[0];
-  const activeServiceBodyItems = getServiceBodyItems(activeCategory);
+    SERVICE_CATEGORIES.find((category) => category.id === activeCategoryId) ?? SERVICE_CATEGORIES[0];
 
   return (
     <section className="svc-page" id="services-top" aria-label="Felmex services">
@@ -666,179 +526,191 @@ export function ServicePage() {
         </div>
       </section>
 
-      <section
-        className="svc-reference-section"
-        id="svc-services-canvas"
-        aria-label="Felmex service categories"
-      >
-        <div className="svc-reference-shell">
-          <nav className="svc-reference-nav" aria-label="Service categories">
-            <div className="svc-reference-nav-track" role="tablist" aria-label="Service categories">
-              {SERVICE_CATEGORY_GROUPS.map((category) => {
-                const isActive = category.id === activeCategory.id;
+      <section className="svc-reference-section" id="svc-services-canvas" aria-label="Felmex service categories">
+        <nav className="svc-reference-nav" aria-label="Service categories">
+          <div className="svc-reference-nav-track" role="tablist" aria-label="Service categories">
+            {SERVICE_CATEGORIES.map((category) => {
+              const isActive = category.id === activeCategory.id;
 
-                return (
-                  <button
-                    className={`svc-reference-tab${isActive ? ' is-active' : ''}`}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    aria-controls="svc-services-shot"
-                    id={`svc-category-tab-${category.id}`}
-                    key={category.id}
-                    aria-label={category.label}
-                    onClick={() => setActiveCategoryId(category.id)}
-                  >
-                    <span className="svc-reference-tab-label">
-                      {(category.navLabelLines ?? [category.label]).map((line) => (
-                        <span className="svc-reference-tab-label-line" key={line}>
-                          {line}
-                        </span>
-                      ))}
-                    </span>
-                    <span className="svc-reference-tab-dot" aria-hidden="true" />
-                  </button>
-                );
-              })}
-            </div>
-          </nav>
+              return (
+                <button
+                  className={`svc-reference-tab${isActive ? ' is-active' : ''}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls="svc-services-shot"
+                  id={`svc-category-tab-${category.id}`}
+                  key={category.id}
+                  aria-label={category.label}
+                  onClick={() => setActiveCategoryId(category.id)}
+                >
+                  <span className="svc-reference-tab-label">
+                    {category.navLabelLines.map((line) => (
+                      <span className="svc-reference-tab-label-line" key={line}>
+                        {line}
+                      </span>
+                    ))}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </nav>
 
-          <div
-            className="svc-reference-board"
-            id="svc-services-shot"
-            role="tabpanel"
-            aria-labelledby={`svc-category-tab-${activeCategory.id}`}
-            aria-label={`${activeCategory.label} services`}
-          >
-            <div
-              key={activeCategory.id}
-              className="svc-reference-card-stack"
-              role="list"
-              aria-label={`${activeCategory.label} service lines`}
-              data-category={activeCategory.id}
-            >
-              {activeServiceBodyItems.map((item) => {
-                const titleId = `svc-reference-title-${activeCategory.id}-${item.number}`;
-                const titleFitClass = item.titleFit
-                  ? ` svc-reference-card--title-${item.titleFit}`
-                  : '';
-                const sideClass =
-                  item.titleSide === 'right' ? ' svc-reference-card--reverse' : '';
-                const hasFixedSummaryLines =
-                  Array.isArray(item.summaryLines) && item.summaryLines.length > 0;
+        <div
+          className="svc-reference-board"
+          id="svc-services-shot"
+          role="tabpanel"
+          aria-labelledby={`svc-category-tab-${activeCategory.id}`}
+          aria-label={`${activeCategory.label} services`}
+        >
+          <div className="svc-reference-canvas" key={activeCategory.id} data-category={activeCategory.id}>
+            <section className="svc-reference-scene" aria-label={`${activeCategory.label} overview`}>
+              <div className="svc-reference-white-field" aria-hidden="true" />
 
-                return (
-                  <article
-                    className={`svc-reference-card${sideClass}${titleFitClass}`}
-                    key={`${activeCategory.id}-${item.number}`}
-                    role="listitem"
-                    aria-labelledby={titleId}
-                  >
-                    <div className="svc-reference-title-panel">
-                      <p className="svc-reference-number">{item.number}</p>
-                      <span className="svc-reference-panel-rule" aria-hidden="true" />
-                      <h3 className="svc-reference-card-title" id={titleId}>
-                        {item.titleLines.map((line, lineIndex) => (
-                          <span key={`${line}-${lineIndex}`}>
-                            {line}
-                            {lineIndex === item.titleLines.length - 1 ? (
-                              <span className="svc-reference-title-dot">.</span>
-                            ) : null}
-                          </span>
-                        ))}
-                      </h3>
-                      {item.titleSide === 'right' ? (
-                        <a className="svc-reference-title-link" href={item.href}>
-                          <span>View details</span>
-                          <span className="svc-reference-link-icon" aria-hidden="true">
-                            <ArrowIcon />
-                          </span>
-                        </a>
-                      ) : null}
+              <div className="svc-reference-hero-copy">
+                <p className="svc-reference-kicker">{activeCategory.kicker}</p>
+                <h2 className="svc-reference-scene-title">
+                  {activeCategory.titleLines.map((line) => (
+                    <span key={line}>{line}</span>
+                  ))}
+                </h2>
+                <span className="svc-reference-title-rule" aria-hidden="true" />
+                <p className="svc-reference-scene-copy">{activeCategory.description}</p>
+              </div>
+
+              <div className="svc-reference-feature-list" role="list" aria-label={`${activeCategory.label} capabilities`}>
+                {activeCategory.features.map((feature) => (
+                  <article className="svc-reference-feature" key={feature.title} role="listitem">
+                    <div className="svc-reference-feature-icon" aria-hidden="true">
+                      <ServiceIcon kind={feature.icon} />
                     </div>
-
-                    <div className="svc-reference-detail-panel">
-                      {item.showCopyNumber ? (
-                        <>
-                          <p className="svc-reference-copy-number">{item.number}</p>
-                          <span className="svc-reference-copy-rule" aria-hidden="true" />
-                        </>
-                      ) : null}
-                      <p
-                        className={`svc-reference-summary${
-                          hasFixedSummaryLines ? ' svc-reference-summary--fixed-lines' : ''
-                        }`}
-                      >
-                        {(item.summaryLines ?? [item.summary]).map((line, lineIndex, lines) => (
-                          <span className="svc-reference-summary-line" key={`${line}-${lineIndex}`}>
-                            {line}
-                            {lineIndex < lines.length - 1 ? ' ' : null}
-                          </span>
-                        ))}
-                      </p>
-                      <a className="svc-reference-link" href={item.href}>
-                        <span>View details</span>
-                        <span className="svc-reference-link-icon" aria-hidden="true">
-                          <ArrowIcon />
-                        </span>
-                      </a>
+                    <span className="svc-reference-feature-rule" aria-hidden="true" />
+                    <div className="svc-reference-feature-copy">
+                      <h3>{feature.title}</h3>
+                      <p>{feature.copy}</p>
                     </div>
                   </article>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="svc-handling-strip" id="svc-service-principles" aria-label="Felmex service strengths">
-        <div className="svc-handling-shell">
-          <div className="svc-handling-heading">
-            <p>Service handling principles</p>
-            <h2>
-              <span>Built to keep cargo</span>
-              <span>
-                moving with <strong>control.</strong>
-              </span>
-            </h2>
-          </div>
-          <div className="svc-handling-grid" role="list" aria-label="Felmex service strengths">
-            {SERVICE_HANDLING_PRINCIPLES.map((item) => (
-              <article className="svc-handling-item" key={item.title} role="listitem">
-                <div className="svc-handling-icon-wrap" aria-hidden="true">
-                  <HandlingIcon kind={item.icon} />
-                </div>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-              </article>
-            ))}
-          </div>
-          <div className="svc-handling-final-cta">
-            <div className="svc-final-blue-copy">
-              <p>
-                {SERVICE_FINAL_BLUE_COPY_LINES.map((line, lineIndex) => (
-                  <span className="svc-final-blue-copy-line" key={line}>
-                    {line}
-                    {lineIndex < SERVICE_FINAL_BLUE_COPY_LINES.length - 1 ? ' ' : null}
-                  </span>
                 ))}
-              </p>
-            </div>
-            <div className="svc-handling-final-cta-body">
-              <h2>
-                Let&rsquo;s Move Your Business Forward, <strong>Together.</strong>
-              </h2>
-              <p>
-                Partner with FELMEX Global Logistics for seamless, reliable, and scalable logistics
-                solutions that drive growth and open new opportunities.
-              </p>
-              <a className="svc-handling-final-cta-link" href="/contact">
-                <span>Get in Touch</span>
-                <span className="svc-handling-final-cta-arrow" aria-hidden="true">
-                  -&gt;
-                </span>
-              </a>
-            </div>
+              </div>
+            </section>
+
+            <section className="svc-process-section" aria-label="How Felmex works">
+              <div className="svc-process-heading">
+                <h2>How we work</h2>
+                <span className="svc-process-heading-rule" aria-hidden="true" />
+                <p>
+                  Our streamlined process ensures your cargo is handled with care, delivered on time,
+                  and backed by full visibility at every stage.
+                </p>
+              </div>
+
+              <div className="svc-process-grid" role="list" aria-label="Felmex service process">
+                {PROCESS_STEPS.map((step) => (
+                  <article className="svc-process-card" key={step.title} role="listitem">
+                    <div className="svc-process-card-icon" aria-hidden="true">
+                      <ProcessIcon kind={step.icon} />
+                    </div>
+                    <span className="svc-process-card-rule" aria-hidden="true" />
+                    <div className="svc-process-card-copy">
+                      <h3>{step.title}</h3>
+                      <p>{step.copy}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="svc-solution-section" aria-label="Felmex logistics promise">
+              <div className="svc-solution-brief">
+                <p>
+                  <span>Our integrated logistics solutions</span>
+                  <span>are built to drive efficiency, reduce</span>
+                  <span>costs and create lasting value</span>
+                  <span>
+                    across your supply chain<span className="svc-red-punctuation">.</span>
+                  </span>
+                </p>
+              </div>
+
+              <div className="svc-solution-statement">
+                <p>
+                  {FINAL_STATEMENT_LINES.map((line, lineIndex) => (
+                    <span key={line}>
+                      {line}
+                      {lineIndex === FINAL_STATEMENT_LINES.length - 1 ? (
+                        <span className="svc-red-punctuation">.</span>
+                      ) : null}
+                    </span>
+                  ))}
+                </p>
+              </div>
+            </section>
+
+            <section className="svc-faq-section" aria-labelledby="svc-faq-title">
+              <div className="svc-faq-heading">
+                <p className="svc-faq-kicker">FAQ</p>
+                <h2 id="svc-faq-title">
+                  Frequently Asked Questions<span>.</span>
+                </h2>
+                <p>Find answers to common questions about our services, processes, and how we work.</p>
+              </div>
+
+              <div className="svc-faq-shell">
+                <div className="svc-faq-list">
+                  {FAQ_ITEMS.map((item, index) => {
+                    const isFaqOpen = index === openFaqIndex;
+                    const answerId = `svc-faq-answer-${index + 1}`;
+                    const buttonId = `svc-faq-button-${index + 1}`;
+
+                    return (
+                      <article
+                        className={`svc-faq-item${isFaqOpen ? ' is-open' : ''}`}
+                        key={item.question}
+                      >
+                        <button
+                          className="svc-faq-button"
+                          type="button"
+                          id={buttonId}
+                          aria-expanded={isFaqOpen}
+                          aria-controls={answerId}
+                          onClick={() => setOpenFaqIndex(index)}
+                        >
+                        <span className="svc-faq-number">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                          <span className="svc-faq-divider" aria-hidden="true" />
+                          <span className="svc-faq-question">{item.question}</span>
+                          <span className="svc-faq-toggle" aria-hidden="true" />
+                        </button>
+                        <div
+                          className="svc-faq-answer"
+                          id={answerId}
+                          role="region"
+                          aria-labelledby={buttonId}
+                          aria-hidden={!isFaqOpen}
+                        >
+                          <div className="svc-faq-answer-inner">
+                            <p>{item.answer}</p>
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+
+                <a className="svc-faq-contact" href="/contact#cnt-contact-form">
+                  <span className="svc-faq-contact-icon" aria-hidden="true">
+                    <ArrowIcon />
+                  </span>
+                  <span className="svc-faq-contact-rule" aria-hidden="true" />
+                  <span className="svc-faq-contact-copy">
+                    <strong>Still have questions?</strong>
+                    <span>Contact our team &mdash; we&rsquo;re here to help.</span>
+                  </span>
+                </a>
+              </div>
+            </section>
           </div>
         </div>
       </section>

@@ -7,9 +7,7 @@
   width: 100%;
   overflow: hidden;
   isolation: isolate;
-  background:
-    linear-gradient(90deg, rgba(237, 28, 36, 0.1), transparent 18%, transparent 82%, rgba(237, 28, 36, 0.08)),
-    linear-gradient(145deg, #07123a 0%, #060d2b 48%, #050925 100%);
+  background: #0d253b;
   color: #ffffff;
   border-top: 1px solid rgba(172, 200, 235, 0.22);
 }

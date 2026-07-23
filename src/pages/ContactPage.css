@@ -1,4 +1,4 @@
-@import './contact/styles/00-tokens.css';
-@import './contact/styles/01-hero.css';
-@import './contact/styles/02-layout.css';
-@import './contact/styles/03-responsive.css';
+.cnt-page {
+  min-height: calc(100svh - var(--site-header-clearance, 0px));
+  background: #ffffff;
+}
