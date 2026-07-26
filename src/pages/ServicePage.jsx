@@ -281,29 +281,34 @@ const FINAL_STATEMENT_LINES = [
 
 const FAQ_ITEMS = [
   {
-    question: 'What services does Felmex Global Logistics offer?',
+    question: 'What services do you offer?',
     answer:
-      'We offer a comprehensive range of logistics solutions including freight forwarding, customs clearance, warehousing & distribution, supply chain management, multi-modal transport, and parcel & courier services.',
+      'We provide freight forwarding, customs and trade support, multimodal transport, warehousing, distribution, supply chain management, and parcel courier solutions.',
   },
   {
-    question: 'How do you ensure the safety of our cargo?',
+    question: 'How long does shipping take?',
     answer:
-      'We use documented handling procedures, trusted carrier partners, secure handoffs, and milestone visibility to reduce risk from pickup through final delivery.',
+      'Shipping timelines depend on the cargo type, service mode, origin, destination, and clearance requirements. We confirm realistic transit times after reviewing the shipment details.',
   },
   {
-    question: 'Do you handle customs clearance?',
+    question: 'How can I get a quote?',
     answer:
-      'Yes. Our team supports document review, declarations, duty guidance, authority coordination, and clearance follow-up for compliant cross-border movement.',
+      'You can request a quote by filling out our online form, emailing us directly or contacting our team. We will respond with a tailored quote based on your specific shipping needs.',
   },
   {
-    question: 'Can you deliver to remote locations?',
+    question: 'Can I track my shipment?',
     answer:
-      'Yes. We plan routes across road, rail, sea, air, and last-mile partners so cargo can reach difficult or remote destinations with practical coordination.',
+      'Yes. We provide shipment updates and milestone visibility so you can follow cargo movement from pickup through final delivery.',
   },
   {
-    question: 'What are your delivery timelines?',
+    question: 'What industries do you serve?',
     answer:
-      'Delivery timelines depend on cargo type, origin, destination, service mode, and clearance requirements. We confirm a practical schedule after reviewing the shipment details.',
+      'We support manufacturers, retailers, FMCG teams, distributors, project cargo operators, importers, exporters, and businesses that need dependable cargo movement.',
+  },
+  {
+    question: 'How do you ensure the safety of my cargo?',
+    answer:
+      'We use documented handling procedures, trusted partners, secure handoffs, and milestone visibility to reduce risk from pickup through final delivery.',
   },
 ];
 
@@ -519,7 +524,7 @@ function ProcessIcon({ kind }) {
 
 export function ServicePage() {
   const [activeCategoryId, setActiveCategoryId] = useState(SERVICE_CATEGORIES[0].id);
-  const [openFaqIndex, setOpenFaqIndex] = useState(0);
+  const [openFaqIndex, setOpenFaqIndex] = useState(2);
   const activeCategoryIndex = Math.max(
     SERVICE_CATEGORIES.findIndex((category) => category.id === activeCategoryId),
     0
@@ -697,93 +702,104 @@ export function ServicePage() {
             </section>
 
             <section className="svc-solution-section" aria-label="Felmex logistics promise">
+              <img
+                className="svc-solution-image"
+                src="/service-promise-ship.png"
+                alt=""
+                width="1672"
+                height="941"
+                loading="lazy"
+                decoding="async"
+                aria-hidden="true"
+              />
+
+              <svg
+                className="svc-solution-steps"
+                viewBox="0 0 1672 941"
+                preserveAspectRatio="none"
+                focusable="false"
+                aria-hidden="true"
+              >
+                <path d="M214 941V916H335V828H456V740H577V652H698V564H785" />
+                <path d="M785 376V288H906V200H1027V112H1148V24H1269V0" />
+              </svg>
+
               <div className="svc-solution-brief">
+                <h2>
+                  <span>Integrated</span>
+                  <span className="svc-solution-title-accent">Logistics</span>
+                  <span>Solutions</span>
+                </h2>
                 <p>
-                  <span>Our integrated logistics solutions</span>
-                  <span>are built to drive efficiency, reduce</span>
-                  <span>costs and create lasting value</span>
-                  <span>
-                    across your supply chain<span className="svc-red-punctuation">.</span>
-                  </span>
+                  Our integrated logistics solutions are built to drive efficiency, reduce costs and
+                  create lasting value across your supply chain<span className="svc-red-punctuation">.</span>
                 </p>
               </div>
 
               <div className="svc-solution-statement">
+                <h2>
+                  <span>Reliable</span>
+                  <span className="svc-solution-title-accent">Delivery</span>
+                </h2>
                 <p>
-                  {FINAL_STATEMENT_LINES.map((line, lineIndex) => (
-                    <span key={line}>
-                      {line}
-                      {lineIndex === FINAL_STATEMENT_LINES.length - 1 ? (
-                        <span className="svc-red-punctuation">.</span>
-                      ) : null}
-                    </span>
-                  ))}
+                  We go beyond logistics to deliver reliability, efficiency and peace of mind at
+                  every step of the journey<span className="svc-red-punctuation">.</span>
                 </p>
               </div>
             </section>
 
             <section className="svc-faq-section" aria-labelledby="svc-faq-title">
               <div className="svc-faq-heading">
-                <p className="svc-faq-kicker">FAQ</p>
+                <span className="svc-faq-heading-rule" aria-hidden="true" />
                 <h2 id="svc-faq-title">
                   Frequently Asked Questions<span>.</span>
                 </h2>
-                <p>Find answers to common questions about our services, processes, and how we work.</p>
+                <p>
+                  Find answers to common questions about our services, processes and how we can
+                  help your business<span>.</span>
+                </p>
               </div>
 
-              <div className="svc-faq-shell">
-                <div className="svc-faq-list">
-                  {FAQ_ITEMS.map((item, index) => {
-                    const isFaqOpen = index === openFaqIndex;
-                    const answerId = `svc-faq-answer-${index + 1}`;
-                    const buttonId = `svc-faq-button-${index + 1}`;
+              <div className="svc-faq-list">
+                {FAQ_ITEMS.map((item, index) => {
+                  const isFaqOpen = index === openFaqIndex;
+                  const answerId = `svc-faq-answer-${index + 1}`;
+                  const buttonId = `svc-faq-button-${index + 1}`;
 
-                    return (
-                      <article
-                        className={`svc-faq-item${isFaqOpen ? ' is-open' : ''}`}
-                        key={item.question}
+                  return (
+                    <article
+                      className={`svc-faq-item${isFaqOpen ? ' is-open' : ''}`}
+                      key={item.question}
+                    >
+                      <button
+                        className="svc-faq-button"
+                        type="button"
+                        id={buttonId}
+                        aria-expanded={isFaqOpen}
+                        aria-controls={answerId}
+                        onClick={() => setOpenFaqIndex(index)}
                       >
-                        <button
-                          className="svc-faq-button"
-                          type="button"
-                          id={buttonId}
-                          aria-expanded={isFaqOpen}
-                          aria-controls={answerId}
-                          onClick={() => setOpenFaqIndex(index)}
-                        >
                         <span className="svc-faq-number">
                           {String(index + 1).padStart(2, '0')}
                         </span>
-                          <span className="svc-faq-divider" aria-hidden="true" />
-                          <span className="svc-faq-question">{item.question}</span>
-                          <span className="svc-faq-toggle" aria-hidden="true" />
-                        </button>
-                        <div
-                          className="svc-faq-answer"
-                          id={answerId}
-                          role="region"
-                          aria-labelledby={buttonId}
-                          aria-hidden={!isFaqOpen}
-                        >
-                          <div className="svc-faq-answer-inner">
-                            <p>{item.answer}</p>
-                          </div>
+                        <span className="svc-faq-divider" aria-hidden="true" />
+                        <span className="svc-faq-question">{item.question}</span>
+                        <span className="svc-faq-toggle" aria-hidden="true" />
+                      </button>
+                      <div
+                        className="svc-faq-answer"
+                        id={answerId}
+                        role="region"
+                        aria-labelledby={buttonId}
+                        aria-hidden={!isFaqOpen}
+                      >
+                        <div className="svc-faq-answer-inner">
+                          <p>{item.answer}</p>
                         </div>
-                      </article>
-                    );
-                  })}
-                </div>
-
-                <a className="svc-faq-contact" href="/contact#cnt-contact-form">
-                  <span className="svc-faq-contact-icon" aria-hidden="true">
-                    <ArrowIcon />
-                  </span>
-                  <span className="svc-faq-contact-rule" aria-hidden="true" />
-                  <span className="svc-faq-contact-copy">
-                    <strong>Still have questions?</strong>
-                    <span>Contact our team &mdash; we&rsquo;re here to help.</span>
-                  </span>
-                </a>
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             </section>
           </div>
