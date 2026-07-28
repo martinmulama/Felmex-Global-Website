@@ -802,6 +802,24 @@ export function ServicePage() {
                 })}
               </div>
             </section>
+
+            <section className="svc-final-cta" aria-label="Start a logistics conversation">
+              <div className="svc-final-cta-panel">
+                <h2>
+                  Let&rsquo;s Move Your Business Forward, <strong>Together.</strong>
+                </h2>
+                <p>
+                  Partner with FELMEX Global Logistics for seamless, reliable, and scalable
+                  logistics solutions that drive growth and open new opportunities.
+                </p>
+                <a className="svc-final-cta-link" href="/contact">
+                  <span>Get in Touch</span>
+                  <span className="svc-final-cta-arrow" aria-hidden="true">
+                    -&gt;
+                  </span>
+                </a>
+              </div>
+            </section>
           </div>
         </div>
       </section>
