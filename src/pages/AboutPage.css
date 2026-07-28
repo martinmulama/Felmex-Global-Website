@@ -1,7 +1,7 @@
 .abt-page {
   --abt-white: #ffffff;
   --abt-ink: #071b35;
-  --abt-red: var(--site-brand-red);
+  --abt-red: var(--site-brand-red, #ed1c24);
   --abt-blue: #0d253b;
   --abt-blue-deep: #03172f;
   --abt-ref-artboard-max: 96rem;
@@ -588,6 +588,7 @@
   display: block;
 }
 
+.abt-title-impact,
 .abt-values-title-accent {
   display: inline;
   color: var(--abt-red);

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './AboutPage.css';
+import { WhyChooseFelmex } from '../components/WhyChooseFelmex';
 
 const ABOUT_BRIEFS = [
   {
@@ -178,7 +179,10 @@ export function AboutPage() {
               <div className="abt-story-copy">
                 <p className="abt-story-kicker">Our Story</p>
                 <h2 className="abt-story-title" id="abt-story-title">
-                  Built on reliable movement<span>.</span>
+                  Built on reliable{' '}
+                  <span className="abt-title-impact">
+                    movement<span className="abt-red-punctuation">.</span>
+                  </span>
                 </h2>
                 <span className="abt-story-rule" aria-hidden="true" />
                 <div className="abt-story-text">
@@ -254,6 +258,7 @@ export function AboutPage() {
                 />
               </figure>
             </section>
+            <WhyChooseFelmex />
           </div>
         </div>
       </section>
