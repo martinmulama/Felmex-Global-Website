@@ -170,9 +170,9 @@ export function AboutPage() {
             <section className="abt-story-section" aria-labelledby="abt-story-title">
               <figure className="abt-story-visual" aria-hidden="true">
                 <img
-                  src="/about-story-truck.png"
-                  width="1794"
-                  height="877"
+                  src="/about-story-truck-cutout.png"
+                  width="1774"
+                  height="887"
                   alt=""
                 />
               </figure>
@@ -251,8 +251,8 @@ export function AboutPage() {
               </div>
               <figure className="abt-values-visual" aria-hidden="true">
                 <img
-                  src="/about-vision-warehouse.png"
-                  width="1535"
+                  src="/about-plane-cutout.png"
+                  width="1536"
                   height="1024"
                   alt=""
                 />

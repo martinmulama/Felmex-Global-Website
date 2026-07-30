@@ -52,20 +52,15 @@ export function WhyChooseFelmex() {
   useGSAP(
     () => {
       const root = sectionRef.current;
-      const slider = root?.querySelector('[data-why-choose-track]');
+      const track = root?.querySelector('[data-why-choose-track]');
 
-      if (!root || !slider) return undefined;
+      if (!root || !track) return undefined;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
 
       const scrollAmount = () => {
-        const viewportWidth = root.clientWidth || window.innerWidth;
-
-        return Math.max(slider.scrollWidth - viewportWidth, 1);
+        return Math.max(track.offsetWidth - window.innerWidth, 0);
       };
-      const entryHoldDistance = () => Math.min(Math.max(window.innerHeight * 0.4, 280), 420);
-      const setTrackStart = () => {
-        gsap.set(slider, { x: -scrollAmount() });
-      };
+      const setTrackStart = () => gsap.set(track, { x: -scrollAmount() });
       const refreshScrollTrigger = () => ScrollTrigger.refresh();
       const images = gsap.utils.toArray('img', root);
 
@@ -83,24 +78,23 @@ export function WhyChooseFelmex() {
         scrollTrigger: {
           trigger: root,
           start: 'top top',
-          end: () => `+=${entryHoldDistance() + scrollAmount()}`,
+          end: () => `+=${scrollAmount()}`,
           pin: true,
-          scrub: 1,
+          scrub: true,
           invalidateOnRefresh: true,
           anticipatePin: 1,
           onRefreshInit: setTrackStart,
         },
       });
 
-      timeline
-        .to(slider, {
-          x: () => -scrollAmount(),
-          duration: entryHoldDistance(),
-        })
-        .to(slider, {
+      timeline.fromTo(
+        track,
+        { x: () => -scrollAmount() },
+        {
           x: 0,
-          duration: scrollAmount(),
-        });
+          duration: 1,
+        }
+      );
 
       return () => {
         images.forEach((image) => {
@@ -125,38 +119,42 @@ export function WhyChooseFelmex() {
             if (segment.kind === 'head') {
               return (
                 <article
-                  className="why-choose-felmex__segment why-choose-felmex__segment--head"
+                  className="why-choose-felmex__segment why-choose-felmex__segment--head train-head"
                   key={segment.key}
                 >
-                  <img
-                    className="why-choose-felmex__image"
-                    src={segment.image}
-                    alt=""
-                    width={segment.width}
-                    height={segment.height}
-                    decoding="async"
-                    fetchPriority="low"
-                  />
-                  <div className="why-choose-felmex__headline">
-                    <p className="why-choose-felmex__kicker">Our approach</p>
-                    <h2 id="why-choose-felmex-title">
-                      Why Choose{' '}
-                      <span className="why-choose-felmex__title-impact">
-                        Felmex<span className="why-choose-felmex__title-dot">.</span>
-                      </span>
-                    </h2>
-                    <span className="why-choose-felmex__headline-rule" aria-hidden="true" />
-                    <div className="why-choose-felmex__intro">
-                      <p>
-                        Felmex Global Logistics delivers reliable, efficient, and cost-effective
-                        logistics solutions tailored to your business. We combine local expertise
-                        with global reach to ensure your cargo moves smoothly, safely, and on time.
-                      </p>
-                      <p>
-                        Clients choose us for proactive planning, disciplined documentation, and
-                        responsive support that keeps multimodal shipments moving when conditions
-                        change.
-                      </p>
+                  <div className="why-choose-felmex__train-visual-wrapper train-visual-wrapper">
+                    <img
+                      className="why-choose-felmex__image why-choose-felmex__train-image"
+                      src={segment.image}
+                      alt=""
+                      width={segment.width}
+                      height={segment.height}
+                      decoding="async"
+                      fetchPriority="low"
+                    />
+                  </div>
+                  <div className="why-choose-felmex__train-content-wrapper train-content-wrapper">
+                    <div className="why-choose-felmex__headline">
+                      <p className="why-choose-felmex__kicker">Our approach</p>
+                      <h2 id="why-choose-felmex-title">
+                        Why Choose{' '}
+                        <span className="why-choose-felmex__title-impact">
+                          Felmex<span className="why-choose-felmex__title-dot">.</span>
+                        </span>
+                      </h2>
+                      <span className="why-choose-felmex__headline-rule" aria-hidden="true" />
+                      <div className="why-choose-felmex__intro">
+                        <p>
+                          Felmex Global Logistics delivers reliable, efficient, and cost-effective
+                          logistics solutions tailored to your business. We combine local expertise
+                          with global reach to ensure your cargo moves smoothly, safely, and on time.
+                        </p>
+                        <p>
+                          Clients choose us for proactive planning, disciplined documentation, and
+                          responsive support that keeps multimodal shipments moving when conditions
+                          change.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </article>
