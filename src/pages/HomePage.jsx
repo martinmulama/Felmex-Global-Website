@@ -190,13 +190,17 @@ const FINAL_OPERATION_STEPS = [
   },
 ];
 
-const FINAL_PARTNER_LOGOS = [
-  { type: 'mask', label: 'Maersk', className: 'landing-final-partner-mask--maersk' },
-  { type: 'text', label: 'DHL', className: 'landing-final-partner--dhl' },
-  { type: 'text', label: 'Coca-Cola', className: 'landing-final-partner--coca' },
-  { type: 'text', label: 'Nestle', className: 'landing-final-partner--nestle' },
-  { type: 'text', label: 'P&G', className: 'landing-final-partner--pg' },
-  { type: 'text', label: 'Unilever', className: 'landing-final-partner--unilever' },
+const FINAL_INDUSTRIES = [
+  'FMCG & Retail',
+  'E-Commerce',
+  'Cold Chain',
+  'Manufacturing',
+  'Healthcare',
+  'Automotive',
+  'Energy & Projects',
+  'Construction',
+  'Agriculture',
+  'Technology',
 ];
 
 function getResponsiveImagePath(imagePath, width, sourceWidth = 1280) {
@@ -2112,8 +2116,8 @@ export function HomePage() {
                 <h2 className="landing-final-operation-copy">{activeFinalOperationStep.text}</h2>
               </div>
 
-              <div className="landing-final-partners" aria-label="Trusted by industry leaders">
-                <p className="landing-final-partner-kicker">Trusted By Industry Leaders</p>
+              <div className="landing-final-partners" aria-label="Industries we service">
+                <p className="landing-final-partner-kicker">Industries We Service</p>
                 <div className="landing-final-partner-rail">
                   <div className="landing-final-partner-track">
                     {[0, 1, 2, 3].map((setIndex) => (
@@ -2122,21 +2126,11 @@ export function HomePage() {
                         key={setIndex}
                         aria-hidden={setIndex !== 0}
                       >
-                        {FINAL_PARTNER_LOGOS.map((partner) => (
-                          <div className="landing-final-partner-item" key={`${setIndex}-${partner.label}`}>
-                            {partner.type === 'image' ? (
-                              <img src={partner.src} alt={partner.label} loading="lazy" decoding="async" />
-                            ) : partner.type === 'mask' ? (
-                              <span
-                                className={`landing-final-partner-mask ${partner.className}`}
-                                role="img"
-                                aria-label={partner.label}
-                              />
-                            ) : (
-                              <span className={`landing-final-partner-name ${partner.className}`}>
-                                {partner.label}
-                              </span>
-                            )}
+                        {FINAL_INDUSTRIES.map((industry) => (
+                          <div className="landing-final-partner-item" key={`${setIndex}-${industry}`}>
+                            <span className="landing-final-partner-name landing-final-industry-name">
+                              {industry}
+                            </span>
                           </div>
                         ))}
                       </div>

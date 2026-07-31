@@ -8917,6 +8917,14 @@
   font-weight: 800;
 }
 
+.landing-final-partner-name.landing-final-industry-name {
+  font-family: var(--site-font-display);
+  font-size: 1.12rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
 .landing-final-cta {
   --landing-final-cta-step: clamp(2rem, 3.8vw, 3.2rem);
   position: relative;
