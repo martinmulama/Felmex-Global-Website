@@ -52,6 +52,89 @@ const ABOUT_BRIEFS = [
 
 const CORE_VALUES = ['Integrity', 'Reliability', 'Excellence', 'Collaboration'];
 
+const PARTNER_LOGOS = [
+  {
+    name: 'Maersk',
+    logo: '/partners/maersk.svg',
+    tone: 'blue',
+    className: 'maersk',
+    logoWidth: '88%',
+    logoMaxHeight: '34%',
+  },
+  {
+    name: 'DHL Group',
+    logo: '/partners/dhl-group.svg',
+    tone: 'white',
+    className: 'dhl',
+    logoWidth: '92%',
+    logoMaxHeight: '35%',
+  },
+  {
+    name: 'Kuehne+Nagel',
+    logo: '/partners/kuehne-nagel.svg',
+    tone: 'red',
+    className: 'kuehne-nagel',
+    logoWidth: '96%',
+    logoMaxHeight: '36%',
+  },
+  {
+    name: 'DB Schenker',
+    logo: '/partners/db-schenker.svg',
+    tone: 'white',
+    className: 'db-schenker',
+    logoWidth: '94%',
+    logoMaxHeight: '34%',
+  },
+  {
+    name: 'CMA CGM',
+    logo: '/partners/cma-cgm.svg',
+    tone: 'blue',
+    className: 'cma-cgm',
+    logoWidth: '68%',
+    logoMaxHeight: '68%',
+  },
+  {
+    name: 'Amazon',
+    logo: '/partners/amazon.svg',
+    tone: 'white',
+    className: 'amazon',
+    logoWidth: '74%',
+    logoMaxHeight: '35%',
+  },
+  {
+    name: 'DP World',
+    logo: '/partners/dp-world.svg',
+    tone: 'red',
+    className: 'dp-world',
+    logoWidth: '68%',
+    logoMaxHeight: '58%',
+  },
+  {
+    name: 'FedEx Express',
+    logo: '/partners/fedex-express.svg',
+    tone: 'white',
+    className: 'fedex',
+    logoWidth: '72%',
+    logoMaxHeight: '48%',
+  },
+  {
+    name: 'MSC',
+    logo: '/partners/msc.svg',
+    tone: 'blue',
+    className: 'msc',
+    logoWidth: '48%',
+    logoMaxHeight: '68%',
+  },
+  {
+    name: 'Hapag-Lloyd',
+    logo: '/partners/hapag-lloyd.svg',
+    tone: 'white',
+    className: 'hapag-lloyd',
+    logoWidth: '86%',
+    logoMaxHeight: '34%',
+  },
+];
+
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -259,6 +342,42 @@ export function AboutPage() {
               </figure>
             </section>
             <WhyChooseFelmex />
+            <section className="abt-partners-section" aria-labelledby="abt-partners-title">
+              <div className="abt-partners-header">
+                <p className="abt-partners-kicker">Our Partners</p>
+                <h2 className="abt-partners-title" id="abt-partners-title">
+                  Trusted by Industry{' '}
+                  <span className="abt-partners-title-impact">
+                    Leaders<span className="abt-red-punctuation">.</span>
+                  </span>
+                </h2>
+                <span className="abt-partners-rule" aria-hidden="true" />
+                <p className="abt-partners-copy">
+                  We collaborate with forward-thinking companies worldwide to deliver smarter
+                  logistics solutions and lasting impact.
+                </p>
+              </div>
+              <div className="abt-partners-grid" aria-label="Trusted logistics partners">
+                {PARTNER_LOGOS.map((partner) => (
+                  <div
+                    className={`abt-partner-tile abt-partner-tile--${partner.tone} abt-partner-tile--${partner.className}`}
+                    key={partner.name}
+                    style={{
+                      '--abt-partner-logo-width': partner.logoWidth,
+                      '--abt-partner-logo-max-height': partner.logoMaxHeight,
+                    }}
+                  >
+                    <img
+                      className="abt-partner-logo"
+                      src={partner.logo}
+                      alt={partner.name}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
           </div>
         </div>
       </section>
