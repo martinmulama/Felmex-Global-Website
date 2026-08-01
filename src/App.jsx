@@ -151,6 +151,7 @@ function App() {
   const isReportPage = pathSegments[0] === 'blog' && pathSegments[1] === 'report';
   const reportSlug = pathSegments[2] ?? DEFAULT_REPORT_SLUG;
   const isProjectsPage = pathname === '/blog' || pathname.startsWith('/blog/');
+  const isProjectsIndexPage = isProjectsPage && !isReportPage;
   const isAboutPage = pathname === '/about' || pathname.startsWith('/about/');
   const isContactPage = pathname === '/contact' || pathname.startsWith('/contact/');
   const isServicesPage = pathname === '/services' || pathname.startsWith('/services/');
@@ -351,6 +352,7 @@ function App() {
     <MainLayout
       isContentPreview={isPreviewPage}
       previewLabel={previewLabel}
+      hideFooter={isProjectsIndexPage}
     >
       {isHomePage ? (
         activePage

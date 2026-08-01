@@ -10,6 +10,7 @@ export function Navbar() {
   const isContactPage = pathname === '/contact' || pathname.startsWith('/contact/');
   const isServicesPage = pathname === '/services' || pathname.startsWith('/services/');
   const isHomePage = pathname === '/';
+  const isInteriorPage = !isHomePage;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHomeHeroActive, setIsHomeHeroActive] = useState(isHomePage);
   const headerRef = useRef(null);
@@ -141,7 +142,9 @@ export function Navbar() {
   return (
     <header
       ref={headerRef}
-      className={`site-header${isMobileMenuOpen ? ' is-mobile-menu-open' : ''}${
+      className={`site-header${isInteriorPage ? ' is-interior-page' : ''}${
+        isMobileMenuOpen ? ' is-mobile-menu-open' : ''
+      }${
         isHomeHeroActive ? ' is-home-hero-active' : ''
       }`}
     >

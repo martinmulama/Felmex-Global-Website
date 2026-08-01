@@ -5,6 +5,7 @@ export function MainLayout({
   children,
   isContentPreview = false,
   previewLabel = 'Page',
+  hideFooter = false,
 }) {
   return (
     <>
@@ -24,7 +25,7 @@ export function MainLayout({
           </div>
         ) : null}
       </main>
-      <SiteFooter />
+      {hideFooter ? null : <SiteFooter />}
     </>
   );
 }
