@@ -367,8 +367,9 @@ a {
 
 .brand-logo {
   width: var(--site-nav-action-width);
-  height: auto;
+  height: var(--site-nav-action-height);
   object-fit: contain;
+  object-position: left center;
   border-radius: 0.35rem;
   transform: none;
   transform-origin: left center;
@@ -490,6 +491,79 @@ a {
   background: var(--site-brand-red);
   box-shadow: none;
   font-size: clamp(0.68rem, 0.73vw, 0.75rem);
+  letter-spacing: 0;
+}
+
+.site-header.is-interior-page {
+  --site-nav-height: clamp(3.2rem, 3.8vw, 3.55rem);
+  --site-nav-action-width: clamp(9.5rem, 9.8vw, 10.25rem);
+  --site-nav-action-height: clamp(2.42rem, 2.8vw, 2.65rem);
+  background: #ffffff;
+  border-bottom-color: var(--border);
+  box-shadow: 0 8px 24px rgba(16, 23, 42, 0.06);
+}
+
+.site-header.is-interior-page .nav-shell {
+  min-height: var(--site-nav-height);
+  padding: 0 var(--home-hero-nav-end);
+}
+
+.site-header.is-interior-page .brand {
+  flex: 0 0 var(--site-nav-action-width);
+  width: var(--site-nav-action-width);
+  height: var(--site-nav-height);
+}
+
+.site-header.is-interior-page .brand-logo {
+  width: var(--site-nav-action-width);
+  height: var(--site-nav-action-height);
+  object-fit: contain;
+  object-position: left center;
+  border-radius: 0.35rem;
+}
+
+.site-header.is-interior-page .brand-mark {
+  width: var(--site-nav-action-width);
+  height: var(--site-nav-action-height);
+}
+
+.site-header.is-interior-page .primary-nav {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.site-header.is-interior-page .nav-links {
+  gap: clamp(1.9rem, 3.6vw, 3.55rem);
+}
+
+.site-header.is-interior-page .nav-links a {
+  min-height: 2.85rem;
+  color: #0f2842;
+  font-size: clamp(0.82rem, 0.9vw, 0.94rem);
+  font-weight: 500;
+}
+
+.site-header.is-interior-page .nav-links a[aria-current='page'] {
+  color: var(--site-brand-navy);
+  font-weight: 800;
+}
+
+.site-header.is-interior-page .nav-links a::after {
+  bottom: 0.16rem;
+  height: 3px;
+  background: var(--site-brand-red);
+}
+
+.site-header.is-interior-page .btn-quote-desktop {
+  min-width: var(--site-nav-action-width);
+  min-height: var(--site-nav-action-height);
+  padding-inline: clamp(1.15rem, 1.65vw, 1.5rem);
+  border-radius: 0.12rem;
+  background: var(--site-brand-red);
+  box-shadow: none;
+  color: #ffffff;
+  font-size: clamp(0.68rem, 0.73vw, 0.75rem);
+  font-weight: var(--site-button-weight);
   letter-spacing: 0;
 }
 
@@ -663,7 +737,7 @@ a {
 
   .brand-logo {
     width: var(--site-nav-action-width);
-    height: auto;
+    height: var(--site-nav-action-height);
   }
 
   .brand-mark {
@@ -979,5 +1053,76 @@ a {
 @media (max-width: 400px) {
   .utility-pill:not(.utility-pill-quote) svg {
     display: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .site-header.is-interior-page {
+    --site-nav-height: 3.95rem;
+    --site-nav-action-width: 8.6rem;
+    --site-nav-action-height: 2.35rem;
+    border-bottom-color: rgba(220, 226, 235, 0.7);
+    box-shadow: 0 8px 22px rgba(16, 23, 42, 0.06);
+  }
+
+  .site-header.is-interior-page .nav-shell {
+    min-height: var(--site-nav-height);
+    padding-inline: 1rem;
+  }
+
+  .site-header.is-interior-page .brand {
+    flex-basis: var(--site-nav-action-width);
+    width: var(--site-nav-action-width);
+    height: var(--site-nav-height);
+  }
+
+  .site-header.is-interior-page .brand-logo {
+    width: var(--site-nav-action-width);
+    height: var(--site-nav-action-height);
+    max-height: var(--site-nav-action-height);
+    transform: none;
+  }
+
+  .site-header.is-interior-page .brand-mark {
+    width: var(--site-nav-action-width);
+    height: var(--site-nav-action-height);
+  }
+
+  .site-header.is-interior-page .primary-nav {
+    top: calc(100% + 0.24rem);
+    right: 0;
+    left: 0;
+    transform: translateY(-8px) scale(0.985);
+  }
+
+  .site-header.is-interior-page .primary-nav.is-open {
+    transform: translateY(0) scale(1);
+  }
+
+  .site-header.is-interior-page .nav-links {
+    gap: 0.24rem;
+  }
+
+  .site-header.is-interior-page .nav-links a {
+    min-height: 2.7rem;
+    color: #203349;
+    font-size: var(--fs-body);
+    font-weight: 600;
+  }
+
+  .site-header.is-interior-page .nav-links a::after {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header.is-interior-page {
+    --site-nav-height: 3.6rem;
+    --site-nav-action-width: 7.75rem;
+    --site-nav-action-height: 2.1rem;
+  }
+
+  .site-header.is-interior-page .nav-shell {
+    padding-inline: 0.85rem;
   }
 }
