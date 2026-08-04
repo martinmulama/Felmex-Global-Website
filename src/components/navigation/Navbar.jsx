@@ -10,9 +10,7 @@ export function Navbar() {
   const isContactPage = pathname === '/contact' || pathname.startsWith('/contact/');
   const isServicesPage = pathname === '/services' || pathname.startsWith('/services/');
   const isHomePage = pathname === '/';
-  const isInteriorPage = !isHomePage;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isHomeHeroActive, setIsHomeHeroActive] = useState(isHomePage);
   const headerRef = useRef(null);
 
   useEffect(() => {
@@ -83,43 +81,6 @@ export function Navbar() {
     };
   }, [isMobileMenuOpen]);
 
-  useEffect(() => {
-    if (typeof window === 'undefined' || typeof document === 'undefined' || !isHomePage) {
-      setIsHomeHeroActive(false);
-      return undefined;
-    }
-
-    let frameId = 0;
-
-    const updateHeroState = () => {
-      frameId = 0;
-      const heroElement = document.querySelector('.hero');
-      const headerHeight = headerRef.current?.getBoundingClientRect().height ?? 0;
-      const nextIsActive = heroElement
-        ? heroElement.getBoundingClientRect().bottom > headerHeight + 1
-        : false;
-
-      setIsHomeHeroActive((current) => (current === nextIsActive ? current : nextIsActive));
-    };
-
-    const queueUpdate = () => {
-      if (frameId) return;
-      frameId = window.requestAnimationFrame(updateHeroState);
-    };
-
-    queueUpdate();
-    window.addEventListener('scroll', queueUpdate, { passive: true });
-    window.addEventListener('resize', queueUpdate);
-
-    return () => {
-      window.removeEventListener('scroll', queueUpdate);
-      window.removeEventListener('resize', queueUpdate);
-      if (frameId) {
-        window.cancelAnimationFrame(frameId);
-      }
-    };
-  }, [isHomePage]);
-
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
   const resolveNavHref = (item) => {
     if (!item.href) return '/';
@@ -129,7 +90,7 @@ export function Navbar() {
     return `/${item.href}`;
   };
   const quoteHref = '/contact';
-  const brandHref = isHomePage ? '#' : '/';
+  const brandHref = '/';
   const handleLogoError = (event) => {
     event.currentTarget.style.display = 'none';
     const brand = event.currentTarget.closest('.brand');
@@ -142,10 +103,8 @@ export function Navbar() {
   return (
     <header
       ref={headerRef}
-      className={`site-header${isInteriorPage ? ' is-interior-page' : ''}${
+      className={`site-header is-interior-page${
         isMobileMenuOpen ? ' is-mobile-menu-open' : ''
-      }${
-        isHomeHeroActive ? ' is-home-hero-active' : ''
       }`}
     >
       <div className="top-contact-strip">

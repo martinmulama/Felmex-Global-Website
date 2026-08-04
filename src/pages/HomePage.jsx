@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './HomePage.css';
 import { MQ } from '../constants/breakpoints';
+import { WhyChooseFelmex } from '../components/WhyChooseFelmex';
 import { ONGOING_PROJECTS } from './projects/data';
 import { CLIENT_QUOTES } from './home/data';
 
@@ -138,27 +139,6 @@ const HOME_SERVICE_FEATURES = [
     summary:
       'Dependable local and international movement for documents, parcels, e-commerce, medical, and commercial cargo.',
     mediaTone: 'parcel',
-  },
-];
-
-const HOME_CHOICE_FEATURES = [
-  {
-    number: '01',
-    icon: 'globe',
-    titleLines: ['Global reach', 'with local expertise'],
-    text: 'We operate across major international markets while keeping a strong understanding of local needs.',
-  },
-  {
-    number: '02',
-    icon: 'shield',
-    titleLines: ['Transparent and', 'reliable operations'],
-    text: 'Our processes are built on clarity, accountability, and a commitment to getting it right, every time.',
-  },
-  {
-    number: '03',
-    icon: 'handshake',
-    titleLines: ['Trusted partnerships', 'built on integrity'],
-    text: 'We believe in long-term relationships founded on trust, respect, and delivering on our promises.',
   },
 ];
 
@@ -404,79 +384,6 @@ function ServiceCatalogIcon({ kind }) {
   );
 }
 
-function WhyChooseIcon({ kind }) {
-  const icons = {
-    globe: (
-      <>
-        <circle
-          cx="12"
-          cy="12"
-          r="8.9"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-        />
-        <path
-          d="M3.6 9.1c2.8.4 4.7 1.5 5.8 3.3 1 1.7.8 3.6-.5 5.8m5.8-14.4c-.8 1.4-1 2.8-.5 4 .5 1.3 1.8 2.2 3.9 2.8M6.7 5.9c1.6.8 3.1 1.1 4.4.8 1.3-.2 2.5-1 3.6-2.2M20.7 11.6c-1.5-.4-2.8-.2-3.9.4-1.3.8-2.2 2.2-2.7 4.4-.2 1-.1 2 .2 3M10.2 20.6c.6-1.9.4-3.5-.6-4.7-.7-.9-1.8-1.4-3.3-1.7"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    shield: (
-      <>
-        <path
-          d="M12 3.5 5.4 6.1v5.4c0 4.1 2.6 7.4 6.6 8.8 4-1.4 6.6-4.7 6.6-8.8V6.1L12 3.5Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="m8.8 12.2 2.1 2.1 4.4-4.7"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.9"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    handshake: (
-      <>
-        <path
-          d="m3.2 12.9 2.2-5.1 3.3 1.4-2.2 5.1-3.3-1.4Zm17.6 0-2.2-5.1-3.3 1.4 2.2 5.1 3.3-1.4Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.55"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="m7.1 13.4 2.1-2.1a2.15 2.15 0 0 1 3 0l.6.6 1.1-1.1a2.05 2.05 0 0 1 2.9 0l.5.5m-7.7 5.3.7.7a1.22 1.22 0 0 0 1.7-1.7l.6.6a1.22 1.22 0 0 0 1.7-1.7l.6.6a1.22 1.22 0 0 0 1.7-1.7l-4.1-4.1m-5.5 4.6 1.7 1.7m7.6-2.9-2.8-2.8"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.55"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-  };
-
-  return (
-    <span className={`landing-why-card-icon landing-why-card-icon--${kind}`} aria-hidden="true">
-      <svg viewBox="0 0 24 24" focusable="false">
-        {icons[kind] ?? icons.globe}
-      </svg>
-    </span>
-  );
-}
-
 function OogCapabilityIcon({ kind }) {
   const icons = {
     survey: (
@@ -582,117 +489,6 @@ function OogCapabilityIcon({ kind }) {
   );
 }
 
-function HomeOverviewIcon({ kind }) {
-  const icons = {
-    vision: (
-      <>
-        <path
-          d="M2.7 12s3.45-5.1 9.3-5.1 9.3 5.1 9.3 5.1-3.45 5.1-9.3 5.1S2.7 12 2.7 12Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.45"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="12" cy="12" r="2.35" fill="none" stroke="currentColor" strokeWidth="1.45" />
-      </>
-    ),
-    mission: (
-      <>
-        <path
-          d="M12 20.25a8.25 8.25 0 1 1 7.7-11.2"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.45"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M12 16.3a4.3 4.3 0 1 1 3.9-6.1M12 12l5.4-5.4m.35 3.1-.35-3.1 3.1.35"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.45"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="12" cy="12" r="1.05" fill="currentColor" />
-      </>
-    ),
-    about: (
-      <>
-        <path
-          d="M5.2 10.4 12 6.1l6.8 4.3v9.2H5.2v-9.2Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.45"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M8.3 19.6v-6.1h7.4v6.1M10.3 15.35h1.1M12.7 15.35h1.1M10.3 17.4h1.1M12.7 17.4h1.1M5.2 10.4v9.2H2.95v-7.65l2.25-1.55Zm13.6 0 2.25 1.55v7.65H18.8"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.45"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    integrity: (
-      <>
-        <path
-          d="M12 3.5 5.4 6.1v5.4c0 4.1 2.6 7.4 6.6 8.8 4-1.4 6.6-4.7 6.6-8.8V6.1L12 3.5Z"
-          fill="none"
-          stroke="#071b35"
-          strokeWidth="1.45"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="m8.8 12.2 2.1 2.1 4.4-4.7"
-          fill="none"
-          stroke="#ed1c24"
-          strokeWidth="1.75"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-  };
-
-  return (
-    <svg viewBox="0 0 24 24" focusable="false">
-      {icons[kind] ?? icons.vision}
-    </svg>
-  );
-}
-
-function bindWindowScroll(update) {
-  let rafId = null;
-
-  const runUpdate = () => {
-    rafId = null;
-    update();
-  };
-
-  const queueUpdate = () => {
-    if (rafId !== null) return;
-    rafId = window.requestAnimationFrame(runUpdate);
-  };
-
-  queueUpdate();
-  window.addEventListener('scroll', queueUpdate, { passive: true });
-  window.addEventListener('resize', queueUpdate);
-
-  return () => {
-    if (rafId !== null) {
-      window.cancelAnimationFrame(rafId);
-    }
-    window.removeEventListener('scroll', queueUpdate);
-    window.removeEventListener('resize', queueUpdate);
-  };
-}
-
 let gsapLoadPromise = null;
 let scrollTriggerLoadPromise = null;
 
@@ -744,7 +540,6 @@ export function HomePage() {
   const serviceImagePreloadersRef = useRef([]);
   const hasPreloadedServiceImagesRef = useRef(false);
   const testimonialsTitleDroppedRef = useRef(false);
-  const [isOverviewVisible, setIsOverviewVisible] = useState(false);
   const [isTestimonialsTitleDropped, setIsTestimonialsTitleDropped] = useState(false);
   const [isCloseVisible, setIsCloseVisible] = useState(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
@@ -842,31 +637,106 @@ export function HomePage() {
     };
   }, [isMobileViewport]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const node = overviewRef.current;
-    if (!node) return undefined;
+    if (!node || typeof window === 'undefined') return undefined;
 
-    if (prefersReducedMotion) {
-      setIsOverviewVisible(true);
+    const splitContainer = node.querySelector('.split-scroll-container');
+    const curtains = Array.from(node.querySelectorAll('.split-scroll-bg-layer'));
+    const statements = Array.from(node.querySelectorAll('.split-scroll-statement'));
+
+    if (
+      !splitContainer ||
+      isMobileViewport ||
+      prefersReducedMotion ||
+      curtains.length < 2 ||
+      curtains.length !== statements.length
+    ) {
       return undefined;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        setIsOverviewVisible(true);
-        observer.disconnect();
-      },
-      {
-        threshold: 0.24,
-        rootMargin: '0px 0px -10% 0px',
-      }
-    );
+    let isCancelled = false;
+    let animationContext = null;
+    let ScrollTriggerInstance = null;
 
-    observer.observe(node);
+    loadScrollTrigger().then(({ gsap, ScrollTrigger }) => {
+      if (isCancelled) return;
 
-    return () => observer.disconnect();
-  }, [prefersReducedMotion, isMobileViewport]);
+      ScrollTriggerInstance = ScrollTrigger;
+      animationContext = gsap.context(() => {
+        const transitionDuration = 0.72;
+
+        gsap.set(curtains, {
+          y: 0,
+          yPercent: (index) => (index === 0 ? 0 : 100),
+        });
+        gsap.set(statements, {
+          opacity: 1,
+          visibility: 'visible',
+          y: 0,
+          yPercent: (index) => (index === 0 ? 0 : 110),
+        });
+
+        const timeline = gsap.timeline({
+          defaults: {
+            ease: 'power3.inOut',
+            overwrite: 'auto',
+          },
+          scrollTrigger: {
+            trigger: splitContainer,
+            start: 'top top',
+            end: () => `+=${window.innerHeight * (statements.length - 1)}`,
+            pin: true,
+            pinSpacing: true,
+            scrub: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        statements.slice(1).forEach((statement, index) => {
+          const stateIndex = index + 1;
+          const transitionStart = index;
+          const outgoingStatement = statements[stateIndex - 1];
+          const curtain = curtains[stateIndex];
+
+          timeline
+            .to(
+              curtain,
+              {
+                yPercent: 0,
+                duration: transitionDuration,
+              },
+              transitionStart
+            )
+            .to(
+              outgoingStatement,
+              {
+                yPercent: -110,
+                duration: transitionDuration,
+              },
+              transitionStart
+            )
+            .to(
+              statement,
+              {
+                yPercent: 0,
+                duration: transitionDuration,
+              },
+              transitionStart
+            );
+        });
+      }, node);
+
+      ScrollTrigger.refresh();
+    });
+
+    return () => {
+      isCancelled = true;
+      animationContext?.revert();
+      ScrollTriggerInstance?.refresh();
+    };
+  }, [isMobileViewport, prefersReducedMotion]);
 
   useEffect(() => {
     const list = servicesListRef.current;
@@ -1074,40 +944,6 @@ export function HomePage() {
   useEffect(() => {
     testimonialsTitleDroppedRef.current = isTestimonialsTitleDropped;
   }, [isTestimonialsTitleDropped]);
-
-  useEffect(() => {
-    const node = overviewRef.current;
-    if (!node) return undefined;
-
-    const applyOverviewMotion = (progress) => {
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const imageY = (1 - eased) * 42;
-      const imageScale = 0.94 + eased * 0.06;
-      const imageOpacity = 0.58 + eased * 0.42;
-
-      node.style.setProperty('--overview-image-y', `${imageY.toFixed(2)}px`);
-      node.style.setProperty('--overview-image-scale', imageScale.toFixed(4));
-      node.style.setProperty('--overview-image-opacity', imageOpacity.toFixed(4));
-    };
-
-    if (prefersReducedMotion) {
-      applyOverviewMotion(1);
-      return undefined;
-    }
-
-    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-
-    const updateOverviewMotion = () => {
-      const rect = node.getBoundingClientRect();
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
-      const start = viewportHeight * 0.94;
-      const end = viewportHeight * 0.18;
-      const progress = clamp((start - rect.top) / Math.max(start - end, 1), 0, 1);
-      applyOverviewMotion(progress);
-    };
-
-    return bindWindowScroll(updateOverviewMotion);
-  }, [prefersReducedMotion]);
 
   useEffect(() => {
     const node = testimonialsSectionRef.current;
@@ -1646,155 +1482,86 @@ export function HomePage() {
 
   return (
     <>
-      <section className="hero" aria-label="Felmex hero">
-        <div className="hero-layout">
-          <div className="hero-media" aria-hidden="true">
-            <video
-              className="hero-video"
-              src="/Final.mp4"
-              poster="/hero-video-poster.webp"
-              autoPlay
-              muted
-              playsInline
-              preload="metadata"
-            />
-          </div>
-
-          <div className="hero-content">
-            <img
-              className="hero-logo"
-              src="/logo-transparent.png"
-              width="487"
-              height="170"
-              alt="Felmex Global Logistics"
-            />
-
-            <div className="hero-copy">
-              <span className="hero-rule" aria-hidden="true" />
-              <h1 className="hero-title">
-                <span>Delivering Tomorrow&rsquo;s</span>
-                <span>
-                  Trade <strong>Today.</strong>
-                </span>
-              </h1>
-              <span className="hero-rule hero-rule--after" aria-hidden="true" />
-              <p className="hero-lede">
-                From East Africa to the world&mdash;Felmex Global Logistics delivers seamless
-                multimodal freight, customs clearance, and trade solutions for fast-moving global
-                supply chains.
-              </p>
-              <a className="hero-cta" href="/contact" aria-label="Contact Felmex Global Logistics">
-                <span>Contact Us</span>
-                <span className="hero-cta-arrow" aria-hidden="true">
-                  -&gt;
-                </span>
-              </a>
-            </div>
-          </div>
-
-          <div className="hero-staircase" aria-hidden="true">
-            <figure className="hero-panel hero-panel--road">
-              <img src="/hero-road-panel.webp" width="864" height="1821" alt="" />
-            </figure>
-            <figure className="hero-panel hero-panel--rail">
-              <img src="/hero-rail-panel.webp" width="864" height="1821" alt="" />
-            </figure>
-            <figure className="hero-panel hero-panel--air">
-              <img src="/hero-air-panel.webp" width="209" height="871" alt="" />
-            </figure>
-          </div>
-        </div>
-      </section>
+      <div className="hero hero--why-choose">
+        <WhyChooseFelmex />
+      </div>
 
       <section
         id="about"
         ref={overviewRef}
-        className={`landing-overview${isOverviewVisible ? ' is-visible' : ''}`}
+        className="landing-overview landing-overview--split"
         aria-label="Company overview"
       >
-        <div className="container landing-overview-shell">
-          <div className="landing-overview-statement-grid" aria-label="Felmex mission, vision, and company overview">
-            <article className="landing-overview-statement landing-overview-statement--vision landing-reveal-item">
-              <span className="landing-overview-card-rule" aria-hidden="true" />
-              <div className="landing-overview-icon" aria-hidden="true">
-                <HomeOverviewIcon kind="vision" />
-              </div>
-              <h3>Vision</h3>
-              <p>
-                Redefine global logistics by delivering seamless, multimodal solutions that connect
-                businesses, markets, and communities with efficiency &amp; integrity.
-              </p>
-            </article>
-            <article
-              className="landing-overview-statement landing-overview-statement--mission landing-reveal-item"
-              style={{ '--reveal-delay': '90ms' }}
+        <div className="split-scroll-container">
+          <div className="left-panel">
+            <div className="split-scroll-bg-stack" aria-hidden="true">
+              <span className="split-scroll-bg-layer split-scroll-bg-layer--vision" />
+              <span className="split-scroll-bg-layer split-scroll-bg-layer--mission" />
+              <span className="split-scroll-bg-layer split-scroll-bg-layer--about" />
+              <span className="split-scroll-bg-layer split-scroll-bg-layer--idd" />
+            </div>
+
+            <div
+              className="split-scroll-statement-frame"
+              aria-label="Felmex mission, vision, and company overview"
             >
-              <span className="landing-overview-card-rule" aria-hidden="true" />
-              <div className="landing-overview-icon" aria-hidden="true">
-                <HomeOverviewIcon kind="mission" />
-              </div>
-              <h3>Mission</h3>
-              <p>
-                FELMEX Global Logistics exists to simplify complexity in international trade. We
-                integrate air, sea, road, and rail services into one cohesive network, ensuring
-                reliable, transparent, and future-ready supply chain solutions for our partners
-                worldwide.
-              </p>
-            </article>
-            <article
-              className="landing-overview-statement landing-overview-statement--about landing-reveal-item"
-              style={{ '--reveal-delay': '180ms' }}
-            >
-              <span className="landing-overview-card-rule" aria-hidden="true" />
-              <div className="landing-overview-icon" aria-hidden="true">
-                <HomeOverviewIcon kind="about" />
-              </div>
-              <h3>About Us</h3>
-              <p>
-                FELMEX Global Logistics is an envisioned global multimodal service provider,
-                delivering integrated solutions across air, sea, road, and rail. We simplify complex
-                supply chains, connect businesses to international markets, and ensure efficiency,
-                transparency, and reliability at every step.
-              </p>
-            </article>
-            <article
-              className="landing-overview-statement landing-overview-statement--integrity landing-reveal-item"
-              style={{ '--reveal-delay': '270ms' }}
-            >
-              <div className="landing-overview-icon landing-overview-icon--integrity" aria-hidden="true">
-                <HomeOverviewIcon kind="integrity" />
-              </div>
-              <span className="landing-overview-card-rule" aria-hidden="true" />
-              <h3>Integrity &amp; Due Diligence</h3>
-              <p>
-                We are committed to conducting business with integrity and transparency. Our
-                Integrity Due Diligence process ensures that every partner, supplier and agent we
-                work with meets the highest ethical and compliance standards.
-              </p>
-              <p>
-                This safeguards our operations, protects our clients and reinforces our dedication
-                to responsible logistics solutions.
-              </p>
-            </article>
+              <article className="landing-overview-statement landing-overview-statement--vision split-scroll-statement">
+                <h3>Vision</h3>
+                <p>
+                  Redefine global logistics by delivering seamless, multimodal solutions that connect
+                  businesses, markets, and communities with efficiency &amp; integrity.
+                </p>
+              </article>
+              <article
+                className="landing-overview-statement landing-overview-statement--mission split-scroll-statement"
+              >
+                <h3>Mission</h3>
+                <p>
+                  FELMEX Global Logistics exists to simplify complexity in international trade. We
+                  integrate air, sea, road, and rail services into one cohesive network, ensuring
+                  reliable, transparent, and future-ready supply chain solutions for our partners
+                  worldwide.
+                </p>
+              </article>
+              <article
+                className="landing-overview-statement landing-overview-statement--about split-scroll-statement"
+              >
+                <h3>About Us</h3>
+                <p>
+                  FELMEX Global Logistics is an envisioned global multimodal service provider,
+                  delivering integrated solutions across air, sea, road, and rail. We simplify complex
+                  supply chains, connect businesses to international markets, and ensure efficiency,
+                  transparency, and reliability at every step.
+                </p>
+              </article>
+              <article
+                className="landing-overview-statement landing-overview-statement--idd split-scroll-statement"
+              >
+                <h3>IDD</h3>
+                <p>
+                  Integrity Due Diligence keeps every partner, supplier, and agent aligned to clear
+                  ethical, compliance, and operating standards so client cargo moves through a
+                  responsible logistics network with confidence.
+                </p>
+              </article>
+            </div>
           </div>
 
-          <div className="landing-overview-intro landing-reveal-group">
-            <span className="landing-overview-rule landing-reveal-item" aria-hidden="true" />
-            <h2 className="landing-overview-title">
-              <span className="landing-overview-title-line landing-reveal-line" style={{ '--reveal-delay': '0ms' }}>
-                <span>Moving Your Business Forward,</span>
-              </span>
-              <span className="landing-overview-title-line landing-reveal-line" style={{ '--reveal-delay': '110ms' }}>
-                <span>
-                  <strong>Together.</strong>
+          <aside className="right-panel" aria-label="Company overview headline">
+            <div className="right-panel-inner">
+              <span className="landing-overview-rule" aria-hidden="true" />
+              <h2 className="landing-overview-title">
+                <span className="landing-overview-title-line">
+                  <span>Moving Your Business Forward,</span>
                 </span>
-              </span>
-            </h2>
-            <p className="landing-overview-lede landing-reveal-item" style={{ '--reveal-delay': '260ms' }}>
-              We combine global reach with local expertise to deliver logistics solutions that drive
-              efficiency, reduce costs, and connect your business to new opportunities.
-            </p>
-          </div>
+                <span className="landing-overview-title-line">
+                  <span>
+                    <strong>Together.</strong>
+                  </span>
+                </span>
+              </h2>
+            </div>
+          </aside>
         </div>
 
       </section>
@@ -1867,44 +1634,6 @@ export function HomePage() {
                 </div>
               </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="why-choose-felmex" className="landing-why" aria-labelledby="why-choose-title">
-        <div className="landing-why-shell">
-          <div className="landing-why-staircase" role="list" aria-label="Reasons to choose Felmex">
-            {HOME_CHOICE_FEATURES.map((feature) => (
-              <article className="landing-why-card" key={feature.number} role="listitem">
-                <span className="landing-why-card-number">{feature.number}</span>
-                <div className="landing-why-card-content">
-                  <WhyChooseIcon kind={feature.icon} />
-                  <h3>
-                    {feature.titleLines.map((line) => (
-                      <span key={line}>{line}</span>
-                    ))}
-                  </h3>
-                  <span className="landing-why-card-rule" aria-hidden="true" />
-                  <p>{feature.text}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className="landing-why-copy">
-            <p className="landing-why-kicker">Why choose Felmex?</p>
-            <span className="landing-why-copy-rule" aria-hidden="true" />
-            <h2 id="why-choose-title" className="landing-why-title">
-              <span>More than logistics.</span>
-              <span>A partnership</span>
-              <span>
-                you can <strong>trust.</strong>
-              </span>
-            </h2>
-            <p className="landing-why-text">
-              We combine global reach with local expertise to deliver solutions that drive
-              efficiency, reduce costs, and connect your business to new opportunities.
-            </p>
           </div>
         </div>
       </section>
