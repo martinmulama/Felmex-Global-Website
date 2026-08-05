@@ -5473,7 +5473,7 @@
 
 .landing-overview--split .split-scroll-bg-layer--idd {
   z-index: 4;
-  background: #ffffff;
+  background: var(--site-brand-red, #ed1c24);
 }
 
 .landing-overview--split .split-scroll-statement-frame {
@@ -5543,7 +5543,7 @@
 
 .landing-overview--split .landing-overview-statement--idd h3,
 .landing-overview--split .landing-overview-statement--idd p {
-  color: #30343a;
+  color: #ffffff;
 }
 
 .landing-overview--split .landing-overview-statement--idd p {
@@ -5653,7 +5653,7 @@
   .landing-overview--split .landing-overview-statement--idd {
     order: 4;
     display: flex;
-    background: #ffffff;
+    background: var(--site-brand-red, #ed1c24);
   }
 
   .landing-overview--split .right-panel {

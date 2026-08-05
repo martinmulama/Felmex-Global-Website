@@ -121,6 +121,10 @@
   overflow: hidden;
 }
 
+.why-choose-felmex__mobile-hero-copy {
+  display: none;
+}
+
 .why-choose-felmex__train-image {
   height: var(--why-train-image-height);
   width: auto;
@@ -152,9 +156,11 @@
 }
 
 .why-choose-felmex__kicker,
+.why-choose-felmex__headline h1,
 .why-choose-felmex__headline h2,
 .why-choose-felmex__intro,
 .why-choose-felmex__intro p,
+.why-choose-felmex__hero-subtext,
 .why-choose-felmex__copy h3,
 .why-choose-felmex__copy p {
   margin: 0;
@@ -188,6 +194,7 @@
   background: var(--why-red);
 }
 
+.why-choose-felmex__headline h1,
 .why-choose-felmex__headline h2 {
   margin-top: clamp(1.25rem, 2.2vw, 1.7rem);
   color: var(--why-ink);
@@ -201,10 +208,27 @@
   text-wrap: balance;
 }
 
+.why-choose-felmex__headline h1 .why-choose-felmex__title-impact,
+.why-choose-felmex__headline h1 .why-choose-felmex__title-dot,
 .why-choose-felmex__headline h2 .why-choose-felmex__title-impact,
 .why-choose-felmex__headline h2 .why-choose-felmex__title-dot {
   display: inline;
   color: var(--why-red);
+}
+
+.why-choose-felmex__title-line {
+  display: block;
+}
+
+.why-choose-felmex__hero-subtext {
+  width: 100%;
+  max-width: var(--why-train-copy-max);
+  margin-top: clamp(1.45rem, 2.35vw, 2.2rem);
+  color: rgba(7, 27, 53, 0.96);
+  font-size: var(--why-body-size);
+  font-weight: var(--why-body-weight);
+  line-height: var(--site-lh-body-loose, 1.72);
+  letter-spacing: 0;
 }
 
 .why-choose-felmex__intro {
@@ -247,6 +271,8 @@
   letter-spacing: 0;
   text-transform: uppercase;
   text-wrap: balance;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .why-choose-felmex__segment--blue .why-choose-felmex__copy h3 {
@@ -254,12 +280,15 @@
 }
 
 .why-choose-felmex__copy p {
+  width: 100%;
   max-width: 18.4rem;
   color: currentColor;
   font-size: var(--why-card-body-size);
   font-weight: var(--why-body-weight);
   line-height: var(--site-lh-body, 1.58);
   letter-spacing: 0;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .why-choose-felmex__segment--white .why-choose-felmex__copy p {

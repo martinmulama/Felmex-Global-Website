@@ -46,8 +46,47 @@ const TRAIN_SEGMENTS = [
   },
 ];
 
-export function WhyChooseFelmex() {
+const HOME_HERO_SUBTEXT =
+  'From East Africa to the world—Felmex Global Logistics delivers seamless multimodal freight, customs clearance, and trade solutions for fast-moving global supply chains.';
+
+function HomeHeroCopy({ titleId, mobile = false }) {
+  if (mobile) {
+    return (
+      <div className="why-choose-felmex__headline why-choose-felmex__headline--home-hero why-choose-felmex__headline--mobile-home-hero">
+        <h1 id={titleId} aria-label="Delivering tomorrow’s trade today.">
+          <span className="why-choose-felmex__title-line">Delivering tomorrow’s</span>
+          <span className="why-choose-felmex__title-line">
+            trade <span className="why-choose-felmex__title-impact">today</span>.
+          </span>
+        </h1>
+        <span className="why-choose-felmex__mobile-rule" aria-hidden="true" />
+        <p className="why-choose-felmex__hero-subtext">{HOME_HERO_SUBTEXT}</p>
+        <a className="why-choose-felmex__hero-cta" href="/contact">
+          <span>Get a Quote</span>
+          <span className="why-choose-felmex__hero-cta-arrow" aria-hidden="true">
+            →
+          </span>
+        </a>
+      </div>
+    );
+  }
+
+  return (
+    <div className="why-choose-felmex__headline why-choose-felmex__headline--home-hero">
+      <h2 id={titleId} aria-label="Delivering Tomorrow’s Trade Today.">
+        <span className="why-choose-felmex__title-line">Delivering Tomorrow’s</span>
+        <span className="why-choose-felmex__title-line">
+          <span className="why-choose-felmex__title-impact">Trade</span> Today.
+        </span>
+      </h2>
+      <p className="why-choose-felmex__hero-subtext">{HOME_HERO_SUBTEXT}</p>
+    </div>
+  );
+}
+
+export function WhyChooseFelmex({ variant = 'default' }) {
   const sectionRef = useRef(null);
+  const isHomeHero = variant === 'home-hero';
 
   useGSAP(
     () => {
@@ -110,10 +149,16 @@ export function WhyChooseFelmex() {
     <section
       id="why-choose-felmex"
       ref={sectionRef}
-      className="why-choose-felmex"
-      aria-labelledby="why-choose-felmex-title"
+      className={`why-choose-felmex${isHomeHero ? ' why-choose-felmex--home-hero' : ''}`}
+      aria-label={isHomeHero ? 'Delivering Tomorrow’s Trade Today.' : undefined}
+      aria-labelledby={isHomeHero ? undefined : 'why-choose-felmex-title'}
     >
       <div className="why-choose-felmex__viewport">
+        {isHomeHero ? (
+          <div className="why-choose-felmex__mobile-hero-copy">
+            <HomeHeroCopy titleId="why-choose-felmex-mobile-title" mobile />
+          </div>
+        ) : null}
         <div className="why-choose-felmex__track" data-why-choose-track>
           {TRAIN_SEGMENTS.map((segment) => {
             if (segment.kind === 'head') {
@@ -134,28 +179,33 @@ export function WhyChooseFelmex() {
                     />
                   </div>
                   <div className="why-choose-felmex__train-content-wrapper train-content-wrapper">
-                    <div className="why-choose-felmex__headline">
-                      <p className="why-choose-felmex__kicker">Our approach</p>
-                      <h2 id="why-choose-felmex-title">
-                        Why Choose{' '}
-                        <span className="why-choose-felmex__title-impact">
-                          Felmex<span className="why-choose-felmex__title-dot">.</span>
-                        </span>
-                      </h2>
-                      <span className="why-choose-felmex__headline-rule" aria-hidden="true" />
-                      <div className="why-choose-felmex__intro">
-                        <p>
-                          Felmex Global Logistics delivers reliable, efficient, and cost-effective
-                          logistics solutions tailored to your business. We combine local expertise
-                          with global reach to ensure your cargo moves smoothly, safely, and on time.
-                        </p>
-                        <p>
-                          Clients choose us for proactive planning, disciplined documentation, and
-                          responsive support that keeps multimodal shipments moving when conditions
-                          change.
-                        </p>
+                    {isHomeHero ? (
+                      <HomeHeroCopy titleId="why-choose-felmex-title" />
+                    ) : (
+                      <div className="why-choose-felmex__headline">
+                        <p className="why-choose-felmex__kicker">Our approach</p>
+                        <h2 id="why-choose-felmex-title">
+                          Why Choose{' '}
+                          <span className="why-choose-felmex__title-impact">
+                            Felmex<span className="why-choose-felmex__title-dot">.</span>
+                          </span>
+                        </h2>
+                        <span className="why-choose-felmex__headline-rule" aria-hidden="true" />
+                        <div className="why-choose-felmex__intro">
+                          <p>
+                            Felmex Global Logistics delivers reliable, efficient, and cost-effective
+                            logistics solutions tailored to your business. We combine local
+                            expertise with global reach to ensure your cargo moves smoothly, safely,
+                            and on time.
+                          </p>
+                          <p>
+                            Clients choose us for proactive planning, disciplined documentation, and
+                            responsive support that keeps multimodal shipments moving when
+                            conditions change.
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </article>
               );

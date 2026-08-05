@@ -103,7 +103,7 @@ export function Navbar() {
   return (
     <header
       ref={headerRef}
-      className={`site-header is-interior-page${
+      className={`site-header is-interior-page${isHomePage ? ' is-home-page' : ''}${
         isMobileMenuOpen ? ' is-mobile-menu-open' : ''
       }`}
     >

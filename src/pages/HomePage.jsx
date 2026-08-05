@@ -1483,7 +1483,7 @@ export function HomePage() {
   return (
     <>
       <div className="hero hero--why-choose">
-        <WhyChooseFelmex />
+        <WhyChooseFelmex variant="home-hero" />
       </div>
 
       <section
