@@ -27,7 +27,7 @@
   --why-container-image-height: calc(var(--why-train-height) * 0.685);
   --why-container-image-top: calc(var(--why-train-height) * 0.216);
   --why-container-image-x: calc(var(--why-container-image-height) * -0.2);
-  --why-container-width: calc(var(--why-container-image-height) * 1.18);
+  --why-container-width: calc(var(--why-container-image-height) * 1.135);
   --why-container-copy-top: calc(
     var(--why-container-image-top) + (var(--why-container-image-height) * 0.19)
   );
@@ -68,7 +68,7 @@
 }
 
 .hero--why-choose .why-choose-felmex__segment--red .why-choose-felmex__image {
-  left: calc(var(--why-container-image-height) * -0.21);
+  left: calc(var(--why-container-image-height) * -0.216);
 }
 
 .hero--why-choose .why-choose-felmex__train-visual-wrapper {
@@ -147,10 +147,10 @@
 
   .hero--why-choose .why-choose-felmex {
     --why-mobile-track-height: clamp(17.9rem, 34svh, 22.6rem);
-    --why-mobile-head-width: calc(100vw + clamp(6rem, 18vw, 12rem));
-    --why-mobile-head-image-height: calc(var(--why-mobile-track-height) * 1.95);
+    --why-mobile-head-width: calc(100vw + clamp(15rem, 54vw, 18rem));
+    --why-mobile-head-image-height: calc(var(--why-mobile-track-height) * 2.06);
     --why-mobile-head-image-offset-x: 0px;
-    --why-mobile-head-image-offset-y: calc(var(--why-mobile-track-height) * 0.447);
+    --why-mobile-head-image-offset-y: calc(var(--why-mobile-track-height) * 0.538);
     --why-train-height: var(--why-mobile-track-height);
     --why-train-image-height: var(--why-mobile-head-image-height);
     --why-train-image-offset-x: 0;
@@ -158,7 +158,7 @@
     --why-container-image-width: calc(var(--why-container-image-height) * 1.5);
     --why-container-image-top: calc(var(--why-mobile-track-height) * -0.214);
     --why-container-image-x: 0;
-    --why-container-width: calc(var(--why-container-image-height) * 1.14);
+    --why-container-width: calc(var(--why-container-image-height) * 1.155);
     --why-container-copy-top: calc(
       var(--why-container-image-top) + (var(--why-container-image-height) * 0.24)
     );
@@ -284,6 +284,7 @@
   .hero--why-choose .why-choose-felmex__segment {
     height: var(--why-mobile-track-height);
     max-height: var(--why-mobile-track-height);
+    overflow: visible;
   }
 
   .hero--why-choose .why-choose-felmex__segment--red {
@@ -328,7 +329,7 @@
     width: 100%;
     height: 100%;
     padding-left: 0;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .hero--why-choose .why-choose-felmex__train-image {
@@ -403,9 +404,9 @@
   .hero--why-choose .why-choose-felmex {
     --why-mobile-track-height: clamp(13.75rem, 31.5svh, 16.65rem);
     --why-mobile-head-width: calc(100vw + clamp(12.5rem, 54vw, 18rem));
-    --why-mobile-head-image-height: calc(var(--why-mobile-track-height) * 2.02);
+    --why-mobile-head-image-height: calc(var(--why-mobile-track-height) * 2.09);
     --why-mobile-head-image-offset-x: 0px;
-    --why-mobile-head-image-offset-y: calc(var(--why-mobile-track-height) * 0.47);
+    --why-mobile-head-image-offset-y: calc(var(--why-mobile-track-height) * 0.588);
     --why-container-image-height: calc(var(--why-mobile-track-height) * 1.34);
     --why-container-image-top: calc(var(--why-mobile-track-height) * -0.19);
     --why-container-width: clamp(19.25rem, 88vw, 23.25rem);
