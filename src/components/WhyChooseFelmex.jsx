@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { CONTACT_CHANNELS } from '../data/contact';
 import './WhyChooseFelmex.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -49,6 +50,41 @@ const TRAIN_SEGMENTS = [
 const HOME_HERO_SUBTEXT =
   'From East Africa to the world—Felmex Global Logistics delivers seamless multimodal freight, customs clearance, and trade solutions for fast-moving global supply chains.';
 
+function HomeHeroDesktopActions() {
+  return (
+    <div className="why-choose-felmex__desktop-actions" aria-label="Hero quick actions">
+      <a className="why-choose-felmex__desktop-action" href={CONTACT_CHANNELS.phoneHref}>
+        <span className="why-choose-felmex__desktop-action-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M6.6 10.8a15.6 15.6 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24c1.1.36 2.3.56 3.6.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.8 21 3 13.2 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.3.2 2.5.56 3.6a1 1 0 0 1-.25 1l-2.2 2.2Z" />
+          </svg>
+        </span>
+        <span className="why-choose-felmex__desktop-action-copy">
+          <span className="why-choose-felmex__desktop-action-label">Call us</span>
+          <span className="why-choose-felmex__desktop-action-value">
+            {CONTACT_CHANNELS.phoneDisplay}
+          </span>
+        </span>
+      </a>
+      <a
+        className="why-choose-felmex__desktop-action why-choose-felmex__desktop-action--services"
+        href="/services"
+      >
+        <span className="why-choose-felmex__desktop-action-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M4 12h14.4M13.2 5.8 19.4 12l-6.2 6.2" />
+          </svg>
+        </span>
+        <span className="why-choose-felmex__desktop-action-copy">
+          <span className="why-choose-felmex__desktop-action-link-text">
+            Explore Our Services
+          </span>
+        </span>
+      </a>
+    </div>
+  );
+}
+
 function HomeHeroCopy({ titleId, mobile = false }) {
   if (mobile) {
     return (
@@ -80,6 +116,7 @@ function HomeHeroCopy({ titleId, mobile = false }) {
         </span>
       </h2>
       <p className="why-choose-felmex__hero-subtext">{HOME_HERO_SUBTEXT}</p>
+      <HomeHeroDesktopActions />
     </div>
   );
 }
@@ -96,10 +133,18 @@ export function WhyChooseFelmex({ variant = 'default' }) {
       if (!root || !track) return undefined;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
 
+      const mobileHomeContainerPeek = () => {
+        if (!isHomeHero || !window.matchMedia('(max-width: 1023px)').matches) return 0;
+
+        const rootFontSize =
+          Number.parseFloat(window.getComputedStyle(document.documentElement).fontSize) || 16;
+        return Math.min(rootFontSize * 2.1, Math.max(rootFontSize * 1.35, window.innerWidth * 0.055));
+      };
       const scrollAmount = () => {
         return Math.max(track.offsetWidth - window.innerWidth, 0);
       };
-      const setTrackStart = () => gsap.set(track, { x: -scrollAmount() });
+      const startOffset = () => Math.max(scrollAmount() - mobileHomeContainerPeek(), 0);
+      const setTrackStart = () => gsap.set(track, { x: -startOffset() });
       const refreshScrollTrigger = () => ScrollTrigger.refresh();
       const images = gsap.utils.toArray('img', root);
 
@@ -117,7 +162,7 @@ export function WhyChooseFelmex({ variant = 'default' }) {
         scrollTrigger: {
           trigger: root,
           start: 'top top',
-          end: () => `+=${scrollAmount()}`,
+          end: () => `+=${startOffset()}`,
           pin: true,
           scrub: true,
           invalidateOnRefresh: true,
@@ -128,7 +173,7 @@ export function WhyChooseFelmex({ variant = 'default' }) {
 
       timeline.fromTo(
         track,
-        { x: () => -scrollAmount() },
+        { x: () => -startOffset() },
         {
           x: 0,
           duration: 1,

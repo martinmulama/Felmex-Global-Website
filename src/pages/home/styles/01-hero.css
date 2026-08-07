@@ -94,6 +94,100 @@
   line-height: 1.58;
 }
 
+.hero--why-choose .why-choose-felmex__desktop-actions {
+  display: grid;
+  gap: clamp(0.95rem, 1.35vw, 1.25rem);
+  width: fit-content;
+  max-width: 100%;
+  margin-top: clamp(2.05rem, 3.2vw, 2.85rem);
+}
+
+.hero--why-choose .why-choose-felmex__desktop-action {
+  display: inline-grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(0.75rem, 1vw, 1rem);
+  width: fit-content;
+  max-width: 100%;
+  color: var(--site-brand-navy);
+}
+
+.hero--why-choose .why-choose-felmex__desktop-action-icon {
+  display: grid;
+  width: clamp(2.62rem, 3.1vw, 3.12rem);
+  height: clamp(2.62rem, 3.1vw, 3.12rem);
+  place-items: center;
+  border: 1px solid rgba(var(--site-brand-navy-rgb), 0.16);
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0.7rem 1.8rem rgba(var(--site-brand-navy-rgb), 0.08);
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
+}
+
+.hero--why-choose .why-choose-felmex__desktop-action-icon svg {
+  display: block;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.hero--why-choose .why-choose-felmex__desktop-action:not(.why-choose-felmex__desktop-action--services) svg {
+  fill: var(--site-brand-red);
+}
+
+.hero--why-choose .why-choose-felmex__desktop-action--services svg {
+  fill: none;
+  stroke: var(--site-brand-navy);
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero--why-choose .why-choose-felmex__desktop-action-copy {
+  display: grid;
+  min-width: 0;
+  justify-items: start;
+  line-height: 1;
+}
+
+.hero--why-choose .why-choose-felmex__desktop-action-label {
+  color: var(--site-brand-navy);
+  font-family: var(--site-font-display, 'Rajdhani', 'Segoe UI', Arial, sans-serif);
+  font-size: clamp(0.78rem, 0.86vw, 0.9rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.hero--why-choose .why-choose-felmex__desktop-action-value {
+  margin-top: 0.28rem;
+  color: var(--site-brand-red);
+  font-family: var(--site-font-display, 'Rajdhani', 'Segoe UI', Arial, sans-serif);
+  font-size: clamp(1.2rem, 1.6vw, 1.52rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.hero--why-choose .why-choose-felmex__desktop-action-link-text {
+  padding-bottom: 0.32rem;
+  border-bottom: 2px solid var(--site-brand-red);
+  color: var(--site-brand-navy);
+  font-family: var(--site-font-display, 'Rajdhani', 'Segoe UI', Arial, sans-serif);
+  font-size: clamp(0.98rem, 1.12vw, 1.16rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.hero--why-choose .why-choose-felmex__desktop-action:hover .why-choose-felmex__desktop-action-icon {
+  border-color: rgba(var(--site-brand-navy-rgb), 0.28);
+  box-shadow: 0 0.85rem 2rem rgba(var(--site-brand-navy-rgb), 0.12);
+  transform: translateX(0.12rem);
+}
+
 .hero--why-choose .why-choose-felmex__intro {
   gap: clamp(1rem, 1.7vw, 1.55rem);
   margin-top: clamp(1.8rem, 3vw, 2.75rem);
@@ -207,6 +301,10 @@
       clamp(24px, 6vw, 4rem)
       clamp(1.9rem, 4.6svh, 3.25rem);
     background: #ffffff;
+  }
+
+  .hero--why-choose .why-choose-felmex__desktop-actions {
+    display: none;
   }
 
   .hero--why-choose .why-choose-felmex__mobile-hero-copy .why-choose-felmex__headline {
@@ -420,7 +518,7 @@
 
   .hero--why-choose .why-choose-felmex__mobile-hero-copy {
     padding:
-      var(--site-header-clearance, 4rem)
+      calc(var(--site-header-clearance, 4rem) + clamp(1.55rem, 4.2svh, 2.1rem))
       clamp(20px, 5.5vw, 24px)
       clamp(2.2rem, 5svh, 2.65rem);
   }
@@ -455,7 +553,7 @@
 
   .hero--why-choose .why-choose-felmex__mobile-hero-copy {
     padding:
-      calc(var(--site-header-clearance, 4rem) - 0.3rem)
+      calc(var(--site-header-clearance, 4rem) + 0.85rem)
       18px
       clamp(1.65rem, 4.6svh, 2rem);
   }
