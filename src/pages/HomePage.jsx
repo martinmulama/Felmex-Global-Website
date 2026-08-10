@@ -79,6 +79,7 @@ const HOME_SERVICE_FEATURES = [
     href: '/services',
     summary: 'Seamless integration of air, sea, road, and rail across one accountable operating plan.',
     mediaTone: 'air',
+    mobileIcons: ['sea', 'rail'],
   },
   {
     number: '02',
@@ -90,6 +91,7 @@ const HOME_SERVICE_FEATURES = [
     href: '/services#svc-deep-dive-sea-freight',
     summary: 'End-to-end cargo movement across global trade routes, carrier options, and port handoffs.',
     mediaTone: 'ship',
+    mobileIcons: ['globePin', 'container'],
   },
   {
     number: '03',
@@ -102,6 +104,7 @@ const HOME_SERVICE_FEATURES = [
     href: '/services#svc-deep-dive-customs-clearance-brokerage',
     summary: 'Clearance expertise, document discipline, and compliance support before border friction builds.',
     mediaTone: 'road',
+    mobileIcons: ['shieldCheck', 'officer'],
   },
   {
     number: '04',
@@ -114,6 +117,7 @@ const HOME_SERVICE_FEATURES = [
     href: '/services#svc-deep-dive-fmcg-inter-cross-border-distribution',
     summary: 'Optimized workflows for efficient replenishment, handoff control, and cost-aware movement.',
     mediaTone: 'rail',
+    mobileIcons: ['network', 'distribution'],
   },
   {
     number: '05',
@@ -126,6 +130,7 @@ const HOME_SERVICE_FEATURES = [
     href: '/services#svc-deep-dive-cold-general-warehousing',
     summary: 'Secure storage, stock visibility, staging, and timely delivery from one controlled flow.',
     mediaTone: 'warehouse',
+    mobileIcons: ['warehouse', 'parcel'],
   },
   {
     number: '06',
@@ -139,6 +144,7 @@ const HOME_SERVICE_FEATURES = [
     summary:
       'Dependable local and international movement for documents, parcels, e-commerce, medical, and commercial cargo.',
     mediaTone: 'parcel',
+    mobileIcons: ['parcel', 'stopwatch'],
   },
 ];
 
@@ -333,6 +339,159 @@ function ServiceCatalogIcon({ kind }) {
         />
       </>
     ),
+    container: (
+      <>
+        <path
+          d="M4.7 10h14.6v8.4H4.7V10Zm2.4 0 4.9-3.2 4.9 3.2M12 4.8v2"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M7.6 12.4v3.7M10.6 12.4v3.7M13.6 12.4v3.7M16.6 12.4v3.7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+        />
+      </>
+    ),
+    document: (
+      <>
+        <path
+          d="M6.8 4.4h7.6l3.8 3.8v11.4H6.8V4.4Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M14.4 4.4v3.8h3.8M9.2 11h5.6M9.2 14h5.6M9.2 17h3.8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    globePin: (
+      <>
+        <path
+          d="M12 20.1a8.1 8.1 0 1 1 4.6-1.42M4.5 12h9.4M12 3.9c-2.1 2.3-3.15 5-3.15 8.1 0 2.55 0.72 4.85 2.15 6.9M12 3.9c1.35 1.45 2.26 3.08 2.74 4.9"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M16.7 14.9c0 2.3 2.55 4.65 2.55 4.65s2.55-2.35 2.55-4.65a2.55 2.55 0 0 0-5.1 0Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M19.25 14.9h.01"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+        />
+      </>
+    ),
+    network: (
+      <>
+        <path
+          d="M7.4 16.6a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Zm9.2-7a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Zm0 10.4a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m9.8 12.4 4.4-4M9.95 15.05l4.3 2.25"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    officer: (
+      <>
+        <path
+          d="M8.6 8.3h6.8l-1.1-2.7H9.7L8.6 8.3Zm1 2.8c0 2.1 1.15 3.75 2.4 3.75s2.4-1.65 2.4-3.75V9.25H9.6v1.85Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M6.2 20v-1.35c0-2.16 2.6-3.8 5.8-3.8s5.8 1.64 5.8 3.8V20M10.1 15.45 12 18l1.9-2.55M8.1 18.5V20M15.9 18.5V20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    shieldCheck: (
+      <>
+        <path
+          d="M12 4.1 5.2 6.8v5.5c0 3.7 2.7 6.6 6.8 7.6 4.1-1 6.8-3.9 6.8-7.6V6.8L12 4.1Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m8.9 12.3 2.1 2.1 4.35-4.55"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    stopwatch: (
+      <>
+        <path
+          d="M9.2 4.3h5.6M12 4.3v2.05M18.3 8l1.35-1.35"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 20.2a6.6 6.6 0 1 0 0-13.2 6.6 6.6 0 0 0 0 13.2Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 10.1v3.4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+        />
+      </>
+    ),
     project: (
       <>
         <path
@@ -381,6 +540,38 @@ function ServiceCatalogIcon({ kind }) {
         {icons[kind] ?? icons.air}
       </svg>
     </span>
+  );
+}
+
+function ServiceMobileIconStack({ icons }) {
+  return (
+    <div className="landing-service-mobile-icons" aria-hidden="true">
+      {icons.slice(0, 2).map((icon, iconIndex) => (
+        <span
+          className={`landing-service-mobile-icon landing-service-mobile-icon--${iconIndex + 1}`}
+          key={`${icon}-${iconIndex}`}
+        >
+          <ServiceCatalogIcon kind={icon} />
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function ServiceMobileArrowLink({ href, label }) {
+  return (
+    <a className="landing-service-mobile-arrow" href={href} aria-label={`View ${label}`}>
+      <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+        <path
+          d="M6 18 18 6M9 6h9v9"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.15"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </a>
   );
 }
 
@@ -484,6 +675,99 @@ function OogCapabilityIcon({ kind }) {
     <span className="landing-oog-card-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24" focusable="false">
         {icons[kind] ?? icons.control}
+      </svg>
+    </span>
+  );
+}
+
+function OverviewStatementIcon({ kind }) {
+  const icons = {
+    about: (
+      <>
+        <path
+          d="M8.4 11.1a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7.4.2a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M3.8 19.2c.6-3.4 2.2-5 4.8-5s4.2 1.6 4.8 5m-1.1-3.8c.8-.7 1.9-1.1 3.3-1.1 2.4 0 3.9 1.4 4.5 4.3"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    vision: (
+      <>
+        <path
+          d="M3.5 12s3.2-5.1 8.5-5.1 8.5 5.1 8.5 5.1-3.2 5.1-8.5 5.1S3.5 12 3.5 12Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 14.8a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Zm0-10.8v1.4m0 13.2V20m-6.1-3.6-1 1m14.2-1 1 1M5.9 7.6l-1-1m14.2 1 1-1"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    mission: (
+      <>
+        <path
+          d="M19.6 12a7.6 7.6 0 1 1-4.1-6.8M16.3 12a4.3 4.3 0 1 1-4.3-4.3"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 12 18.7 5.3m-2.2.1h2.2v2.2m-4.7.2 2.5.6.6 2.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    idd: (
+      <>
+        <path
+          d="M12 4.1 5.2 6.8v5.5c0 3.7 2.7 6.6 6.8 7.6 4.1-1 6.8-3.9 6.8-7.6V6.8L12 4.1Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m8.9 12.1 2.1 2.1 4.4-4.6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+  };
+
+  return (
+    <span className="landing-overview-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        {icons[kind] ?? icons.about}
       </svg>
     </span>
   );
@@ -1506,6 +1790,7 @@ export function HomePage() {
               aria-label="Felmex mission, vision, and company overview"
             >
               <article className="landing-overview-statement landing-overview-statement--vision split-scroll-statement">
+                <OverviewStatementIcon kind="vision" />
                 <h3>Vision</h3>
                 <p>
                   Redefine global logistics by delivering seamless, multimodal solutions that connect
@@ -1515,6 +1800,7 @@ export function HomePage() {
               <article
                 className="landing-overview-statement landing-overview-statement--mission split-scroll-statement"
               >
+                <OverviewStatementIcon kind="mission" />
                 <h3>Mission</h3>
                 <p>
                   FELMEX Global Logistics exists to simplify complexity in international trade. We
@@ -1526,6 +1812,7 @@ export function HomePage() {
               <article
                 className="landing-overview-statement landing-overview-statement--about split-scroll-statement"
               >
+                <OverviewStatementIcon kind="about" />
                 <h3>About Us</h3>
                 <p>
                   FELMEX Global Logistics is an envisioned global multimodal service provider,
@@ -1537,7 +1824,8 @@ export function HomePage() {
               <article
                 className="landing-overview-statement landing-overview-statement--idd split-scroll-statement"
               >
-                <h3>IDD</h3>
+                <OverviewStatementIcon kind="idd" />
+                <h3>IDD Statement</h3>
                 <p>
                   Integrity Due Diligence keeps every partner, supplier, and agent aligned to clear
                   ethical, compliance, and operating standards so client cargo moves through a
@@ -1571,18 +1859,20 @@ export function HomePage() {
           <aside className="landing-services-aside" aria-label="Services section introduction">
             <div className="landing-services-sticky">
               <p className="landing-section-label">Our services</p>
-              <h2 className="landing-section-title landing-services-title">
-                <span className="landing-title-line">
-                  <span>Moving Cargo</span>
-                </span>
-                <span className="landing-title-line">
-                  <span>Without</span>
-                </span>
-                <span className="landing-title-line landing-title-line--accent">
-                  <span>Compromise.</span>
-                </span>
-              </h2>
-              <span className="landing-services-rule" aria-hidden="true" />
+              <div className="landing-services-heading-row">
+                <h2 className="landing-section-title landing-services-title">
+                  <span className="landing-title-line">
+                    <span>Moving Cargo</span>
+                  </span>
+                  <span className="landing-title-line">
+                    <span>Without</span>
+                  </span>
+                  <span className="landing-title-line landing-title-line--accent">
+                    <span>Compromise.</span>
+                  </span>
+                </h2>
+                <span className="landing-services-rule" aria-hidden="true" />
+              </div>
               <p className="landing-section-text landing-services-intro">
                 End-to-end logistics solutions powered by global reach, advanced technology, and a
                 commitment to excellence.
@@ -1609,6 +1899,8 @@ export function HomePage() {
                 }`}
                 key={service.label}
               >
+                <ServiceMobileIconStack icons={service.mobileIcons ?? [service.icon]} />
+                <ServiceMobileArrowLink href={service.href} label={service.label} />
                 <figure className="landing-service-figure">
                   <img
                     className="landing-service-image"
