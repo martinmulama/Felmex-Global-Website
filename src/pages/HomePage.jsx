@@ -178,26 +178,90 @@ const FINAL_OPERATION_STEPS = [
     key: 'source',
     label: 'Source',
     text: 'Eliminate procurement bottlenecks with our direct vendor-integration network. We manage high-volume material acquisition efficiently to protect your margins from day one.',
+    highlightWords: ['procurement', 'vendor-integration', 'acquisition', 'margins'],
   },
   {
     key: 'store',
     label: 'Store',
     text: 'Cut your warehousing overhead in half. We house your assets in secure, strategically located fulfillment hubs designed for rapid enterprise-level inventory rotation.',
+    highlightWords: ['warehousing', 'secure', 'fulfillment hubs', 'inventory rotation'],
   },
   {
     key: 'process',
     label: 'Process',
     text: 'Zero errors, maximum speed. Our automated order-mapping technology instantly picks, packs, and labels your shipments the moment a customer clicks buy.',
+    highlightWords: ['Zero errors', 'maximum speed', 'order-mapping', 'picks, packs, and labels'],
   },
   {
     key: 'ship',
     label: 'Ship',
     text: 'Bypass delays with the fastest transit times on the market. We leverage deep carrier discounts and smart route-optimization to deliver your goods at lightning speed for the lowest cost.',
+    highlightWords: ['delays', 'fastest transit times', 'carrier discounts', 'lowest cost'],
   },
   {
     key: 'scale',
     label: 'Scale',
     text: 'Turn logistical efficiency into explosive business growth. Our frictionless, end-to-end infrastructure expands effortlessly alongside your rising volume, allowing you to dominate new markets without limits.',
+    highlightWords: ['efficiency', 'growth', 'end-to-end infrastructure', 'new markets'],
+  },
+];
+
+const MOBILE_SOLUTION_DEFAULT_COPY = {
+  key: 'overview',
+  label: 'Overview',
+  text: 'At Felmex, every project is managed with a commitment to precision, transparency, and reliability.',
+  highlightWords: ['Felmex', 'precision', 'transparency', 'reliability'],
+};
+
+const MOBILE_SOLUTION_NAV_ORDER = ['source', 'ship', 'store', 'process', 'scale'];
+const MOBILE_SOLUTION_INITIAL_KEY = 'store';
+
+const OVERVIEW_MOBILE_STATEMENTS = [
+  {
+    key: 'about',
+    label: 'About Us',
+    navLabel: 'About',
+    icon: 'about',
+    panelTone: 'about',
+    titleLines: ['About', 'Us.'],
+    paragraphs: [
+      'FELMEX Global Logistics is an envisioned global multimodal service provider, delivering integrated solutions across air, sea, road, and rail.',
+      'We simplify complex supply chains, connect businesses to international markets, and keep efficiency, transparency, and reliability visible at every step.',
+    ],
+  },
+  {
+    key: 'mission',
+    label: 'Mission Statement',
+    navLabel: 'Mission',
+    icon: 'mission',
+    panelTone: 'mission',
+    titleLines: ['Mission', 'Statement.'],
+    paragraphs: [
+      'Our mission is to simplify complexity in international trade by integrating air, sea, road, and rail into one reliable, transparent, future-ready network.',
+    ],
+  },
+  {
+    key: 'vision',
+    label: 'Vision',
+    navLabel: 'Vision',
+    icon: 'vision',
+    panelTone: 'vision',
+    titleLines: ['Vision.'],
+    paragraphs: [
+      'Our vision is to redefine global logistics through seamless multimodal solutions that connect businesses, markets, and communities with efficiency and integrity.',
+    ],
+  },
+  {
+    key: 'idd',
+    label: 'Identity Statement (IDD)',
+    navLabel: 'IDD',
+    icon: 'idd',
+    panelTone: 'idd',
+    titleLines: ['Identity Statement', '(IDD).'],
+    paragraphs: [
+      'Integrity Due Diligence keeps every partner, supplier, and agent aligned to clear ethical, compliance, and operating standards.',
+      'That discipline gives client cargo the confidence of moving through a responsible logistics network from planning through final handoff.',
+    ],
   },
 ];
 
@@ -600,6 +664,77 @@ function ServiceMobileArrowLink({ href, label }) {
   );
 }
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+}
+
+function renderHighlightedSolutionText(text, highlightWords = []) {
+  const terms = highlightWords.filter(Boolean).sort((first, second) => second.length - first.length);
+
+  if (terms.length === 0) return text;
+
+  const matcher = new RegExp(`(${terms.map(escapeRegExp).join('|')})`, 'giu');
+  const normalizedTerms = terms.map((term) => term.toLocaleLowerCase());
+
+  return text.split(matcher).filter(Boolean).map((part, index) => {
+    const isHighlighted = normalizedTerms.includes(part.toLocaleLowerCase());
+
+    return isHighlighted ? (
+      <span className="landing-mobile-solution-copy-accent" key={`${part}-${index}`}>
+        {part}
+      </span>
+    ) : (
+      <span key={`${part}-${index}`}>{part}</span>
+    );
+  });
+}
+
+function SolutionStageIcon({ kind }) {
+  const icons = {
+    source: (
+      <>
+        <circle cx="27" cy="27" r="16" />
+        <path d="M11 27h32M27 11c-5.2 5-7.8 10.3-7.8 16s2.6 11 7.8 16M27 11c5.2 5 7.8 10.3 7.8 16s-2.6 11-7.8 16" />
+        <path d="m39.2 39.2 13.6 13.6" />
+      </>
+    ),
+    ship: (
+      <>
+        <path d="M16 34h32l-4.2 10H20.2L16 34Z" />
+        <path d="M21.5 34V23.5h21V34M27 23.5v-7h10v7" />
+        <path d="M12 49c3.2 0 3.2-2.2 6.4-2.2s3.2 2.2 6.4 2.2 3.2-2.2 6.4-2.2 3.2 2.2 6.4 2.2 3.2-2.2 6.4-2.2 3.2 2.2 6.4 2.2" />
+      </>
+    ),
+    store: (
+      <>
+        <path d="M13 26 32 15l19 11v24H13V26Z" />
+        <path d="M17 26h30M24 50V38h16v12M24 34h7M37 34h7M24 43h4M36 43h4" />
+      </>
+    ),
+    process: (
+      <>
+        <circle cx="32" cy="32" r="9" />
+        <path d="M32 10v8M32 46v8M10 32h8M46 32h8M16.5 16.5l5.7 5.7M41.8 41.8l5.7 5.7M47.5 16.5l-5.7 5.7M22.2 41.8l-5.7 5.7" />
+        <path d="M32 18c7.7 0 14 6.3 14 14s-6.3 14-14 14-14-6.3-14-14 6.3-14 14-14Z" />
+      </>
+    ),
+    scale: (
+      <>
+        <path d="M14 49h8V37h-8v12ZM28 49h8V29h-8v20ZM42 49h8V20h-8v29Z" />
+        <path d="m12 31 12-10 9 8 17-18M43 11h7v7" />
+      </>
+    ),
+  };
+
+  return (
+    <span className="landing-mobile-solution-icon" aria-hidden="true">
+      <svg viewBox="0 0 64 64" focusable="false">
+        {icons[kind] ?? icons.source}
+      </svg>
+    </span>
+  );
+}
+
 function OogCapabilityIcon({ kind }) {
   const icons = {
     survey: (
@@ -705,7 +840,7 @@ function OogCapabilityIcon({ kind }) {
   );
 }
 
-function OverviewStatementIcon({ kind }) {
+function OverviewStatementIcon({ kind, className = 'landing-overview-icon' }) {
   const icons = {
     about: (
       <>
@@ -790,7 +925,7 @@ function OverviewStatementIcon({ kind }) {
   };
 
   return (
-    <span className="landing-overview-icon" aria-hidden="true">
+    <span className={className} aria-hidden="true">
       <svg viewBox="0 0 24 24" focusable="false">
         {icons[kind] ?? icons.about}
       </svg>
@@ -853,6 +988,11 @@ export function HomePage() {
   const [isCloseVisible, setIsCloseVisible] = useState(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
   const [activeFinalOperation, setActiveFinalOperation] = useState(FINAL_OPERATION_STEPS[0].key);
+  const [activeOverviewStatement, setActiveOverviewStatement] = useState(
+    OVERVIEW_MOBILE_STATEMENTS[0].key
+  );
+  const [activeMobileSolution, setActiveMobileSolution] = useState(MOBILE_SOLUTION_INITIAL_KEY);
+  const [hasSelectedMobileSolution, setHasSelectedMobileSolution] = useState(false);
   const [activeMobileProjectIndex, setActiveMobileProjectIndex] = useState(0);
   const [isMobileViewport, setIsMobileViewport] = useState(
     () =>
@@ -867,6 +1007,18 @@ export function HomePage() {
   const activeFinalOperationStep =
     FINAL_OPERATION_STEPS.find((step) => step.key === activeFinalOperation) ??
     FINAL_OPERATION_STEPS[0];
+  const mobileSolutionSteps = MOBILE_SOLUTION_NAV_ORDER.map((key) =>
+    FINAL_OPERATION_STEPS.find((step) => step.key === key)
+  ).filter(Boolean);
+  const activeMobileSolutionStep =
+    FINAL_OPERATION_STEPS.find((step) => step.key === activeMobileSolution) ??
+    FINAL_OPERATION_STEPS[0];
+  const mobileSolutionPanelCopy = hasSelectedMobileSolution
+    ? activeMobileSolutionStep
+    : MOBILE_SOLUTION_DEFAULT_COPY;
+  const activeOverviewStatementData =
+    OVERVIEW_MOBILE_STATEMENTS.find((statement) => statement.key === activeOverviewStatement) ??
+    OVERVIEW_MOBILE_STATEMENTS[0];
 
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
@@ -1687,15 +1839,20 @@ export function HomePage() {
         setIsCloseVisible(true);
         observer.disconnect();
       },
-      {
-        threshold: 0.18,
-        rootMargin: '0px 0px -16% 0px',
-      }
+      isMobileViewport
+        ? {
+            threshold: 0.06,
+            rootMargin: '0px 0px -6% 0px',
+          }
+        : {
+            threshold: 0.18,
+            rootMargin: '0px 0px -16% 0px',
+          }
     );
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, [prefersReducedMotion]);
+  }, [isMobileViewport, prefersReducedMotion]);
 
   useEffect(() => {
     const node = closeSectionRef.current;
@@ -1875,6 +2032,75 @@ export function HomePage() {
               </h2>
             </div>
           </aside>
+        </div>
+
+        <div
+          className={`landing-mobile-solutions-switcher landing-overview-mobile-switcher landing-overview-mobile-switcher--${activeOverviewStatementData.key} landing-overview-mobile-switcher--${activeOverviewStatementData.panelTone}`}
+          aria-label="Company statements"
+        >
+          <nav
+            className="landing-mobile-solutions-nav landing-overview-mobile-nav"
+            aria-label="Company statement menu"
+            role="tablist"
+          >
+            {OVERVIEW_MOBILE_STATEMENTS.map((statement) => {
+              const isActive = statement.key === activeOverviewStatementData.key;
+
+              return (
+                <button
+                  id={`landing-overview-mobile-tab-${statement.key}`}
+                  className={`landing-mobile-solution-button landing-overview-mobile-button landing-overview-mobile-button--${statement.panelTone}${
+                    isActive ? ' is-active' : ''
+                  }`}
+                  key={statement.key}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls="landing-overview-mobile-panel"
+                  aria-label={statement.label}
+                  onClick={() => {
+                    setActiveOverviewStatement(statement.key);
+                  }}
+                >
+                  <OverviewStatementIcon
+                    kind={statement.icon}
+                    className="landing-mobile-solution-icon landing-overview-mobile-button-icon"
+                  />
+                  <span className="landing-mobile-solution-label landing-overview-mobile-label">
+                    {statement.navLabel}
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
+
+          <article
+            id="landing-overview-mobile-panel"
+            className="landing-mobile-solution-panel landing-overview-mobile-panel"
+            role="tabpanel"
+            aria-live="polite"
+            aria-labelledby={`landing-overview-mobile-tab-${activeOverviewStatementData.key}`}
+          >
+            <span className="landing-overview-rule landing-overview-mobile-rule" aria-hidden="true" />
+            <h2 className="landing-overview-title landing-overview-mobile-title">
+              {activeOverviewStatementData.titleLines.map((line, index) => (
+                <span className="landing-overview-title-line" key={line}>
+                  <span>
+                    {index === activeOverviewStatementData.titleLines.length - 1 ? (
+                      <strong>{line}</strong>
+                    ) : (
+                      line
+                    )}
+                  </span>
+                </span>
+              ))}
+            </h2>
+            <div className="landing-overview-mobile-copy">
+              {activeOverviewStatementData.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </article>
         </div>
 
       </section>
@@ -2128,6 +2354,78 @@ export function HomePage() {
                     </article>
                   ))}
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="landing-mobile-solutions" aria-label="About our solutions">
+          <div
+            className={`landing-mobile-solutions-switcher${
+              hasSelectedMobileSolution ? ' has-solution-copy' : ' is-overview-copy'
+            }`}
+          >
+            <div
+              id="landing-mobile-solution-panel"
+              className="landing-mobile-solution-panel"
+              role="region"
+              aria-live="polite"
+              aria-label={mobileSolutionPanelCopy.label}
+            >
+              <p className="landing-mobile-solution-copy">
+                {renderHighlightedSolutionText(
+                  mobileSolutionPanelCopy.text,
+                  mobileSolutionPanelCopy.highlightWords
+                )}
+              </p>
+            </div>
+
+            <nav className="landing-mobile-solutions-nav" aria-label="Solutions menu">
+              {mobileSolutionSteps.map((step) => {
+                const isActive = step.key === activeMobileSolution;
+
+                return (
+                  <button
+                    className={`landing-mobile-solution-button${isActive ? ' is-active' : ''}`}
+                    key={step.key}
+                    type="button"
+                    aria-controls="landing-mobile-solution-panel"
+                    aria-pressed={hasSelectedMobileSolution && isActive}
+                    onClick={() => {
+                      setActiveMobileSolution(step.key);
+                      setHasSelectedMobileSolution(true);
+                    }}
+                  >
+                    <SolutionStageIcon kind={step.key} />
+                    <span className="landing-mobile-solution-label">{step.label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+
+          <div className="landing-mobile-industries" aria-label="Industries we service">
+            <p className="landing-mobile-industries-kicker">Industries We Service</p>
+            <div className="landing-mobile-industry-rail">
+              <div className="landing-final-partner-track landing-mobile-industry-track">
+                {[0, 1, 2, 3].map((setIndex) => (
+                  <div
+                    className="landing-final-partner-set landing-mobile-industry-set"
+                    key={setIndex}
+                    aria-hidden={setIndex !== 0}
+                  >
+                    {FINAL_INDUSTRIES.map((industry) => (
+                      <div
+                        className="landing-final-partner-item landing-mobile-industry-item"
+                        key={`${setIndex}-${industry}`}
+                      >
+                        <span className="landing-final-partner-name landing-final-industry-name landing-mobile-industry-name">
+                          {industry}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
