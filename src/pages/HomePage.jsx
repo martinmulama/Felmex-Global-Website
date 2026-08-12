@@ -19,9 +19,34 @@ const SERVICE_CATALOG_IMAGE_WIDTHS = [640, 960, 1280];
 const SERVICE_CATALOG_IMAGE_SIZES =
   '(min-width: 1081px) min(60rem, 68vw), (max-width: 640px) 92vw, 100vw';
 const HOME_MOBILE_PROJECTS = [
-  HOME_PROJECT_PREVIEW,
-  ...ONGOING_PROJECTS.filter((project) => project.id !== HOME_PROJECT_PREVIEW.id),
-].slice(0, 3);
+  {
+    projectId: 'port-drayage-window',
+    title: 'Port Operations',
+    meta: 'Mombasa, Kenya',
+    brief: 'Port release and truck slots stay synced with inland receiving.',
+  },
+  {
+    projectId: 'brokerage-preclearance',
+    title: 'Customs Handoffs',
+    meta: 'Mombasa, Kenya',
+    brief: 'Pre-arrival checks clear document gaps before cargo release.',
+  },
+  {
+    projectId: 'regional-delivery-pulse',
+    title: 'Inland Transport',
+    meta: 'East Africa',
+    brief: 'Route updates keep regional deliveries moving in one controlled rhythm.',
+  },
+].map((caseStudy, index) => {
+  const project = ONGOING_PROJECTS.find((item) => item.id === caseStudy.projectId);
+
+  return {
+    ...caseStudy,
+    index: String(index + 1).padStart(2, '0'),
+    image: project?.image ?? '/sea-freight.webp',
+    imageAlt: project?.imageAlt ?? `${caseStudy.title} logistics project`,
+  };
+});
 const HOME_PROJECT_THUMBNAILS = ONGOING_PROJECTS.filter(
   (project) => project.id !== HOME_PROJECT_PREVIEW.id
 ).slice(0, 6);
@@ -2078,6 +2103,30 @@ export function HomePage() {
                     </svg>
                   </span>
                   <span className="landing-project-preview-scroll-text">Scroll to explore</span>
+                </div>
+
+                <div className="landing-project-mobile-feed" aria-label="Featured project case studies">
+                  {HOME_MOBILE_PROJECTS.map((project) => (
+                    <article className="landing-project-mobile-card" key={project.projectId}>
+                      <figure className="landing-project-mobile-media">
+                        <img
+                          src={project.image}
+                          alt={project.imageAlt}
+                          width="1440"
+                          height="1080"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </figure>
+                      <div className="landing-project-mobile-copy">
+                        <span className="landing-project-mobile-rule" aria-hidden="true" />
+                        <p className="landing-project-mobile-index">{project.index}</p>
+                        <h3 className="landing-project-mobile-title">{project.title}</h3>
+                        <p className="landing-project-mobile-meta">{project.meta}</p>
+                        <p className="landing-project-mobile-brief">{project.brief}</p>
+                      </div>
+                    </article>
+                  ))}
                 </div>
               </div>
             </div>
