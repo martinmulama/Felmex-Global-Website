@@ -37,6 +37,12 @@ const HOME_MOBILE_PROJECTS = [
     meta: 'East Africa',
     brief: 'Route updates keep regional deliveries moving in one controlled rhythm.',
   },
+  {
+    projectId: 'rail-linked-program',
+    title: 'Rail Programs',
+    meta: 'East Africa',
+    brief: 'Rail and road handoffs stay aligned across long-haul inland moves.',
+  },
 ].map((caseStudy, index) => {
   const project = ONGOING_PROJECTS.find((item) => item.id === caseStudy.projectId);
 
@@ -104,7 +110,8 @@ const HOME_SERVICE_FEATURES = [
     href: '/services',
     summary: 'Seamless integration of air, sea, road, and rail across one accountable operating plan.',
     mediaTone: 'air',
-    mobileIcons: ['sea', 'rail'],
+    mobileIcons: ['train', 'truck'],
+    mobileOrder: 5,
   },
   {
     number: '02',
@@ -116,7 +123,8 @@ const HOME_SERVICE_FEATURES = [
     href: '/services#svc-deep-dive-sea-freight',
     summary: 'End-to-end cargo movement across global trade routes, carrier options, and port handoffs.',
     mediaTone: 'ship',
-    mobileIcons: ['globePin', 'container'],
+    mobileIcons: ['air', 'sea'],
+    mobileOrder: 1,
   },
   {
     number: '03',
@@ -129,7 +137,8 @@ const HOME_SERVICE_FEATURES = [
     href: '/services#svc-deep-dive-customs-clearance-brokerage',
     summary: 'Clearance expertise, document discipline, and compliance support before border friction builds.',
     mediaTone: 'road',
-    mobileIcons: ['shieldCheck', 'officer'],
+    mobileIcons: ['officer', 'clipboardCheck'],
+    mobileOrder: 2,
   },
   {
     number: '04',
@@ -142,7 +151,8 @@ const HOME_SERVICE_FEATURES = [
     href: '/services#svc-deep-dive-fmcg-inter-cross-border-distribution',
     summary: 'Optimized workflows for efficient replenishment, handoff control, and cost-aware movement.',
     mediaTone: 'rail',
-    mobileIcons: ['network', 'distribution'],
+    mobileIcons: ['network', 'grid'],
+    mobileOrder: 3,
   },
   {
     number: '05',
@@ -155,7 +165,8 @@ const HOME_SERVICE_FEATURES = [
     href: '/services#svc-deep-dive-cold-general-warehousing',
     summary: 'Secure storage, stock visibility, staging, and timely delivery from one controlled flow.',
     mediaTone: 'warehouse',
-    mobileIcons: ['warehouse', 'parcel'],
+    mobileIcons: ['warehouse', 'box'],
+    mobileOrder: 4,
   },
   {
     number: '06',
@@ -169,7 +180,8 @@ const HOME_SERVICE_FEATURES = [
     summary:
       'Dependable local and international movement for documents, parcels, e-commerce, medical, and commercial cargo.',
     mediaTone: 'parcel',
-    mobileIcons: ['parcel', 'stopwatch'],
+    mobileIcons: ['box', 'pin'],
+    mobileOrder: 6,
   },
 ];
 
@@ -292,6 +304,115 @@ function getServiceCatalogSrcSet(service) {
   ).join(', ');
 }
 
+const SERVICE_CATALOG_SOLID_ICONS = {
+  air: (
+    <path d="M20.6 4.55c0.5 0.5 0.34 1.36-0.34 1.88l-4.96 3.84 3.9 4.78-1.9 1.48-5.28-3.42-3.66 2.84-0.18 3.08-1.72 1.34-1.34-4.16-4.14-1.36 1.72-1.34 3.08-0.16 3.66-2.84-2.28-5.88 1.9-1.48 4.02 4.48 4.96-3.84c0.66-0.52 1.58-0.54 2.08-0.04Z" />
+  ),
+  sea: (
+    <>
+      <path d="M6.45 10.72h11.1l2.18 3.36-2.14 3.98H6.41l-2.14-3.98 2.18-3.36ZM8.3 7.05h7.4v3.1H8.3v-3.1ZM10.55 4.9h2.9v2.15h-2.9V4.9Z" />
+      <path d="M3.9 19.05c0.78 0.52 1.45 0.78 2.05 0.78 0.64 0 1.22-0.24 1.78-0.72a0.86 0.86 0 0 1 1.14 0c0.58 0.48 1.16 0.72 1.8 0.72s1.22-0.24 1.78-0.72a0.86 0.86 0 0 1 1.14 0c0.58 0.48 1.16 0.72 1.8 0.72 0.62 0 1.28-0.26 2.04-0.78 0.58-0.4 1.36 0.02 1.36 0.72 0 0.28-0.14 0.54-0.38 0.7-0.96 0.66-1.96 1-3.02 1-0.88 0-1.68-0.22-2.36-0.68-0.68 0.46-1.46 0.68-2.36 0.68s-1.68-0.22-2.36-0.68c-0.68 0.46-1.46 0.68-2.36 0.68-1.06 0-2.08-0.34-3.04-1a0.84 0.84 0 0 1-0.36-0.7c0-0.7 0.78-1.12 1.36-0.72Z" />
+    </>
+  ),
+  train: (
+    <>
+      <path d="M7.2 3.65h9.6c1.54 0 2.8 1.26 2.8 2.8v7.95c0 1.28-0.86 2.36-2.04 2.7l2.16 3.08h-2.3l-0.9-1.3H7.48l-0.9 1.3h-2.3l2.16-3.08a2.8 2.8 0 0 1-2.04-2.7V6.45c0-1.54 1.26-2.8 2.8-2.8Z" />
+      <path d="M7.45 7.05h9.1v4.1h-9.1v-4.1ZM8.48 14.08a1.12 1.12 0 1 0 2.24 0 1.12 1.12 0 0 0-2.24 0Zm4.8 0a1.12 1.12 0 1 0 2.24 0 1.12 1.12 0 0 0-2.24 0Z" fill="#ffffff" />
+    </>
+  ),
+  rail: (
+    <>
+      <path d="M7.2 3.65h9.6c1.54 0 2.8 1.26 2.8 2.8v7.95c0 1.28-0.86 2.36-2.04 2.7l2.16 3.08h-2.3l-0.9-1.3H7.48l-0.9 1.3h-2.3l2.16-3.08a2.8 2.8 0 0 1-2.04-2.7V6.45c0-1.54 1.26-2.8 2.8-2.8Z" />
+      <path d="M7.45 7.05h9.1v4.1h-9.1v-4.1ZM8.48 14.08a1.12 1.12 0 1 0 2.24 0 1.12 1.12 0 0 0-2.24 0Zm4.8 0a1.12 1.12 0 1 0 2.24 0 1.12 1.12 0 0 0-2.24 0Z" fill="#ffffff" />
+    </>
+  ),
+  truck: (
+    <>
+      <path d="M3.45 8.15h10.72v7.1h1.02a2.52 2.52 0 0 1 4.92 0h0.8v-3.5l-2.78-3.2h-3.16V6.4H3.45v1.75Zm12.46 1.95h1.5l1.42 1.65h-2.92V10.1ZM7.08 17.72a1.82 1.82 0 1 0 0-3.64 1.82 1.82 0 0 0 0 3.64Zm10.58 0a1.82 1.82 0 1 0 0-3.64 1.82 1.82 0 0 0 0 3.64Z" />
+      <path d="M4.95 8.15h7.58v2.78H4.95V8.15Z" fill="#ffffff" />
+    </>
+  ),
+  road: (
+    <>
+      <path d="M3.45 8.15h10.72v7.1h1.02a2.52 2.52 0 0 1 4.92 0h0.8v-3.5l-2.78-3.2h-3.16V6.4H3.45v1.75Zm12.46 1.95h1.5l1.42 1.65h-2.92V10.1ZM7.08 17.72a1.82 1.82 0 1 0 0-3.64 1.82 1.82 0 0 0 0 3.64Zm10.58 0a1.82 1.82 0 1 0 0-3.64 1.82 1.82 0 0 0 0 3.64Z" />
+      <path d="M4.95 8.15h7.58v2.78H4.95V8.15Z" fill="#ffffff" />
+    </>
+  ),
+  officer: (
+    <path d="M8.62 5.02h6.76l0.86 2.52c-1.24 0.46-2.66 0.7-4.24 0.7s-3-0.24-4.24-0.7l0.86-2.52Zm0.36 4.18h6.04v1.48c0 2.3-1.28 4.02-3.02 4.02s-3.02-1.72-3.02-4.02V9.2Zm-3.4 10.85v-1.42c0-2.18 2.9-3.64 6.42-3.64s6.42 1.46 6.42 3.64v1.42H5.58Zm4.52-4.18 1.9 2.52 1.9-2.52c-0.6-0.1-1.24-0.16-1.9-0.16s-1.3 0.06-1.9 0.16Z" />
+  ),
+  clipboardCheck: (
+    <>
+      <path d="M9.32 4.15h5.36l0.62 1.58h1.1c0.92 0 1.68 0.76 1.68 1.68v11.14c0 0.92-0.76 1.68-1.68 1.68H7.6c-0.92 0-1.68-0.76-1.68-1.68V7.41c0-0.92 0.76-1.68 1.68-1.68h1.1l0.62-1.58Zm0.78 1.22-0.72 2.02h5.24l-0.72-2.02h-3.8Z" />
+      <path d="M10.62 15.65 7.95 13l1.42-1.42 1.2 1.2 4.06-4.26 1.44 1.38-5.45 5.75Z" fill="#ffffff" />
+    </>
+  ),
+  customs: (
+    <>
+      <path d="M12 3.85 5.18 6.55v5.74c0 3.78 2.72 6.74 6.82 7.86 4.1-1.12 6.82-4.08 6.82-7.86V6.55L12 3.85Z" />
+      <path d="M10.84 14.7 8.48 12.34l1.28-1.3 1.08 1.08 3.42-3.56 1.3 1.24-4.72 4.9Z" fill="#ffffff" />
+    </>
+  ),
+  shieldCheck: (
+    <>
+      <path d="M12 3.85 5.18 6.55v5.74c0 3.78 2.72 6.74 6.82 7.86 4.1-1.12 6.82-4.08 6.82-7.86V6.55L12 3.85Z" />
+      <path d="M10.84 14.7 8.48 12.34l1.28-1.3 1.08 1.08 3.42-3.56 1.3 1.24-4.72 4.9Z" fill="#ffffff" />
+    </>
+  ),
+  network: (
+    <>
+      <path d="M8.02 12.96 15.5 7.5l1.1 1.5-7.48 5.46-1.1-1.5Zm1.06 2.02 7.7 2.18-0.5 1.74-7.7-2.18 0.5-1.74Z" />
+      <path d="M6.72 17.38a3.12 3.12 0 1 0 0-6.24 3.12 3.12 0 0 0 0 6.24Zm10.14-7.54a3.12 3.12 0 1 0 0-6.24 3.12 3.12 0 0 0 0 6.24Zm0 10.56a3.12 3.12 0 1 0 0-6.24 3.12 3.12 0 0 0 0 6.24Z" />
+    </>
+  ),
+  grid: (
+    <>
+      <rect x="4.7" y="4.7" width="5.85" height="5.85" rx="0.82" />
+      <rect x="13.45" y="4.7" width="5.85" height="5.85" rx="0.82" />
+      <rect x="4.7" y="13.45" width="5.85" height="5.85" rx="0.82" />
+      <rect x="13.45" y="13.45" width="5.85" height="5.85" rx="0.82" />
+    </>
+  ),
+  warehouse: (
+    <>
+      <path d="M4.1 10.22 12 4.7l7.9 5.52v9.56H4.1v-9.56Z" />
+      <path d="M7.62 12.55h8.76v1.44H7.62v-1.44Zm0 2.62h8.76v1.44H7.62v-1.44Zm1.25-5.08h6.26v1.42H8.87v-1.42Zm-0.72 5.78h2.1v3.91h-2.1v-3.91Z" fill="#ffffff" />
+    </>
+  ),
+  box: (
+    <>
+      <path d="M12 3.85 19.36 7.7v8.58L12 20.15l-7.36-3.87V7.7L12 3.85Z" />
+      <path d="M6.75 8.2 12 10.95l5.25-2.75 0.7 1.34-5.18 2.72v5.62h-1.54v-5.62L6.05 9.54l0.7-1.34Zm2.1-1.1 5.34 2.8-0.72 1.34-5.34-2.8 0.72-1.34Z" fill="#ffffff" />
+    </>
+  ),
+  parcel: (
+    <>
+      <path d="M12 3.85 19.36 7.7v8.58L12 20.15l-7.36-3.87V7.7L12 3.85Z" />
+      <path d="M6.75 8.2 12 10.95l5.25-2.75 0.7 1.34-5.18 2.72v5.62h-1.54v-5.62L6.05 9.54l0.7-1.34Zm2.1-1.1 5.34 2.8-0.72 1.34-5.34-2.8 0.72-1.34Z" fill="#ffffff" />
+    </>
+  ),
+  pin: (
+    <>
+      <path d="M12 3.9a5.92 5.92 0 0 0-5.92 5.92c0 4.88 5.92 10.32 5.92 10.32s5.92-5.44 5.92-10.32A5.92 5.92 0 0 0 12 3.9Z" />
+      <circle cx="12" cy="9.82" r="2.05" fill="#ffffff" />
+    </>
+  ),
+  globePin: (
+    <>
+      <path d="M12 3.9a5.92 5.92 0 0 0-5.92 5.92c0 4.88 5.92 10.32 5.92 10.32s5.92-5.44 5.92-10.32A5.92 5.92 0 0 0 12 3.9Z" />
+      <circle cx="12" cy="9.82" r="2.05" fill="#ffffff" />
+    </>
+  ),
+  distribution: (
+    <>
+      <rect x="4.7" y="4.7" width="5.85" height="5.85" rx="0.82" />
+      <rect x="13.45" y="4.7" width="5.85" height="5.85" rx="0.82" />
+      <rect x="4.7" y="13.45" width="5.85" height="5.85" rx="0.82" />
+      <rect x="13.45" y="13.45" width="5.85" height="5.85" rx="0.82" />
+    </>
+  ),
+};
+
 function ServiceCatalogIcon({ kind }) {
   const icons = {
     air: (
@@ -344,7 +465,45 @@ function ServiceCatalogIcon({ kind }) {
         />
       </>
     ),
+    train: (
+      <>
+        <path
+          d="M7.1 4.9h9.8a2 2 0 0 1 2 2v7.9a2 2 0 0 1-2 2H7.1a2 2 0 0 1-2-2V6.9a2 2 0 0 1 2-2Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8 8h8M8.3 12.2h.01M15.7 12.2h.01M8.4 19.1l2.2-2.3M15.6 19.1l-2.2-2.3"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
     road: (
+      <>
+        <path
+          d="M4.3 8h10.2v7.4H4.3V8Zm10.2 2.2h3.2l2 2.4v2.8h-5.2v-5.2Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M7.7 17.2a1.45 1.45 0 1 0 0-2.9 1.45 1.45 0 0 0 0 2.9Zm9 0a1.45 1.45 0 1 0 0-2.9 1.45 1.45 0 0 0 0 2.9Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+        />
+      </>
+    ),
+    truck: (
       <>
         <path
           d="M4.3 8h10.2v7.4H4.3V8Zm10.2 2.2h3.2l2 2.4v2.8h-5.2v-5.2Z"
@@ -406,6 +565,26 @@ function ServiceCatalogIcon({ kind }) {
           stroke="currentColor"
           strokeWidth="1.65"
           strokeLinecap="round"
+        />
+      </>
+    ),
+    box: (
+      <>
+        <path
+          d="M5.1 8.1 12 4.4l6.9 3.7v7.8L12 19.6l-6.9-3.7V8.1Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M5.1 8.1 12 11.8l6.9-3.7M12 11.8v7.8M8.5 6.3l6.9 3.7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </>
     ),
@@ -494,6 +673,24 @@ function ServiceCatalogIcon({ kind }) {
         />
       </>
     ),
+    pin: (
+      <>
+        <path
+          d="M12 20.5s5.6-5.2 5.6-10.1a5.6 5.6 0 0 0-11.2 0c0 4.9 5.6 10.1 5.6 10.1Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 12.4a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+        />
+      </>
+    ),
     network: (
       <>
         <path
@@ -546,6 +743,26 @@ function ServiceCatalogIcon({ kind }) {
         />
         <path
           d="m8.9 12.3 2.1 2.1 4.35-4.55"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    clipboardCheck: (
+      <>
+        <path
+          d="M8.2 5.9h7.6M9.5 4.2h5l0.7 2H8.8l0.7-2Zm-2 2h9a1.4 1.4 0 0 1 1.4 1.4v11a1.4 1.4 0 0 1-1.4 1.4h-9a1.4 1.4 0 0 1-1.4-1.4v-11a1.4 1.4 0 0 1 1.4-1.4Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m8.9 13 2.1 2.1 4.2-4.5"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.65"
@@ -621,12 +838,34 @@ function ServiceCatalogIcon({ kind }) {
         />
       </>
     ),
+    grid: (
+      <>
+        <path
+          d="M5.3 5.3h5.1v5.1H5.3V5.3Zm8.3 0h5.1v5.1h-5.1V5.3ZM5.3 13.6h5.1v5.1H5.3v-5.1Zm8.3 0h5.1v5.1h-5.1v-5.1Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
   };
 
   return (
     <span className="landing-service-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24" focusable="false">
         {icons[kind] ?? icons.air}
+      </svg>
+    </span>
+  );
+}
+
+function ServiceCatalogSolidIcon({ kind }) {
+  return (
+    <span className="landing-service-icon landing-service-icon--solid" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        {SERVICE_CATALOG_SOLID_ICONS[kind] ?? SERVICE_CATALOG_SOLID_ICONS.air}
       </svg>
     </span>
   );
@@ -640,27 +879,10 @@ function ServiceMobileIconStack({ icons }) {
           className={`landing-service-mobile-icon landing-service-mobile-icon--${iconIndex + 1}`}
           key={`${icon}-${iconIndex}`}
         >
-          <ServiceCatalogIcon kind={icon} />
+          <ServiceCatalogSolidIcon kind={icon} />
         </span>
       ))}
     </div>
-  );
-}
-
-function ServiceMobileArrowLink({ href, label }) {
-  return (
-    <a className="landing-service-mobile-arrow" href={href} aria-label={`View ${label}`}>
-      <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-        <path
-          d="M6 18 18 6M9 6h9v9"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.15"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </a>
   );
 }
 
@@ -1201,7 +1423,7 @@ export function HomePage() {
 
   useEffect(() => {
     const list = servicesListRef.current;
-    if (!list || typeof window === 'undefined') return undefined;
+    if (!list || isMobileViewport || typeof window === 'undefined') return undefined;
 
     const preloadServiceImages = () => {
       if (hasPreloadedServiceImagesRef.current) return;
@@ -1238,11 +1460,11 @@ export function HomePage() {
     observer.observe(list);
 
     return () => observer.disconnect();
-  }, []);
+  }, [isMobileViewport]);
 
   useEffect(() => {
     const list = servicesListRef.current;
-    if (!list || typeof window === 'undefined') return undefined;
+    if (!list || isMobileViewport || typeof window === 'undefined') return undefined;
 
     const serviceEntries = Array.from(list.querySelectorAll('.landing-service-entry'));
     let frameId = null;
@@ -1287,7 +1509,7 @@ export function HomePage() {
       window.removeEventListener('scroll', queueActiveServiceSync);
       window.removeEventListener('resize', queueActiveServiceSync);
     };
-  }, []);
+  }, [isMobileViewport]);
 
   useEffect(() => {
     const list = servicesListRef.current;
@@ -2034,6 +2256,18 @@ export function HomePage() {
           </aside>
         </div>
 
+        <header className="landing-overview-mobile-header">
+          <span className="landing-overview-mobile-header-rule" aria-hidden="true" />
+          <h2 className="landing-section-title landing-overview-mobile-heading">
+            <span className="landing-title-line">
+              <span>Moving Your Business Forward,</span>
+            </span>
+            <span className="landing-title-line landing-title-line--accent">
+              <span>Together.</span>
+            </span>
+          </h2>
+        </header>
+
         <div
           className={`landing-mobile-solutions-switcher landing-overview-mobile-switcher landing-overview-mobile-switcher--${activeOverviewStatementData.key} landing-overview-mobile-switcher--${activeOverviewStatementData.panelTone}`}
           aria-label="Company statements"
@@ -2149,9 +2383,9 @@ export function HomePage() {
                   activeServiceIndex === index ? ' is-active' : ''
                 }`}
                 key={service.label}
+                style={{ '--landing-service-mobile-order': service.mobileOrder }}
               >
                 <ServiceMobileIconStack icons={service.mobileIcons ?? [service.icon]} />
-                <ServiceMobileArrowLink href={service.href} label={service.label} />
                 <figure className="landing-service-figure">
                   <img
                     className="landing-service-image"
