@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './HomePage.css';
 import { MQ } from '../constants/breakpoints';
+import { WhyChooseFelmex } from '../components/WhyChooseFelmex';
 import { ONGOING_PROJECTS } from './projects/data';
 import { CLIENT_QUOTES } from './home/data';
 
@@ -18,9 +19,40 @@ const SERVICE_CATALOG_IMAGE_WIDTHS = [640, 960, 1280];
 const SERVICE_CATALOG_IMAGE_SIZES =
   '(min-width: 1081px) min(60rem, 68vw), (max-width: 640px) 92vw, 100vw';
 const HOME_MOBILE_PROJECTS = [
-  HOME_PROJECT_PREVIEW,
-  ...ONGOING_PROJECTS.filter((project) => project.id !== HOME_PROJECT_PREVIEW.id),
-].slice(0, 3);
+  {
+    projectId: 'port-drayage-window',
+    title: 'Port Operations',
+    meta: 'Mombasa, Kenya',
+    brief: 'Port release and truck slots stay synced with inland receiving.',
+  },
+  {
+    projectId: 'brokerage-preclearance',
+    title: 'Customs Handoffs',
+    meta: 'Mombasa, Kenya',
+    brief: 'Pre-arrival checks clear document gaps before cargo release.',
+  },
+  {
+    projectId: 'regional-delivery-pulse',
+    title: 'Inland Transport',
+    meta: 'East Africa',
+    brief: 'Route updates keep regional deliveries moving in one controlled rhythm.',
+  },
+  {
+    projectId: 'rail-linked-program',
+    title: 'Rail Programs',
+    meta: 'East Africa',
+    brief: 'Rail and road handoffs stay aligned across long-haul inland moves.',
+  },
+].map((caseStudy, index) => {
+  const project = ONGOING_PROJECTS.find((item) => item.id === caseStudy.projectId);
+
+  return {
+    ...caseStudy,
+    index: String(index + 1).padStart(2, '0'),
+    image: project?.image ?? '/sea-freight.webp',
+    imageAlt: project?.imageAlt ?? `${caseStudy.title} logistics project`,
+  };
+});
 const HOME_PROJECT_THUMBNAILS = ONGOING_PROJECTS.filter(
   (project) => project.id !== HOME_PROJECT_PREVIEW.id
 ).slice(0, 6);
@@ -78,6 +110,8 @@ const HOME_SERVICE_FEATURES = [
     href: '/services',
     summary: 'Seamless integration of air, sea, road, and rail across one accountable operating plan.',
     mediaTone: 'air',
+    mobileIcons: ['train', 'truck'],
+    mobileOrder: 5,
   },
   {
     number: '02',
@@ -89,6 +123,8 @@ const HOME_SERVICE_FEATURES = [
     href: '/services#svc-deep-dive-sea-freight',
     summary: 'End-to-end cargo movement across global trade routes, carrier options, and port handoffs.',
     mediaTone: 'ship',
+    mobileIcons: ['air', 'sea'],
+    mobileOrder: 1,
   },
   {
     number: '03',
@@ -101,6 +137,8 @@ const HOME_SERVICE_FEATURES = [
     href: '/services#svc-deep-dive-customs-clearance-brokerage',
     summary: 'Clearance expertise, document discipline, and compliance support before border friction builds.',
     mediaTone: 'road',
+    mobileIcons: ['officer', 'clipboardCheck'],
+    mobileOrder: 2,
   },
   {
     number: '04',
@@ -113,6 +151,8 @@ const HOME_SERVICE_FEATURES = [
     href: '/services#svc-deep-dive-fmcg-inter-cross-border-distribution',
     summary: 'Optimized workflows for efficient replenishment, handoff control, and cost-aware movement.',
     mediaTone: 'rail',
+    mobileIcons: ['network', 'grid'],
+    mobileOrder: 3,
   },
   {
     number: '05',
@@ -125,6 +165,8 @@ const HOME_SERVICE_FEATURES = [
     href: '/services#svc-deep-dive-cold-general-warehousing',
     summary: 'Secure storage, stock visibility, staging, and timely delivery from one controlled flow.',
     mediaTone: 'warehouse',
+    mobileIcons: ['warehouse', 'box'],
+    mobileOrder: 4,
   },
   {
     number: '06',
@@ -138,27 +180,8 @@ const HOME_SERVICE_FEATURES = [
     summary:
       'Dependable local and international movement for documents, parcels, e-commerce, medical, and commercial cargo.',
     mediaTone: 'parcel',
-  },
-];
-
-const HOME_CHOICE_FEATURES = [
-  {
-    number: '01',
-    icon: 'globe',
-    titleLines: ['Global reach', 'with local expertise'],
-    text: 'We operate across major international markets while keeping a strong understanding of local needs.',
-  },
-  {
-    number: '02',
-    icon: 'shield',
-    titleLines: ['Transparent and', 'reliable operations'],
-    text: 'Our processes are built on clarity, accountability, and a commitment to getting it right, every time.',
-  },
-  {
-    number: '03',
-    icon: 'handshake',
-    titleLines: ['Trusted partnerships', 'built on integrity'],
-    text: 'We believe in long-term relationships founded on trust, respect, and delivering on our promises.',
+    mobileIcons: ['box', 'pin'],
+    mobileOrder: 6,
   },
 ];
 
@@ -167,26 +190,90 @@ const FINAL_OPERATION_STEPS = [
     key: 'source',
     label: 'Source',
     text: 'Eliminate procurement bottlenecks with our direct vendor-integration network. We manage high-volume material acquisition efficiently to protect your margins from day one.',
+    highlightWords: ['procurement', 'vendor-integration', 'acquisition', 'margins'],
   },
   {
     key: 'store',
     label: 'Store',
     text: 'Cut your warehousing overhead in half. We house your assets in secure, strategically located fulfillment hubs designed for rapid enterprise-level inventory rotation.',
+    highlightWords: ['warehousing', 'secure', 'fulfillment hubs', 'inventory rotation'],
   },
   {
     key: 'process',
     label: 'Process',
     text: 'Zero errors, maximum speed. Our automated order-mapping technology instantly picks, packs, and labels your shipments the moment a customer clicks buy.',
+    highlightWords: ['Zero errors', 'maximum speed', 'order-mapping', 'picks, packs, and labels'],
   },
   {
     key: 'ship',
     label: 'Ship',
     text: 'Bypass delays with the fastest transit times on the market. We leverage deep carrier discounts and smart route-optimization to deliver your goods at lightning speed for the lowest cost.',
+    highlightWords: ['delays', 'fastest transit times', 'carrier discounts', 'lowest cost'],
   },
   {
     key: 'scale',
     label: 'Scale',
     text: 'Turn logistical efficiency into explosive business growth. Our frictionless, end-to-end infrastructure expands effortlessly alongside your rising volume, allowing you to dominate new markets without limits.',
+    highlightWords: ['efficiency', 'growth', 'end-to-end infrastructure', 'new markets'],
+  },
+];
+
+const MOBILE_SOLUTION_DEFAULT_COPY = {
+  key: 'overview',
+  label: 'Overview',
+  text: 'At Felmex, every project is managed with a commitment to precision, transparency, and reliability.',
+  highlightWords: ['Felmex', 'precision', 'transparency', 'reliability'],
+};
+
+const MOBILE_SOLUTION_NAV_ORDER = ['source', 'ship', 'store', 'process', 'scale'];
+const MOBILE_SOLUTION_INITIAL_KEY = 'store';
+
+const OVERVIEW_MOBILE_STATEMENTS = [
+  {
+    key: 'about',
+    label: 'About Us',
+    navLabel: 'About',
+    icon: 'about',
+    panelTone: 'about',
+    titleLines: ['About', 'Us.'],
+    paragraphs: [
+      'FELMEX Global Logistics is an envisioned global multimodal service provider, delivering integrated solutions across air, sea, road, and rail.',
+      'We simplify complex supply chains, connect businesses to international markets, and keep efficiency, transparency, and reliability visible at every step.',
+    ],
+  },
+  {
+    key: 'mission',
+    label: 'Mission Statement',
+    navLabel: 'Mission',
+    icon: 'mission',
+    panelTone: 'mission',
+    titleLines: ['Mission', 'Statement.'],
+    paragraphs: [
+      'Our mission is to simplify complexity in international trade by integrating air, sea, road, and rail into one reliable, transparent, future-ready network.',
+    ],
+  },
+  {
+    key: 'vision',
+    label: 'Vision',
+    navLabel: 'Vision',
+    icon: 'vision',
+    panelTone: 'vision',
+    titleLines: ['Vision.'],
+    paragraphs: [
+      'Our vision is to redefine global logistics through seamless multimodal solutions that connect businesses, markets, and communities with efficiency and integrity.',
+    ],
+  },
+  {
+    key: 'idd',
+    label: 'Identity Statement (IDD)',
+    navLabel: 'IDD',
+    icon: 'idd',
+    panelTone: 'idd',
+    titleLines: ['Identity Statement', '(IDD).'],
+    paragraphs: [
+      'Integrity Due Diligence keeps every partner, supplier, and agent aligned to clear ethical, compliance, and operating standards.',
+      'That discipline gives client cargo the confidence of moving through a responsible logistics network from planning through final handoff.',
+    ],
   },
 ];
 
@@ -216,6 +303,115 @@ function getServiceCatalogSrcSet(service) {
     (width) => `${getResponsiveImagePath(service.image, width, service.imageWidth)} ${width}w`
   ).join(', ');
 }
+
+const SERVICE_CATALOG_SOLID_ICONS = {
+  air: (
+    <path d="M20.6 4.55c0.5 0.5 0.34 1.36-0.34 1.88l-4.96 3.84 3.9 4.78-1.9 1.48-5.28-3.42-3.66 2.84-0.18 3.08-1.72 1.34-1.34-4.16-4.14-1.36 1.72-1.34 3.08-0.16 3.66-2.84-2.28-5.88 1.9-1.48 4.02 4.48 4.96-3.84c0.66-0.52 1.58-0.54 2.08-0.04Z" />
+  ),
+  sea: (
+    <>
+      <path d="M6.45 10.72h11.1l2.18 3.36-2.14 3.98H6.41l-2.14-3.98 2.18-3.36ZM8.3 7.05h7.4v3.1H8.3v-3.1ZM10.55 4.9h2.9v2.15h-2.9V4.9Z" />
+      <path d="M3.9 19.05c0.78 0.52 1.45 0.78 2.05 0.78 0.64 0 1.22-0.24 1.78-0.72a0.86 0.86 0 0 1 1.14 0c0.58 0.48 1.16 0.72 1.8 0.72s1.22-0.24 1.78-0.72a0.86 0.86 0 0 1 1.14 0c0.58 0.48 1.16 0.72 1.8 0.72 0.62 0 1.28-0.26 2.04-0.78 0.58-0.4 1.36 0.02 1.36 0.72 0 0.28-0.14 0.54-0.38 0.7-0.96 0.66-1.96 1-3.02 1-0.88 0-1.68-0.22-2.36-0.68-0.68 0.46-1.46 0.68-2.36 0.68s-1.68-0.22-2.36-0.68c-0.68 0.46-1.46 0.68-2.36 0.68-1.06 0-2.08-0.34-3.04-1a0.84 0.84 0 0 1-0.36-0.7c0-0.7 0.78-1.12 1.36-0.72Z" />
+    </>
+  ),
+  train: (
+    <>
+      <path d="M7.2 3.65h9.6c1.54 0 2.8 1.26 2.8 2.8v7.95c0 1.28-0.86 2.36-2.04 2.7l2.16 3.08h-2.3l-0.9-1.3H7.48l-0.9 1.3h-2.3l2.16-3.08a2.8 2.8 0 0 1-2.04-2.7V6.45c0-1.54 1.26-2.8 2.8-2.8Z" />
+      <path d="M7.45 7.05h9.1v4.1h-9.1v-4.1ZM8.48 14.08a1.12 1.12 0 1 0 2.24 0 1.12 1.12 0 0 0-2.24 0Zm4.8 0a1.12 1.12 0 1 0 2.24 0 1.12 1.12 0 0 0-2.24 0Z" fill="#ffffff" />
+    </>
+  ),
+  rail: (
+    <>
+      <path d="M7.2 3.65h9.6c1.54 0 2.8 1.26 2.8 2.8v7.95c0 1.28-0.86 2.36-2.04 2.7l2.16 3.08h-2.3l-0.9-1.3H7.48l-0.9 1.3h-2.3l2.16-3.08a2.8 2.8 0 0 1-2.04-2.7V6.45c0-1.54 1.26-2.8 2.8-2.8Z" />
+      <path d="M7.45 7.05h9.1v4.1h-9.1v-4.1ZM8.48 14.08a1.12 1.12 0 1 0 2.24 0 1.12 1.12 0 0 0-2.24 0Zm4.8 0a1.12 1.12 0 1 0 2.24 0 1.12 1.12 0 0 0-2.24 0Z" fill="#ffffff" />
+    </>
+  ),
+  truck: (
+    <>
+      <path d="M3.45 8.15h10.72v7.1h1.02a2.52 2.52 0 0 1 4.92 0h0.8v-3.5l-2.78-3.2h-3.16V6.4H3.45v1.75Zm12.46 1.95h1.5l1.42 1.65h-2.92V10.1ZM7.08 17.72a1.82 1.82 0 1 0 0-3.64 1.82 1.82 0 0 0 0 3.64Zm10.58 0a1.82 1.82 0 1 0 0-3.64 1.82 1.82 0 0 0 0 3.64Z" />
+      <path d="M4.95 8.15h7.58v2.78H4.95V8.15Z" fill="#ffffff" />
+    </>
+  ),
+  road: (
+    <>
+      <path d="M3.45 8.15h10.72v7.1h1.02a2.52 2.52 0 0 1 4.92 0h0.8v-3.5l-2.78-3.2h-3.16V6.4H3.45v1.75Zm12.46 1.95h1.5l1.42 1.65h-2.92V10.1ZM7.08 17.72a1.82 1.82 0 1 0 0-3.64 1.82 1.82 0 0 0 0 3.64Zm10.58 0a1.82 1.82 0 1 0 0-3.64 1.82 1.82 0 0 0 0 3.64Z" />
+      <path d="M4.95 8.15h7.58v2.78H4.95V8.15Z" fill="#ffffff" />
+    </>
+  ),
+  officer: (
+    <path d="M8.62 5.02h6.76l0.86 2.52c-1.24 0.46-2.66 0.7-4.24 0.7s-3-0.24-4.24-0.7l0.86-2.52Zm0.36 4.18h6.04v1.48c0 2.3-1.28 4.02-3.02 4.02s-3.02-1.72-3.02-4.02V9.2Zm-3.4 10.85v-1.42c0-2.18 2.9-3.64 6.42-3.64s6.42 1.46 6.42 3.64v1.42H5.58Zm4.52-4.18 1.9 2.52 1.9-2.52c-0.6-0.1-1.24-0.16-1.9-0.16s-1.3 0.06-1.9 0.16Z" />
+  ),
+  clipboardCheck: (
+    <>
+      <path d="M9.32 4.15h5.36l0.62 1.58h1.1c0.92 0 1.68 0.76 1.68 1.68v11.14c0 0.92-0.76 1.68-1.68 1.68H7.6c-0.92 0-1.68-0.76-1.68-1.68V7.41c0-0.92 0.76-1.68 1.68-1.68h1.1l0.62-1.58Zm0.78 1.22-0.72 2.02h5.24l-0.72-2.02h-3.8Z" />
+      <path d="M10.62 15.65 7.95 13l1.42-1.42 1.2 1.2 4.06-4.26 1.44 1.38-5.45 5.75Z" fill="#ffffff" />
+    </>
+  ),
+  customs: (
+    <>
+      <path d="M12 3.85 5.18 6.55v5.74c0 3.78 2.72 6.74 6.82 7.86 4.1-1.12 6.82-4.08 6.82-7.86V6.55L12 3.85Z" />
+      <path d="M10.84 14.7 8.48 12.34l1.28-1.3 1.08 1.08 3.42-3.56 1.3 1.24-4.72 4.9Z" fill="#ffffff" />
+    </>
+  ),
+  shieldCheck: (
+    <>
+      <path d="M12 3.85 5.18 6.55v5.74c0 3.78 2.72 6.74 6.82 7.86 4.1-1.12 6.82-4.08 6.82-7.86V6.55L12 3.85Z" />
+      <path d="M10.84 14.7 8.48 12.34l1.28-1.3 1.08 1.08 3.42-3.56 1.3 1.24-4.72 4.9Z" fill="#ffffff" />
+    </>
+  ),
+  network: (
+    <>
+      <path d="M8.02 12.96 15.5 7.5l1.1 1.5-7.48 5.46-1.1-1.5Zm1.06 2.02 7.7 2.18-0.5 1.74-7.7-2.18 0.5-1.74Z" />
+      <path d="M6.72 17.38a3.12 3.12 0 1 0 0-6.24 3.12 3.12 0 0 0 0 6.24Zm10.14-7.54a3.12 3.12 0 1 0 0-6.24 3.12 3.12 0 0 0 0 6.24Zm0 10.56a3.12 3.12 0 1 0 0-6.24 3.12 3.12 0 0 0 0 6.24Z" />
+    </>
+  ),
+  grid: (
+    <>
+      <rect x="4.7" y="4.7" width="5.85" height="5.85" rx="0.82" />
+      <rect x="13.45" y="4.7" width="5.85" height="5.85" rx="0.82" />
+      <rect x="4.7" y="13.45" width="5.85" height="5.85" rx="0.82" />
+      <rect x="13.45" y="13.45" width="5.85" height="5.85" rx="0.82" />
+    </>
+  ),
+  warehouse: (
+    <>
+      <path d="M4.1 10.22 12 4.7l7.9 5.52v9.56H4.1v-9.56Z" />
+      <path d="M7.62 12.55h8.76v1.44H7.62v-1.44Zm0 2.62h8.76v1.44H7.62v-1.44Zm1.25-5.08h6.26v1.42H8.87v-1.42Zm-0.72 5.78h2.1v3.91h-2.1v-3.91Z" fill="#ffffff" />
+    </>
+  ),
+  box: (
+    <>
+      <path d="M12 3.85 19.36 7.7v8.58L12 20.15l-7.36-3.87V7.7L12 3.85Z" />
+      <path d="M6.75 8.2 12 10.95l5.25-2.75 0.7 1.34-5.18 2.72v5.62h-1.54v-5.62L6.05 9.54l0.7-1.34Zm2.1-1.1 5.34 2.8-0.72 1.34-5.34-2.8 0.72-1.34Z" fill="#ffffff" />
+    </>
+  ),
+  parcel: (
+    <>
+      <path d="M12 3.85 19.36 7.7v8.58L12 20.15l-7.36-3.87V7.7L12 3.85Z" />
+      <path d="M6.75 8.2 12 10.95l5.25-2.75 0.7 1.34-5.18 2.72v5.62h-1.54v-5.62L6.05 9.54l0.7-1.34Zm2.1-1.1 5.34 2.8-0.72 1.34-5.34-2.8 0.72-1.34Z" fill="#ffffff" />
+    </>
+  ),
+  pin: (
+    <>
+      <path d="M12 3.9a5.92 5.92 0 0 0-5.92 5.92c0 4.88 5.92 10.32 5.92 10.32s5.92-5.44 5.92-10.32A5.92 5.92 0 0 0 12 3.9Z" />
+      <circle cx="12" cy="9.82" r="2.05" fill="#ffffff" />
+    </>
+  ),
+  globePin: (
+    <>
+      <path d="M12 3.9a5.92 5.92 0 0 0-5.92 5.92c0 4.88 5.92 10.32 5.92 10.32s5.92-5.44 5.92-10.32A5.92 5.92 0 0 0 12 3.9Z" />
+      <circle cx="12" cy="9.82" r="2.05" fill="#ffffff" />
+    </>
+  ),
+  distribution: (
+    <>
+      <rect x="4.7" y="4.7" width="5.85" height="5.85" rx="0.82" />
+      <rect x="13.45" y="4.7" width="5.85" height="5.85" rx="0.82" />
+      <rect x="4.7" y="13.45" width="5.85" height="5.85" rx="0.82" />
+      <rect x="13.45" y="13.45" width="5.85" height="5.85" rx="0.82" />
+    </>
+  ),
+};
 
 function ServiceCatalogIcon({ kind }) {
   const icons = {
@@ -269,7 +465,45 @@ function ServiceCatalogIcon({ kind }) {
         />
       </>
     ),
+    train: (
+      <>
+        <path
+          d="M7.1 4.9h9.8a2 2 0 0 1 2 2v7.9a2 2 0 0 1-2 2H7.1a2 2 0 0 1-2-2V6.9a2 2 0 0 1 2-2Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8 8h8M8.3 12.2h.01M15.7 12.2h.01M8.4 19.1l2.2-2.3M15.6 19.1l-2.2-2.3"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
     road: (
+      <>
+        <path
+          d="M4.3 8h10.2v7.4H4.3V8Zm10.2 2.2h3.2l2 2.4v2.8h-5.2v-5.2Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M7.7 17.2a1.45 1.45 0 1 0 0-2.9 1.45 1.45 0 0 0 0 2.9Zm9 0a1.45 1.45 0 1 0 0-2.9 1.45 1.45 0 0 0 0 2.9Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+        />
+      </>
+    ),
+    truck: (
       <>
         <path
           d="M4.3 8h10.2v7.4H4.3V8Zm10.2 2.2h3.2l2 2.4v2.8h-5.2v-5.2Z"
@@ -334,6 +568,26 @@ function ServiceCatalogIcon({ kind }) {
         />
       </>
     ),
+    box: (
+      <>
+        <path
+          d="M5.1 8.1 12 4.4l6.9 3.7v7.8L12 19.6l-6.9-3.7V8.1Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M5.1 8.1 12 11.8l6.9-3.7M12 11.8v7.8M8.5 6.3l6.9 3.7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
     customs: (
       <>
         <path
@@ -346,6 +600,197 @@ function ServiceCatalogIcon({ kind }) {
         />
         <path
           d="M9.1 12.2h5.8M9.1 9.7h5.8M10.2 14.8h3.6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+        />
+      </>
+    ),
+    container: (
+      <>
+        <path
+          d="M4.7 10h14.6v8.4H4.7V10Zm2.4 0 4.9-3.2 4.9 3.2M12 4.8v2"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M7.6 12.4v3.7M10.6 12.4v3.7M13.6 12.4v3.7M16.6 12.4v3.7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+        />
+      </>
+    ),
+    document: (
+      <>
+        <path
+          d="M6.8 4.4h7.6l3.8 3.8v11.4H6.8V4.4Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M14.4 4.4v3.8h3.8M9.2 11h5.6M9.2 14h5.6M9.2 17h3.8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    globePin: (
+      <>
+        <path
+          d="M12 20.1a8.1 8.1 0 1 1 4.6-1.42M4.5 12h9.4M12 3.9c-2.1 2.3-3.15 5-3.15 8.1 0 2.55 0.72 4.85 2.15 6.9M12 3.9c1.35 1.45 2.26 3.08 2.74 4.9"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M16.7 14.9c0 2.3 2.55 4.65 2.55 4.65s2.55-2.35 2.55-4.65a2.55 2.55 0 0 0-5.1 0Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M19.25 14.9h.01"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+        />
+      </>
+    ),
+    pin: (
+      <>
+        <path
+          d="M12 20.5s5.6-5.2 5.6-10.1a5.6 5.6 0 0 0-11.2 0c0 4.9 5.6 10.1 5.6 10.1Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 12.4a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+        />
+      </>
+    ),
+    network: (
+      <>
+        <path
+          d="M7.4 16.6a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Zm9.2-7a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Zm0 10.4a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m9.8 12.4 4.4-4M9.95 15.05l4.3 2.25"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    officer: (
+      <>
+        <path
+          d="M8.6 8.3h6.8l-1.1-2.7H9.7L8.6 8.3Zm1 2.8c0 2.1 1.15 3.75 2.4 3.75s2.4-1.65 2.4-3.75V9.25H9.6v1.85Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M6.2 20v-1.35c0-2.16 2.6-3.8 5.8-3.8s5.8 1.64 5.8 3.8V20M10.1 15.45 12 18l1.9-2.55M8.1 18.5V20M15.9 18.5V20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    shieldCheck: (
+      <>
+        <path
+          d="M12 4.1 5.2 6.8v5.5c0 3.7 2.7 6.6 6.8 7.6 4.1-1 6.8-3.9 6.8-7.6V6.8L12 4.1Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m8.9 12.3 2.1 2.1 4.35-4.55"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    clipboardCheck: (
+      <>
+        <path
+          d="M8.2 5.9h7.6M9.5 4.2h5l0.7 2H8.8l0.7-2Zm-2 2h9a1.4 1.4 0 0 1 1.4 1.4v11a1.4 1.4 0 0 1-1.4 1.4h-9a1.4 1.4 0 0 1-1.4-1.4v-11a1.4 1.4 0 0 1 1.4-1.4Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="m8.9 13 2.1 2.1 4.2-4.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    stopwatch: (
+      <>
+        <path
+          d="M9.2 4.3h5.6M12 4.3v2.05M18.3 8l1.35-1.35"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 20.2a6.6 6.6 0 1 0 0-13.2 6.6 6.6 0 0 0 0 13.2Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 10.1v3.4"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.65"
@@ -393,6 +838,18 @@ function ServiceCatalogIcon({ kind }) {
         />
       </>
     ),
+    grid: (
+      <>
+        <path
+          d="M5.3 5.3h5.1v5.1H5.3V5.3Zm8.3 0h5.1v5.1h-5.1V5.3ZM5.3 13.6h5.1v5.1H5.3v-5.1Zm8.3 0h5.1v5.1h-5.1v-5.1Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
   };
 
   return (
@@ -404,74 +861,97 @@ function ServiceCatalogIcon({ kind }) {
   );
 }
 
-function WhyChooseIcon({ kind }) {
+function ServiceCatalogSolidIcon({ kind }) {
+  return (
+    <span className="landing-service-icon landing-service-icon--solid" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        {SERVICE_CATALOG_SOLID_ICONS[kind] ?? SERVICE_CATALOG_SOLID_ICONS.air}
+      </svg>
+    </span>
+  );
+}
+
+function ServiceMobileIconStack({ icons }) {
+  return (
+    <div className="landing-service-mobile-icons" aria-hidden="true">
+      {icons.slice(0, 2).map((icon, iconIndex) => (
+        <span
+          className={`landing-service-mobile-icon landing-service-mobile-icon--${iconIndex + 1}`}
+          key={`${icon}-${iconIndex}`}
+        >
+          <ServiceCatalogSolidIcon kind={icon} />
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+}
+
+function renderHighlightedSolutionText(text, highlightWords = []) {
+  const terms = highlightWords.filter(Boolean).sort((first, second) => second.length - first.length);
+
+  if (terms.length === 0) return text;
+
+  const matcher = new RegExp(`(${terms.map(escapeRegExp).join('|')})`, 'giu');
+  const normalizedTerms = terms.map((term) => term.toLocaleLowerCase());
+
+  return text.split(matcher).filter(Boolean).map((part, index) => {
+    const isHighlighted = normalizedTerms.includes(part.toLocaleLowerCase());
+
+    return isHighlighted ? (
+      <span className="landing-mobile-solution-copy-accent" key={`${part}-${index}`}>
+        {part}
+      </span>
+    ) : (
+      <span key={`${part}-${index}`}>{part}</span>
+    );
+  });
+}
+
+function SolutionStageIcon({ kind }) {
   const icons = {
-    globe: (
+    source: (
       <>
-        <circle
-          cx="12"
-          cy="12"
-          r="8.9"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-        />
-        <path
-          d="M3.6 9.1c2.8.4 4.7 1.5 5.8 3.3 1 1.7.8 3.6-.5 5.8m5.8-14.4c-.8 1.4-1 2.8-.5 4 .5 1.3 1.8 2.2 3.9 2.8M6.7 5.9c1.6.8 3.1 1.1 4.4.8 1.3-.2 2.5-1 3.6-2.2M20.7 11.6c-1.5-.4-2.8-.2-3.9.4-1.3.8-2.2 2.2-2.7 4.4-.2 1-.1 2 .2 3M10.2 20.6c.6-1.9.4-3.5-.6-4.7-.7-.9-1.8-1.4-3.3-1.7"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <circle cx="27" cy="27" r="16" />
+        <path d="M11 27h32M27 11c-5.2 5-7.8 10.3-7.8 16s2.6 11 7.8 16M27 11c5.2 5 7.8 10.3 7.8 16s-2.6 11-7.8 16" />
+        <path d="m39.2 39.2 13.6 13.6" />
       </>
     ),
-    shield: (
+    ship: (
       <>
-        <path
-          d="M12 3.5 5.4 6.1v5.4c0 4.1 2.6 7.4 6.6 8.8 4-1.4 6.6-4.7 6.6-8.8V6.1L12 3.5Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="m8.8 12.2 2.1 2.1 4.4-4.7"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.9"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <path d="M16 34h32l-4.2 10H20.2L16 34Z" />
+        <path d="M21.5 34V23.5h21V34M27 23.5v-7h10v7" />
+        <path d="M12 49c3.2 0 3.2-2.2 6.4-2.2s3.2 2.2 6.4 2.2 3.2-2.2 6.4-2.2 3.2 2.2 6.4 2.2 3.2-2.2 6.4-2.2 3.2 2.2 6.4 2.2" />
       </>
     ),
-    handshake: (
+    store: (
       <>
-        <path
-          d="m3.2 12.9 2.2-5.1 3.3 1.4-2.2 5.1-3.3-1.4Zm17.6 0-2.2-5.1-3.3 1.4 2.2 5.1 3.3-1.4Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.55"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="m7.1 13.4 2.1-2.1a2.15 2.15 0 0 1 3 0l.6.6 1.1-1.1a2.05 2.05 0 0 1 2.9 0l.5.5m-7.7 5.3.7.7a1.22 1.22 0 0 0 1.7-1.7l.6.6a1.22 1.22 0 0 0 1.7-1.7l.6.6a1.22 1.22 0 0 0 1.7-1.7l-4.1-4.1m-5.5 4.6 1.7 1.7m7.6-2.9-2.8-2.8"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.55"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <path d="M13 26 32 15l19 11v24H13V26Z" />
+        <path d="M17 26h30M24 50V38h16v12M24 34h7M37 34h7M24 43h4M36 43h4" />
+      </>
+    ),
+    process: (
+      <>
+        <circle cx="32" cy="32" r="9" />
+        <path d="M32 10v8M32 46v8M10 32h8M46 32h8M16.5 16.5l5.7 5.7M41.8 41.8l5.7 5.7M47.5 16.5l-5.7 5.7M22.2 41.8l-5.7 5.7" />
+        <path d="M32 18c7.7 0 14 6.3 14 14s-6.3 14-14 14-14-6.3-14-14 6.3-14 14-14Z" />
+      </>
+    ),
+    scale: (
+      <>
+        <path d="M14 49h8V37h-8v12ZM28 49h8V29h-8v20ZM42 49h8V20h-8v29Z" />
+        <path d="m12 31 12-10 9 8 17-18M43 11h7v7" />
       </>
     ),
   };
 
   return (
-    <span className={`landing-why-card-icon landing-why-card-icon--${kind}`} aria-hidden="true">
-      <svg viewBox="0 0 24 24" focusable="false">
-        {icons[kind] ?? icons.globe}
+    <span className="landing-mobile-solution-icon" aria-hidden="true">
+      <svg viewBox="0 0 64 64" focusable="false">
+        {icons[kind] ?? icons.source}
       </svg>
     </span>
   );
@@ -582,77 +1062,83 @@ function OogCapabilityIcon({ kind }) {
   );
 }
 
-function HomeOverviewIcon({ kind }) {
+function OverviewStatementIcon({ kind, className = 'landing-overview-icon' }) {
   const icons = {
-    vision: (
+    about: (
       <>
         <path
-          d="M2.7 12s3.45-5.1 9.3-5.1 9.3 5.1 9.3 5.1-3.45 5.1-9.3 5.1S2.7 12 2.7 12Z"
+          d="M8.4 11.1a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7.4.2a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2Z"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.45"
+          strokeWidth="1.65"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <circle cx="12" cy="12" r="2.35" fill="none" stroke="currentColor" strokeWidth="1.45" />
+        <path
+          d="M3.8 19.2c.6-3.4 2.2-5 4.8-5s4.2 1.6 4.8 5m-1.1-3.8c.8-.7 1.9-1.1 3.3-1.1 2.4 0 3.9 1.4 4.5 4.3"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
+    ),
+    vision: (
+      <>
+        <path
+          d="M3.5 12s3.2-5.1 8.5-5.1 8.5 5.1 8.5 5.1-3.2 5.1-8.5 5.1S3.5 12 3.5 12Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 14.8a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Zm0-10.8v1.4m0 13.2V20m-6.1-3.6-1 1m14.2-1 1 1M5.9 7.6l-1-1m14.2 1 1-1"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </>
     ),
     mission: (
       <>
         <path
-          d="M12 20.25a8.25 8.25 0 1 1 7.7-11.2"
+          d="M19.6 12a7.6 7.6 0 1 1-4.1-6.8M16.3 12a4.3 4.3 0 1 1-4.3-4.3"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.45"
+          strokeWidth="1.65"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
-          d="M12 16.3a4.3 4.3 0 1 1 3.9-6.1M12 12l5.4-5.4m.35 3.1-.35-3.1 3.1.35"
+          d="M12 12 18.7 5.3m-2.2.1h2.2v2.2m-4.7.2 2.5.6.6 2.5"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.45"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="12" cy="12" r="1.05" fill="currentColor" />
-      </>
-    ),
-    about: (
-      <>
-        <path
-          d="M5.2 10.4 12 6.1l6.8 4.3v9.2H5.2v-9.2Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.45"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M8.3 19.6v-6.1h7.4v6.1M10.3 15.35h1.1M12.7 15.35h1.1M10.3 17.4h1.1M12.7 17.4h1.1M5.2 10.4v9.2H2.95v-7.65l2.25-1.55Zm13.6 0 2.25 1.55v7.65H18.8"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.45"
+          strokeWidth="1.65"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
       </>
     ),
-    integrity: (
+    idd: (
       <>
         <path
-          d="M12 3.5 5.4 6.1v5.4c0 4.1 2.6 7.4 6.6 8.8 4-1.4 6.6-4.7 6.6-8.8V6.1L12 3.5Z"
+          d="M12 4.1 5.2 6.8v5.5c0 3.7 2.7 6.6 6.8 7.6 4.1-1 6.8-3.9 6.8-7.6V6.8L12 4.1Z"
           fill="none"
-          stroke="#071b35"
-          strokeWidth="1.45"
+          stroke="currentColor"
+          strokeWidth="1.65"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
-          d="m8.8 12.2 2.1 2.1 4.4-4.7"
+          d="m8.9 12.1 2.1 2.1 4.4-4.6"
           fill="none"
-          stroke="#ed1c24"
-          strokeWidth="1.75"
+          stroke="currentColor"
+          strokeWidth="1.65"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -661,36 +1147,12 @@ function HomeOverviewIcon({ kind }) {
   };
 
   return (
-    <svg viewBox="0 0 24 24" focusable="false">
-      {icons[kind] ?? icons.vision}
-    </svg>
+    <span className={className} aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        {icons[kind] ?? icons.about}
+      </svg>
+    </span>
   );
-}
-
-function bindWindowScroll(update) {
-  let rafId = null;
-
-  const runUpdate = () => {
-    rafId = null;
-    update();
-  };
-
-  const queueUpdate = () => {
-    if (rafId !== null) return;
-    rafId = window.requestAnimationFrame(runUpdate);
-  };
-
-  queueUpdate();
-  window.addEventListener('scroll', queueUpdate, { passive: true });
-  window.addEventListener('resize', queueUpdate);
-
-  return () => {
-    if (rafId !== null) {
-      window.cancelAnimationFrame(rafId);
-    }
-    window.removeEventListener('scroll', queueUpdate);
-    window.removeEventListener('resize', queueUpdate);
-  };
 }
 
 let gsapLoadPromise = null;
@@ -744,11 +1206,15 @@ export function HomePage() {
   const serviceImagePreloadersRef = useRef([]);
   const hasPreloadedServiceImagesRef = useRef(false);
   const testimonialsTitleDroppedRef = useRef(false);
-  const [isOverviewVisible, setIsOverviewVisible] = useState(false);
   const [isTestimonialsTitleDropped, setIsTestimonialsTitleDropped] = useState(false);
   const [isCloseVisible, setIsCloseVisible] = useState(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
   const [activeFinalOperation, setActiveFinalOperation] = useState(FINAL_OPERATION_STEPS[0].key);
+  const [activeOverviewStatement, setActiveOverviewStatement] = useState(
+    OVERVIEW_MOBILE_STATEMENTS[0].key
+  );
+  const [activeMobileSolution, setActiveMobileSolution] = useState(MOBILE_SOLUTION_INITIAL_KEY);
+  const [hasSelectedMobileSolution, setHasSelectedMobileSolution] = useState(false);
   const [activeMobileProjectIndex, setActiveMobileProjectIndex] = useState(0);
   const [isMobileViewport, setIsMobileViewport] = useState(
     () =>
@@ -763,6 +1229,18 @@ export function HomePage() {
   const activeFinalOperationStep =
     FINAL_OPERATION_STEPS.find((step) => step.key === activeFinalOperation) ??
     FINAL_OPERATION_STEPS[0];
+  const mobileSolutionSteps = MOBILE_SOLUTION_NAV_ORDER.map((key) =>
+    FINAL_OPERATION_STEPS.find((step) => step.key === key)
+  ).filter(Boolean);
+  const activeMobileSolutionStep =
+    FINAL_OPERATION_STEPS.find((step) => step.key === activeMobileSolution) ??
+    FINAL_OPERATION_STEPS[0];
+  const mobileSolutionPanelCopy = hasSelectedMobileSolution
+    ? activeMobileSolutionStep
+    : MOBILE_SOLUTION_DEFAULT_COPY;
+  const activeOverviewStatementData =
+    OVERVIEW_MOBILE_STATEMENTS.find((statement) => statement.key === activeOverviewStatement) ??
+    OVERVIEW_MOBILE_STATEMENTS[0];
 
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
@@ -842,35 +1320,110 @@ export function HomePage() {
     };
   }, [isMobileViewport]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const node = overviewRef.current;
-    if (!node) return undefined;
+    if (!node || typeof window === 'undefined') return undefined;
 
-    if (prefersReducedMotion) {
-      setIsOverviewVisible(true);
+    const splitContainer = node.querySelector('.split-scroll-container');
+    const curtains = Array.from(node.querySelectorAll('.split-scroll-bg-layer'));
+    const statements = Array.from(node.querySelectorAll('.split-scroll-statement'));
+
+    if (
+      !splitContainer ||
+      isMobileViewport ||
+      prefersReducedMotion ||
+      curtains.length < 2 ||
+      curtains.length !== statements.length
+    ) {
       return undefined;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        setIsOverviewVisible(true);
-        observer.disconnect();
-      },
-      {
-        threshold: 0.24,
-        rootMargin: '0px 0px -10% 0px',
-      }
-    );
+    let isCancelled = false;
+    let animationContext = null;
+    let ScrollTriggerInstance = null;
 
-    observer.observe(node);
+    loadScrollTrigger().then(({ gsap, ScrollTrigger }) => {
+      if (isCancelled) return;
 
-    return () => observer.disconnect();
-  }, [prefersReducedMotion, isMobileViewport]);
+      ScrollTriggerInstance = ScrollTrigger;
+      animationContext = gsap.context(() => {
+        const transitionDuration = 0.72;
+
+        gsap.set(curtains, {
+          y: 0,
+          yPercent: (index) => (index === 0 ? 0 : 100),
+        });
+        gsap.set(statements, {
+          opacity: 1,
+          visibility: 'visible',
+          y: 0,
+          yPercent: (index) => (index === 0 ? 0 : 110),
+        });
+
+        const timeline = gsap.timeline({
+          defaults: {
+            ease: 'power3.inOut',
+            overwrite: 'auto',
+          },
+          scrollTrigger: {
+            trigger: splitContainer,
+            start: 'top top',
+            end: () => `+=${window.innerHeight * (statements.length - 1)}`,
+            pin: true,
+            pinSpacing: true,
+            scrub: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        statements.slice(1).forEach((statement, index) => {
+          const stateIndex = index + 1;
+          const transitionStart = index;
+          const outgoingStatement = statements[stateIndex - 1];
+          const curtain = curtains[stateIndex];
+
+          timeline
+            .to(
+              curtain,
+              {
+                yPercent: 0,
+                duration: transitionDuration,
+              },
+              transitionStart
+            )
+            .to(
+              outgoingStatement,
+              {
+                yPercent: -110,
+                duration: transitionDuration,
+              },
+              transitionStart
+            )
+            .to(
+              statement,
+              {
+                yPercent: 0,
+                duration: transitionDuration,
+              },
+              transitionStart
+            );
+        });
+      }, node);
+
+      ScrollTrigger.refresh();
+    });
+
+    return () => {
+      isCancelled = true;
+      animationContext?.revert();
+      ScrollTriggerInstance?.refresh();
+    };
+  }, [isMobileViewport, prefersReducedMotion]);
 
   useEffect(() => {
     const list = servicesListRef.current;
-    if (!list || typeof window === 'undefined') return undefined;
+    if (!list || isMobileViewport || typeof window === 'undefined') return undefined;
 
     const preloadServiceImages = () => {
       if (hasPreloadedServiceImagesRef.current) return;
@@ -907,11 +1460,11 @@ export function HomePage() {
     observer.observe(list);
 
     return () => observer.disconnect();
-  }, []);
+  }, [isMobileViewport]);
 
   useEffect(() => {
     const list = servicesListRef.current;
-    if (!list || typeof window === 'undefined') return undefined;
+    if (!list || isMobileViewport || typeof window === 'undefined') return undefined;
 
     const serviceEntries = Array.from(list.querySelectorAll('.landing-service-entry'));
     let frameId = null;
@@ -956,7 +1509,7 @@ export function HomePage() {
       window.removeEventListener('scroll', queueActiveServiceSync);
       window.removeEventListener('resize', queueActiveServiceSync);
     };
-  }, []);
+  }, [isMobileViewport]);
 
   useEffect(() => {
     const list = servicesListRef.current;
@@ -1074,40 +1627,6 @@ export function HomePage() {
   useEffect(() => {
     testimonialsTitleDroppedRef.current = isTestimonialsTitleDropped;
   }, [isTestimonialsTitleDropped]);
-
-  useEffect(() => {
-    const node = overviewRef.current;
-    if (!node) return undefined;
-
-    const applyOverviewMotion = (progress) => {
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const imageY = (1 - eased) * 42;
-      const imageScale = 0.94 + eased * 0.06;
-      const imageOpacity = 0.58 + eased * 0.42;
-
-      node.style.setProperty('--overview-image-y', `${imageY.toFixed(2)}px`);
-      node.style.setProperty('--overview-image-scale', imageScale.toFixed(4));
-      node.style.setProperty('--overview-image-opacity', imageOpacity.toFixed(4));
-    };
-
-    if (prefersReducedMotion) {
-      applyOverviewMotion(1);
-      return undefined;
-    }
-
-    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-
-    const updateOverviewMotion = () => {
-      const rect = node.getBoundingClientRect();
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
-      const start = viewportHeight * 0.94;
-      const end = viewportHeight * 0.18;
-      const progress = clamp((start - rect.top) / Math.max(start - end, 1), 0, 1);
-      applyOverviewMotion(progress);
-    };
-
-    return bindWindowScroll(updateOverviewMotion);
-  }, [prefersReducedMotion]);
 
   useEffect(() => {
     const node = testimonialsSectionRef.current;
@@ -1415,8 +1934,8 @@ export function HomePage() {
       resizeObserver =
         typeof ResizeObserver === 'function'
           ? new ResizeObserver(() => {
-              queueScrollTriggerRefresh();
-            })
+            queueScrollTriggerRefresh();
+          })
           : null;
 
       resizeObserver?.observe(viewport);
@@ -1542,15 +2061,20 @@ export function HomePage() {
         setIsCloseVisible(true);
         observer.disconnect();
       },
-      {
-        threshold: 0.18,
-        rootMargin: '0px 0px -16% 0px',
-      }
+      isMobileViewport
+        ? {
+          threshold: 0.06,
+          rootMargin: '0px 0px -6% 0px',
+        }
+        : {
+          threshold: 0.18,
+          rootMargin: '0px 0px -16% 0px',
+        }
     );
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, [prefersReducedMotion]);
+  }, [isMobileViewport, prefersReducedMotion]);
 
   useEffect(() => {
     const node = closeSectionRef.current;
@@ -1646,155 +2170,170 @@ export function HomePage() {
 
   return (
     <>
-      <section className="hero" aria-label="Felmex hero">
-        <div className="hero-layout">
-          <div className="hero-media" aria-hidden="true">
-            <video
-              className="hero-video"
-              src="/Final.mp4"
-              poster="/hero-video-poster.webp"
-              autoPlay
-              muted
-              playsInline
-              preload="metadata"
-            />
-          </div>
-
-          <div className="hero-content">
-            <img
-              className="hero-logo"
-              src="/logo-transparent.png"
-              width="487"
-              height="170"
-              alt="Felmex Global Logistics"
-            />
-
-            <div className="hero-copy">
-              <span className="hero-rule" aria-hidden="true" />
-              <h1 className="hero-title">
-                <span>Delivering Tomorrow&rsquo;s</span>
-                <span>
-                  Trade <strong>Today.</strong>
-                </span>
-              </h1>
-              <span className="hero-rule hero-rule--after" aria-hidden="true" />
-              <p className="hero-lede">
-                From East Africa to the world&mdash;Felmex Global Logistics delivers seamless
-                multimodal freight, customs clearance, and trade solutions for fast-moving global
-                supply chains.
-              </p>
-              <a className="hero-cta" href="/contact" aria-label="Contact Felmex Global Logistics">
-                <span>Contact Us</span>
-                <span className="hero-cta-arrow" aria-hidden="true">
-                  -&gt;
-                </span>
-              </a>
-            </div>
-          </div>
-
-          <div className="hero-staircase" aria-hidden="true">
-            <figure className="hero-panel hero-panel--road">
-              <img src="/hero-road-panel.webp" width="864" height="1821" alt="" />
-            </figure>
-            <figure className="hero-panel hero-panel--rail">
-              <img src="/hero-rail-panel.webp" width="864" height="1821" alt="" />
-            </figure>
-            <figure className="hero-panel hero-panel--air">
-              <img src="/hero-air-panel.webp" width="209" height="871" alt="" />
-            </figure>
-          </div>
-        </div>
-      </section>
+      <div className="hero hero--why-choose">
+        <WhyChooseFelmex variant="home-hero" />
+      </div>
 
       <section
         id="about"
         ref={overviewRef}
-        className={`landing-overview${isOverviewVisible ? ' is-visible' : ''}`}
+        className="landing-overview landing-overview--split"
         aria-label="Company overview"
       >
-        <div className="container landing-overview-shell">
-          <div className="landing-overview-statement-grid" aria-label="Felmex mission, vision, and company overview">
-            <article className="landing-overview-statement landing-overview-statement--vision landing-reveal-item">
-              <span className="landing-overview-card-rule" aria-hidden="true" />
-              <div className="landing-overview-icon" aria-hidden="true">
-                <HomeOverviewIcon kind="vision" />
-              </div>
-              <h3>Vision</h3>
-              <p>
-                Redefine global logistics by delivering seamless, multimodal solutions that connect
-                businesses, markets, and communities with efficiency &amp; integrity.
-              </p>
-            </article>
-            <article
-              className="landing-overview-statement landing-overview-statement--mission landing-reveal-item"
-              style={{ '--reveal-delay': '90ms' }}
+        <div className="split-scroll-container">
+          <div className="left-panel">
+            <div className="split-scroll-bg-stack" aria-hidden="true">
+              <span className="split-scroll-bg-layer split-scroll-bg-layer--vision" />
+              <span className="split-scroll-bg-layer split-scroll-bg-layer--mission" />
+              <span className="split-scroll-bg-layer split-scroll-bg-layer--about" />
+              <span className="split-scroll-bg-layer split-scroll-bg-layer--idd" />
+            </div>
+
+            <div
+              className="split-scroll-statement-frame"
+              aria-label="Felmex mission, vision, and company overview"
             >
-              <span className="landing-overview-card-rule" aria-hidden="true" />
-              <div className="landing-overview-icon" aria-hidden="true">
-                <HomeOverviewIcon kind="mission" />
-              </div>
-              <h3>Mission</h3>
-              <p>
-                FELMEX Global Logistics exists to simplify complexity in international trade. We
-                integrate air, sea, road, and rail services into one cohesive network, ensuring
-                reliable, transparent, and future-ready supply chain solutions for our partners
-                worldwide.
-              </p>
-            </article>
-            <article
-              className="landing-overview-statement landing-overview-statement--about landing-reveal-item"
-              style={{ '--reveal-delay': '180ms' }}
-            >
-              <span className="landing-overview-card-rule" aria-hidden="true" />
-              <div className="landing-overview-icon" aria-hidden="true">
-                <HomeOverviewIcon kind="about" />
-              </div>
-              <h3>About Us</h3>
-              <p>
-                FELMEX Global Logistics is an envisioned global multimodal service provider,
-                delivering integrated solutions across air, sea, road, and rail. We simplify complex
-                supply chains, connect businesses to international markets, and ensure efficiency,
-                transparency, and reliability at every step.
-              </p>
-            </article>
-            <article
-              className="landing-overview-statement landing-overview-statement--integrity landing-reveal-item"
-              style={{ '--reveal-delay': '270ms' }}
-            >
-              <div className="landing-overview-icon landing-overview-icon--integrity" aria-hidden="true">
-                <HomeOverviewIcon kind="integrity" />
-              </div>
-              <span className="landing-overview-card-rule" aria-hidden="true" />
-              <h3>Integrity &amp; Due Diligence</h3>
-              <p>
-                We are committed to conducting business with integrity and transparency. Our
-                Integrity Due Diligence process ensures that every partner, supplier and agent we
-                work with meets the highest ethical and compliance standards.
-              </p>
-              <p>
-                This safeguards our operations, protects our clients and reinforces our dedication
-                to responsible logistics solutions.
-              </p>
-            </article>
+              <article className="landing-overview-statement landing-overview-statement--vision split-scroll-statement">
+                <OverviewStatementIcon kind="vision" />
+                <h3>Vision</h3>
+                <p>
+                  Redefine global logistics by delivering seamless, multimodal solutions that connect
+                  businesses, markets, and communities with efficiency &amp; integrity.
+                </p>
+              </article>
+              <article
+                className="landing-overview-statement landing-overview-statement--mission split-scroll-statement"
+              >
+                <OverviewStatementIcon kind="mission" />
+                <h3>Mission</h3>
+                <p>
+                  FELMEX Global Logistics exists to simplify complexity in international trade. We
+                  integrate air, sea, road, and rail services into one cohesive network, ensuring
+                  reliable, transparent, and future-ready supply chain solutions for our partners
+                  worldwide.
+                </p>
+              </article>
+              <article
+                className="landing-overview-statement landing-overview-statement--about split-scroll-statement"
+              >
+                <OverviewStatementIcon kind="about" />
+                <h3>About Us</h3>
+                <p>
+                  FELMEX Global Logistics is an envisioned global multimodal service provider,
+                  delivering integrated solutions across air, sea, road, and rail. We simplify complex
+                  supply chains, connect businesses to international markets, and ensure efficiency,
+                  transparency, and reliability at every step.
+                </p>
+              </article>
+              <article
+                className="landing-overview-statement landing-overview-statement--idd split-scroll-statement"
+              >
+                <OverviewStatementIcon kind="idd" />
+                <h3>IDD Statement</h3>
+                <p>
+                  Integrity Due Diligence keeps every partner, supplier, and agent aligned to clear
+                  ethical, compliance, and operating standards so client cargo moves through a
+                  responsible logistics network with confidence.
+                </p>
+              </article>
+            </div>
           </div>
 
-          <div className="landing-overview-intro landing-reveal-group">
-            <span className="landing-overview-rule landing-reveal-item" aria-hidden="true" />
-            <h2 className="landing-overview-title">
-              <span className="landing-overview-title-line landing-reveal-line" style={{ '--reveal-delay': '0ms' }}>
-                <span>Moving Your Business Forward,</span>
-              </span>
-              <span className="landing-overview-title-line landing-reveal-line" style={{ '--reveal-delay': '110ms' }}>
-                <span>
-                  <strong>Together.</strong>
+          <aside className="right-panel" aria-label="Company overview headline">
+            <div className="right-panel-inner">
+              <span className="landing-overview-rule" aria-hidden="true" />
+              <h2 className="landing-overview-title">
+                <span className="landing-overview-title-line">
+                  <span>Moving Your Business Forward,</span>
                 </span>
-              </span>
+                <span className="landing-overview-title-line">
+                  <span>
+                    <strong>Together.</strong>
+                  </span>
+                </span>
+              </h2>
+            </div>
+          </aside>
+        </div>
+
+        <header className="landing-overview-mobile-header">
+          <span className="landing-overview-mobile-header-rule" aria-hidden="true" />
+          <h2 className="landing-section-title landing-overview-mobile-heading">
+            <span className="landing-title-line">
+              <span>Moving Your Business Forward,</span>
+            </span>
+            <span className="landing-title-line landing-title-line--accent">
+              <span>Together.</span>
+            </span>
+          </h2>
+        </header>
+
+        <div
+          className={`landing-mobile-solutions-switcher landing-overview-mobile-switcher landing-overview-mobile-switcher--${activeOverviewStatementData.key} landing-overview-mobile-switcher--${activeOverviewStatementData.panelTone}`}
+          aria-label="Company statements"
+        >
+          <nav
+            className="landing-mobile-solutions-nav landing-overview-mobile-nav"
+            aria-label="Company statement menu"
+            role="tablist"
+          >
+            {OVERVIEW_MOBILE_STATEMENTS.map((statement) => {
+              const isActive = statement.key === activeOverviewStatementData.key;
+
+              return (
+                <button
+                  id={`landing-overview-mobile-tab-${statement.key}`}
+                  className={`landing-mobile-solution-button landing-overview-mobile-button landing-overview-mobile-button--${statement.panelTone}${isActive ? ' is-active' : ''
+                    }`}
+                  key={statement.key}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls="landing-overview-mobile-panel"
+                  aria-label={statement.label}
+                  onClick={() => {
+                    setActiveOverviewStatement(statement.key);
+                  }}
+                >
+                  <OverviewStatementIcon
+                    kind={statement.icon}
+                    className="landing-mobile-solution-icon landing-overview-mobile-button-icon"
+                  />
+                  <span className="landing-mobile-solution-label landing-overview-mobile-label">
+                    {statement.navLabel}
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
+
+          <article
+            id="landing-overview-mobile-panel"
+            className="landing-mobile-solution-panel landing-overview-mobile-panel"
+            role="tabpanel"
+            aria-live="polite"
+            aria-labelledby={`landing-overview-mobile-tab-${activeOverviewStatementData.key}`}
+          >
+            <span className="landing-overview-rule landing-overview-mobile-rule" aria-hidden="true" />
+            <h2 className="landing-overview-title landing-overview-mobile-title">
+              {activeOverviewStatementData.titleLines.map((line, index) => (
+                <span className="landing-overview-title-line" key={line}>
+                  <span>
+                    {index === activeOverviewStatementData.titleLines.length - 1 ? (
+                      <strong>{line}</strong>
+                    ) : (
+                      line
+                    )}
+                  </span>
+                </span>
+              ))}
             </h2>
-            <p className="landing-overview-lede landing-reveal-item" style={{ '--reveal-delay': '260ms' }}>
-              We combine global reach with local expertise to deliver logistics solutions that drive
-              efficiency, reduce costs, and connect your business to new opportunities.
-            </p>
-          </div>
+            <div className="landing-overview-mobile-copy">
+              {activeOverviewStatementData.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </article>
         </div>
 
       </section>
@@ -1804,18 +2343,20 @@ export function HomePage() {
           <aside className="landing-services-aside" aria-label="Services section introduction">
             <div className="landing-services-sticky">
               <p className="landing-section-label">Our services</p>
-              <h2 className="landing-section-title landing-services-title">
-                <span className="landing-title-line">
-                  <span>Moving Cargo</span>
-                </span>
-                <span className="landing-title-line">
-                  <span>Without</span>
-                </span>
-                <span className="landing-title-line landing-title-line--accent">
-                  <span>Compromise.</span>
-                </span>
-              </h2>
-              <span className="landing-services-rule" aria-hidden="true" />
+              <div className="landing-services-heading-row">
+                <h2 className="landing-section-title landing-services-title">
+                  <span className="landing-title-line">
+                    <span>Moving Cargo</span>
+                  </span>
+                  <span className="landing-title-line">
+                    <span>Without</span>
+                  </span>
+                  <span className="landing-title-line landing-title-line--accent">
+                    <span>Compromise.</span>
+                  </span>
+                </h2>
+                <span className="landing-services-rule" aria-hidden="true" />
+              </div>
               <p className="landing-section-text landing-services-intro">
                 End-to-end logistics solutions powered by global reach, advanced technology, and a
                 commitment to excellence.
@@ -1837,11 +2378,12 @@ export function HomePage() {
             {HOME_SERVICE_FEATURES.map((service, index) => (
               <article
                 id={`home-service-${service.number}`}
-                className={`landing-service-entry landing-service-entry--${service.mediaTone}${
-                  activeServiceIndex === index ? ' is-active' : ''
-                }`}
+                className={`landing-service-entry landing-service-entry--${service.mediaTone}${activeServiceIndex === index ? ' is-active' : ''
+                  }`}
                 key={service.label}
+                style={{ '--landing-service-mobile-order': service.mobileOrder }}
               >
+                <ServiceMobileIconStack icons={service.mobileIcons ?? [service.icon]} />
                 <figure className="landing-service-figure">
                   <img
                     className="landing-service-image"
@@ -1867,44 +2409,6 @@ export function HomePage() {
                 </div>
               </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="why-choose-felmex" className="landing-why" aria-labelledby="why-choose-title">
-        <div className="landing-why-shell">
-          <div className="landing-why-staircase" role="list" aria-label="Reasons to choose Felmex">
-            {HOME_CHOICE_FEATURES.map((feature) => (
-              <article className="landing-why-card" key={feature.number} role="listitem">
-                <span className="landing-why-card-number">{feature.number}</span>
-                <div className="landing-why-card-content">
-                  <WhyChooseIcon kind={feature.icon} />
-                  <h3>
-                    {feature.titleLines.map((line) => (
-                      <span key={line}>{line}</span>
-                    ))}
-                  </h3>
-                  <span className="landing-why-card-rule" aria-hidden="true" />
-                  <p>{feature.text}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className="landing-why-copy">
-            <p className="landing-why-kicker">Why choose Felmex?</p>
-            <span className="landing-why-copy-rule" aria-hidden="true" />
-            <h2 id="why-choose-title" className="landing-why-title">
-              <span>More than logistics.</span>
-              <span>A partnership</span>
-              <span>
-                you can <strong>trust.</strong>
-              </span>
-            </h2>
-            <p className="landing-why-text">
-              We combine global reach with local expertise to deliver solutions that drive
-              efficiency, reduce costs, and connect your business to new opportunities.
-            </p>
           </div>
         </div>
       </section>
@@ -2058,6 +2562,101 @@ export function HomePage() {
                   </span>
                   <span className="landing-project-preview-scroll-text">Scroll to explore</span>
                 </div>
+
+                <div className="landing-project-mobile-feed" aria-label="Featured project case studies">
+                  {HOME_MOBILE_PROJECTS.map((project) => (
+                    <article className="landing-project-mobile-card" key={project.projectId}>
+                      <figure className="landing-project-mobile-media">
+                        <img
+                          src={project.image}
+                          alt={project.imageAlt}
+                          width="1440"
+                          height="1080"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </figure>
+                      <div className="landing-project-mobile-copy">
+                        <span className="landing-project-mobile-rule" aria-hidden="true" />
+                        <p className="landing-project-mobile-index">{project.index}</p>
+                        <h3 className="landing-project-mobile-title">{project.title}</h3>
+                        <p className="landing-project-mobile-meta">{project.meta}</p>
+                        <p className="landing-project-mobile-brief">{project.brief}</p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="landing-mobile-solutions" aria-label="About our solutions">
+          <div
+            className={`landing-mobile-solutions-switcher${hasSelectedMobileSolution ? ' has-solution-copy' : ' is-overview-copy'
+              }`}
+          >
+            <div
+              id="landing-mobile-solution-panel"
+              className="landing-mobile-solution-panel"
+              role="region"
+              aria-live="polite"
+              aria-label={mobileSolutionPanelCopy.label}
+            >
+              <p className="landing-mobile-solution-copy">
+                {renderHighlightedSolutionText(
+                  mobileSolutionPanelCopy.text,
+                  mobileSolutionPanelCopy.highlightWords
+                )}
+              </p>
+            </div>
+
+            <nav className="landing-mobile-solutions-nav" aria-label="Solutions menu">
+              {mobileSolutionSteps.map((step) => {
+                const isActive = step.key === activeMobileSolution;
+
+                return (
+                  <button
+                    className={`landing-mobile-solution-button${isActive ? ' is-active' : ''}`}
+                    key={step.key}
+                    type="button"
+                    aria-controls="landing-mobile-solution-panel"
+                    aria-pressed={hasSelectedMobileSolution && isActive}
+                    onClick={() => {
+                      setActiveMobileSolution(step.key);
+                      setHasSelectedMobileSolution(true);
+                    }}
+                  >
+                    <SolutionStageIcon kind={step.key} />
+                    <span className="landing-mobile-solution-label">{step.label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+
+          <div className="landing-mobile-industries" aria-label="Industries we service">
+            <p className="landing-mobile-industries-kicker">Industries We Service</p>
+            <div className="landing-mobile-industry-rail">
+              <div className="landing-final-partner-track landing-mobile-industry-track">
+                {[0, 1, 2, 3].map((setIndex) => (
+                  <div
+                    className="landing-final-partner-set landing-mobile-industry-set"
+                    key={setIndex}
+                    aria-hidden={setIndex !== 0}
+                  >
+                    {FINAL_INDUSTRIES.map((industry) => (
+                      <div
+                        className="landing-final-partner-item landing-mobile-industry-item"
+                        key={`${setIndex}-${industry}`}
+                      >
+                        <span className="landing-final-partner-name landing-final-industry-name landing-mobile-industry-name">
+                          {industry}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
           </div>

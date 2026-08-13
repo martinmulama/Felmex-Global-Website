@@ -160,121 +160,6 @@ a {
     backdrop-filter 0.46s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.site-header.is-home-hero-active {
-  padding-top: 0;
-  background: transparent;
-  border-bottom-color: transparent;
-  backdrop-filter: none;
-  box-shadow: none;
-}
-
-.site-header.is-home-hero-active .top-contact-strip {
-  height: 0;
-  min-height: 0;
-  overflow: hidden;
-  padding-top: 0;
-  background: transparent;
-  border-bottom-color: transparent;
-}
-
-.site-header.is-home-hero-active .top-contact-inner {
-  min-height: 0;
-  opacity: 0;
-  transform: translateY(-0.35rem);
-  pointer-events: none;
-}
-
-.site-header.is-home-hero-active .brand {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.site-header.is-home-hero-active .brand {
-  transform: none;
-}
-
-.site-header.is-home-hero-active .nav-shell {
-  width: 100%;
-  max-width: none;
-  min-height: var(--site-nav-height);
-  margin-inline: 0;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0;
-  padding: 0 var(--home-hero-nav-end);
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  backdrop-filter: none;
-}
-
-.site-header.is-home-hero-active .nav-shell::before {
-  content: '';
-  position: absolute;
-  inset: 0 var(--home-hero-nav-end) 0 var(--home-hero-nav-start);
-  pointer-events: none;
-  background: #ffffff;
-  box-shadow: 0 8px 24px rgba(16, 23, 42, 0.06);
-}
-
-.site-header.is-home-hero-active .nav-links {
-  gap: clamp(1.9rem, 3.6vw, 3.55rem);
-}
-
-.site-header.is-home-hero-active .nav-links a {
-  min-height: 2.85rem;
-  padding: 0;
-  border-radius: 0;
-  color: #0f2842;
-  background: transparent;
-  font-size: clamp(0.82rem, 0.9vw, 0.94rem);
-  font-weight: 500;
-}
-
-.site-header.is-home-hero-active .nav-links a[aria-current='page'] {
-  color: var(--site-brand-navy);
-  background: transparent;
-  font-weight: 800;
-}
-
-.site-header.is-home-hero-active .nav-links a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0.16rem;
-  height: 3px;
-  border-radius: 0;
-  background: var(--site-brand-red);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.2s ease;
-}
-
-.site-header.is-home-hero-active .nav-links a[aria-current='page']::after,
-.site-header.is-home-hero-active .nav-links a:hover::after {
-  transform: scaleX(1);
-}
-
-.site-header.is-home-hero-active .nav-links a:hover {
-  color: var(--site-brand-navy);
-  background: transparent;
-}
-
-.site-header.is-home-hero-active .btn-quote-desktop {
-  display: inline-flex;
-  margin-left: auto;
-  min-width: clamp(9.5rem, 9.8vw, 10.25rem);
-  min-height: clamp(2.42rem, 2.8vw, 2.65rem);
-  padding-inline: clamp(1.15rem, 1.65vw, 1.5rem);
-  border-radius: 0.12rem;
-  background: var(--site-brand-red);
-  box-shadow: none;
-  font-size: clamp(0.68rem, 0.73vw, 0.75rem);
-  letter-spacing: 0;
-}
-
 .top-contact-strip {
   width: 100%;
   display: none;
@@ -799,11 +684,6 @@ a {
     box-shadow: 0 8px 28px rgba(8, 25, 45, 0.14);
   }
 
-  .site-header.is-home-hero-active {
-    background: transparent;
-    padding-top: 0.55rem;
-  }
-
   .top-contact-strip {
     display: none;
     height: 0;
@@ -867,18 +747,6 @@ a {
     gap: 0;
   }
 
-  .site-header.is-home-hero-active .nav-shell {
-    width: calc(100vw - 1rem);
-    max-width: 35rem;
-    min-height: 3.55rem;
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    padding: 0.42rem 0.55rem;
-    border-radius: 1rem;
-  }
-
   .brand {
     flex-basis: var(--site-nav-logo-size);
     width: var(--site-nav-logo-size);
@@ -899,15 +767,6 @@ a {
     margin-left: auto;
   }
 
-  .site-header.is-home-hero-active .nav-menu-toggle {
-    flex: none;
-    margin-left: 0;
-    border-color: transparent;
-    background: var(--site-brand-navy-deep);
-    color: #ffffff;
-    box-shadow: 0 10px 22px rgba(10, 26, 41, 0.18);
-  }
-
   .primary-nav {
     position: absolute;
     top: calc(100% + 0.24rem);
@@ -926,18 +785,10 @@ a {
     z-index: 12;
   }
 
-  .site-header.is-home-hero-active .primary-nav {
-    margin: 0;
-  }
-
   .primary-nav.is-open {
     opacity: 1;
     transform: translateY(0) scale(1);
     pointer-events: auto;
-  }
-
-  .site-header.is-home-hero-active .nav-links {
-    gap: 0.24rem;
   }
 
   .nav-links {
@@ -988,10 +839,6 @@ a {
   }
 
   .btn-quote-desktop {
-    display: none;
-  }
-
-  .site-header.is-home-hero-active .btn-quote-desktop {
     display: none;
   }
 
