@@ -1934,8 +1934,8 @@ export function HomePage() {
       resizeObserver =
         typeof ResizeObserver === 'function'
           ? new ResizeObserver(() => {
-              queueScrollTriggerRefresh();
-            })
+            queueScrollTriggerRefresh();
+          })
           : null;
 
       resizeObserver?.observe(viewport);
@@ -2063,13 +2063,13 @@ export function HomePage() {
       },
       isMobileViewport
         ? {
-            threshold: 0.06,
-            rootMargin: '0px 0px -6% 0px',
-          }
+          threshold: 0.06,
+          rootMargin: '0px 0px -6% 0px',
+        }
         : {
-            threshold: 0.18,
-            rootMargin: '0px 0px -16% 0px',
-          }
+          threshold: 0.18,
+          rootMargin: '0px 0px -16% 0px',
+        }
     );
 
     observer.observe(node);
@@ -2283,9 +2283,8 @@ export function HomePage() {
               return (
                 <button
                   id={`landing-overview-mobile-tab-${statement.key}`}
-                  className={`landing-mobile-solution-button landing-overview-mobile-button landing-overview-mobile-button--${statement.panelTone}${
-                    isActive ? ' is-active' : ''
-                  }`}
+                  className={`landing-mobile-solution-button landing-overview-mobile-button landing-overview-mobile-button--${statement.panelTone}${isActive ? ' is-active' : ''
+                    }`}
                   key={statement.key}
                   type="button"
                   role="tab"
@@ -2379,9 +2378,8 @@ export function HomePage() {
             {HOME_SERVICE_FEATURES.map((service, index) => (
               <article
                 id={`home-service-${service.number}`}
-                className={`landing-service-entry landing-service-entry--${service.mediaTone}${
-                  activeServiceIndex === index ? ' is-active' : ''
-                }`}
+                className={`landing-service-entry landing-service-entry--${service.mediaTone}${activeServiceIndex === index ? ' is-active' : ''
+                  }`}
                 key={service.label}
                 style={{ '--landing-service-mobile-order': service.mobileOrder }}
               >
@@ -2595,9 +2593,8 @@ export function HomePage() {
 
         <section className="landing-mobile-solutions" aria-label="About our solutions">
           <div
-            className={`landing-mobile-solutions-switcher${
-              hasSelectedMobileSolution ? ' has-solution-copy' : ' is-overview-copy'
-            }`}
+            className={`landing-mobile-solutions-switcher${hasSelectedMobileSolution ? ' has-solution-copy' : ' is-overview-copy'
+              }`}
           >
             <div
               id="landing-mobile-solution-panel"
