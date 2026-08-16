@@ -9188,6 +9188,10 @@
   font-weight: 900;
 }
 
+.landing-final-cta-title-line {
+  display: inline;
+}
+
 .landing-final-cta p {
   max-width: 47rem;
   margin-top: clamp(1.25rem, 2.3vw, 1.75rem);
@@ -10594,21 +10598,22 @@
   .landing-final-cta {
     --landing-final-cta-step: 0rem;
     display: grid;
-    justify-items: start;
-    margin-top: 0;
-    padding: clamp(3.6rem, 12vw, 5rem) clamp(1.25rem, 7vw, 3.8rem) clamp(4.3rem, 13vw, 5.8rem);
+    justify-items: center;
+    margin-top: var(--home-mobile-section-y, clamp(2.85rem, 10vw, 3.7rem));
+    padding:
+      var(--home-mobile-section-y, clamp(2.85rem, 10vw, 3.7rem)) clamp(1.25rem, 7vw, 3.8rem);
     clip-path: none;
-    text-align: left;
+    text-align: center;
   }
 
   .landing-final-cta h2 {
     position: relative;
     max-width: min(100%, 21ch);
-    padding-left: clamp(1rem, 4vw, 1.45rem);
+    padding-left: 0;
     color: var(--project-preview-navy);
     font-size: clamp(1.7rem, 8vw, 2.42rem);
     line-height: 1.08;
-    text-align: left;
+    text-align: center;
   }
 
   .landing-final-cta h2::before {
@@ -10627,7 +10632,7 @@
     margin-top: clamp(1.25rem, 4vw, 1.8rem);
     font-size: clamp(0.94rem, 3.5vw, 1.06rem);
     line-height: 1.62;
-    text-align: left;
+    text-align: center;
   }
 
   .landing-final-cta-link {
@@ -10944,27 +10949,44 @@
     padding: 0;
   }
 
+  .scroll-wrapper>.rising-group.landing-close,
+  .landing-close {
+    min-height: 0;
+    height: auto;
+  }
+
   .landing-final-cta {
     display: grid;
     justify-items: center;
-    margin-top: 0;
+    margin-top: var(--home-mobile-section-y);
     padding:
-      var(--home-mobile-section-y) var(--home-mobile-edge) clamp(0.95rem, 3.5vw, 1.35rem);
+      var(--home-mobile-section-y) var(--home-mobile-edge);
     text-align: center;
   }
 
   .landing-final-cta h2 {
     display: grid;
     justify-items: center;
-    gap: 0.12em;
-    max-width: min(100%, 17ch);
+    gap: 0.05em;
+    max-width: min(100%, 18ch);
     padding-left: 0;
+    color: var(--project-preview-navy);
+    font-family: var(--site-font-display);
+    font-weight: 800;
+    letter-spacing: 0;
     text-align: center;
+  }
+
+  .landing-final-cta-title-line {
+    display: block;
+    justify-self: center;
+    white-space: nowrap;
   }
 
   .landing-final-cta h2::before {
     position: static;
     order: -1;
+    justify-self: center;
     width: 2.35rem;
     height: 2px;
     margin: 0 0 clamp(0.95rem, 3.8vw, 1.22rem);
@@ -10983,6 +11005,6 @@
   }
 
   .site-main:has(#final-conviction)+.site-footer .site-footer-shell {
-    padding-top: clamp(0.85rem, 3vw, 1.15rem);
+    padding-top: var(--home-mobile-section-y, clamp(2.85rem, 10vw, 3.7rem));
   }
 }
