@@ -2741,7 +2741,11 @@ export function HomePage() {
 
             <div className="landing-final-cta">
               <h2>
-                Let&rsquo;s Move Your Business Forward, <strong>Together.</strong>
+                <span className="landing-final-cta-title-line">Let&rsquo;s Move Your</span>{' '}
+                <span className="landing-final-cta-title-line">Business Forward,</span>{' '}
+                <span className="landing-final-cta-title-line landing-final-cta-title-line--accent">
+                  <strong>Together.</strong>
+                </span>
               </h2>
               <p>
                 Partner with FELMEX Global Logistics for seamless, reliable, and scalable

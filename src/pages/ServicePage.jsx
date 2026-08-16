@@ -478,6 +478,118 @@ function ServiceIcon({ kind }) {
   );
 }
 
+function MobileServiceIcon({ kind }) {
+  const solidTruck = (
+    <>
+      <path d="M7 22h33v22H7V22Zm33 7h10.5L57 37v7H40V29Z" />
+      <circle cx="19" cy="48" r="5" />
+      <circle cx="48" cy="48" r="5" />
+      <path d="M11 45h4M24 45h20" fill="none" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" />
+    </>
+  );
+  const solidPlane = (
+    <>
+      <path d="M56 11 7 31.3l18.2 6.2 7.2 16.9L56 11Z" />
+      <path d="M25.2 37.5 56 11 31.9 42.2" fill="none" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  );
+  const solidShip = (
+    <>
+      <path d="M14 38h36l-5.4 10H19.4L14 38Zm8-11h20v9H22v-9Zm6-9h8v7h-8v-7Z" />
+      <path d="M32 10v8M19 54c2.4 1.8 4.9 1.8 7.3 0s4.9-1.8 7.3 0 4.9 1.8 7.3 0 4.9-1.8 7.3 0" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  );
+  const solidTrain = (
+    <>
+      <path d="M20 8h24a6 6 0 0 1 6 6v25a8 8 0 0 1-8 8H22a8 8 0 0 1-8-8V14a6 6 0 0 1 6-6Zm2 11v12h20V19H22Z" />
+      <circle cx="25" cy="38" r="3" fill="#ffffff" />
+      <circle cx="39" cy="38" r="3" fill="#ffffff" />
+      <path d="m25 55 7-8 7 8M19 56h26" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  );
+  const solidClipboard = (
+    <>
+      <path d="M20 10h8.2a5 5 0 0 1 7.6 0H44a4 4 0 0 1 4 4v40H16V14a4 4 0 0 1 4-4Zm9 5h6v-3h-6v3Z" />
+      <path d="M24 26h3M24 34h3M24 42h3M32 26h9M32 34h9M32 42h6" fill="none" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="47" cy="47" r="10" />
+      <path d="m42.5 47.2 3.1 3.1 6-6.3" fill="none" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  );
+  const solidWarehouse = (
+    <>
+      <path d="M8 25 32 10l24 15v31H8V25Zm11 28h26V34H19v19Z" />
+      <path d="M24 53V42h16v11M24 27h16M29 20h6" fill="none" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  );
+  const solidBox = (
+    <>
+      <path d="M12 20 32 10l20 10v23L32 54 12 43V20Z" />
+      <path d="M12 20 32 31l20-11M32 31v23M22 15l20 11" fill="none" stroke="#ffffff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" opacity="0.88" />
+    </>
+  );
+  const solidNetwork = (
+    <>
+      <path d="M32 20 44 27v14l-12 7-12-7V27l12-7Z" />
+      <path d="M18 22a19 19 0 0 1 30 5M50 25l-1.5 8-7-4M46 45a19 19 0 0 1-30-5M14 42l1.5-8 7 4" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  );
+  const solidDocument = (
+    <>
+      <path d="M18 8h25l8 8v40H18V8Zm25 0v10h8" />
+      <path d="M25 25h16M25 33h16M25 41h8" fill="none" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" />
+    </>
+  );
+  const solidShield = (
+    <>
+      <path d="M32 7c8.5 6 17.2 6.7 24 7.5v15.3C56 44 46.8 53 32 58 17.2 53 8 44 8 29.8V14.5C14.8 13.7 23.5 13 32 7Z" />
+      <path d="m21.5 33.2 7.1 7.1 14.8-16" fill="none" stroke="#ffffff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  );
+  const solidGlobePin = (
+    <>
+      <circle cx="27" cy="28" r="20" />
+      <path d="M7 28h40M27 8c5.8 5.5 8.8 12.2 8.8 20S32.8 42.5 27 48M27 8c-5.8 5.5-8.8 12.2-8.8 20S21.2 42.5 27 48" fill="none" stroke="#ffffff" strokeWidth="2.6" strokeLinecap="round" />
+      <path d="M44 39.5c0 7.6 8.5 15.2 8.5 15.2S61 47.1 61 39.5a8.5 8.5 0 0 0-17 0Z" />
+      <circle cx="52.5" cy="39.4" r="3" fill="#ffffff" />
+    </>
+  );
+  const solidParcel = (
+    <>
+      <path d="M28 18 48 28v20L28 58 8 48V28l20-10Z" />
+      <path d="M8 28 28 38l20-10M28 38v20M18 23l20 10" fill="none" stroke="#ffffff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
+      <path d="M4 31h10M1 39h13M6 47h8" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    </>
+  );
+  const icons = {
+    boxPin: solidTruck,
+    plane: solidPlane,
+    ship: solidShip,
+    train: solidTrain,
+    truck: solidTruck,
+    globePin: solidGlobePin,
+    clipboardShield: solidClipboard,
+    officer: solidShield,
+    documentCheck: solidClipboard,
+    shieldCheck: solidShield,
+    documentPen: solidDocument,
+    boxSearch: solidBox,
+    monitorChart: solidNetwork,
+    gear: solidNetwork,
+    warehouseBox: solidWarehouse,
+    network: solidNetwork,
+    warehouse: solidWarehouse,
+    boxCheck: solidBox,
+    boxShield: solidShield,
+    truckFast: solidParcel,
+  };
+
+  return (
+    <svg className="svc-solid-icon" viewBox="0 0 64 64" focusable="false" aria-hidden="true">
+      {icons[kind] ?? solidBox}
+    </svg>
+  );
+}
+
 function ProcessIcon({ kind }) {
   const icons = {
     inquiry: (
@@ -556,6 +668,8 @@ export function ServicePage() {
       <section className="svc-reference-section" id="svc-services-canvas" aria-label="Felmex service categories">
         <div className="svc-reference-board">
           <div className="svc-reference-canvas" key={activeCategory.id} data-category={activeCategory.id}>
+            <h1 className="svc-mobile-services-title">Our Services</h1>
+
             <section
               className="svc-reference-scene"
               id="svc-services-shot"
@@ -664,6 +778,7 @@ export function ServicePage() {
                   <article className="svc-service-detail-feature" key={feature.title} role="listitem">
                     <div className="svc-service-detail-feature-icon" aria-hidden="true">
                       <ServiceIcon kind={feature.icon} />
+                      <MobileServiceIcon kind={feature.icon} />
                     </div>
                     <span className="svc-service-detail-feature-rule" aria-hidden="true" />
                     <div className="svc-service-detail-feature-copy">
