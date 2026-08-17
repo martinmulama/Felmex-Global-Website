@@ -636,7 +636,7 @@ function ProcessIcon({ kind }) {
 
 export function ServicePage() {
   const [activeCategoryId, setActiveCategoryId] = useState(SERVICE_CATEGORIES[0].id);
-  const [openFaqIndex, setOpenFaqIndex] = useState(2);
+  const [openFaqIndex, setOpenFaqIndex] = useState(0);
   const activeCategoryIndex = Math.max(
     SERVICE_CATEGORIES.findIndex((category) => category.id === activeCategoryId),
     0
@@ -827,17 +827,6 @@ export function ServicePage() {
                 decoding="async"
                 aria-hidden="true"
               />
-
-              <svg
-                className="svc-solution-steps"
-                viewBox="0 0 1672 941"
-                preserveAspectRatio="none"
-                focusable="false"
-                aria-hidden="true"
-              >
-                <path d="M214 941V916H335V828H456V740H577V652H698V564H785" />
-                <path d="M785 376V288H906V200H1027V112H1148V24H1269V0" />
-              </svg>
 
               <div className="svc-solution-brief">
                 <h2>

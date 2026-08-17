@@ -50,6 +50,20 @@ const TRAIN_SEGMENTS = [
 const HOME_HERO_SUBTEXT =
   'From East Africa to the world—Felmex Global Logistics delivers seamless multimodal freight, customs clearance, and trade solutions for fast-moving global supply chains.';
 
+const SPLIT_BACKGROUND_TONES = ['navy', 'red', 'white'];
+
+const WHY_CHOOSE_SPLIT_PANELS = TRAIN_SEGMENTS.filter(
+  (segment) => segment.kind === 'container'
+).map((segment, index) => {
+  const backgroundTone = SPLIT_BACKGROUND_TONES[index] ?? 'white';
+
+  return {
+    ...segment,
+    backgroundTone,
+    colorScheme: backgroundTone === 'white' ? 'light' : 'dark',
+  };
+});
+
 function HomeHeroDesktopActions() {
   return (
     <div className="why-choose-felmex__desktop-actions" aria-label="Hero quick actions">
@@ -128,25 +142,10 @@ export function WhyChooseFelmex({ variant = 'default' }) {
   useGSAP(
     () => {
       const root = sectionRef.current;
-      const track = root?.querySelector('[data-why-choose-track]');
-
-      if (!root || !track) return undefined;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-
-      const mobileHomeContainerPeek = () => {
-        if (!isHomeHero || !window.matchMedia('(max-width: 1023px)').matches) return 0;
-
-        const rootFontSize =
-          Number.parseFloat(window.getComputedStyle(document.documentElement).fontSize) || 16;
-        return Math.min(rootFontSize * 2.1, Math.max(rootFontSize * 1.35, window.innerWidth * 0.055));
-      };
-      const scrollAmount = () => {
-        return Math.max(track.offsetWidth - window.innerWidth, 0);
-      };
-      const startOffset = () => Math.max(scrollAmount() - mobileHomeContainerPeek(), 0);
-      const setTrackStart = () => gsap.set(track, { x: -startOffset() });
+      const images = root ? gsap.utils.toArray('img', root) : [];
       const refreshScrollTrigger = () => ScrollTrigger.refresh();
-      const images = gsap.utils.toArray('img', root);
+
+      if (!root) return undefined;
 
       images.forEach((image) => {
         if (!image.complete) {
@@ -155,131 +154,256 @@ export function WhyChooseFelmex({ variant = 'default' }) {
         }
       });
 
-      setTrackStart();
+      const matchMedia = gsap.matchMedia();
 
-      const timeline = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: {
-          trigger: root,
-          start: 'top top',
-          end: () => `+=${startOffset()}`,
-          pin: true,
-          scrub: true,
-          invalidateOnRefresh: true,
-          anticipatePin: 1,
-          onRefreshInit: setTrackStart,
-        },
-      });
+      if (isHomeHero) {
+        const track = root.querySelector('[data-why-choose-track]');
 
-      timeline.fromTo(
-        track,
-        { x: () => -startOffset() },
-        {
-          x: 0,
-          duration: 1,
+        if (track) {
+          matchMedia.add('(prefers-reduced-motion: no-preference)', () => {
+            const mobileHomeContainerPeek = () => {
+              if (!window.matchMedia('(max-width: 1023px)').matches) return 0;
+
+              const rootFontSize =
+                Number.parseFloat(window.getComputedStyle(document.documentElement).fontSize) || 16;
+              return Math.min(
+                rootFontSize * 2.1,
+                Math.max(rootFontSize * 1.35, window.innerWidth * 0.055)
+              );
+            };
+            const scrollAmount = () => Math.max(track.offsetWidth - window.innerWidth, 0);
+            const startOffset = () => Math.max(scrollAmount() - mobileHomeContainerPeek(), 0);
+            const setTrackStart = () => gsap.set(track, { x: -startOffset() });
+
+            setTrackStart();
+
+            const timeline = gsap.timeline({
+              defaults: { ease: 'none' },
+              scrollTrigger: {
+                trigger: root,
+                start: 'top top',
+                end: () => `+=${startOffset()}`,
+                pin: true,
+                scrub: true,
+                invalidateOnRefresh: true,
+                anticipatePin: 1,
+                onRefreshInit: setTrackStart,
+              },
+            });
+
+            timeline.fromTo(
+              track,
+              { x: () => -startOffset() },
+              {
+                x: 0,
+                duration: 1,
+              }
+            );
+
+            ScrollTrigger.refresh();
+          });
         }
-      );
+      } else {
+        const splitContainer = root.querySelector('[data-why-choose-split-container]');
+        const backgroundLayers = gsap.utils.toArray('[data-why-choose-bg]', root);
+        const panels = gsap.utils.toArray('[data-why-choose-panel]', root);
+
+        if (splitContainer && backgroundLayers.length === panels.length && panels.length > 1) {
+          matchMedia.add('(min-width: 961px) and (prefers-reduced-motion: no-preference)', () => {
+            const transitionDuration = 0.72;
+
+            gsap.set(backgroundLayers, {
+              y: 0,
+              yPercent: (index) => (index === 0 ? 0 : 100),
+            });
+            gsap.set(panels, {
+              opacity: 1,
+              visibility: 'visible',
+              y: 0,
+              yPercent: (index) => (index === 0 ? 0 : 110),
+            });
+
+            const timeline = gsap.timeline({
+              defaults: {
+                ease: 'power3.inOut',
+                overwrite: 'auto',
+              },
+              scrollTrigger: {
+                trigger: splitContainer,
+                start: 'top top',
+                end: () => `+=${window.innerHeight * (panels.length - 1)}`,
+                pin: true,
+                pinSpacing: true,
+                scrub: true,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+              },
+            });
+
+            panels.slice(1).forEach((panel, index) => {
+              const stateIndex = index + 1;
+              const transitionStart = index;
+              const outgoingPanel = panels[stateIndex - 1];
+              const backgroundLayer = backgroundLayers[stateIndex];
+
+              timeline
+                .to(
+                  backgroundLayer,
+                  {
+                    yPercent: 0,
+                    duration: transitionDuration,
+                  },
+                  transitionStart
+                )
+                .to(
+                  outgoingPanel,
+                  {
+                    yPercent: -110,
+                    duration: transitionDuration,
+                  },
+                  transitionStart
+                )
+                .to(
+                  panel,
+                  {
+                    yPercent: 0,
+                    duration: transitionDuration,
+                  },
+                  transitionStart
+                );
+            });
+
+            ScrollTrigger.refresh();
+          });
+        }
+      }
 
       return () => {
         images.forEach((image) => {
           image.removeEventListener('load', refreshScrollTrigger);
           image.removeEventListener('error', refreshScrollTrigger);
         });
+        matchMedia.revert();
       };
     },
-    { scope: sectionRef }
+    { scope: sectionRef, dependencies: [isHomeHero] }
   );
 
   return (
     <section
       id="why-choose-felmex"
       ref={sectionRef}
-      className={`why-choose-felmex${isHomeHero ? ' why-choose-felmex--home-hero' : ''}`}
+      className={`why-choose-felmex ${isHomeHero ? 'why-choose-felmex--home-hero' : 'why-choose-felmex--split'}`}
       aria-label={isHomeHero ? 'Delivering Tomorrow’s Trade Today.' : undefined}
       aria-labelledby={isHomeHero ? undefined : 'why-choose-felmex-title'}
     >
-      <div className="why-choose-felmex__viewport">
-        {isHomeHero ? (
+      {isHomeHero ? (
+        <div className="why-choose-felmex__viewport">
           <div className="why-choose-felmex__mobile-hero-copy">
             <HomeHeroCopy titleId="why-choose-felmex-mobile-title" mobile />
           </div>
-        ) : null}
-        <div className="why-choose-felmex__track" data-why-choose-track>
-          {TRAIN_SEGMENTS.map((segment) => {
-            if (segment.kind === 'head') {
+          <div className="why-choose-felmex__track" data-why-choose-track>
+            {TRAIN_SEGMENTS.map((segment) => {
+              if (segment.kind === 'head') {
+                return (
+                  <article
+                    className="why-choose-felmex__segment why-choose-felmex__segment--head train-head"
+                    key={segment.key}
+                  >
+                    <div className="why-choose-felmex__train-visual-wrapper train-visual-wrapper">
+                      <img
+                        className="why-choose-felmex__image why-choose-felmex__train-image"
+                        src={segment.image}
+                        alt=""
+                        width={segment.width}
+                        height={segment.height}
+                        decoding="async"
+                        fetchPriority="low"
+                      />
+                    </div>
+                    <div className="why-choose-felmex__train-content-wrapper train-content-wrapper">
+                      <HomeHeroCopy titleId="why-choose-felmex-title" />
+                    </div>
+                  </article>
+                );
+              }
+
               return (
                 <article
-                  className="why-choose-felmex__segment why-choose-felmex__segment--head train-head"
+                  className={`why-choose-felmex__segment why-choose-felmex__segment--container why-choose-felmex__segment--${segment.tone}`}
                   key={segment.key}
                 >
-                  <div className="why-choose-felmex__train-visual-wrapper train-visual-wrapper">
-                    <img
-                      className="why-choose-felmex__image why-choose-felmex__train-image"
-                      src={segment.image}
-                      alt=""
-                      width={segment.width}
-                      height={segment.height}
-                      decoding="async"
-                      fetchPriority="low"
-                    />
-                  </div>
-                  <div className="why-choose-felmex__train-content-wrapper train-content-wrapper">
-                    {isHomeHero ? (
-                      <HomeHeroCopy titleId="why-choose-felmex-title" />
-                    ) : (
-                      <div className="why-choose-felmex__headline">
-                        <p className="why-choose-felmex__kicker">Our approach</p>
-                        <h2 id="why-choose-felmex-title">
-                          Why Choose{' '}
-                          <span className="why-choose-felmex__title-impact">
-                            Felmex<span className="why-choose-felmex__title-dot">.</span>
-                          </span>
-                        </h2>
-                        <span className="why-choose-felmex__headline-rule" aria-hidden="true" />
-                        <div className="why-choose-felmex__intro">
-                          <p>
-                            Felmex Global Logistics delivers reliable, efficient, and cost-effective
-                            logistics solutions tailored to your business. We combine local
-                            expertise with global reach to ensure your cargo moves smoothly, safely,
-                            and on time.
-                          </p>
-                          <p>
-                            Clients choose us for proactive planning, disciplined documentation, and
-                            responsive support that keeps multimodal shipments moving when
-                            conditions change.
-                          </p>
-                        </div>
-                      </div>
-                    )}
+                  <img
+                    className="why-choose-felmex__image"
+                    src={segment.image}
+                    alt=""
+                    width={segment.width}
+                    height={segment.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="why-choose-felmex__copy">
+                    <h3>{segment.title}</h3>
+                    <span className="why-choose-felmex__copy-rule" aria-hidden="true" />
+                    <p>{segment.text}</p>
                   </div>
                 </article>
               );
-            }
-
-            return (
-              <article
-                className={`why-choose-felmex__segment why-choose-felmex__segment--container why-choose-felmex__segment--${segment.tone}`}
-                key={segment.key}
-              >
-                <img
-                  className="why-choose-felmex__image"
-                  src={segment.image}
-                  alt=""
-                  width={segment.width}
-                  height={segment.height}
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="why-choose-felmex__copy">
-                  <h3>{segment.title}</h3>
-                  <span className="why-choose-felmex__copy-rule" aria-hidden="true" />
-                  <p>{segment.text}</p>
-                </div>
-              </article>
-            );
-          })}
+            })}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="why-choose-felmex__split-container split-scroll-container" data-why-choose-split-container>
+          <div className="why-choose-felmex__split-left left-panel">
+            <div className="why-choose-felmex__split-bg-stack split-scroll-bg-stack" aria-hidden="true">
+              {WHY_CHOOSE_SPLIT_PANELS.map((panel) => (
+                <span
+                  className={`why-choose-felmex__split-bg-layer why-choose-felmex__split-bg-layer--${panel.backgroundTone} split-scroll-bg-layer`}
+                  data-why-choose-bg
+                  key={panel.key}
+                />
+              ))}
+            </div>
+
+            <div
+              className="why-choose-felmex__split-panel-frame split-scroll-statement-frame"
+              aria-label="Felmex logistics advantages"
+            >
+              {WHY_CHOOSE_SPLIT_PANELS.map((panel) => (
+                <article
+                  className={`why-choose-felmex__split-panel why-choose-felmex__split-panel--${panel.tone} why-choose-felmex__split-panel--bg-${panel.backgroundTone} why-choose-felmex__split-panel--${panel.colorScheme} split-scroll-statement`}
+                  data-why-choose-panel
+                  key={panel.key}
+                >
+                  <div className="why-choose-felmex__split-panel-inner">
+                    <div className="why-choose-felmex__split-copy">
+                      <h3>{panel.title}</h3>
+                      <span className="why-choose-felmex__split-copy-rule" aria-hidden="true" />
+                      <p>{panel.text}</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <aside className="why-choose-felmex__split-right right-panel" aria-label="Why choose Felmex headline">
+            <div className="why-choose-felmex__split-right-inner">
+              <span className="why-choose-felmex__split-right-rule" aria-hidden="true" />
+              <h2 className="why-choose-felmex__split-title" id="why-choose-felmex-title">
+                <span className="why-choose-felmex__split-title-line">
+                  <span>Why Choose</span>
+                </span>
+                <span className="why-choose-felmex__split-title-line">
+                  <span>
+                    <strong>Felmex.</strong>
+                  </span>
+                </span>
+              </h2>
+            </div>
+          </aside>
+        </div>
+      )}
     </section>
   );
 }

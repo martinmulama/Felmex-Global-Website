@@ -1207,8 +1207,6 @@
   --svc-promise-statement-extra: 4.75rem;
   --svc-promise-ship-offset: 3.5rem;
   --svc-promise-top-guard: clamp(0.42rem, 0.7vw, 0.72rem);
-  --svc-promise-ship-mask-start: 45.6%;
-  --svc-promise-ship-mask-end: 66.4%;
   --svc-promise-overflow-room: 0rem;
   --svc-promise-copy-rail: max(
     var(--svc-section-rail),
@@ -1265,41 +1263,6 @@
   pointer-events: none;
   transform: translateY(var(--svc-promise-ship-offset));
   user-select: none;
-}
-
-.svc-solution-steps {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  color: rgba(207, 217, 225, 0.48);
-  -webkit-mask-image: linear-gradient(
-    180deg,
-    #000 0%,
-    #000 calc(var(--svc-promise-ship-mask-start) - 1.1%),
-    transparent var(--svc-promise-ship-mask-start),
-    transparent var(--svc-promise-ship-mask-end),
-    #000 calc(var(--svc-promise-ship-mask-end) + 1.1%),
-    #000 100%
-  );
-  mask-image: linear-gradient(
-    180deg,
-    #000 0%,
-    #000 calc(var(--svc-promise-ship-mask-start) - 1.1%),
-    transparent var(--svc-promise-ship-mask-start),
-    transparent var(--svc-promise-ship-mask-end),
-    #000 calc(var(--svc-promise-ship-mask-end) + 1.1%),
-    #000 100%
-  );
-  pointer-events: none;
-}
-
-.svc-solution-steps path {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.15;
-  vector-effect: non-scaling-stroke;
 }
 
 .svc-solution-brief,
@@ -1808,10 +1771,6 @@
 
   .svc-solution-image {
     object-position: center center;
-  }
-
-  .svc-solution-steps {
-    display: none;
   }
 
   .svc-solution-brief,
@@ -2605,23 +2564,16 @@
 }
 
 .svc-service-detail-section {
-  --svc-detail-step-top-y: 6.8%;
-  --svc-detail-step-1-x: 69.85%;
-  --svc-detail-step-2-x: 64.1%;
-  --svc-detail-step-3-x: 57.9%;
-  --svc-detail-step-4-x: 51.75%;
-  --svc-detail-step-5-x: 45.65%;
-  --svc-detail-step-1-y: 24.45%;
-  --svc-detail-step-2-y: 41.6%;
-  --svc-detail-step-3-y: 59.4%;
-  --svc-detail-step-4-y: 77.55%;
-  --svc-detail-feature-offset: 2.1%;
-  --svc-detail-feature-1-y: 17.6%;
-  --svc-detail-feature-2-y: 34.2%;
-  --svc-detail-feature-3-y: 51.2%;
-  --svc-detail-feature-4-y: 68.4%;
-  --svc-detail-feature-5-y: 86.6%;
-  --svc-detail-feature-width: min(25rem, 26.4vw);
+  --svc-detail-copy-top: 15.25%;
+  --svc-detail-title-gap: clamp(1.45rem, 2vw, 1.82rem);
+  --svc-detail-title-offset: calc((var(--site-fs-kicker) * 1.2) + var(--svc-detail-title-gap));
+  --svc-detail-copy-width: min(31rem, 34vw);
+  --svc-detail-pane-gap: clamp(4rem, 7vw, 8rem);
+  --svc-detail-pane-start: calc(
+    var(--svc-section-rail) + var(--svc-detail-copy-width) + var(--svc-detail-pane-gap)
+  );
+  --svc-detail-feature-width: min(100%, 35.5rem);
+  --svc-detail-feature-gap: clamp(0.65rem, 1vw, 0.95rem);
   position: relative;
   width: min(100%, var(--svc-ref-artboard-max));
   height: clamp(36.5rem, 42vw, 40.25rem);
@@ -2634,15 +2586,7 @@
 }
 
 .svc-service-detail-section::after {
-  content: '';
-  position: absolute;
-  top: var(--svc-detail-step-top-y);
-  bottom: 0;
-  left: calc(100% - 2px);
-  z-index: 1;
-  width: max(0px, calc((100vw - var(--svc-ref-artboard-max)) / 2 + 4px));
-  pointer-events: none;
-  background: linear-gradient(180deg, #ffffff 0%, #fbfbfa 100%);
+  content: none;
 }
 
 .svc-service-detail-section::before {
@@ -2659,33 +2603,24 @@
 
 .svc-service-detail-white-field {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: calc(50% - 50vw);
+  bottom: 0;
+  left: var(--svc-detail-pane-start);
   z-index: 1;
   pointer-events: none;
+  border-top-left-radius: clamp(0.65rem, 1vw, 1rem);
+  border-bottom-left-radius: clamp(0.65rem, 1vw, 1rem);
   background: linear-gradient(180deg, #ffffff 0%, #fbfbfa 100%);
-  clip-path: polygon(
-    var(--svc-detail-step-1-x) var(--svc-detail-step-top-y),
-    100% var(--svc-detail-step-top-y),
-    100% 100%,
-    var(--svc-detail-step-5-x) 100%,
-    var(--svc-detail-step-5-x) var(--svc-detail-step-4-y),
-    var(--svc-detail-step-4-x) var(--svc-detail-step-4-y),
-    var(--svc-detail-step-4-x) var(--svc-detail-step-3-y),
-    var(--svc-detail-step-3-x) var(--svc-detail-step-3-y),
-    var(--svc-detail-step-3-x) var(--svc-detail-step-2-y),
-    var(--svc-detail-step-2-x) var(--svc-detail-step-2-y),
-    var(--svc-detail-step-2-x) var(--svc-detail-step-1-y),
-    var(--svc-detail-step-1-x) var(--svc-detail-step-1-y)
-  );
 }
 
 .svc-service-detail-copy {
   position: absolute;
-  top: 15.25%;
+  top: var(--svc-detail-copy-top);
   left: var(--svc-section-rail);
   z-index: 2;
   display: grid;
-  width: min(31rem, 34%);
+  width: var(--svc-detail-copy-width);
   color: #ffffff;
 }
 
@@ -2708,7 +2643,7 @@
 
 .svc-service-detail-title {
   display: grid;
-  margin-top: clamp(1.45rem, 2vw, 1.82rem);
+  margin-top: var(--svc-detail-title-gap);
   color: #ffffff;
   font-family: var(--site-font-display);
   font-size: clamp(2.55rem, 3.28vw, 3.38rem);
@@ -2743,46 +2678,28 @@
 
 .svc-service-detail-feature-list {
   position: absolute;
-  inset: 0;
+  top: calc(var(--svc-detail-copy-top) + var(--svc-detail-title-offset));
+  right: 0;
+  left: var(--svc-detail-pane-start);
   z-index: 2;
-  pointer-events: none;
+  display: grid;
+  gap: var(--svc-detail-feature-gap);
+  justify-items: center;
+  padding-inline: clamp(2rem, 3vw, 3.25rem);
+  pointer-events: auto;
 }
 
 .svc-service-detail-feature {
-  position: absolute;
+  position: relative;
   display: grid;
   width: var(--svc-detail-feature-width);
+  min-height: clamp(5.2rem, 6.2vw, 6.35rem);
   grid-template-columns: 4.35rem 1px minmax(0, 1fr);
   align-items: center;
   column-gap: clamp(1.05rem, 1.45vw, 1.55rem);
   color: var(--svc-ink);
   pointer-events: auto;
-  transform: translateY(-50%);
-}
-
-.svc-service-detail-feature:nth-child(1) {
-  top: var(--svc-detail-feature-1-y);
-  left: calc(var(--svc-detail-step-1-x) + var(--svc-detail-feature-offset));
-}
-
-.svc-service-detail-feature:nth-child(2) {
-  top: var(--svc-detail-feature-2-y);
-  left: calc(var(--svc-detail-step-2-x) + var(--svc-detail-feature-offset));
-}
-
-.svc-service-detail-feature:nth-child(3) {
-  top: var(--svc-detail-feature-3-y);
-  left: calc(var(--svc-detail-step-3-x) + var(--svc-detail-feature-offset));
-}
-
-.svc-service-detail-feature:nth-child(4) {
-  top: var(--svc-detail-feature-4-y);
-  left: calc(var(--svc-detail-step-4-x) + var(--svc-detail-feature-offset));
-}
-
-.svc-service-detail-feature:nth-child(5) {
-  top: var(--svc-detail-feature-5-y);
-  left: calc(var(--svc-detail-step-5-x) + var(--svc-detail-feature-offset));
+  transform: none;
 }
 
 .svc-service-detail-feature-icon {
@@ -2790,7 +2707,32 @@
   width: 4.35rem;
   height: 4.35rem;
   place-items: center;
-  color: var(--svc-ink);
+  color: var(--site-brand-navy);
+}
+
+@media (min-width: 1121px) {
+  .svc-service-detail-feature-icon .svc-line-icon {
+    display: none;
+  }
+
+  .svc-service-detail-feature-icon .svc-solid-icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .svc-service-detail-feature-icon .svc-solid-icon :where(path, circle, rect) {
+    fill: currentColor;
+  }
+
+  .svc-service-detail-feature-icon .svc-solid-icon [fill='none'] {
+    fill: none;
+  }
+
+  .svc-service-detail-feature-icon .svc-solid-icon [fill='#ffffff'] {
+    fill: #ffffff;
+  }
 }
 
 .svc-service-detail-feature-rule {
@@ -2825,13 +2767,35 @@
   letter-spacing: 0;
 }
 
+@media (min-width: 1121px) {
+  .svc-service-detail-section {
+    --svc-detail-feature-gap: clamp(0.32rem, 0.56vw, 0.52rem);
+  }
+
+  .svc-service-detail-feature-list {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .svc-service-detail-feature {
+    min-height: clamp(4.35rem, 5vw, 4.95rem);
+  }
+
+  .svc-service-detail-feature-rule {
+    height: clamp(4.1rem, 4.75vw, 4.55rem);
+  }
+
+  .svc-service-detail-feature-copy {
+    gap: clamp(0.32rem, 0.42vw, 0.44rem);
+  }
+
+  .svc-service-detail-feature p {
+    line-height: 1.48;
+  }
+}
+
 .svc-reference-canvas[data-category='freight'] .svc-service-detail-section {
-  --svc-detail-feature-1-y: 17.2%;
-  --svc-detail-feature-2-y: 33.9%;
-  --svc-detail-feature-3-y: 51%;
-  --svc-detail-feature-4-y: 68.4%;
-  --svc-detail-feature-5-y: 86.4%;
-  --svc-detail-feature-width: min(26rem, 27.6vw);
+  --svc-detail-feature-width: min(100%, 34rem);
 }
 
 .svc-reference-canvas[data-category='customs'] .svc-service-detail-feature h3,
@@ -2846,12 +2810,18 @@
 }
 
 @media (max-width: 1320px) {
+  .svc-service-detail-section {
+    --svc-detail-copy-width: min(28rem, 34vw);
+    --svc-detail-pane-gap: clamp(3rem, 5vw, 5.5rem);
+    --svc-detail-feature-width: min(100%, 32rem);
+  }
+
   .svc-service-detail-title {
     font-size: clamp(2.15rem, 3.15vw, 3rem);
   }
 
   .svc-service-detail-feature {
-    width: min(23rem, 27vw);
+    width: var(--svc-detail-feature-width);
     grid-template-columns: 4rem 1px minmax(0, 1fr);
     column-gap: 1.08rem;
   }
@@ -2984,10 +2954,8 @@
 
 /* Reference FAQ replacement */
 .svc-faq-section {
-  --svc-faq-border: rgba(218, 231, 244, 0.54);
   --svc-faq-panel: #ffffff;
-  --svc-faq-heading-inset: var(--svc-section-rail);
-  --svc-faq-list-start: clamp(13.5rem, 18vw, 18rem);
+  --svc-faq-title-offset: calc(3.55rem + 2px);
   --svc-faq-item-pad-x: clamp(2.1rem, 2.7vw, 2.7rem);
   --svc-faq-row-gap: clamp(1.35rem, 1.9vw, 1.85rem);
   --svc-faq-number-width: clamp(3.15rem, 4vw, 4.05rem);
@@ -2999,10 +2967,16 @@
     var(--svc-faq-item-pad-x) + var(--svc-faq-number-width) + var(--svc-faq-row-gap)
   );
   position: relative;
-  display: block;
+  display: grid;
+  grid-template-columns: minmax(18rem, 23.5rem) minmax(0, 1fr);
+  column-gap: clamp(3.25rem, 6vw, 7.5rem);
+  justify-content: center;
+  align-items: start;
   overflow: clip;
   margin-top: -2px;
-  padding: calc(5rem + 2px) 0 1.25rem;
+  padding: calc(5rem + 2px)
+    max(1rem, calc((100% - var(--svc-ref-artboard-max)) / 2 + var(--svc-section-rail)))
+    clamp(4.6rem, 6vw, 5.75rem);
   background: var(--svc-blue);
   box-shadow: 0 -2px 0 var(--svc-blue);
   color: #ffffff;
@@ -3015,16 +2989,13 @@
 }
 
 .svc-faq-heading {
-  position: absolute;
-  top: 8.35rem;
-  left: 50%;
+  position: relative;
   z-index: 2;
   display: block;
-  width: min(100%, var(--svc-ref-artboard-max));
-  padding-left: var(--svc-faq-heading-inset);
+  width: min(100%, 23.5rem);
   justify-items: start;
   pointer-events: none;
-  transform: translateX(-50%);
+  transform: none;
   text-align: left;
 }
 
@@ -3069,49 +3040,24 @@
   position: relative;
   z-index: 1;
   display: grid;
-  width: min(100% - 2rem, var(--svc-ref-artboard-max));
-  margin: 0 auto;
-  padding-left: var(--svc-faq-list-start);
+  width: min(100%, 54.75rem);
+  justify-self: center;
+  margin: var(--svc-faq-title-offset) 0 0;
+  padding-left: 0;
   color: #ffffff;
 }
 
 .svc-faq-item {
-  --svc-faq-step: 15%;
-  width: calc(100% - var(--svc-faq-step));
-  margin-left: var(--svc-faq-step);
+  width: 100%;
+  margin-left: 0;
   overflow: hidden;
-  border-top: 1px solid var(--svc-faq-border);
-  border-left: 1px solid var(--svc-faq-border);
+  border: 0;
   background: transparent;
   color: #ffffff;
   transition:
     background-color 180ms ease,
     border-color 180ms ease,
     box-shadow 180ms ease;
-}
-
-.svc-faq-item:nth-child(1) {
-  --svc-faq-step: 40%;
-}
-
-.svc-faq-item:nth-child(2) {
-  --svc-faq-step: 35%;
-}
-
-.svc-faq-item:nth-child(3) {
-  --svc-faq-step: 30%;
-}
-
-.svc-faq-item:nth-child(4) {
-  --svc-faq-step: 25%;
-}
-
-.svc-faq-item:nth-child(5) {
-  --svc-faq-step: 20%;
-}
-
-.svc-faq-item:last-child {
-  border-bottom: 1px solid var(--svc-faq-border);
 }
 
 .svc-faq-item.is-open {
@@ -3258,16 +3204,13 @@
 
 @media (max-width: 1180px) {
   .svc-faq-section {
-    --svc-faq-heading-inset: clamp(2.35rem, 5vw, 3.35rem);
-    --svc-faq-list-start: clamp(10.5rem, 16vw, 12rem);
+    --svc-faq-title-offset: calc(2.7rem + 2px);
     --svc-faq-item-pad-x: 1.7rem;
     --svc-faq-row-gap: 1.15rem;
     --svc-faq-number-width: 3rem;
+    grid-template-columns: minmax(14.5rem, 19rem) minmax(0, 1fr);
+    column-gap: clamp(2.35rem, 4.5vw, 4.25rem);
     padding-top: 4.35rem;
-  }
-
-  .svc-faq-heading {
-    top: 7.25rem;
   }
 
   .svc-faq-heading-rule {
@@ -3302,11 +3245,11 @@
 
 @media (max-width: 900px) {
   .svc-faq-section {
-    --svc-faq-heading-inset: 0rem;
-    --svc-faq-list-start: 0rem;
     --svc-faq-item-pad-x: 1.25rem;
     --svc-faq-row-gap: 0.95rem;
     --svc-faq-number-width: 2.6rem;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 0;
     padding: 4rem 1rem 3.4rem;
   }
 
@@ -3336,12 +3279,15 @@
 
   .svc-faq-list {
     width: min(100%, 40rem);
+    justify-self: center;
+    margin-top: 0;
     padding-left: 0;
   }
 
   .svc-faq-item,
   .svc-faq-item:nth-child(n) {
-    --svc-faq-step: 0%;
+    width: 100%;
+    margin-left: 0;
   }
 
   .svc-faq-button {
@@ -3574,8 +3520,10 @@
 
 @media (max-width: 760px) {
   .svc-page {
-    --svc-mobile-menu-width: clamp(7.95rem, 36.4vw, 9.75rem);
-    --svc-mobile-intro-height: clamp(9.25rem, 30vw, 11.35rem);
+    --svc-mobile-menu-width: clamp(7.35rem, 34.5vw, 9rem);
+    --svc-mobile-intro-height: clamp(10.75rem, 40vw, 12rem);
+    --svc-mobile-content-gap: clamp(1rem, 4.8vw, 1.65rem);
+    --svc-mobile-tab-height: clamp(3.15rem, 13.2vw, 3.85rem);
     --svc-ref-nav-height: auto;
     --svc-curtain-overlap: 0rem;
     overflow-x: hidden;
@@ -3601,6 +3549,7 @@
     display: grid;
     width: 100%;
     grid-template-columns: var(--svc-mobile-menu-width) minmax(0, 1fr);
+    grid-template-rows: var(--svc-mobile-intro-height) auto auto auto auto auto;
     grid-template-areas:
       'mobile-title mobile-quote'
       'mobile-nav mobile-content'
@@ -3615,15 +3564,17 @@
     grid-area: mobile-title;
     display: flex;
     min-width: 0;
+    height: var(--svc-mobile-intro-height);
     min-height: var(--svc-mobile-intro-height);
+    max-height: var(--svc-mobile-intro-height);
     align-items: center;
     margin: 0;
-    padding: 1rem clamp(0.85rem, 4.8vw, 1.45rem);
+    padding: clamp(0.78rem, 3.6vw, 1rem) clamp(0.75rem, 3.8vw, 1.2rem);
     border: 0;
     background: #ffffff;
     color: var(--svc-ink);
     font-family: var(--site-font-display);
-    font-size: clamp(1.62rem, 7.4vw, 2.18rem);
+    font-size: clamp(1.38rem, 6.2vw, 1.88rem);
     font-weight: 800;
     line-height: 1.05;
     letter-spacing: 0;
@@ -3634,13 +3585,16 @@
     grid-area: mobile-quote;
     display: grid;
     width: 100%;
+    height: var(--svc-mobile-intro-height);
     min-height: var(--svc-mobile-intro-height);
-    height: auto;
+    max-height: var(--svc-mobile-intro-height);
     margin: 0;
     clip-path: none;
-    overflow: visible;
+    overflow: hidden;
     background: #ffffff;
+    contain: layout paint;
     isolation: isolate;
+    transition: height 0.3s ease;
   }
 
   .svc-reference-scene::before,
@@ -3659,10 +3613,12 @@
     inset: auto;
     display: grid;
     width: 100%;
-    min-height: var(--svc-mobile-intro-height);
+    height: 100%;
+    min-height: 0;
     align-content: center;
     justify-items: start;
-    padding: clamp(1.45rem, 6vw, 2.05rem) clamp(1.2rem, 5.8vw, 2rem);
+    overflow: hidden;
+    padding: clamp(1.35rem, 5.2vw, 1.85rem) clamp(1.1rem, 4.6vw, 1.6rem);
     border: 0;
     background: #ffffff;
     color: var(--svc-ink);
@@ -3673,13 +3629,13 @@
   .svc-reference-scene-copy {
     position: relative;
     display: block;
-    width: min(100%, 16.4rem);
+    width: min(100%, 16.5rem);
     margin: 0;
     color: var(--svc-ink);
     font-family: var(--site-font-display);
-    font-size: clamp(1.48rem, 6.2vw, 2.12rem);
+    font-size: clamp(0.96rem, 4.25vw, 1.24rem);
     font-weight: 800;
-    line-height: 1.24;
+    line-height: 1.2;
     letter-spacing: 0;
     text-align: left;
     text-wrap: balance;
@@ -3697,13 +3653,13 @@
 
   .svc-reference-scene-copy::before {
     content: '\201C';
-    top: -0.44em;
-    left: -1.2em;
+    top: -0.28em;
+    left: -0.72em;
   }
 
   .svc-reference-scene-copy::after {
     content: '\201D';
-    right: -0.92em;
+    right: -0.54em;
     bottom: 0.04em;
   }
 
@@ -3712,7 +3668,8 @@
     z-index: 2;
     display: block;
     width: 100%;
-    min-height: 100%;
+    min-height: 0;
+    margin-top: var(--svc-mobile-content-gap);
     overflow: visible;
     border: 0;
     background: var(--site-brand-navy-gradient);
@@ -3725,7 +3682,7 @@
   .svc-reference-nav-track {
     display: grid;
     width: 100%;
-    min-height: 100%;
+    min-height: 0;
     margin: 0;
     grid-template-columns: minmax(0, 1fr);
     align-content: start;
@@ -3736,17 +3693,17 @@
   .svc-reference-tab {
     display: flex;
     min-width: 0;
-    min-height: clamp(6.45rem, 30vw, 8.35rem);
+    min-height: var(--svc-mobile-tab-height);
     align-items: center;
     justify-content: flex-start;
-    padding: clamp(1.22rem, 5.6vw, 1.7rem) clamp(0.78rem, 4.5vw, 1.35rem);
+    padding: clamp(0.38rem, 2.2vw, 0.62rem) clamp(0.58rem, 3.2vw, 0.95rem);
     border: 0;
     background: transparent;
     color: rgba(255, 255, 255, 0.93);
     font-family: var(--site-font-display);
-    font-size: clamp(0.78rem, 3.25vw, 1.02rem);
+    font-size: clamp(0.58rem, 2.62vw, 0.76rem);
     font-weight: 800;
-    line-height: 1.55;
+    line-height: 1.18;
     letter-spacing: 0;
     text-align: left;
     text-transform: uppercase;
@@ -3799,7 +3756,7 @@
     width: 100%;
     height: auto;
     min-height: 100%;
-    margin: 0;
+    margin: var(--svc-mobile-content-gap) 0 0;
     overflow: visible;
     background: #ffffff;
     color: var(--svc-ink);
@@ -3941,24 +3898,26 @@
 @media (max-width: 420px) {
   .svc-page {
     --svc-mobile-menu-width: 36.25vw;
+    --svc-mobile-intro-height: clamp(10.95rem, 47vw, 11.75rem);
+    --svc-mobile-tab-height: clamp(3.05rem, 14vw, 3.55rem);
   }
 
   .svc-reference-scene-copy {
-    font-size: clamp(1.36rem, 6vw, 1.78rem);
+    font-size: clamp(0.92rem, 4.55vw, 1.12rem);
   }
 
   .svc-reference-scene-copy::before {
-    left: -0.95em;
+    left: -0.56em;
   }
 
   .svc-reference-scene-copy::after {
-    right: -0.68em;
+    right: -0.42em;
   }
 
   .svc-reference-tab {
-    min-height: clamp(6.15rem, 29.5vw, 7.35rem);
-    padding-inline: clamp(0.68rem, 3.8vw, 1rem);
-    font-size: clamp(0.72rem, 3.12vw, 0.88rem);
+    min-height: var(--svc-mobile-tab-height);
+    padding: clamp(0.34rem, 2.4vw, 0.56rem) clamp(0.5rem, 3.4vw, 0.82rem);
+    font-size: clamp(0.54rem, 2.8vw, 0.68rem);
   }
 
   .svc-service-detail-feature,
