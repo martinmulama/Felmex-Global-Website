@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import './ServicePage.css';
 
 const SERVICE_CATEGORIES = [
@@ -675,11 +675,51 @@ function ProcessIcon({ kind }) {
 export function ServicePage() {
   const [activeCategoryId, setActiveCategoryId] = useState(SERVICE_CATEGORIES[0].id);
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
+  const [activeProcessIndex, setActiveProcessIndex] = useState(0);
+  const processGridRef = useRef(null);
   const activeCategoryIndex = Math.max(
     SERVICE_CATEGORIES.findIndex((category) => category.id === activeCategoryId),
     0
   );
   const activeCategory = SERVICE_CATEGORIES[activeCategoryIndex] ?? SERVICE_CATEGORIES[0];
+  const handleProcessScroll = () => {
+    const processGrid = processGridRef.current;
+
+    if (!processGrid) {
+      return;
+    }
+
+    const cards = Array.from(processGrid.querySelectorAll('.svc-process-card'));
+    const gridRect = processGrid.getBoundingClientRect();
+    const gridStart = gridRect.left;
+    let closestCardIndex = 0;
+    let closestDistance = Infinity;
+
+    cards.forEach((card, index) => {
+      const cardRect = card.getBoundingClientRect();
+      const distance = Math.abs(cardRect.left - gridStart);
+
+      if (distance < closestDistance) {
+        closestCardIndex = index;
+        closestDistance = distance;
+      }
+    });
+
+    setActiveProcessIndex((currentIndex) =>
+      currentIndex === closestCardIndex ? currentIndex : closestCardIndex
+    );
+  };
+
+  const scrollProcessToIndex = (index) => {
+    const processGrid = processGridRef.current;
+    const targetCard = processGrid?.querySelectorAll('.svc-process-card')[index];
+
+    targetCard?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'start',
+    });
+  };
 
   return (
     <section className="svc-page" id="services-top" aria-label="Felmex services">
@@ -843,7 +883,13 @@ export function ServicePage() {
                 </p>
               </div>
 
-              <div className="svc-process-grid" role="list" aria-label="Felmex service process">
+              <div
+                className="svc-process-grid"
+                role="list"
+                aria-label="Felmex service process"
+                ref={processGridRef}
+                onScroll={handleProcessScroll}
+              >
                 {PROCESS_STEPS.map((step) => (
                   <article className="svc-process-card" key={step.title} role="listitem">
                     <div className="svc-process-card-icon" aria-hidden="true">
@@ -855,6 +901,19 @@ export function ServicePage() {
                       <p>{step.copy}</p>
                     </div>
                   </article>
+                ))}
+              </div>
+
+              <div className="svc-process-dots" aria-label="Process carousel navigation">
+                {PROCESS_STEPS.map((step, index) => (
+                  <button
+                    className={`svc-process-dot${index === activeProcessIndex ? ' is-active' : ''}`}
+                    type="button"
+                    key={step.title}
+                    aria-label={`Show ${step.title} process step`}
+                    aria-current={index === activeProcessIndex ? 'step' : undefined}
+                    onClick={() => scrollProcessToIndex(index)}
+                  />
                 ))}
               </div>
             </section>

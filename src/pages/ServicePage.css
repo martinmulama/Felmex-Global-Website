@@ -714,6 +714,10 @@
   letter-spacing: 0;
 }
 
+.svc-process-dots {
+  display: none;
+}
+
 .svc-solution-section {
   --svc-promise-rail: max(
     var(--svc-section-rail),
@@ -3974,6 +3978,174 @@
 
   .svc-process-section {
     grid-area: mobile-process;
+    display: block;
+    width: 100%;
+    padding: clamp(4.9rem, 15vw, 6rem) 0 clamp(4rem, 13vw, 5.25rem);
+    background: #ffffff;
+    color: var(--svc-ink);
+    text-align: center;
+  }
+
+  .svc-process-section::before {
+    content: none;
+  }
+
+  .svc-process-heading {
+    width: min(100% - clamp(2rem, 7vw, 3rem), 32rem);
+    margin-inline: auto;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .svc-process-heading h2 {
+    max-width: none;
+    color: var(--svc-ink);
+    font-size: clamp(1.8rem, 8vw, 2.35rem);
+    line-height: 1.05;
+  }
+
+  .svc-process-heading-rule {
+    width: clamp(3rem, 10vw, 4.1rem);
+    height: 3px;
+    margin-top: clamp(1.35rem, 5vw, 1.85rem);
+  }
+
+  .svc-process-heading p {
+    width: min(100%, 20.5rem);
+    margin-top: clamp(1.35rem, 5vw, 1.9rem);
+    color: rgba(7, 27, 53, 0.92);
+    font-size: clamp(0.96rem, 3.65vw, 1.13rem);
+    font-weight: 450;
+    line-height: 1.72;
+    text-align: center;
+  }
+
+  .svc-process-grid {
+    --svc-process-card-gutter: clamp(1.55rem, 6.2vw, 2.1rem);
+    --svc-process-card-width: clamp(14.25rem, 54vw, 18rem);
+    display: flex;
+    width: 100%;
+    min-height: 0;
+    margin-top: clamp(3.75rem, 14vw, 5rem);
+    gap: clamp(0.95rem, 3.75vw, 1.25rem);
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.22rem var(--svc-process-card-gutter) clamp(1.2rem, 4.8vw, 1.7rem);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    counter-reset: svc-process-step;
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: auto;
+    scroll-padding-inline: var(--svc-process-card-gutter);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .svc-process-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .svc-process-card,
+  .svc-process-card:nth-child(n) {
+    display: grid;
+    flex: 0 0 var(--svc-process-card-width);
+    width: var(--svc-process-card-width);
+    min-width: var(--svc-process-card-width);
+    min-height: clamp(27rem, 108vw, 29rem);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    align-content: stretch;
+    align-items: stretch;
+    gap: clamp(1rem, 4vw, 1.5rem);
+    padding: clamp(2.8rem, 9.8vw, 4rem) clamp(1.45rem, 5.4vw, 2.1rem)
+      clamp(2rem, 6.6vw, 2.75rem);
+    border: 1px solid rgba(198, 209, 221, 0.34);
+    border-radius: clamp(0.48rem, 2vw, 0.7rem);
+    background: #ffffff;
+    box-shadow: 0 16px 36px rgba(12, 39, 68, 0.1);
+    color: var(--svc-ink);
+    counter-increment: svc-process-step;
+    scroll-snap-align: start;
+  }
+
+  .svc-process-card-copy {
+    order: 1;
+    display: grid;
+    gap: clamp(1.22rem, 4.8vw, 1.75rem);
+    align-content: start;
+    padding: 0;
+  }
+
+  .svc-process-card-copy::before {
+    content: counter(svc-process-step, decimal-leading-zero);
+    color: var(--svc-red);
+    font-family: var(--site-font-display);
+    font-size: clamp(2.08rem, 8.8vw, 2.7rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: 0;
+  }
+
+  .svc-process-card h3 {
+    display: grid;
+    gap: clamp(1.3rem, 5.2vw, 1.85rem);
+    color: var(--svc-ink);
+    font-size: clamp(1.35rem, 5.2vw, 1.72rem);
+    line-height: 1.08;
+  }
+
+  .svc-process-card h3::after {
+    content: '';
+    display: block;
+    width: clamp(2.3rem, 9vw, 3.2rem);
+    height: 3px;
+    background: rgba(121, 139, 158, 0.42);
+  }
+
+  .svc-process-card p {
+    color: rgba(7, 27, 53, 0.9);
+    font-size: clamp(0.82rem, 3.15vw, 0.94rem);
+    font-weight: 450;
+    line-height: 1.72;
+  }
+
+  .svc-process-card-icon {
+    order: 2;
+    width: clamp(3.65rem, 14vw, 4.7rem);
+    height: clamp(3.65rem, 14vw, 4.7rem);
+    align-self: end;
+    justify-self: end;
+    color: var(--site-brand-navy);
+  }
+
+  .svc-process-card-rule {
+    display: none;
+  }
+
+  .svc-process-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1rem, 4vw, 1.35rem);
+    margin-top: clamp(0.9rem, 4vw, 1.55rem);
+  }
+
+  .svc-process-dot {
+    appearance: none;
+    width: clamp(0.46rem, 2.1vw, 0.6rem);
+    aspect-ratio: 1;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(173, 186, 202, 0.58);
+    cursor: pointer;
+  }
+
+  .svc-process-dot.is-active {
+    background: var(--svc-red);
   }
 
   .svc-solution-section {
