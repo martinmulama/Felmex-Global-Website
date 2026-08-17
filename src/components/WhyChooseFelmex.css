@@ -709,6 +709,10 @@
   background: var(--why-red);
 }
 
+.why-choose-felmex--split .why-choose-felmex__split-dots {
+  display: none;
+}
+
 @media (max-width: 960px),
 (prefers-reduced-motion: reduce) {
   .why-choose-felmex--split {

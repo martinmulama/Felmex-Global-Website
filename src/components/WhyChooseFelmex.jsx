@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -138,9 +138,56 @@ function HomeHeroCopy({ titleId, mobile = false }) {
   );
 }
 
-export function WhyChooseFelmex({ variant = 'default' }) {
+export function WhyChooseFelmex({
+  variant = 'default',
+  sectionId = 'why-choose-felmex',
+  titleId = 'why-choose-felmex-title',
+  labelledById = titleId,
+  enableDesktopScroll = true,
+}) {
   const sectionRef = useRef(null);
+  const splitPanelFrameRef = useRef(null);
+  const [activeSplitPanelIndex, setActiveSplitPanelIndex] = useState(0);
   const isHomeHero = variant === 'home-hero';
+
+  const handleSplitPanelScroll = () => {
+    const panelFrame = splitPanelFrameRef.current;
+
+    if (!panelFrame) {
+      return;
+    }
+
+    const panels = Array.from(panelFrame.querySelectorAll('.why-choose-felmex__split-panel'));
+    const frameRect = panelFrame.getBoundingClientRect();
+    const frameStart = frameRect.left;
+    let closestPanelIndex = 0;
+    let closestDistance = Infinity;
+
+    panels.forEach((panel, index) => {
+      const panelRect = panel.getBoundingClientRect();
+      const distance = Math.abs(panelRect.left - frameStart);
+
+      if (distance < closestDistance) {
+        closestPanelIndex = index;
+        closestDistance = distance;
+      }
+    });
+
+    setActiveSplitPanelIndex((currentIndex) =>
+      currentIndex === closestPanelIndex ? currentIndex : closestPanelIndex
+    );
+  };
+
+  const scrollSplitPanelToIndex = (index) => {
+    const panelFrame = splitPanelFrameRef.current;
+    const targetPanel = panelFrame?.querySelectorAll('.why-choose-felmex__split-panel')[index];
+
+    targetPanel?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'start',
+    });
+  };
 
   useGSAP(
     () => {
@@ -206,7 +253,7 @@ export function WhyChooseFelmex({ variant = 'default' }) {
             ScrollTrigger.refresh();
           });
         }
-      } else {
+      } else if (enableDesktopScroll) {
         const splitContainer = root.querySelector('[data-why-choose-split-container]');
         const backgroundLayers = gsap.utils.toArray('[data-why-choose-bg]', root);
         const panels = gsap.utils.toArray('[data-why-choose-panel]', root);
@@ -289,16 +336,16 @@ export function WhyChooseFelmex({ variant = 'default' }) {
         matchMedia.revert();
       };
     },
-    { scope: sectionRef, dependencies: [isHomeHero] }
+    { scope: sectionRef, dependencies: [isHomeHero, enableDesktopScroll] }
   );
 
   return (
     <section
-      id="why-choose-felmex"
+      id={sectionId}
       ref={sectionRef}
       className={`why-choose-felmex ${isHomeHero ? 'why-choose-felmex--home-hero' : 'why-choose-felmex--split'}`}
       aria-label={isHomeHero ? 'Delivering Tomorrow’s Trade Today.' : undefined}
-      aria-labelledby={isHomeHero ? undefined : 'why-choose-felmex-title'}
+      aria-labelledby={isHomeHero ? undefined : labelledById}
     >
       {isHomeHero ? (
         <div className="why-choose-felmex__viewport">
@@ -371,6 +418,8 @@ export function WhyChooseFelmex({ variant = 'default' }) {
             <div
               className="why-choose-felmex__split-panel-frame split-scroll-statement-frame"
               aria-label="Felmex logistics advantages"
+              ref={splitPanelFrameRef}
+              onScroll={handleSplitPanelScroll}
             >
               {WHY_CHOOSE_SPLIT_PANELS.map((panel) => (
                 <article
@@ -392,12 +441,25 @@ export function WhyChooseFelmex({ variant = 'default' }) {
                 </article>
               ))}
             </div>
+
+            <div className="why-choose-felmex__split-dots" aria-label="Why choose carousel navigation">
+              {WHY_CHOOSE_SPLIT_PANELS.map((panel, index) => (
+                <button
+                  className={`why-choose-felmex__split-dot${index === activeSplitPanelIndex ? ' is-active' : ''}`}
+                  type="button"
+                  key={panel.key}
+                  aria-label={`Show ${panel.title}`}
+                  aria-current={index === activeSplitPanelIndex ? 'true' : undefined}
+                  onClick={() => scrollSplitPanelToIndex(index)}
+                />
+              ))}
+            </div>
           </div>
 
           <aside className="why-choose-felmex__split-right right-panel" aria-label="Why choose Felmex headline">
             <div className="why-choose-felmex__split-right-inner">
               <span className="why-choose-felmex__split-right-rule" aria-hidden="true" />
-              <h2 className="why-choose-felmex__split-title" id="why-choose-felmex-title">
+              <h2 className="why-choose-felmex__split-title" id={titleId}>
                 <span className="why-choose-felmex__split-title-line">
                   <span>Why Choose</span>
                 </span>
