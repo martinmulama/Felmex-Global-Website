@@ -489,6 +489,31 @@
   stroke: var(--svc-red);
 }
 
+.svc-process-solid-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.svc-process-solid-icon :where(path, circle, rect) {
+  fill: currentColor;
+  stroke: none;
+}
+
+.svc-process-solid-icon .svc-process-icon-cutout {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.svc-process-solid-icon .svc-process-icon-cutout-fill {
+  fill: #ffffff;
+  stroke: none;
+}
+
 .svc-line-icon .svc-icon-accent-fill,
 .svc-process-icon .svc-icon-accent-fill {
   fill: var(--svc-red);
@@ -2769,7 +2794,7 @@
 
 @media (min-width: 1121px) {
   .svc-service-detail-section {
-    --svc-detail-feature-gap: clamp(0.32rem, 0.56vw, 0.52rem);
+    --svc-detail-feature-gap: clamp(0.62rem, 0.82vw, 0.9rem);
   }
 
   .svc-service-detail-feature-list {
@@ -2778,11 +2803,11 @@
   }
 
   .svc-service-detail-feature {
-    min-height: clamp(4.35rem, 5vw, 4.95rem);
+    min-height: clamp(5rem, 5.72vw, 5.65rem);
   }
 
   .svc-service-detail-feature-rule {
-    height: clamp(4.1rem, 4.75vw, 4.55rem);
+    height: clamp(4.75rem, 5.35vw, 5.25rem);
   }
 
   .svc-service-detail-feature-copy {
@@ -3514,19 +3539,30 @@
   display: none;
 }
 
+.svc-mobile-service-shell {
+  display: contents;
+}
+
+.svc-quote-highlight {
+  color: inherit;
+  font-weight: inherit;
+}
+
 .svc-solid-icon {
   display: none;
 }
 
 @media (max-width: 760px) {
   .svc-page {
-    --svc-mobile-menu-width: clamp(7.35rem, 34.5vw, 9rem);
-    --svc-mobile-intro-height: clamp(10.75rem, 40vw, 12rem);
-    --svc-mobile-content-gap: clamp(1rem, 4.8vw, 1.65rem);
-    --svc-mobile-tab-height: clamp(3.15rem, 13.2vw, 3.85rem);
+    --svc-mobile-menu-width: clamp(6.05rem, 25.8vw, 6.95rem);
+    --svc-mobile-title-extra: clamp(2.2rem, 10vw, 3.15rem);
+    --svc-mobile-intro-height: clamp(12rem, 49vw, 13.35rem);
+    --svc-mobile-content-gap: clamp(0.16rem, 1vw, 0.28rem);
+    --svc-mobile-tab-height: clamp(4.7rem, 19vw, 6.2rem);
+    --svc-mobile-feature-height: clamp(11.35rem, 47vw, 12.75rem);
     --svc-ref-nav-height: auto;
     --svc-curtain-overlap: 0rem;
-    overflow-x: hidden;
+    overflow-x: clip;
     background: #ffffff;
   }
 
@@ -3548,15 +3584,17 @@
   .svc-reference-canvas {
     display: grid;
     width: 100%;
-    grid-template-columns: var(--svc-mobile-menu-width) minmax(0, 1fr);
+    grid-template-columns:
+      var(--svc-mobile-menu-width) var(--svc-mobile-title-extra)
+      minmax(0, 1fr);
     grid-template-rows: var(--svc-mobile-intro-height) auto auto auto auto auto;
     grid-template-areas:
-      'mobile-title mobile-quote'
-      'mobile-nav mobile-content'
-      'mobile-process mobile-process'
-      'mobile-solution mobile-solution'
-      'mobile-faq mobile-faq'
-      'mobile-cta mobile-cta';
+      'mobile-title mobile-title mobile-quote'
+      'mobile-shell mobile-shell mobile-shell'
+      'mobile-process mobile-process mobile-process'
+      'mobile-solution mobile-solution mobile-solution'
+      'mobile-faq mobile-faq mobile-faq'
+      'mobile-cta mobile-cta mobile-cta';
     align-items: stretch;
   }
 
@@ -3569,12 +3607,12 @@
     max-height: var(--svc-mobile-intro-height);
     align-items: center;
     margin: 0;
-    padding: clamp(0.78rem, 3.6vw, 1rem) clamp(0.75rem, 3.8vw, 1.2rem);
+    padding: clamp(1rem, 4.8vw, 1.5rem) clamp(1.05rem, 5vw, 1.55rem);
     border: 0;
     background: #ffffff;
     color: var(--svc-ink);
     font-family: var(--site-font-display);
-    font-size: clamp(1.38rem, 6.2vw, 1.88rem);
+    font-size: clamp(1.8rem, 8vw, 2.35rem);
     font-weight: 800;
     line-height: 1.05;
     letter-spacing: 0;
@@ -3594,7 +3632,6 @@
     background: #ffffff;
     contain: layout paint;
     isolation: isolate;
-    transition: height 0.3s ease;
   }
 
   .svc-reference-scene::before,
@@ -3618,7 +3655,7 @@
     align-content: center;
     justify-items: start;
     overflow: hidden;
-    padding: clamp(1.35rem, 5.2vw, 1.85rem) clamp(1.1rem, 4.6vw, 1.6rem);
+    padding: clamp(1.42rem, 5.6vw, 1.95rem) clamp(1.12rem, 5vw, 1.62rem);
     border: 0;
     background: #ffffff;
     color: var(--svc-ink);
@@ -3629,13 +3666,13 @@
   .svc-reference-scene-copy {
     position: relative;
     display: block;
-    width: min(100%, 16.5rem);
+    width: min(100%, 18.5rem);
     margin: 0;
     color: var(--svc-ink);
     font-family: var(--site-font-display);
-    font-size: clamp(0.96rem, 4.25vw, 1.24rem);
+    font-size: clamp(1.02rem, 4.9vw, 1.36rem);
     font-weight: 800;
-    line-height: 1.2;
+    line-height: 1.26;
     letter-spacing: 0;
     text-align: left;
     text-wrap: balance;
@@ -3663,16 +3700,37 @@
     bottom: 0.04em;
   }
 
+  .svc-reference-scene-copy .svc-quote-highlight {
+    color: var(--svc-red);
+  }
+
+  .svc-mobile-service-shell {
+    grid-area: mobile-shell;
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--svc-mobile-menu-width) minmax(0, 1fr);
+    align-items: start;
+    margin-top: var(--svc-mobile-content-gap);
+    background: #ffffff;
+    box-shadow: inset 0 1px 0 rgba(7, 27, 53, 0.14);
+  }
+
   .svc-reference-nav {
-    grid-area: mobile-nav;
+    position: sticky;
+    top: var(--site-header-clearance, 0px);
+    align-self: start;
     z-index: 2;
     display: block;
     width: 100%;
-    min-height: 0;
-    margin-top: var(--svc-mobile-content-gap);
-    overflow: visible;
+    height: calc(100svh - var(--site-header-clearance, 0px));
+    min-height: calc(100svh - var(--site-header-clearance, 0px));
+    max-height: calc(100svh - var(--site-header-clearance, 0px));
+    margin: 0;
+    overflow: hidden;
     border: 0;
+    border-top-right-radius: clamp(1.25rem, 5vw, 1.85rem);
     background: var(--site-brand-navy-gradient);
+    box-shadow: 0.65rem 0 1.65rem rgba(4, 20, 36, 0.08);
   }
 
   .svc-reference-nav::after {
@@ -3682,10 +3740,12 @@
   .svc-reference-nav-track {
     display: grid;
     width: 100%;
-    min-height: 0;
+    height: 100%;
+    min-height: 100%;
     margin: 0;
     grid-template-columns: minmax(0, 1fr);
-    align-content: start;
+    grid-auto-rows: minmax(var(--svc-mobile-tab-height), 1fr);
+    align-content: stretch;
     overflow: visible;
     background: transparent;
   }
@@ -3696,14 +3756,15 @@
     min-height: var(--svc-mobile-tab-height);
     align-items: center;
     justify-content: flex-start;
-    padding: clamp(0.38rem, 2.2vw, 0.62rem) clamp(0.58rem, 3.2vw, 0.95rem);
+    padding: clamp(0.62rem, 2.6vw, 0.9rem) clamp(0.48rem, 2.6vw, 0.82rem)
+      clamp(0.62rem, 2.6vw, 0.9rem) clamp(1.12rem, 4.7vw, 1.52rem);
     border: 0;
     background: transparent;
     color: rgba(255, 255, 255, 0.93);
     font-family: var(--site-font-display);
-    font-size: clamp(0.58rem, 2.62vw, 0.76rem);
+    font-size: clamp(0.56rem, 2.45vw, 0.72rem);
     font-weight: 800;
-    line-height: 1.18;
+    line-height: 1.38;
     letter-spacing: 0;
     text-align: left;
     text-transform: uppercase;
@@ -3711,7 +3772,15 @@
   }
 
   .svc-reference-tab::before {
-    content: none;
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: clamp(0.45rem, 2.1vw, 0.66rem);
+    width: 3px;
+    height: min(68%, 4rem);
+    background: var(--svc-red);
+    opacity: 0;
+    transform: translateY(-50%);
   }
 
   .svc-reference-tab::after {
@@ -3725,7 +3794,11 @@
   }
 
   .svc-reference-tab.is-active {
-    background: rgba(255, 255, 255, 0.055);
+    background: transparent;
+  }
+
+  .svc-reference-tab.is-active::before {
+    opacity: 1;
   }
 
   .svc-reference-tab:focus-visible {
@@ -3740,7 +3813,7 @@
 
   .svc-reference-tab-label {
     display: block;
-    max-width: 11ch;
+    max-width: 12ch;
     color: currentColor;
     overflow-wrap: normal;
     text-wrap: balance;
@@ -3751,12 +3824,11 @@
   }
 
   .svc-service-detail-section {
-    grid-area: mobile-content;
     display: block;
     width: 100%;
     height: auto;
     min-height: 100%;
-    margin: var(--svc-mobile-content-gap) 0 0;
+    margin: 0;
     overflow: visible;
     background: #ffffff;
     color: var(--svc-ink);
@@ -3774,8 +3846,8 @@
     inset: auto;
     display: grid;
     gap: 0;
-    padding: clamp(0.95rem, 3.8vw, 1.25rem) clamp(0.62rem, 3.2vw, 1.05rem)
-      clamp(1.5rem, 6vw, 2.25rem);
+    padding: 0 clamp(1rem, 4.6vw, 1.6rem)
+      clamp(1.8rem, 6vw, 2.4rem) clamp(1.55rem, 7.5vw, 2.25rem);
     background: #ffffff;
     counter-reset: svc-mobile-service;
     pointer-events: auto;
@@ -3788,13 +3860,15 @@
     left: auto;
     display: grid;
     width: 100%;
-    min-height: clamp(7.35rem, 31vw, 9rem);
-    grid-template-columns: minmax(0, 1fr) clamp(3.3rem, 16vw, 4.75rem);
+    height: var(--svc-mobile-feature-height);
+    min-height: var(--svc-mobile-feature-height);
+    grid-template-columns: minmax(0, 1fr) clamp(3.7rem, 17vw, 4.85rem);
     align-items: center;
-    column-gap: clamp(0.95rem, 4.2vw, 1.45rem);
+    column-gap: clamp(1rem, 4.4vw, 1.55rem);
     margin: 0;
-    padding: clamp(1rem, 4.5vw, 1.45rem) 0;
+    padding: clamp(1.05rem, 4.4vw, 1.55rem) 0;
     border: 0;
+    border-bottom: 1px solid rgba(7, 27, 53, 0.14);
     color: var(--svc-ink);
     counter-increment: svc-mobile-service;
     transform: none;
@@ -3807,7 +3881,7 @@
   .svc-service-detail-feature-copy {
     order: 1;
     display: grid;
-    gap: clamp(0.48rem, 2.2vw, 0.72rem);
+    gap: clamp(0.5rem, 2vw, 0.72rem);
     min-width: 0;
     align-content: center;
   }
@@ -3816,7 +3890,7 @@
     content: counter(svc-mobile-service, decimal-leading-zero);
     color: var(--svc-red);
     font-family: var(--site-font-display);
-    font-size: clamp(0.74rem, 2.9vw, 0.92rem);
+    font-size: clamp(0.78rem, 3vw, 0.96rem);
     font-weight: 900;
     line-height: 1;
     letter-spacing: 0;
@@ -3829,8 +3903,8 @@
   .svc-service-detail-feature-icon {
     order: 2;
     display: grid;
-    width: clamp(3.05rem, 14.8vw, 4.35rem);
-    height: clamp(3.05rem, 14.8vw, 4.35rem);
+    width: clamp(3.45rem, 15.5vw, 4.65rem);
+    height: clamp(3.45rem, 15.5vw, 4.65rem);
     place-items: center;
     justify-self: center;
     color: var(--site-brand-navy);
@@ -3862,7 +3936,7 @@
   .svc-service-detail-feature h3 {
     color: var(--svc-ink);
     font-family: var(--home-font-sans, var(--site-font-sans));
-    font-size: clamp(0.9rem, 3.8vw, 1.12rem);
+    font-size: clamp(0.76rem, 0.76vw, 0.92rem);
     font-weight: 850;
     line-height: 1.18;
     letter-spacing: 0;
@@ -3872,10 +3946,30 @@
 
   .svc-service-detail-feature p {
     color: rgba(7, 27, 53, 0.9);
-    font-size: clamp(0.78rem, 3.2vw, 0.94rem);
+    font-size: clamp(0.72rem, 0.73vw, 0.86rem);
     font-weight: 500;
-    line-height: 1.78;
+    line-height: 1.45;
     letter-spacing: 0;
+  }
+
+  .svc-reference-canvas[data-category='multimodal'] .svc-service-detail-feature:nth-child(4) {
+    order: 5;
+  }
+
+  .svc-reference-canvas[data-category='multimodal'] .svc-service-detail-feature:nth-child(5) {
+    order: 4;
+  }
+
+  .svc-reference-canvas[data-category='multimodal']
+    .svc-service-detail-feature:nth-child(4)
+    .svc-service-detail-feature-copy::before {
+    content: '05';
+  }
+
+  .svc-reference-canvas[data-category='multimodal']
+    .svc-service-detail-feature:nth-child(5)
+    .svc-service-detail-feature-copy::before {
+    content: '04';
   }
 
   .svc-process-section {
@@ -3897,13 +3991,15 @@
 
 @media (max-width: 420px) {
   .svc-page {
-    --svc-mobile-menu-width: 36.25vw;
-    --svc-mobile-intro-height: clamp(10.95rem, 47vw, 11.75rem);
-    --svc-mobile-tab-height: clamp(3.05rem, 14vw, 3.55rem);
+    --svc-mobile-menu-width: clamp(5.95rem, 25.8vw, 6.45rem);
+    --svc-mobile-title-extra: clamp(2.15rem, 10vw, 3rem);
+    --svc-mobile-intro-height: clamp(12.15rem, 49vw, 13.25rem);
+    --svc-mobile-tab-height: clamp(4.45rem, 18vw, 5.75rem);
+    --svc-mobile-feature-height: clamp(11.35rem, 48vw, 12.5rem);
   }
 
   .svc-reference-scene-copy {
-    font-size: clamp(0.92rem, 4.55vw, 1.12rem);
+    font-size: clamp(1rem, 4.75vw, 1.22rem);
   }
 
   .svc-reference-scene-copy::before {
@@ -3916,34 +4012,30 @@
 
   .svc-reference-tab {
     min-height: var(--svc-mobile-tab-height);
-    padding: clamp(0.34rem, 2.4vw, 0.56rem) clamp(0.5rem, 3.4vw, 0.82rem);
-    font-size: clamp(0.54rem, 2.8vw, 0.68rem);
+    padding: clamp(0.55rem, 2.4vw, 0.78rem) clamp(0.42rem, 2.6vw, 0.72rem)
+      clamp(0.55rem, 2.4vw, 0.78rem) clamp(1.04rem, 4.6vw, 1.38rem);
+    font-size: clamp(0.54rem, 2.45vw, 0.66rem);
   }
 
   .svc-service-detail-feature,
   .svc-service-detail-feature:nth-child(n) {
-    grid-template-columns: minmax(0, 1fr) clamp(3rem, 15vw, 3.8rem);
-    column-gap: clamp(0.82rem, 3.6vw, 1.12rem);
+    grid-template-columns: minmax(0, 1fr) clamp(3.35rem, 15.5vw, 4rem);
+    column-gap: clamp(0.86rem, 3.7vw, 1.16rem);
   }
 }
 
 @media (max-width: 360px) {
   .svc-reference-scene-copy {
-    width: min(100%, 12.7rem);
-    font-size: 1.24rem;
-  }
-
-  .svc-reference-scene-copy::before,
-  .svc-reference-scene-copy::after {
-    display: none;
+    width: min(100%, 13.6rem);
+    font-size: 1.02rem;
   }
 
   .svc-mobile-services-title {
-    font-size: 1.42rem;
+    font-size: 1.72rem;
   }
 
   .svc-reference-tab {
-    line-height: 1.42;
+    line-height: 1.4;
   }
 
   .svc-service-detail-feature p {

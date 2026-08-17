@@ -16,6 +16,7 @@ const TRAIN_SEGMENTS = [
     width: 1536,
     height: 1024,
     title: 'TRANSPARENT COMMUNICATION',
+    titleLines: ['Transparent', 'Communication'],
     text: 'Clear updates and complete visibility from origin to destination.',
   },
   {
@@ -26,6 +27,7 @@ const TRAIN_SEGMENTS = [
     width: 1536,
     height: 1024,
     title: 'GLOBAL REACH',
+    titleLines: ['Global', 'Reach'],
     text: 'Integrated logistics across air, sea, road, and rail.',
   },
   {
@@ -36,6 +38,7 @@ const TRAIN_SEGMENTS = [
     width: 1536,
     height: 1024,
     title: 'RELIABLE DELIVERY',
+    titleLines: ['Reliable', 'Delivery'],
     text: 'Every shipment handled with precision and accountability.',
   },
   {
@@ -377,7 +380,11 @@ export function WhyChooseFelmex({ variant = 'default' }) {
                 >
                   <div className="why-choose-felmex__split-panel-inner">
                     <div className="why-choose-felmex__split-copy">
-                      <h3>{panel.title}</h3>
+                      <h3 aria-label={panel.title}>
+                        {panel.titleLines.map((line) => (
+                          <span key={line}>{line}</span>
+                        ))}
+                      </h3>
                       <span className="why-choose-felmex__split-copy-rule" aria-hidden="true" />
                       <p>{panel.text}</p>
                     </div>

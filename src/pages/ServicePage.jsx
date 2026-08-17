@@ -14,6 +14,7 @@ const SERVICE_CATEGORIES = [
       'We move your cargo seamlessly across road, rail, sea and air through integrated solutions that connect more places, reduce transit time and deliver value at every step.',
     panelDescription:
       'We connect air, sea, road, and rail to deliver flexible, cost-effective transport solutions.',
+    quoteHighlights: ['air', 'sea', 'road', 'rail'],
     features: [
       {
         icon: 'boxPin',
@@ -54,6 +55,7 @@ const SERVICE_CATEGORIES = [
       'We simplify complex shipping with reliable international freight forwarding solutions. From origin to destination, cargo moves securely, efficiently and on schedule.',
     panelDescription:
       'We coordinate international cargo movement with reliable routes, documents, and milestone control.',
+    quoteHighlights: ['international cargo', 'routes', 'documents', 'milestone control'],
     features: [
       {
         icon: 'globePin',
@@ -94,6 +96,7 @@ const SERVICE_CATEGORIES = [
       'We streamline cross-border trade by simplifying customs procedures and keeping documentation compliant so cargo moves faster and with fewer delays.',
     panelDescription:
       'We simplify declarations, document checks, and authority coordination for smoother border movement.',
+    quoteHighlights: ['declarations', 'document checks', 'authority coordination'],
     features: [
       {
         icon: 'documentCheck',
@@ -134,6 +137,7 @@ const SERVICE_CATEGORIES = [
       'We design and manage efficient, resilient supply chains that improve control, reduce friction and keep operations moving with clear visibility.',
     panelDescription:
       'We connect planning, visibility, and execution so your supply chain stays clear and controlled.',
+    quoteHighlights: ['planning', 'visibility', 'execution'],
     features: [
       {
         icon: 'monitorChart',
@@ -174,6 +178,7 @@ const SERVICE_CATEGORIES = [
       'We protect, manage and move inventory through secure warehousing and structured distribution workflows built for speed and accuracy.',
     panelDescription:
       'We manage storage, inventory control, and dispatch workflows with dependable handling discipline.',
+    quoteHighlights: ['storage', 'inventory control', 'dispatch workflows'],
     features: [
       {
         icon: 'warehouse',
@@ -214,6 +219,7 @@ const SERVICE_CATEGORIES = [
       'We coordinate reliable document, parcel and priority delivery movement with clear tracking from pickup to final handoff.',
     panelDescription:
       'We move documents, parcels, and priority deliveries with clear tracking from pickup to handoff.',
+    quoteHighlights: ['documents', 'parcels', 'priority deliveries', 'tracking'],
     features: [
       {
         icon: 'truckFast',
@@ -327,6 +333,38 @@ function ArrowIcon() {
   );
 }
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function HighlightedQuote({ text, highlights = [] }) {
+  const normalizedHighlights = highlights
+    .filter(Boolean)
+    .sort((first, second) => second.length - first.length);
+
+  if (!normalizedHighlights.length) {
+    return text;
+  }
+
+  const highlightPattern = new RegExp(`(${normalizedHighlights.map(escapeRegExp).join('|')})`, 'gi');
+
+  return text.split(highlightPattern).map((part, index) => {
+    const isHighlight = normalizedHighlights.some(
+      (highlight) => highlight.toLowerCase() === part.toLowerCase()
+    );
+
+    if (!isHighlight) {
+      return part;
+    }
+
+    return (
+      <strong className="svc-quote-highlight" key={`${part}-${index}`}>
+        {part}
+      </strong>
+    );
+  });
+}
+
 function ServiceIcon({ kind }) {
   const icons = {
     boxPin: (
@@ -339,8 +377,7 @@ function ServiceIcon({ kind }) {
     ),
     plane: (
       <>
-        <path d="M55 13 8 32l17 5 5 17 25-41Z" />
-        <path d="M25 37 55 13 30 54M25 37l-9 10" />
+        <path d="M30.5 5.5c1-1.8 3-1.8 4 0 1.2 2.2 1.9 6.2 1.9 10.4v8.8l20.1 12.9c1.4.9 2.2 2.5 2.2 4.2v4.4L36.4 39.5v8.6l7.1 5.2v4.1L32.5 54l-11 3.4v-4.1l7.1-5.2v-8.6L6.3 46.2v-4.4c0-1.7.8-3.3 2.2-4.2l20.1-12.9v-8.8c0-4.2.7-8.2 1.9-10.4Z" />
       </>
     ),
     ship: (
@@ -489,8 +526,7 @@ function MobileServiceIcon({ kind }) {
   );
   const solidPlane = (
     <>
-      <path d="M56 11 7 31.3l18.2 6.2 7.2 16.9L56 11Z" />
-      <path d="M25.2 37.5 56 11 31.9 42.2" fill="none" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M30.5 5.5c1-1.8 3-1.8 4 0 1.2 2.2 1.9 6.2 1.9 10.4v8.8l20.1 12.9c1.4.9 2.2 2.5 2.2 4.2v4.4L36.4 39.5v8.6l7.1 5.2v4.1L32.5 54l-11 3.4v-4.1l7.1-5.2v-8.6L6.3 46.2v-4.4c0-1.7.8-3.3 2.2-4.2l20.1-12.9v-8.8c0-4.2.7-8.2 1.9-10.4Z" />
     </>
   );
   const solidShip = (
@@ -594,41 +630,43 @@ function ProcessIcon({ kind }) {
   const icons = {
     inquiry: (
       <>
-        <path d="M12 16h27a7 7 0 0 1 7 7v13a7 7 0 0 1-7 7H25l-10 7v-7h-3a7 7 0 0 1-7-7V23a7 7 0 0 1 7-7Z" />
-        <path d="M42 28h7a6 6 0 0 1 6 6v10a6 6 0 0 1-6 6h-2v6l-8-6H28a6 6 0 0 1-5.6-3.8" />
-        <path className="svc-icon-accent" d="M18 29h.1M26 29h.1M34 29h.1" />
+        <path d="M10 13h31a8 8 0 0 1 8 8v14a8 8 0 0 1-8 8H27l-12 8v-8h-5a8 8 0 0 1-8-8V21a8 8 0 0 1 8-8Z" />
+        <path d="M42 27h8a7 7 0 0 1 7 7v11a7 7 0 0 1-7 7h-2v7l-9-7H29a7 7 0 0 1-6.4-4.2" opacity="0.95" />
+        <circle className="svc-process-icon-cutout-fill" cx="18" cy="29" r="2.1" />
+        <circle className="svc-process-icon-cutout-fill" cx="26" cy="29" r="2.1" />
+        <circle className="svc-process-icon-cutout-fill" cx="34" cy="29" r="2.1" />
       </>
     ),
     planning: (
       <>
-        <path d="M18 13h28v43H18zM25 13V8h14v5" />
-        <path d="M25 25h14M25 36h14M25 47h14" />
-        <path className="svc-icon-accent" d="M11 27l3 3 6-7M11 38l3 3 6-7M11 49l3 3 6-7" />
+        <path d="M18 10h8.2a5 5 0 0 1 7.6 0H46a4 4 0 0 1 4 4v42H18V10Zm11 5h6v-3h-6v3Z" />
+        <path className="svc-process-icon-cutout" d="M28 27h13M28 38h13M28 49h13" />
+        <path className="svc-process-icon-cutout" d="m13 27.5 3 3 6.2-7M13 38.5l3 3 6.2-7M13 49.5l3 3 6.2-7" />
       </>
     ),
     documentation: (
       <>
-        <path d="M18 8h24l9 9v39H18zM42 8v9h9" />
-        <path className="svc-icon-accent" d="M26 27h17M26 36h17M26 45h11" />
+        <path d="M17 7h27l9 9v41H17V7Zm27 0v11h9" />
+        <path className="svc-process-icon-cutout" d="M25 27h19M25 36h19M25 45h12" />
       </>
     ),
     transportation: (
       <>
-        <path d="M10 28 32 16l22 12v24H10z" />
-        <path d="M16 52V33h32v19M22 33v19M32 33v19M42 33v19M27 16v-4h10v4M8 56h48" />
-        <circle className="svc-icon-accent-fill" cx="32" cy="13" r="2.6" />
+        <path d="M9 28 32 15l23 13v24H9V28Zm9 20h28V33H18v15Z" />
+        <path className="svc-process-icon-cutout" d="M24 48V37M32 48V37M40 48V37M26 18v-5h12v5M8 56h48" />
+        <circle className="svc-process-icon-cutout-fill" cx="32" cy="13" r="2.8" />
       </>
     ),
     delivery: (
       <>
         <circle cx="32" cy="32" r="24" />
-        <path className="svc-icon-accent" d="m20.5 32.5 7.4 7.4 16.2-17.3" />
+        <path className="svc-process-icon-cutout" d="m20.5 32.5 7.4 7.4 16.2-17.3" />
       </>
     ),
   };
 
   return (
-    <svg className="svc-process-icon" viewBox="0 0 64 64" focusable="false" aria-hidden="true">
+    <svg className="svc-process-solid-icon" viewBox="0 0 64 64" focusable="false" aria-hidden="true">
       {icons[kind] ?? icons.inquiry}
     </svg>
   );
@@ -667,7 +705,7 @@ export function ServicePage() {
 
       <section className="svc-reference-section" id="svc-services-canvas" aria-label="Felmex service categories">
         <div className="svc-reference-board">
-          <div className="svc-reference-canvas" key={activeCategory.id} data-category={activeCategory.id}>
+          <div className="svc-reference-canvas" data-category={activeCategory.id}>
             <h1 className="svc-mobile-services-title">Our Services</h1>
 
             <section
@@ -689,7 +727,10 @@ export function ServicePage() {
                 </h2>
                 <span className="svc-reference-title-rule" aria-hidden="true" />
                 <p className="svc-reference-scene-copy">
-                  {activeCategory.panelDescription ?? activeCategory.description}
+                  <HighlightedQuote
+                    text={activeCategory.panelDescription ?? activeCategory.description}
+                    highlights={activeCategory.quoteHighlights}
+                  />
                 </p>
                 <div className="svc-reference-dots" aria-label="Featured service slides">
                   {SERVICE_CATEGORIES.map((category) => {
@@ -725,70 +766,72 @@ export function ServicePage() {
               </div>
             </section>
 
-            <nav className="svc-reference-nav" aria-label="Service categories">
-              <div className="svc-reference-nav-track" role="tablist" aria-label="Service categories">
-                {SERVICE_CATEGORIES.map((category) => {
-                  const isActive = category.id === activeCategory.id;
+            <div className="svc-mobile-service-shell">
+              <nav className="svc-reference-nav" aria-label="Service categories">
+                <div className="svc-reference-nav-track" role="tablist" aria-label="Service categories">
+                  {SERVICE_CATEGORIES.map((category) => {
+                    const isActive = category.id === activeCategory.id;
 
-                  return (
-                    <button
-                      className={`svc-reference-tab${isActive ? ' is-active' : ''}`}
-                      type="button"
-                      role="tab"
-                      aria-selected={isActive}
-                      aria-controls="svc-services-shot"
-                      id={`svc-category-tab-${category.id}`}
-                      key={category.id}
-                      aria-label={category.label}
-                      onClick={() => setActiveCategoryId(category.id)}
-                    >
-                      <span className="svc-reference-tab-icon" aria-hidden="true">
-                        <ServiceIcon kind={category.navIcon} />
-                      </span>
-                      <span className="svc-reference-tab-label">
-                        {category.navLabelLines.map((line) => (
-                          <span className="svc-reference-tab-label-line" key={line}>
-                            {line}
-                          </span>
-                        ))}
-                      </span>
-                      <span className="svc-reference-tab-compact">{category.compactLabel}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </nav>
+                    return (
+                      <button
+                        className={`svc-reference-tab${isActive ? ' is-active' : ''}`}
+                        type="button"
+                        role="tab"
+                        aria-selected={isActive}
+                        aria-controls="svc-services-shot"
+                        id={`svc-category-tab-${category.id}`}
+                        key={category.id}
+                        aria-label={category.label}
+                        onClick={() => setActiveCategoryId(category.id)}
+                      >
+                        <span className="svc-reference-tab-icon" aria-hidden="true">
+                          <ServiceIcon kind={category.navIcon} />
+                        </span>
+                        <span className="svc-reference-tab-label">
+                          {category.navLabelLines.map((line) => (
+                            <span className="svc-reference-tab-label-line" key={line}>
+                              {line}
+                            </span>
+                          ))}
+                        </span>
+                        <span className="svc-reference-tab-compact">{category.compactLabel}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </nav>
 
-            <section className="svc-service-detail-section" aria-label={`${activeCategory.label} capabilities`}>
-              <div className="svc-service-detail-white-field" aria-hidden="true" />
+              <section className="svc-service-detail-section" aria-label={`${activeCategory.label} capabilities`}>
+                <div className="svc-service-detail-white-field" aria-hidden="true" />
 
-              <div className="svc-service-detail-copy">
-                <p className="svc-service-detail-kicker">{activeCategory.kicker}</p>
-                <h2 className="svc-service-detail-title">
-                  {activeCategory.titleLines.map((line) => (
-                    <span key={line}>{line}</span>
+                <div className="svc-service-detail-copy">
+                  <p className="svc-service-detail-kicker">{activeCategory.kicker}</p>
+                  <h2 className="svc-service-detail-title">
+                    {activeCategory.titleLines.map((line) => (
+                      <span key={line}>{line}</span>
+                    ))}
+                  </h2>
+                  <span className="svc-service-detail-title-rule" aria-hidden="true" />
+                  <p className="svc-service-detail-description">{activeCategory.description}</p>
+                </div>
+
+                <div className="svc-service-detail-feature-list" role="list" aria-label={`${activeCategory.label} capabilities`}>
+                  {activeCategory.features.map((feature) => (
+                    <article className="svc-service-detail-feature" key={feature.title} role="listitem">
+                      <div className="svc-service-detail-feature-icon" aria-hidden="true">
+                        <ServiceIcon kind={feature.icon} />
+                        <MobileServiceIcon kind={feature.icon} />
+                      </div>
+                      <span className="svc-service-detail-feature-rule" aria-hidden="true" />
+                      <div className="svc-service-detail-feature-copy">
+                        <h3>{feature.title}</h3>
+                        <p>{feature.copy}</p>
+                      </div>
+                    </article>
                   ))}
-                </h2>
-                <span className="svc-service-detail-title-rule" aria-hidden="true" />
-                <p className="svc-service-detail-description">{activeCategory.description}</p>
-              </div>
-
-              <div className="svc-service-detail-feature-list" role="list" aria-label={`${activeCategory.label} capabilities`}>
-                {activeCategory.features.map((feature) => (
-                  <article className="svc-service-detail-feature" key={feature.title} role="listitem">
-                    <div className="svc-service-detail-feature-icon" aria-hidden="true">
-                      <ServiceIcon kind={feature.icon} />
-                      <MobileServiceIcon kind={feature.icon} />
-                    </div>
-                    <span className="svc-service-detail-feature-rule" aria-hidden="true" />
-                    <div className="svc-service-detail-feature-copy">
-                      <h3>{feature.title}</h3>
-                      <p>{feature.copy}</p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
+                </div>
+              </section>
+            </div>
 
             <section className="svc-process-section" aria-label="How Felmex works">
               <div className="svc-process-heading">
