@@ -50,6 +50,53 @@ const ABOUT_BRIEFS = [
   },
 ];
 
+const MOBILE_ABOUT_TABS = [
+  {
+    id: 'who-we-are',
+    label: 'Who We Are',
+    labelLines: ['WHO WE', 'ARE'],
+    icon: 'crowd',
+    copyLines: [
+      'We coordinate freight, customs,',
+      'warehousing, and last-mile movement',
+      'with accountable handoffs.',
+    ],
+  },
+  {
+    id: 'mission',
+    label: 'Our Mission',
+    labelLines: ['OUR', 'MISSION'],
+    icon: 'mission',
+    copyLines: [
+      'We simplify cross-border logistics',
+      'with early planning, clear visibility,',
+      'and reliable communication.',
+    ],
+  },
+  {
+    id: 'vision',
+    label: 'Our Vision',
+    labelLines: ['OUR', 'VISION'],
+    icon: 'vision',
+    copyLines: [
+      'We make global trade feel more',
+      'predictable through stronger partners',
+      'and scalable operating standards.',
+    ],
+  },
+  {
+    id: 'values',
+    label: 'Our Values',
+    labelLines: ['OUR', 'VALUES'],
+    icon: 'values',
+    copyLines: [
+      'Integrity, reliability, excellence,',
+      'and collaboration guide every route,',
+      'handoff, and cargo promise.',
+    ],
+  },
+];
+
 const CORE_VALUES = ['Integrity', 'Reliability', 'Excellence', 'Collaboration'];
 
 const PARTNER_LOGOS = [
@@ -150,6 +197,88 @@ function ArrowIcon() {
   );
 }
 
+const PROVIDED_HANDSHAKE_ICON_PATH =
+  'M48.753,26.371l-6.886,2.652L36.647,15.469l6.887-2.652A.6.6,0,0,0,43.1,11.7l-7.446,2.868a.6.6,0,0,0-.344.775l.606,1.575a7.944,7.944,0,0,1-2.468.712,9.194,9.194,0,0,1-3.5-1.039,10.08,10.08,0,0,0-2.6-.893,7.7,7.7,0,0,0-3.533.906.638.638,0,0,0-.423-.166H15.082a1.619,1.619,0,0,1-.578-.175l.7-1.5a.6.6,0,0,0-.288-.8L7.695,10.578a.6.6,0,0,0-.51,1.086L13.866,14.8,7.7,27.948,1.015,24.813A.6.6,0,0,0,.505,25.9l7.224,3.39a.591.591,0,0,0,.255.058A.6.6,0,0,0,8.527,29l.556-1.184c1.047.459,2.129.948,2.83,1.214a3.666,3.666,0,0,0,.163,2.016,1.8,1.8,0,0,0,1.659.946,2.058,2.058,0,0,0,.655,2.091,2.039,2.039,0,0,0,1.417.325,1.886,1.886,0,0,0,.088.417,2.235,2.235,0,0,0,1.262,1.311,2.676,2.676,0,0,0,2.111-.114A2.351,2.351,0,0,0,20.5,37.331a2.8,2.8,0,0,0,2.615-.53,3.212,3.212,0,0,0,1.512,1.427,1.733,1.733,0,0,0,.7.146,3.9,3.9,0,0,0,2.448-1.3,3.513,3.513,0,0,0,1.417.33,2.27,2.27,0,0,0,1.657-.673,3.246,3.246,0,0,0,.811-1.2,3.174,3.174,0,0,0,.809.119,2.271,2.271,0,0,0,1.657-.673,3.221,3.221,0,0,0,.821-1.232,2.871,2.871,0,0,0,.661.087l.126,0a2.947,2.947,0,0,0,1.968-.938c.788-.788.15-2.007-.339-2.706a6.4,6.4,0,0,1,2.306-1.38c.2-.06.463-.121.752-.183l.539,1.4a.6.6,0,0,0,.56.384.587.587,0,0,0,.216-.04l7.446-2.868a.6.6,0,1,0-.432-1.119ZM14.345,30.692c-.48.051-.977-.02-1.04-.163a2.815,2.815,0,0,1,0-1.614l.005,0a1.819,1.819,0,0,1,1.433-.606.992.992,0,0,1,.6.617C15.426,29.137,14.988,29.962,14.345,30.692Zm1.844,2.329a1.577,1.577,0,0,1-1.018.034c-.37-.282-.121-1.093.006-1.4a5.831,5.831,0,0,0,1.346-2.208,1.747,1.747,0,0,1,.969-.086,2.3,2.3,0,0,1,.568.731C17.594,30.674,16.637,32.265,16.189,33.021Zm3.186,1.412a.6.6,0,0,0-.039.1c-.414.26-1.208.624-1.638.427a1.011,1.011,0,0,1-.578-.548.682.682,0,0,1,.063-.539A35.22,35.22,0,0,1,19.11,30.84a1.045,1.045,0,0,1,1.4.032l.707.62Zm3.539.905c-.623.531-1.513.993-1.84.834-.718-.354-.663-.873-.632-1.012l0-.017c.007-.01.019-.014.026-.024l1.853-2.959a4.592,4.592,0,0,1,.874.6c.213.18.542.491.918.858Zm2.233,1.707a2.088,2.088,0,0,1-1.037-1.162l.937-1.343c.647.651,1.291,1.312,1.7,1.733C26.243,36.744,25.546,37.221,25.147,37.045Zm10.531-4.514a1.94,1.94,0,0,1-.979-.257c-.012-.008-.027-.01-.039-.018a5.068,5.068,0,0,1-1.124-.882c-2.127-2.126-6.075-5.211-6.243-5.341a.646.646,0,1,0-.794,1.019c.041.031,4.053,3.166,6.124,5.236a6.572,6.572,0,0,0,1.147.916,1.7,1.7,0,0,1-.552.852c-.531.531-1.382.2-1.757.017a.706.706,0,0,0-.182-.1l-6.638-5.826a.646.646,0,0,0-.853.971l6.7,5.88a1.817,1.817,0,0,1-.546.821c-.609.611-1.645.087-1.894-.054-.45-.467-3.108-3.223-4.014-3.989a4.781,4.781,0,0,0-1.666-.989l-1-.881a2.305,2.305,0,0,0-2.216-.518A3.379,3.379,0,0,0,18.23,28.3a2.4,2.4,0,0,0-1.885-.144,2.141,2.141,0,0,0-1.337-1.1,2.887,2.887,0,0,0-2.506.821c-.643-.245-1.76-.749-2.869-1.231l4.327-9.221a2.934,2.934,0,0,0,1.122.307h6.583a7.445,7.445,0,0,0-1.111.759,2.525,2.525,0,0,0-.583,1.255,3.1,3.1,0,0,1-.639,1.4c-.523.6-1.914,2.2-.565,3.545A1.581,1.581,0,0,0,19.9,25.1c1.355-.027,3.439-1.32,5.41-3.333L36.05,30.581a2.973,2.973,0,0,1,.742,1.39A1.681,1.681,0,0,1,35.678,32.531ZM39.3,27.563a7.71,7.71,0,0,0-2.829,1.688l-10.8-8.869a.644.644,0,0,0-.884.061c-2.718,2.946-4.808,3.543-5.1,3.333-.185-.186-.5-.5.626-1.782a4.336,4.336,0,0,0,.918-1.933,1.747,1.747,0,0,1,.244-.659c.475-.475,4.289-2.611,5.717-2.423a9.279,9.279,0,0,1,2.241.793A10.277,10.277,0,0,0,33.45,18.92a9.126,9.126,0,0,0,2.931-.8L39.955,27.4C39.708,27.452,39.477,27.508,39.3,27.563Z';
+
+function MobileAboutIcon({ kind }) {
+  const icons = {
+    crowd: (
+      <svg viewBox="0 0 160 128" focusable="false" aria-hidden="true">
+        <circle cx="80" cy="37" r="24" fill="currentColor" />
+        <circle cx="39.5" cy="49" r="18" fill="currentColor" />
+        <circle cx="120.5" cy="49" r="18" fill="currentColor" />
+        <path
+          d="M39.5 72C20.4 72 5 84.1 5 99v5.2c0 4 3.2 7.3 7.3 7.3h39.5c-1.2-4-1.8-8.1-1.8-12.5 0-9.6 3.5-18.4 9.5-25.8A49.2 49.2 0 0 0 39.5 72Z"
+          fill="currentColor"
+        />
+        <path
+          d="M120.5 72c-7 0-13.8 1.1-20 3.2 6 7.3 9.5 16.2 9.5 25.8 0 4.4-.6 8.5-1.8 12.5h39.5c4 0 7.3-3.2 7.3-7.3V99c0-14.9-15.4-27-34.5-27Z"
+          fill="currentColor"
+        />
+        <path
+          d="M80 69c-25.4 0-46 15.3-46 34.2v6.6c0 5 4 9 9 9h74c5 0 9-4 9-9v-6.6C126 84.3 105.4 69 80 69Z"
+          fill="currentColor"
+        />
+      </svg>
+    ),
+    mission: (
+      <svg viewBox="0 0 160 128" focusable="false" aria-hidden="true">
+        <path d="M80 21a43 43 0 1 0 43 43A43 43 0 0 0 80 21Zm0 70a27 27 0 1 1 27-27 27 27 0 0 1-27 27Z" fill="currentColor" />
+        <path d="M80 48a16 16 0 1 0 16 16 16 16 0 0 0-16-16Z" fill="currentColor" />
+        <path
+          d="M88.6 56.8 130 31l-18.9 45.4-15.5-8.2-10 21.4-12.1-12.1 21.4-10-6.3-10.7Z"
+          fill="currentColor"
+        />
+        <path
+          d="M80 14v17M80 97v17M30 64h17M113 64h17"
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeWidth="8"
+        />
+      </svg>
+    ),
+    vision: (
+      <svg viewBox="0 0 160 128" focusable="false" aria-hidden="true">
+        <path
+          d="M80 31c38.7 0 62.9 32.9 62.9 32.9S118.7 97 80 97 17.1 63.9 17.1 63.9 41.3 31 80 31Z"
+          fill="currentColor"
+        />
+        <path d="M80 43a21 21 0 1 1 0 42 21 21 0 0 1 0-42Z" fill="#ffffff" />
+        <path d="M80 52a12 12 0 1 1 0 24 12 12 0 0 1 0-24Z" fill="currentColor" />
+        <path d="M87.5 56.4a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z" fill="#ffffff" />
+      </svg>
+    ),
+    values: (
+      <svg viewBox="0 0 160 128" focusable="false" aria-hidden="true">
+        <path
+          d="M80 12 124 30.8V62c0 27.6-17.7 45.8-44 56-26.3-10.2-44-28.4-44-56V30.8L80 12Z"
+          fill="currentColor"
+        />
+        <path
+          d="m58 65.4 14.9 14.9L103.5 48"
+          fill="none"
+          stroke="#ffffff"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="9.5"
+        />
+        <path
+          d="M55 39.5 80 28.8l25 10.7"
+          fill="none"
+          stroke="#ffffff"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeOpacity="0.78"
+          strokeWidth="5"
+        />
+      </svg>
+    ),
+  };
+
+  return icons[kind] ?? icons.crowd;
+}
+
 export function AboutPage() {
   const [activeBriefId, setActiveBriefId] = useState(ABOUT_BRIEFS[0].id);
   const activeBriefIndex = Math.max(
@@ -157,9 +286,149 @@ export function AboutPage() {
     0
   );
   const activeBrief = ABOUT_BRIEFS[activeBriefIndex] ?? ABOUT_BRIEFS[0];
+  const activeMobileTab =
+    MOBILE_ABOUT_TABS.find((tab) => tab.id === activeBriefId) ?? MOBILE_ABOUT_TABS[0];
 
   return (
     <section className="abt-page" id="about-top" aria-label="About Felmex">
+      <section className="abt-mobile-reference" aria-label="About Felmex mobile overview">
+        <section className="abt-mobile-hero" aria-label="About introduction">
+          <h1 className="abt-mobile-title">
+            <span>About</span>
+            <span>Us</span>
+          </h1>
+          <blockquote className="abt-mobile-quote">
+            <span className="abt-mobile-quote-mark abt-mobile-quote-mark--open" aria-hidden="true">
+              &ldquo;
+            </span>
+            <p>
+              <span>
+                We connect <strong>air, sea, road</strong>, and
+              </span>
+              <span>
+                <strong>rail</strong> to deliver flexible, cost-
+              </span>
+              <span>effective transport solutions.</span>
+            </p>
+            <span className="abt-mobile-quote-mark abt-mobile-quote-mark--close" aria-hidden="true">
+              &rdquo;
+            </span>
+          </blockquote>
+        </section>
+
+        <section className="abt-mobile-tabs" aria-label="About sections">
+          <nav className="abt-mobile-tab-nav" aria-label="About sections">
+            <div className="abt-mobile-tab-list" role="tablist" aria-label="About sections">
+              {MOBILE_ABOUT_TABS.map((tab) => {
+                const isActive = tab.id === activeMobileTab.id;
+
+                return (
+                  <button
+                    className={`abt-mobile-tab${isActive ? ' is-active' : ''}`}
+                    type="button"
+                    role="tab"
+                    id={`abt-mobile-tab-${tab.id}`}
+                    key={tab.id}
+                    aria-label={tab.label}
+                    aria-selected={isActive}
+                    aria-controls="abt-mobile-panel"
+                    onClick={() => setActiveBriefId(tab.id)}
+                  >
+                    <span className="abt-mobile-tab-label" aria-hidden="true">
+                      {tab.labelLines.map((line) => (
+                        <span key={line}>{line}</span>
+                      ))}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </nav>
+
+          <section
+            className="abt-mobile-panel"
+            id="abt-mobile-panel"
+            role="tabpanel"
+            aria-labelledby={`abt-mobile-tab-${activeMobileTab.id}`}
+          >
+            <div className="abt-mobile-panel-icon" aria-hidden="true">
+              <MobileAboutIcon kind={activeMobileTab.icon} />
+            </div>
+            <p className="abt-mobile-panel-copy">
+              {activeMobileTab.copyLines.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </p>
+          </section>
+        </section>
+
+        <section className="abt-mobile-brand-story" aria-label="Felmex brand story">
+          <p>
+            <span>Felmex Global Logistics was built on the belief</span>
+            <span>that logistics is more than movement&mdash;it&rsquo;s</span>
+            <span>about trust, reliability, and relationships.</span>
+            <span>From our roots to our reach, we&rsquo;ve remained</span>
+            <span>committed to delivering smart, seamless</span>
+            <span>solutions that help businesses grow</span>
+            <span>across borders.</span>
+          </p>
+        </section>
+
+        <div className="abt-mobile-why-choose">
+          <header className="abt-mobile-why-choose-header">
+            <span className="abt-mobile-section-rule" aria-hidden="true" />
+            <h2 className="abt-mobile-section-title" id="abt-mobile-why-choose-felmex-title">
+              <span>Why Choose</span>
+              <span>
+                Felmex<span className="abt-red-punctuation">.</span>
+              </span>
+            </h2>
+          </header>
+          <WhyChooseFelmex
+            sectionId="abt-mobile-why-choose-felmex"
+            titleId="abt-mobile-why-choose-felmex-internal-title"
+            labelledById="abt-mobile-why-choose-felmex-title"
+            enableDesktopScroll={false}
+          />
+        </div>
+
+        <section className="abt-mobile-partners" aria-labelledby="abt-mobile-partners-title">
+          <h2 className="abt-mobile-partners-title" id="abt-mobile-partners-title">
+            Trusted by industry leaders
+          </h2>
+          <div className="abt-mobile-partner-rail" aria-label="Trusted logistics partners">
+            <div className="abt-mobile-partner-track">
+              {[0, 1, 2, 3].map((setIndex) => (
+                <div
+                  className="abt-mobile-partner-set"
+                  key={setIndex}
+                  aria-hidden={setIndex !== 0}
+                >
+                  {PARTNER_LOGOS.map((partner) => (
+                    <div
+                      className={`abt-mobile-partner-item abt-mobile-partner-item--${partner.tone} abt-mobile-partner-item--${partner.className}`}
+                      key={`${setIndex}-${partner.name}`}
+                      style={{
+                        '--abt-partner-logo-width': partner.logoWidth,
+                        '--abt-partner-logo-max-height': partner.logoMaxHeight,
+                      }}
+                    >
+                      <img
+                        className="abt-mobile-partner-logo"
+                        src={partner.logo}
+                        alt={partner.name}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </section>
+
       <section className="abt-hero" aria-label="About introduction">
         <div className="abt-hero-copy">
           <p className="abt-hero-kicker">About Us</p>
