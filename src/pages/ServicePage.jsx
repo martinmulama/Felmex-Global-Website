@@ -1,5 +1,11 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './ServicePage.css';
+
+const SERVICE_MOBILE_QUERY = '(max-width: 760px)';
+
+function isServiceMobileViewport() {
+  return typeof window !== 'undefined' && window.matchMedia(SERVICE_MOBILE_QUERY).matches;
+}
 
 const SERVICE_CATEGORIES = [
   {
@@ -674,7 +680,10 @@ function ProcessIcon({ kind }) {
 
 export function ServicePage() {
   const [activeCategoryId, setActiveCategoryId] = useState(SERVICE_CATEGORIES[0].id);
-  const [openFaqIndex, setOpenFaqIndex] = useState(0);
+  const [isMobileFaqViewport, setIsMobileFaqViewport] = useState(() =>
+    isServiceMobileViewport()
+  );
+  const [openFaqIndex, setOpenFaqIndex] = useState(() => (isServiceMobileViewport() ? null : 0));
   const [activeProcessIndex, setActiveProcessIndex] = useState(0);
   const processGridRef = useRef(null);
   const activeCategoryIndex = Math.max(
@@ -720,6 +729,36 @@ export function ServicePage() {
       inline: 'start',
     });
   };
+
+  const handleFaqToggle = (index) => {
+    setOpenFaqIndex((currentIndex) => {
+      if (isMobileFaqViewport && currentIndex === index) {
+        return null;
+      }
+
+      return index;
+    });
+  };
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) {
+      return undefined;
+    }
+
+    const mediaQuery = window.matchMedia(SERVICE_MOBILE_QUERY);
+
+    const syncFaqState = () => {
+      setIsMobileFaqViewport(mediaQuery.matches);
+      setOpenFaqIndex((currentIndex) => (mediaQuery.matches ? null : currentIndex ?? 0));
+    };
+
+    syncFaqState();
+    mediaQuery.addEventListener('change', syncFaqState);
+
+    return () => {
+      mediaQuery.removeEventListener('change', syncFaqState);
+    };
+  }, []);
 
   return (
     <section className="svc-page" id="services-top" aria-label="Felmex services">
@@ -983,7 +1022,7 @@ export function ServicePage() {
                         id={buttonId}
                         aria-expanded={isFaqOpen}
                         aria-controls={answerId}
-                        onClick={() => setOpenFaqIndex(index)}
+                        onClick={() => handleFaqToggle(index)}
                       >
                         <span className="svc-faq-number">
                           {String(index + 1).padStart(2, '0')}

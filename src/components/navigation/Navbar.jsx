@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
 import { NAV_LINKS } from '../../data/navigation';
 import { CONTACT_CHANNELS } from '../../data/contact';
 import { MQ } from '../../constants/breakpoints';
@@ -12,6 +13,73 @@ export function Navbar() {
   const isHomePage = pathname === '/';
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const headerRef = useRef(null);
+  const mobileMenuRef = useRef(null);
+  const mobileMenuTimelineRef = useRef(null);
+
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+
+    const matchMedia = gsap.matchMedia();
+
+    matchMedia.add(MQ.mobile, () => {
+      const menuElement = mobileMenuRef.current;
+
+      if (!menuElement) return undefined;
+
+      gsap.set(menuElement, {
+        xPercent: -100,
+        pointerEvents: 'none',
+        visibility: 'hidden',
+      });
+
+      const timeline = gsap.timeline({
+        paused: true,
+        defaults: {
+          ease: 'power3.out',
+        },
+        onStart: () => {
+          menuElement.style.pointerEvents = 'auto';
+          menuElement.style.visibility = 'visible';
+        },
+        onReverseComplete: () => {
+          menuElement.style.pointerEvents = 'none';
+          menuElement.style.visibility = 'hidden';
+        },
+      });
+
+      timeline
+        .to(
+          menuElement,
+          {
+            xPercent: 0,
+            duration: 0.46,
+          },
+          0
+        );
+
+      mobileMenuTimelineRef.current = timeline;
+
+      return () => {
+        timeline.kill();
+        mobileMenuTimelineRef.current = null;
+        gsap.set(menuElement, { clearProps: 'all' });
+      };
+    });
+
+    return () => matchMedia.revert();
+  }, []);
+
+  useEffect(() => {
+    const mobileMenuTimeline = mobileMenuTimelineRef.current;
+    if (!mobileMenuTimeline) return;
+
+    if (isMobileMenuOpen) {
+      mobileMenuTimeline.play();
+      return;
+    }
+
+    mobileMenuTimeline.reverse();
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     if (!isMobileMenuOpen) return undefined;
@@ -165,13 +233,15 @@ export function Navbar() {
         </button>
 
         <nav
+          ref={mobileMenuRef}
           id="primary-navigation"
           className={`primary-nav${isMobileMenuOpen ? ' is-open' : ''}`}
           aria-label="Primary navigation"
         >
+          <span className="primary-nav-bg" aria-hidden="true" />
           <ul className="nav-links">
             {NAV_LINKS.map((item) => (
-              <li key={item.label}>
+              <li key={item.label} data-mobile-menu-item>
                 <a
                   href={resolveNavHref(item)}
                   onClick={closeMobileMenu}
@@ -193,12 +263,35 @@ export function Navbar() {
                 </a>
               </li>
             ))}
-            <li className="nav-links-mobile-quote">
-              <a className="btn-quote nav-menu-quote" href={quoteHref} onClick={closeMobileMenu}>
-                Get a Quote
-              </a>
-            </li>
           </ul>
+          <div className="mobile-menu-footer" data-mobile-menu-item>
+            <a className="mobile-menu-quote" href={quoteHref} onClick={closeMobileMenu}>
+              <span>Get a Quote</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M13.2 5.3 20 12l-6.8 6.7-1.4-1.4 4.3-4.3H4v-2h12.1l-4.3-4.3 1.4-1.4Z" />
+              </svg>
+            </a>
+            <div className="mobile-menu-call">
+              <a
+                className="mobile-menu-call-copy"
+                href={CONTACT_CHANNELS.phoneHref}
+                onClick={closeMobileMenu}
+              >
+                <span>Call us</span>
+                <strong>{CONTACT_CHANNELS.phoneDisplay}</strong>
+              </a>
+              <a
+                className="mobile-menu-call-button"
+                href={CONTACT_CHANNELS.phoneHref}
+                aria-label={`Call Felmex Global Logistics at ${CONTACT_CHANNELS.phoneDisplay}`}
+                onClick={closeMobileMenu}
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M6.6 10.8a15.6 15.6 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24c1.1.36 2.3.56 3.6.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.8 21 3 13.2 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.3.2 2.5.56 3.6a1 1 0 0 1-.25 1l-2.2 2.2Z" />
+                </svg>
+              </a>
+            </div>
+          </div>
         </nav>
 
         <a className="btn-quote btn-quote-desktop" href={quoteHref}>
