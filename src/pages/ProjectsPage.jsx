@@ -1,17 +1,17 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
+import { MQ } from '../constants/breakpoints';
+import { CONTACT_CHANNELS } from '../data/contact';
 import { ONGOING_PROJECTS } from './projects/data';
 import './ProjectsPage.css';
 
-const LOOP_COPIES = 15;
-const CENTER_LOOP_INDEX = Math.floor(LOOP_COPIES / 2);
-const DESKTOP_PROJECT_FOCUS_RATIO = 2.5 / 8;
-const MOBILE_PROJECT_FOCUS_RATIO = 0.62;
-const PROJECT_SEQUENCE_START_ID = 'port-drayage-window';
-const FEATURED_PROJECT_ID = 'port-drayage-window';
-const DEFAULT_PROJECT_ID =
-  ONGOING_PROJECTS.find((project) => project.id === 'regional-delivery-pulse')?.id ??
-  ONGOING_PROJECTS[0]?.id ??
-  '';
+const DESKTOP_SCROLL_QUERY = MQ.nonMobile;
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+const TOUCH_DEVICE_QUERY = '(any-pointer: coarse)';
+const DESKTOP_VISIBLE_PROJECTS = 3;
 const PROJECT_IMAGE_POOL = [
   '/project-hero-1536.webp',
   '/sea-freight.webp',
@@ -23,132 +23,35 @@ const PROJECT_IMAGE_POOL = [
   '/ship-service-catalog.webp',
 ];
 const PROJECT_CLIENT_NAMES = ['Apple', 'NFL', 'BMW', 'Stella', 'State Farm'];
-const PROJECT_BACKDROP_IMAGES = {
-  'port-drayage-window': '/ship-service-catalog.webp',
-  'port-to-plant': '/felmex-overview-port-lift-1536.webp',
-  'brokerage-preclearance': '/customs-clearance-brokerage.webp',
-  'regional-delivery-pulse': '/road-freight.webp',
-  'cold-chain-release': '/cold-general-warehousing.webp',
-  'border-continuity': '/road-freight.webp',
-  'airbridge-spares': '/air-freight.webp',
-  'rail-linked-program': '/rail-freight.webp',
-};
-const PROJECT_SIDEBAR_DETAILS = {
-  'port-to-plant': {
-    location: 'Mombasa, Kenya',
-    timeline: 'May 2024 - Ongoing',
-    service: 'Project Logistics',
-    client: 'Global Manufacturing Co.',
-  },
-  'cold-chain-release': {
-    location: 'Nairobi, Kenya',
-    timeline: 'April 2024 - Ongoing',
-    service: 'Cold Warehousing',
-    client: 'Regional Foods Co.',
-  },
-  'border-continuity': {
-    location: 'Namanga Corridor',
-    timeline: 'April 2024 - Ongoing',
-    service: 'Customs Brokerage',
-    client: 'Program Freight Client',
-  },
-  'airbridge-spares': {
-    location: 'Jomo Kenyatta Intl.',
-    timeline: 'March 2024 - Ongoing',
-    service: 'Air Freight',
-    client: 'Engineering Spares Client',
-  },
-  'rail-linked-program': {
-    location: 'Nairobi ICD',
-    timeline: 'March 2024 - Ongoing',
-    service: 'Rail Freight',
-    client: 'Inland Equipment Co.',
-  },
-  'brokerage-recovery': {
-    location: 'Port of Mombasa',
-    timeline: 'March 2024 - Ongoing',
-    service: 'Brokerage Support',
-    client: 'Import Program Client',
-  },
-  'port-drayage-window': {
-    copy:
-      'Streamlining port turnaround times through intelligent scheduling, real-time visibility, and coordinated movement control.',
-    location: 'Mombasa, Kenya',
-    timeline: 'May 2024 - Ongoing',
-    service: 'Port Operations',
-    client: 'Global Manufacturing Co.',
-  },
-  'brokerage-preclearance': {
-    location: 'Mombasa, Kenya',
-    timeline: 'February 2024 - Ongoing',
-    service: 'Pre-Clearance',
-    client: 'Import Desk Client',
-  },
-  'regional-delivery-pulse': {
-    location: 'East Africa',
-    timeline: 'February 2024 - Ongoing',
-    service: 'Road Distribution',
-    client: 'Retail Distribution Co.',
-  },
-};
+
+gsap.registerPlugin(ScrollTrigger);
 
 function getProjectTone(projectIndex) {
   return projectIndex % 2 === 0 ? 'red' : 'blue';
 }
 
-function getSequencedProjects() {
-  const startIndex = ONGOING_PROJECTS.findIndex((project) => project.id === PROJECT_SEQUENCE_START_ID);
-  if (startIndex < 0) return ONGOING_PROJECTS;
-
-  return [...ONGOING_PROJECTS.slice(startIndex), ...ONGOING_PROJECTS.slice(0, startIndex)];
+function getProjectColumnTone(projectIndex) {
+  if (projectIndex % 3 === 0) return 'red';
+  if (projectIndex % 3 === 1) return 'blue';
+  return 'neutral';
 }
 
-function getProjectFocusRatio() {
-  if (typeof window === 'undefined') return DESKTOP_PROJECT_FOCUS_RATIO;
-
-  return window.matchMedia('(max-width: 900px)').matches
-    ? MOBILE_PROJECT_FOCUS_RATIO
-    : DESKTOP_PROJECT_FOCUS_RATIO;
+function getProjectBrief(project) {
+  return project.subtitle ?? project.lead ?? project.body ?? '';
 }
 
-function getRailFocusY(rail) {
-  const railRect = rail.getBoundingClientRect();
-  return railRect.top + railRect.height * getProjectFocusRatio();
+function getProjectCategory(project) {
+  return project.services?.[0] ?? project.meta?.[0]?.value ?? project.eyebrow ?? 'Project Logistics';
 }
 
-function getProjectDisplayIndex(projectId) {
-  const startIndex = ONGOING_PROJECTS.findIndex((project) => project.id === PROJECT_SEQUENCE_START_ID);
-  const projectIndex = ONGOING_PROJECTS.findIndex((project) => project.id === projectId);
+function getProjectYear(project) {
+  const publishedValue =
+    project.meta?.find((item) => item.label.toLowerCase() === 'published')?.value ??
+    project.publishedOn ??
+    '';
+  const yearMatch = String(publishedValue).match(/\b(19|20)\d{2}\b/);
 
-  if (startIndex < 0 || projectIndex < 0) return '01';
-
-  return String(((projectIndex - startIndex + ONGOING_PROJECTS.length) % ONGOING_PROJECTS.length) + 1).padStart(
-    2,
-    '0'
-  );
-}
-
-function getProjectSidebarDetails(project) {
-  const details = PROJECT_SIDEBAR_DETAILS[project.id] ?? {};
-  const primaryService = project.services?.[0] ?? 'Project Logistics';
-
-  return {
-    copy: details.copy ?? project.subtitle ?? project.lead,
-    facts: [
-      { label: 'Location', value: details.location ?? 'Mombasa, Kenya' },
-      { label: 'Timeline', value: details.timeline ?? 'Ongoing' },
-      { label: 'Service', value: details.service ?? primaryService },
-      { label: 'Client', value: details.client ?? 'Global Manufacturing Co.' },
-    ],
-  };
-}
-
-function getProjectPreviewImages(project) {
-  return getProjectImages(project).slice(0, 2);
-}
-
-function getProjectBackdropImage(project) {
-  return PROJECT_BACKDROP_IMAGES[project.id] ?? project.image;
+  return yearMatch?.[0] ?? 'Ongoing';
 }
 
 function getArticleParagraphs(project) {
@@ -178,65 +81,23 @@ function getProjectPublishedDate(project) {
   );
 }
 
-function getLoopMetrics(rail) {
-  const stack = rail.querySelector('.prj-title-stack');
-  const loopHeight = ((stack?.scrollHeight ?? rail.scrollHeight) || 0) / LOOP_COPIES;
+function getHeaderClearance() {
+  if (typeof document === 'undefined') return 0;
 
-  return {
-    contentStart: stack?.offsetTop ?? 0,
-    loopHeight,
-  };
+  const headerElement = document.querySelector('.site-header');
+  return headerElement ? Math.ceil(headerElement.getBoundingClientRect().height) : 0;
 }
 
-function getCenteredTitleItem(rail) {
-  const items = Array.from(rail.querySelectorAll('.prj-title-item'));
-  if (items.length === 0) return null;
+function getIsTouchLikeDevice() {
+  if (typeof window === 'undefined') return false;
 
-  const railFocusY = getRailFocusY(rail);
-  let centeredItem = items[0];
-  let shortestDistance = Number.POSITIVE_INFINITY;
-
-  items.forEach((item) => {
-    const itemRect = item.getBoundingClientRect();
-    const itemCenterY = itemRect.top + itemRect.height / 2;
-    const distance = Math.abs(itemCenterY - railFocusY);
-
-    if (distance < shortestDistance) {
-      shortestDistance = distance;
-      centeredItem = item;
-    }
-  });
-
-  return centeredItem;
-}
-
-function getProjectTitleItem(rail, projectId, loopIndex = CENTER_LOOP_INDEX) {
-  const items = Array.from(rail.querySelectorAll('.prj-title-item'));
-
-  return (
-    items.find(
-      (item) => item.dataset.projectId === projectId && Number(item.dataset.loopIndex) === loopIndex
-    ) ?? items.find((item) => item.dataset.projectId === projectId)
-  );
-}
-
-function scrollTitleItemToCenter(rail, item, behavior = 'smooth') {
-  if (!rail || !item) return;
-
-  const targetTop = item.offsetTop - rail.clientHeight * getProjectFocusRatio() + item.offsetHeight / 2;
-
-  if (Math.abs(rail.scrollTop - targetTop) > 0.5) {
-    rail.scrollTo({
-      top: targetTop,
-      behavior,
-    });
-  }
+  return (navigator.maxTouchPoints ?? 0) > 0 || window.matchMedia(TOUCH_DEVICE_QUERY).matches;
 }
 
 function canScrollInsideProjectDrawer(target, deltaY) {
   if (!(target instanceof Element)) return false;
 
-  const scrollable = target.closest('.prj-drop-copy');
+  const scrollable = target.closest('.prj-drop-copy, .prj-detail-overlay');
   if (!scrollable || scrollable.scrollHeight <= scrollable.clientHeight + 1) return false;
 
   const isAtTop = scrollable.scrollTop <= 0;
@@ -308,200 +169,281 @@ function ProjectDetailDrawer({ project, projectIndex, onClose }) {
   );
 }
 
+function ProjectColumn({ project, projectIndex, onOpen }) {
+  const tone = getProjectColumnTone(projectIndex);
+  const titleId = `prj-column-title-${project.id}`;
+  const briefId = `prj-column-brief-${project.id}`;
+
+  return (
+    <article className={`prj-column prj-column--${tone}`} aria-labelledby={titleId}>
+      <button
+        className="prj-column-open"
+        type="button"
+        aria-describedby={briefId}
+        aria-label={`Open ${project.title}`}
+        onClick={() => onOpen(project.id)}
+      />
+      <figure className="prj-column-media">
+        <img
+          src={project.image}
+          alt={project.imageAlt}
+          width="520"
+          height="760"
+          loading={projectIndex < DESKTOP_VISIBLE_PROJECTS ? 'eager' : 'lazy'}
+          decoding="async"
+        />
+      </figure>
+      <p className="prj-column-brief" id={briefId}>
+        {getProjectBrief(project)}
+      </p>
+      <div className="prj-column-meta">
+        <h2 className="prj-column-title" id={titleId}>
+          {project.title}
+        </h2>
+        <p className="prj-column-category">{getProjectCategory(project)}</p>
+        <p className="prj-column-year">{getProjectYear(project)}</p>
+      </div>
+    </article>
+  );
+}
+
 export function ProjectsPage() {
-  const titleRailRef = useRef(null);
-  const animationFrameRef = useRef(null);
-  const settleTimerRef = useRef(null);
-  const touchYRef = useRef(null);
-  const hasUserDrivenRailRef = useRef(false);
-  const [selectedProjectId, setSelectedProjectId] = useState(DEFAULT_PROJECT_ID);
-  const [featuredProjectId, setFeaturedProjectId] = useState(
-    ONGOING_PROJECTS.find((project) => project.id === FEATURED_PROJECT_ID)?.id ?? DEFAULT_PROJECT_ID
-  );
-  const [activeItemKey, setActiveItemKey] = useState('');
+  const pageRef = useRef(null);
+  const pinRef = useRef(null);
+  const viewportRef = useRef(null);
+  const trackRef = useRef(null);
+  const progressRef = useRef(null);
+  const scrollTriggerRef = useRef(null);
+  const lenisRef = useRef(null);
   const [openProjectId, setOpenProjectId] = useState(null);
-  const [hoveredProjectId, setHoveredProjectId] = useState(null);
+  const [usesNativeProjectScroll, setUsesNativeProjectScroll] = useState(false);
 
-  const loopedProjects = useMemo(
-    () =>
-      Array.from({ length: LOOP_COPIES }, (_, loopIndex) => {
-        const sequencedProjects = getSequencedProjects();
+  const projectList = useMemo(() => ONGOING_PROJECTS, []);
+  const timelineMarkers = useMemo(() => {
+    if (projectList.length === 0) return [];
 
-        return sequencedProjects.map((project, projectIndex) => ({
-          itemKey: `${loopIndex}-${project.id}`,
-          loopIndex,
-          project,
-          projectIndex,
-        }));
-      }).flat(),
-    []
-  );
+    const middleIndex = Math.floor((projectList.length - 1) / 2);
 
-  const selectedProjectIndex = Math.max(
-    ONGOING_PROJECTS.findIndex((project) => project.id === selectedProjectId),
-    0
-  );
-  const selectedProject = ONGOING_PROJECTS[selectedProjectIndex] ?? ONGOING_PROJECTS[0];
-  const featuredProject =
-    ONGOING_PROJECTS.find((project) => project.id === featuredProjectId) ?? selectedProject ?? ONGOING_PROJECTS[0];
-  const featuredProjectSidebar = getProjectSidebarDetails(featuredProject);
-  const selectedProjectPreviewImages = getProjectPreviewImages(selectedProject);
-  const openProjectIndex = ONGOING_PROJECTS.findIndex((project) => project.id === openProjectId);
-  const openProject = openProjectIndex >= 0 ? ONGOING_PROJECTS[openProjectIndex] : null;
+    return [
+      {
+        project: projectList[middleIndex],
+        projectIndex: middleIndex,
+      },
+    ];
+  }, [projectList]);
+  const openProjectIndex = projectList.findIndex((project) => project.id === openProjectId);
+  const openProject = openProjectIndex >= 0 ? projectList[openProjectIndex] : null;
 
-  const recycleRailScroll = useCallback(() => {
-    const rail = titleRailRef.current;
-    if (!rail) return;
+  const calculateScrollDistance = useCallback(() => {
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
 
-    const { contentStart, loopHeight } = getLoopMetrics(rail);
-    if (!loopHeight) return;
+    if (!viewport || !track) return 0;
 
-    const lowerLimit = contentStart + loopHeight * (CENTER_LOOP_INDEX - 2);
-    const upperLimit = contentStart + loopHeight * (CENTER_LOOP_INDEX + 2);
-
-    if (rail.scrollTop < lowerLimit || rail.scrollTop > upperLimit) {
-      const offsetWithinLoop = ((rail.scrollTop - contentStart) % loopHeight + loopHeight) % loopHeight;
-      rail.scrollTop = contentStart + loopHeight * CENTER_LOOP_INDEX + offsetWithinLoop;
-    }
+    return Math.max(0, track.scrollWidth - viewport.clientWidth);
   }, []);
 
-  const syncActiveProject = useCallback(() => {
-    const rail = titleRailRef.current;
-    if (!rail) return;
+  const scrollToPagePosition = useCallback((targetY) => {
+    const lenis = lenisRef.current;
 
-    const centeredItem = getCenteredTitleItem(rail);
-    if (!centeredItem) return;
-
-    const nextProjectId = centeredItem.dataset.projectId;
-    const nextItemKey = centeredItem.dataset.itemKey;
-
-    if (nextProjectId) {
-      setSelectedProjectId((currentProjectId) =>
-        currentProjectId === nextProjectId ? currentProjectId : nextProjectId
-      );
-
-      if (hasUserDrivenRailRef.current) {
-        setFeaturedProjectId((currentProjectId) =>
-          currentProjectId === nextProjectId ? currentProjectId : nextProjectId
-        );
-      }
+    if (lenis) {
+      lenis.scrollTo(targetY, {
+        duration: 1.05,
+        easing: (time) => Math.min(1, 1.001 - 2 ** (-10 * time)),
+      });
+      return;
     }
 
-    if (nextItemKey) {
-      setActiveItemKey((currentItemKey) => (currentItemKey === nextItemKey ? currentItemKey : nextItemKey));
-    }
-  }, []);
-
-  const queueRailSync = useCallback(() => {
-    if (animationFrameRef.current !== null) return;
-
-    animationFrameRef.current = window.requestAnimationFrame(() => {
-      animationFrameRef.current = null;
-      recycleRailScroll();
-      syncActiveProject();
+    window.scrollTo({
+      top: targetY,
+      behavior: 'smooth',
     });
-  }, [recycleRailScroll, syncActiveProject]);
-
-  const snapRailToCenteredTitle = useCallback(() => {
-    if (settleTimerRef.current !== null) {
-      window.clearTimeout(settleTimerRef.current);
-    }
-
-    settleTimerRef.current = window.setTimeout(() => {
-      settleTimerRef.current = null;
-      const rail = titleRailRef.current;
-      if (!rail) return;
-
-      scrollTitleItemToCenter(rail, getCenteredTitleItem(rail));
-    }, 120);
   }, []);
 
-  const moveRailBy = useCallback(
-    (deltaY) => {
-      const rail = titleRailRef.current;
-      if (!rail) return;
+  const scrollToProjectIndex = useCallback(
+    (projectIndex) => {
+      const trigger = scrollTriggerRef.current;
 
-      hasUserDrivenRailRef.current = true;
-      rail.scrollTop += deltaY;
-      recycleRailScroll();
-      queueRailSync();
-      snapRailToCenteredTitle();
+      if (!trigger) return;
+
+      const maxSteps = Math.max(1, projectList.length - DESKTOP_VISIBLE_PROJECTS);
+      const stepIndex = Math.min(projectIndex, maxSteps);
+      const progress = stepIndex / maxSteps;
+      const targetY = trigger.start + (trigger.end - trigger.start) * progress;
+
+      scrollToPagePosition(targetY);
     },
-    [queueRailSync, recycleRailScroll, snapRailToCenteredTitle]
+    [projectList.length, scrollToPagePosition]
   );
 
-  const focusProjectInRail = useCallback(
-    (projectId, behavior = 'smooth') => {
-      const rail = titleRailRef.current;
-      if (!rail || !projectId) return;
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return undefined;
 
-      const targetItem = getProjectTitleItem(rail, projectId);
-      scrollTitleItemToCenter(rail, targetItem, behavior);
-      queueRailSync();
-    },
-    [queueRailSync]
-  );
+    const root = pageRef.current;
+    const pin = pinRef.current;
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+
+    if (!root || !pin || !viewport || !track) return undefined;
+
+    const desktopQuery = window.matchMedia(DESKTOP_SCROLL_QUERY);
+    const reducedMotionQuery = window.matchMedia(REDUCED_MOTION_QUERY);
+    const touchDeviceQuery = window.matchMedia(TOUCH_DEVICE_QUERY);
+    const listeners = [];
+    let animationContext = null;
+    let lenisUnsubscribe = null;
+    let lenisTicker = null;
+
+    const addMediaListener = (mediaQuery, callback) => {
+      if (typeof mediaQuery.addEventListener === 'function') {
+        mediaQuery.addEventListener('change', callback);
+        listeners.push(() => mediaQuery.removeEventListener('change', callback));
+        return;
+      }
+
+      mediaQuery.addListener(callback);
+      listeners.push(() => mediaQuery.removeListener(callback));
+    };
+
+    const teardown = () => {
+      animationContext?.revert();
+      animationContext = null;
+      scrollTriggerRef.current = null;
+
+      if (lenisTicker) {
+        gsap.ticker.remove(lenisTicker);
+        lenisTicker = null;
+      }
+
+      lenisUnsubscribe?.();
+      lenisUnsubscribe = null;
+      lenisRef.current?.destroy();
+      lenisRef.current = null;
+
+      gsap.set(track, { clearProps: 'transform' });
+      progressRef.current && gsap.set(progressRef.current, { clearProps: 'transform' });
+    };
+
+    const refreshScrollTrigger = () => {
+      lenisRef.current?.resize();
+      ScrollTrigger.refresh();
+    };
+
+    const setup = () => {
+      teardown();
+
+      const shouldUseNativeScroll =
+        !desktopQuery.matches || reducedMotionQuery.matches || getIsTouchLikeDevice();
+
+      setUsesNativeProjectScroll(shouldUseNativeScroll);
+
+      if (shouldUseNativeScroll) {
+        ScrollTrigger.refresh();
+        return;
+      }
+
+      const lenis = new Lenis({
+        autoRaf: false,
+        duration: 1.05,
+        lerp: 0.08,
+        smoothWheel: true,
+        syncTouch: false,
+        touchMultiplier: 0,
+        wheelMultiplier: 0.86,
+        prevent: (node) => Boolean(node.closest('.prj-detail-overlay')),
+        respectReducedMotion: true,
+      });
+
+      lenisRef.current = lenis;
+      lenisUnsubscribe = lenis.on('scroll', ScrollTrigger.update);
+      lenisTicker = (time) => lenis.raf(time * 1000);
+      gsap.ticker.add(lenisTicker);
+
+      animationContext = gsap.context(() => {
+        gsap.set(track, { x: 0 });
+        progressRef.current && gsap.set(progressRef.current, { scaleX: 0, transformOrigin: 'left center' });
+
+        const timeline = gsap.timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: {
+            trigger: root,
+            pin,
+            scrub: 0.85,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            start: () => `top top+=${getHeaderClearance()}`,
+            end: () => `+=${calculateScrollDistance()}`,
+          },
+        });
+
+        timeline.to(
+          track,
+          {
+            x: () => -calculateScrollDistance(),
+            duration: 1,
+          },
+          0
+        );
+
+        if (progressRef.current) {
+          timeline.to(
+            progressRef.current,
+            {
+              scaleX: 1,
+              duration: 1,
+            },
+            0
+          );
+        }
+
+        scrollTriggerRef.current = timeline.scrollTrigger;
+      }, root);
+
+      refreshScrollTrigger();
+    };
+
+    const handleImageSettled = () => refreshScrollTrigger();
+    const mediaElements = Array.from(root.querySelectorAll('img'));
+    mediaElements.forEach((image) => {
+      if (image.complete) return;
+      image.addEventListener('load', handleImageSettled, { once: true });
+      image.addEventListener('error', handleImageSettled, { once: true });
+    });
+
+    setup();
+    addMediaListener(desktopQuery, setup);
+    addMediaListener(reducedMotionQuery, setup);
+    addMediaListener(touchDeviceQuery, setup);
+    window.addEventListener('resize', refreshScrollTrigger);
+    window.addEventListener('load', refreshScrollTrigger, { once: true });
+
+    return () => {
+      listeners.forEach((removeListener) => removeListener());
+      window.removeEventListener('resize', refreshScrollTrigger);
+      window.removeEventListener('load', refreshScrollTrigger);
+      mediaElements.forEach((image) => {
+        image.removeEventListener('load', handleImageSettled);
+        image.removeEventListener('error', handleImageSettled);
+      });
+      teardown();
+    };
+  }, [calculateScrollDistance]);
 
   useEffect(() => {
     if (typeof document === 'undefined') return undefined;
 
-    document.documentElement.classList.add('projects-page-scroll-lock');
-    document.body.classList.add('projects-page-scroll-lock');
+    if (!openProject) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    lenisRef.current?.stop();
 
     return () => {
-      document.documentElement.classList.remove('projects-page-scroll-lock');
-      document.body.classList.remove('projects-page-scroll-lock');
+      document.body.style.overflow = previousOverflow;
+      lenisRef.current?.start();
+      ScrollTrigger.refresh();
     };
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-
-    const frameId = window.requestAnimationFrame(() => {
-      focusProjectInRail(DEFAULT_PROJECT_ID, 'auto');
-      syncActiveProject();
-    });
-
-    return () => window.cancelAnimationFrame(frameId);
-  }, [focusProjectInRail, syncActiveProject]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-
-    let frameId = 0;
-
-    const handleResize = () => {
-      if (frameId) return;
-
-      frameId = window.requestAnimationFrame(() => {
-        frameId = 0;
-        focusProjectInRail(selectedProjectId, 'auto');
-        syncActiveProject();
-      });
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (frameId) {
-        window.cancelAnimationFrame(frameId);
-      }
-    };
-  }, [focusProjectInRail, selectedProjectId, syncActiveProject]);
-
-  useEffect(
-    () => () => {
-      if (animationFrameRef.current !== null) {
-        window.cancelAnimationFrame(animationFrameRef.current);
-      }
-
-      if (settleTimerRef.current !== null) {
-        window.clearTimeout(settleTimerRef.current);
-      }
-    },
-    []
-  );
+  }, [openProject]);
 
   useEffect(() => {
     if (typeof document === 'undefined' || !openProject) return undefined;
@@ -519,168 +461,75 @@ export function ProjectsPage() {
     };
   }, [openProject]);
 
-  const handleWheel = (event) => {
+  const handleDetailWheel = (event) => {
+    if (!openProject) return;
+
     if (event.target instanceof Element && event.target.closest('.prj-detail-overlay')) {
       if (canScrollInsideProjectDrawer(event.target, event.deltaY)) return;
       event.preventDefault();
-      return;
-    }
-
-    event.preventDefault();
-    moveRailBy(event.deltaY);
-  };
-
-  const handleTouchStart = (event) => {
-    touchYRef.current = event.touches[0]?.clientY ?? null;
-  };
-
-  const handleTouchMove = (event) => {
-    if (event.target instanceof Element && event.target.closest('.prj-detail-overlay')) return;
-
-    const nextTouchY = event.touches[0]?.clientY;
-    if (touchYRef.current === null || nextTouchY === undefined) return;
-
-    event.preventDefault();
-    moveRailBy(touchYRef.current - nextTouchY);
-    touchYRef.current = nextTouchY;
-  };
-
-  const handleRailScroll = () => {
-    queueRailSync();
-    snapRailToCenteredTitle();
-  };
-
-  const handleRailKeyDown = (event) => {
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      moveRailBy(48);
-    }
-
-    if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      moveRailBy(-48);
-    }
-
-    if (event.key === 'PageDown') {
-      event.preventDefault();
-      moveRailBy(220);
-    }
-
-    if (event.key === 'PageUp') {
-      event.preventDefault();
-      moveRailBy(-220);
     }
   };
 
-  const handleProjectClick = (projectId, item) => {
-    hasUserDrivenRailRef.current = true;
-    setSelectedProjectId(projectId);
-    setFeaturedProjectId(projectId);
-    setActiveItemKey(item.dataset.itemKey ?? '');
-    setOpenProjectId(projectId);
-    scrollTitleItemToCenter(titleRailRef.current, item);
-  };
-
-  if (!selectedProject) {
+  if (projectList.length === 0) {
     return <section className="prj-page" id="projects-top" aria-label="Projects" />;
   }
 
   return (
     <section
-      className={`prj-page${openProject ? ' is-detail-open' : ''}`}
+      className={`prj-page${openProject ? ' is-detail-open' : ''}${
+        usesNativeProjectScroll ? ' is-native-project-scroll' : ''
+      }`}
       id="projects-top"
       aria-label="Projects"
-      onTouchMove={handleTouchMove}
-      onTouchStart={handleTouchStart}
-      onWheel={handleWheel}
+      ref={pageRef}
+      onWheel={handleDetailWheel}
     >
-      <div className="prj-page-canvas">
-        <figure className="prj-page-bg" aria-hidden="true">
-          <img src={getProjectBackdropImage(featuredProject)} alt="" width="1440" height="960" decoding="async" />
-        </figure>
-
-        <aside className="prj-current-panel" aria-label="Focused project summary">
-          <p className="prj-current-kicker">Current Project</p>
-          <h1 className="prj-current-title">{featuredProject.title}</h1>
-          <p className="prj-current-copy">{featuredProjectSidebar.copy}</p>
-          <dl className="prj-current-facts">
-            {featuredProjectSidebar.facts.map((fact) => (
-              <div className="prj-current-fact" key={fact.label}>
-                <dt>{fact.label}</dt>
-                <dd>{fact.value}</dd>
-              </div>
+      <div className="prj-horizontal-pin" ref={pinRef}>
+        <div className="prj-gallery-viewport" ref={viewportRef}>
+          <div className="prj-track" ref={trackRef}>
+            {projectList.map((project, projectIndex) => (
+              <ProjectColumn
+                key={project.id}
+                project={project}
+                projectIndex={projectIndex}
+                onOpen={setOpenProjectId}
+              />
             ))}
-          </dl>
-        </aside>
-
-        <div className="prj-title-viewport" aria-label={`${selectedProject.title} project list`}>
-          <div
-            className="prj-title-rail"
-            ref={titleRailRef}
-            tabIndex={0}
-            role="listbox"
-            aria-activedescendant={activeItemKey ? `prj-title-${activeItemKey}` : undefined}
-            aria-label="Project title list"
-            onKeyDown={handleRailKeyDown}
-            onScroll={handleRailScroll}
-          >
-            <div className="prj-title-stack">
-              {loopedProjects.map(({ itemKey, loopIndex, project, projectIndex }) => {
-                const isCentered = activeItemKey === itemKey;
-                const isOpen = openProjectId === project.id;
-                const isHovered = hoveredProjectId === project.id;
-                const tone = getProjectTone(projectIndex);
-
-                return (
-                  <button
-                    className={`prj-title-item prj-title-item--${tone}${isCentered ? ' is-centered' : ''}${
-                      isOpen ? ' is-open' : ''
-                    }${isHovered ? ' is-hovered' : ''}`}
-                    data-item-key={itemKey}
-                    data-display-index={getProjectDisplayIndex(project.id)}
-                    data-loop-index={loopIndex}
-                    data-project-id={project.id}
-                    id={`prj-title-${itemKey}`}
-                    key={itemKey}
-                    type="button"
-                    role="option"
-                    aria-expanded={isOpen}
-                    aria-selected={isCentered}
-                    onBlur={() => setHoveredProjectId(null)}
-                    onClick={(event) => handleProjectClick(project.id, event.currentTarget)}
-                    onFocus={() => {
-                      setHoveredProjectId(project.id);
-                      setFeaturedProjectId(project.id);
-                    }}
-                    onMouseEnter={() => {
-                      setHoveredProjectId(project.id);
-                      setFeaturedProjectId(project.id);
-                    }}
-                    onMouseLeave={() => setHoveredProjectId(null)}
-                  >
-                    <span className="prj-title-index" aria-hidden="true">
-                      {getProjectDisplayIndex(project.id)}
-                    </span>
-                    <span className="prj-title-copy">{project.title}</span>
-                  </button>
-                );
-              })}
-            </div>
           </div>
         </div>
 
-        <div className="prj-focus-media" aria-hidden="true">
-          {selectedProjectPreviewImages.map((image, index) => (
-            <figure className="prj-focus-media-card" key={`${selectedProject.id}-${image}`}>
-              <img
-                src={image}
-                alt=""
-                width="360"
-                height="230"
-                loading={index === 0 ? 'eager' : 'lazy'}
-              />
-            </figure>
-          ))}
+        <div className="prj-timeline" aria-label="Project chronology">
+          <span className="prj-timeline-edge prj-timeline-edge--newest">Newest</span>
+          <div className="prj-timeline-rail">
+            <span className="prj-timeline-fill" ref={progressRef} />
+            <div
+              className="prj-timeline-nodes"
+              style={{ '--prj-node-count': timelineMarkers.length }}
+            >
+              {timelineMarkers.map(({ project, projectIndex }) => (
+                <button
+                  className="prj-timeline-node"
+                  key={project.id}
+                  type="button"
+                  aria-label={`Scroll to ${project.title}`}
+                  onClick={() => scrollToProjectIndex(projectIndex)}
+                >
+                  <span />
+                  <strong>{getProjectYear(project)}</strong>
+                </button>
+              ))}
+            </div>
+          </div>
+          <span className="prj-timeline-edge prj-timeline-edge--oldest">Oldest</span>
+        </div>
+
+        <div className="prj-page-cta" aria-label="Project contact">
+          <p>
+            Delivering <span>tomorrow's trade</span> today.
+          </p>
+          <a href={CONTACT_CHANNELS.phoneHref}>
+            Call us: <strong>{CONTACT_CHANNELS.phoneDisplay}</strong>
+          </a>
         </div>
       </div>
 
