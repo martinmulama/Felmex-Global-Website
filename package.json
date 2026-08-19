@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "purge:reset-landing": "node scripts/purge-reset-landing-css.mjs --write",
+    "purge:reset-landing:dry": "node scripts/purge-reset-landing-css.mjs",
     "share": "bash ./scripts/share.sh"
   },
   "dependencies": {
@@ -19,6 +21,7 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
     "ngrok": "^5.0.0-beta.2",
+    "purgecss": "^8.0.0",
     "vite": "^5.4.0"
   }
 }

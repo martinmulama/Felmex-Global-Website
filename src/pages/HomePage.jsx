@@ -15,6 +15,13 @@ const HOME_PROJECT_PREVIEW_PARAGRAPHS = [
 ];
 const HOME_PROJECT_PREVIEW_META = HOME_PROJECT_PREVIEW.meta.slice(-2);
 const HOME_PROJECT_PREVIEW_SERVICES = HOME_PROJECT_PREVIEW.services.slice(0, 2);
+const HOME_DESKTOP_PROJECT_PREVIEW =
+  ONGOING_PROJECTS.find((project) => project.id === 'cold-chain-release') ?? ONGOING_PROJECTS[0];
+const HOME_DESKTOP_PROJECT_CLIENTS = ['Apple', 'NFL', 'BMW', 'Stella', 'State Farm'];
+const HOME_DESKTOP_PROJECT_PREVIEW_PARAGRAPHS = [
+  HOME_DESKTOP_PROJECT_PREVIEW.lead,
+  ...(HOME_DESKTOP_PROJECT_PREVIEW.bodyParagraphs ?? [HOME_DESKTOP_PROJECT_PREVIEW.body]),
+].filter(Boolean);
 const SERVICE_CATALOG_IMAGE_WIDTHS = [640, 960, 1280];
 const SERVICE_CATALOG_IMAGE_SIZES =
   '(min-width: 1081px) min(60rem, 68vw), (max-width: 640px) 92vw, 100vw';
@@ -1202,12 +1209,15 @@ export function HomePage() {
   const journalCarouselDelayRef = useRef(null);
   const journalMobileScrollFrameRef = useRef(null);
   const closeSectionRef = useRef(null);
+  const desktopProjectPreviewCopyRef = useRef(null);
+  const desktopProjectPreviewCopyTrackRef = useRef(null);
   const servicesListRef = useRef(null);
   const serviceImagePreloadersRef = useRef([]);
   const hasPreloadedServiceImagesRef = useRef(false);
   const testimonialsTitleDroppedRef = useRef(false);
   const [isTestimonialsTitleDropped, setIsTestimonialsTitleDropped] = useState(false);
   const [isCloseVisible, setIsCloseVisible] = useState(false);
+  const [desktopProjectPreviewScrollDistance, setDesktopProjectPreviewScrollDistance] = useState(0);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
   const [activeFinalOperation, setActiveFinalOperation] = useState(FINAL_OPERATION_STEPS[0].key);
   const [activeOverviewStatement, setActiveOverviewStatement] = useState(
@@ -1256,6 +1266,42 @@ export function HomePage() {
 
     mediaQuery.addListener(syncMobileViewport);
     return () => mediaQuery.removeListener(syncMobileViewport);
+  }, []);
+
+  useLayoutEffect(() => {
+    const copy = desktopProjectPreviewCopyRef.current;
+    const copyTrack = desktopProjectPreviewCopyTrackRef.current;
+    if (!copy || !copyTrack || typeof window === 'undefined') return undefined;
+
+    let frameId = null;
+    const measureOverflow = () => {
+      frameId = null;
+      const nextDistance = Math.max(0, Math.ceil(copy.scrollHeight - copy.clientHeight));
+
+      setDesktopProjectPreviewScrollDistance((currentDistance) =>
+        currentDistance === nextDistance ? currentDistance : nextDistance
+      );
+    };
+
+    const queueMeasurement = () => {
+      if (frameId !== null) return;
+      frameId = window.requestAnimationFrame(measureOverflow);
+    };
+
+    const resizeObserver =
+      typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(queueMeasurement);
+
+    resizeObserver?.observe(copy);
+    resizeObserver?.observe(copyTrack);
+    window.addEventListener('resize', queueMeasurement);
+    document.fonts?.ready.then(queueMeasurement).catch(() => {});
+    queueMeasurement();
+
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener('resize', queueMeasurement);
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
+    };
   }, []);
 
   useEffect(() => {
@@ -2524,6 +2570,10 @@ export function HomePage() {
                       </span>
                     </span>
                   </h2>
+                  <p className="landing-project-preview-brief">
+                    Written takes from our active projects, alongside practical logistics news
+                    from the routes and handoffs shaping global trade.
+                  </p>
                   <span className="landing-project-preview-rule" aria-hidden="true" />
                   <p className="landing-project-preview-copy">
                     <span>A wider look at the cargo programs, customs handoffs,</span>
@@ -2669,7 +2719,81 @@ export function HomePage() {
           aria-label="Final logistics flow"
         >
           <div className="final-section-canvas landing-close-canvas">
-            <aside className="banner-card landing-project-preview-process landing-project-preview-process--handoff">
+            <div className="landing-project-preview-desktop-panel" aria-hidden="true" />
+
+            <article
+              className="landing-project-preview-desktop-article"
+              aria-labelledby="landing-project-preview-desktop-title"
+            >
+              <div className="landing-project-preview-desktop-identity">
+                <p
+                  id="landing-project-preview-desktop-title"
+                  className="landing-project-preview-desktop-title"
+                >
+                  {HOME_DESKTOP_PROJECT_PREVIEW.title}
+                </p>
+                <figure className="landing-project-preview-desktop-portrait">
+                  <img
+                    src={HOME_DESKTOP_PROJECT_PREVIEW.image}
+                    alt={HOME_DESKTOP_PROJECT_PREVIEW.imageAlt}
+                    width="420"
+                    height="552"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              </div>
+
+              <div className="landing-project-preview-desktop-story">
+                <div
+                  className={`landing-project-preview-desktop-copy${
+                    desktopProjectPreviewScrollDistance > 0 && !prefersReducedMotion
+                      ? ' is-teleprompting'
+                      : ''
+                  }`}
+                  ref={desktopProjectPreviewCopyRef}
+                  style={
+                    desktopProjectPreviewScrollDistance > 0
+                      ? {
+                          '--landing-project-preview-scroll-distance': `${desktopProjectPreviewScrollDistance}px`,
+                          '--landing-project-preview-scroll-duration': `${Math.max(
+                            24,
+                            Math.min(58, 14 + desktopProjectPreviewScrollDistance / 18)
+                          )}s`,
+                        }
+                      : undefined
+                  }
+                >
+                  <div className="landing-project-preview-desktop-copy-track" ref={desktopProjectPreviewCopyTrackRef}>
+                    {HOME_DESKTOP_PROJECT_PREVIEW_PARAGRAPHS.map((paragraph, index) => (
+                      <p key={`${index}-${paragraph}`}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <aside className="landing-project-preview-desktop-facts" aria-label="Project details">
+                <div className="landing-project-preview-desktop-clients">
+                  <p>Clients</p>
+                  <ul>
+                    {HOME_DESKTOP_PROJECT_CLIENTS.map((client) => (
+                      <li key={client}>{client}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="landing-project-preview-desktop-published">
+                  <p>Published</p>
+                  <span>{HOME_DESKTOP_PROJECT_PREVIEW.publishedOn}</span>
+                </div>
+              </aside>
+
+              <a className="landing-project-preview-desktop-read-more" href="/projects">
+                <span>Read more</span>
+                <span aria-hidden="true">-&gt;</span>
+              </a>
+            </article>
+
+            <aside className="banner-card landing-project-preview-process landing-project-preview-process--handoff landing-project-preview-process--legacy">
               <p>
                 <span>At Felmex, every project is managed with a commitment to precision,</span>
                 <span>transparency, and reliability. From initial planning to final delivery, our</span>
@@ -2740,6 +2864,39 @@ export function HomePage() {
             </div>
 
             <div className="landing-final-cta">
+              <div className="landing-final-cta-desktop">
+                <div className="landing-final-cta-heading">
+                  <h2 id="landing-final-cta-title">
+                    <span>Let&rsquo;s Move Your</span>
+                    <span>Business</span>
+                    <span>
+                      Forward, <strong>Together.</strong>
+                    </span>
+                  </h2>
+                  <span className="landing-final-cta-rule" aria-hidden="true" />
+                </div>
+                <div className="landing-final-cta-copy">
+                  <p>
+                    Partner with FELMEX Global Logistics for seamless, reliable, and scalable
+                    logistics solutions that drive growth and open new opportunities.
+                  </p>
+                  <a className="landing-final-cta-link" href="/contact">
+                    <span>Get in Touch</span>
+                    <span className="landing-final-cta-arrow" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <path
+                          d="M4.8 12h13.4m-5.7-5.8 5.8 5.8-5.8 5.8"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.25"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                  </a>
+                </div>
+              </div>
               <h2>
                 <span className="landing-final-cta-title-line">Let&rsquo;s Move Your</span>{' '}
                 <span className="landing-final-cta-title-line">Business Forward,</span>{' '}

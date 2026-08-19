@@ -17,9 +17,7 @@
   --why-train-height: 100svh;
   --why-train-image-height: clamp(39rem, 104svh, 63rem);
   --why-train-visible-edge: calc(var(--why-train-image-height) * 1.2);
-  --why-train-image-offset-x: calc(
-    -1 * var(--home-hero-wide-inline) - clamp(1.5rem, 2.25vw, 3rem)
-  );
+  --why-train-image-offset-x: calc(-1 * var(--home-hero-wide-inline) - clamp(1.5rem, 2.25vw, 3rem));
   --why-train-copy-top: clamp(8.2rem, 17svh, 12.5rem);
   --why-train-copy-right: clamp(3rem, 5vw, 6rem);
   --why-train-copy-left: clamp(1rem, 3vw, 3.2rem);
@@ -28,9 +26,7 @@
   --why-container-image-top: calc(var(--why-train-height) * 0.216);
   --why-container-image-x: calc(var(--why-container-image-height) * -0.2);
   --why-container-width: calc(var(--why-container-image-height) * 1.135);
-  --why-container-copy-top: calc(
-    var(--why-container-image-top) + (var(--why-container-image-height) * 0.19)
-  );
+  --why-container-copy-top: calc(var(--why-container-image-top) + (var(--why-container-image-height) * 0.19));
   --why-container-copy-left: clamp(4rem, calc(var(--why-container-width) * 0.16), 7rem);
   --why-container-copy-right: clamp(3.5rem, calc(var(--why-container-width) * 0.17), 6.5rem);
   --why-train-rail-lift: calc(var(--why-train-height) * -0.1);
@@ -53,8 +49,7 @@
   width: 100vw;
   min-width: 100vw;
   grid-template-columns:
-    minmax(0, calc(50vw + var(--home-hero-wide-inline)))
-    minmax(0, calc(50vw - var(--home-hero-wide-inline)));
+    minmax(0, calc(50vw + var(--home-hero-wide-inline))) minmax(0, calc(50vw - var(--home-hero-wide-inline)));
 }
 
 .hero--why-choose .why-choose-felmex__segment--container {
@@ -201,10 +196,7 @@
   bottom: auto;
   left: var(--why-container-copy-left);
   width: auto;
-  max-width: calc(
-    var(--why-container-width) - var(--why-container-copy-left) -
-      var(--why-container-copy-right)
-  );
+  max-width: calc(var(--why-container-width) - var(--why-container-copy-left) - var(--why-container-copy-right));
 }
 
 .hero--why-choose .why-choose-felmex__copy h3 {
@@ -253,25 +245,13 @@
     --why-container-image-top: calc(var(--why-mobile-track-height) * -0.214);
     --why-container-image-x: 0;
     --why-container-width: calc(var(--why-container-image-height) * 1.155);
-    --why-container-copy-top: calc(
-      var(--why-container-image-top) + (var(--why-container-image-height) * 0.24)
-    );
+    --why-container-copy-top: calc(var(--why-container-image-top) + (var(--why-container-image-height) * 0.24));
     --why-container-copy-edge-gutter: clamp(1.7rem, 6.2vw, 3rem);
     --why-container-copy-art-inset: clamp(1.8rem, 4vw, 2.4rem);
-    --why-container-copy-left: max(
-      var(--why-container-copy-edge-gutter),
-      calc(
-        (var(--why-container-width) - var(--why-container-image-width)) / 2 +
-          var(--why-container-copy-art-inset)
-      )
-    );
-    --why-container-copy-right: max(
-      var(--why-container-copy-edge-gutter),
-      calc(
-        (var(--why-container-width) - var(--why-container-image-width)) / 2 +
-          var(--why-container-copy-art-inset)
-      )
-    );
+    --why-container-copy-left: max(var(--why-container-copy-edge-gutter),
+        calc((var(--why-container-width) - var(--why-container-image-width)) / 2 + var(--why-container-copy-art-inset)));
+    --why-container-copy-right: max(var(--why-container-copy-edge-gutter),
+        calc((var(--why-container-width) - var(--why-container-image-width)) / 2 + var(--why-container-copy-art-inset)));
     --why-train-rail-lift: 0;
     --why-title-size: clamp(2.75rem, 8.9vw, 5.15rem);
     --why-body-size: clamp(1rem, 2.35vw, 1.45rem);
@@ -297,9 +277,7 @@
     flex: 0 0 auto;
     width: 100%;
     padding:
-      calc(var(--site-header-clearance, 4rem) + clamp(3.4rem, 8.4vw, 6.1rem))
-      clamp(24px, 6vw, 4rem)
-      clamp(1.9rem, 4.6svh, 3.25rem);
+      calc(var(--site-header-clearance, 4rem) + clamp(3.4rem, 8.4vw, 6.1rem)) clamp(24px, 6vw, 4rem) clamp(1.9rem, 4.6svh, 3.25rem);
     background: #ffffff;
   }
 
@@ -320,9 +298,7 @@
     line-height: 1.02;
   }
 
-  .hero--why-choose
-    .why-choose-felmex__headline--mobile-home-hero
-    .why-choose-felmex__title-line {
+  .hero--why-choose .why-choose-felmex__headline--mobile-home-hero .why-choose-felmex__title-line {
     white-space: nowrap;
   }
 
@@ -436,11 +412,9 @@
     left: 0;
     height: var(--why-train-image-height);
     margin-bottom: 0;
-    transform: translate3d(
-      var(--why-mobile-head-image-offset-x),
-      var(--why-mobile-head-image-offset-y),
-      0
-    );
+    transform: translate3d(var(--why-mobile-head-image-offset-x),
+        var(--why-mobile-head-image-offset-y),
+        0);
   }
 
   .hero--why-choose .why-choose-felmex__copy {
@@ -449,10 +423,7 @@
     bottom: auto;
     left: var(--why-container-copy-left);
     width: auto;
-    max-width: calc(
-      var(--why-container-width) - var(--why-container-copy-left) -
-        var(--why-container-copy-right)
-    );
+    max-width: calc(var(--why-container-width) - var(--why-container-copy-left) - var(--why-container-copy-right));
   }
 
   .hero--why-choose .why-choose-felmex__copy h3,
@@ -488,9 +459,7 @@
 
   .hero--why-choose .why-choose-felmex__mobile-hero-copy {
     padding:
-      calc(var(--site-header-clearance, 4rem) + clamp(3.05rem, 7.1svh, 3.65rem))
-      clamp(20px, 5.5vw, 24px)
-      clamp(1.65rem, 3.5svh, 2rem);
+      calc(var(--site-header-clearance, 4rem) + clamp(3.05rem, 7.1svh, 3.65rem)) clamp(20px, 5.5vw, 24px) clamp(1.65rem, 3.5svh, 2rem);
   }
 
   .hero--why-choose .why-choose-felmex__copy-rule {
@@ -518,9 +487,7 @@
 
   .hero--why-choose .why-choose-felmex__mobile-hero-copy {
     padding:
-      calc(var(--site-header-clearance, 4rem) + clamp(1.55rem, 4.2svh, 2.1rem))
-      clamp(20px, 5.5vw, 24px)
-      clamp(2.2rem, 5svh, 2.65rem);
+      calc(var(--site-header-clearance, 4rem) + clamp(1.55rem, 4.2svh, 2.1rem)) clamp(20px, 5.5vw, 24px) clamp(2.2rem, 5svh, 2.65rem);
   }
 
   .hero--why-choose .why-choose-felmex__mobile-rule {
@@ -553,9 +520,7 @@
 
   .hero--why-choose .why-choose-felmex__mobile-hero-copy {
     padding:
-      calc(var(--site-header-clearance, 4rem) + 0.85rem)
-      18px
-      clamp(1.65rem, 4.6svh, 2rem);
+      calc(var(--site-header-clearance, 4rem) + 0.85rem) 18px clamp(1.65rem, 4.6svh, 2rem);
   }
 
   .hero--why-choose .why-choose-felmex__mobile-rule {

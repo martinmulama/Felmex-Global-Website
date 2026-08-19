@@ -18,17 +18,13 @@
   --home-ink-800: #051a33;
   --home-panel-border: rgba(138, 173, 208, 0.28);
   --home-panel-bg: var(--site-brand-navy-gradient);
-  --home-panel-bg-strong: linear-gradient(
-    165deg,
-    rgba(var(--site-brand-navy-rgb), 0.96) 0%,
-    rgba(var(--site-brand-navy-deep-rgb), 0.96) 100%
-  );
-  --home-stripe: repeating-linear-gradient(
-    -12deg,
-    rgba(var(--site-brand-navy-rgb), 0) 0 14px,
-    rgba(var(--site-brand-navy-rgb), 0.08) 14px 15px,
-    rgba(var(--site-brand-navy-rgb), 0) 15px 42px
-  );
+  --home-panel-bg-strong: linear-gradient(165deg,
+      rgba(var(--site-brand-navy-rgb), 0.96) 0%,
+      rgba(var(--site-brand-navy-deep-rgb), 0.96) 100%);
+  --home-stripe: repeating-linear-gradient(-12deg,
+      rgba(var(--site-brand-navy-rgb), 0) 0 14px,
+      rgba(var(--site-brand-navy-rgb), 0.08) 14px 15px,
+      rgba(var(--site-brand-navy-rgb), 0) 15px 42px);
   --home-image-filter: saturate(1.04) contrast(1.02);
   --light-surface: #f7fbff;
   --light-surface-strong: #ffffff;
@@ -40,12 +36,10 @@
   --light-border: rgba(13, 41, 68, 0.14);
   --light-shadow: 0 18px 40px rgba(12, 34, 56, 0.1);
   --light-shadow-tight: 0 12px 24px rgba(12, 34, 56, 0.08);
-  --light-stripe: repeating-linear-gradient(
-    -12deg,
-    rgba(14, 52, 89, 0) 0 18px,
-    rgba(14, 52, 89, 0.06) 18px 19px,
-    rgba(14, 52, 89, 0) 19px 50px
-  );
+  --light-stripe: repeating-linear-gradient(-12deg,
+      rgba(14, 52, 89, 0) 0 18px,
+      rgba(14, 52, 89, 0.06) 18px 19px,
+      rgba(14, 52, 89, 0) 19px 50px);
   --theme-surface: var(--light-surface);
   --theme-surface-muted: var(--light-surface-muted);
   --theme-surface-strong: var(--light-surface-strong);

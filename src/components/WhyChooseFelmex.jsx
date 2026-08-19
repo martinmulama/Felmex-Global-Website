@@ -255,17 +255,35 @@ export function WhyChooseFelmex({
         }
       } else if (enableDesktopScroll) {
         const splitContainer = root.querySelector('[data-why-choose-split-container]');
-        const backgroundLayers = gsap.utils.toArray('[data-why-choose-bg]', root);
         const panels = gsap.utils.toArray('[data-why-choose-panel]', root);
 
-        if (splitContainer && backgroundLayers.length === panels.length && panels.length > 1) {
+        if (splitContainer && panels.length > 1) {
           matchMedia.add('(min-width: 961px) and (prefers-reduced-motion: no-preference)', () => {
-            const transitionDuration = 0.72;
+            const readPixelLength = (value) => {
+              const numericValue = Number.parseFloat(value);
 
-            gsap.set(backgroundLayers, {
-              y: 0,
-              yPercent: (index) => (index === 0 ? 0 : 100),
-            });
+              if (!Number.isFinite(numericValue)) {
+                return 0;
+              }
+
+              return value.trim().endsWith('rem')
+                ? numericValue *
+                    (Number.parseFloat(window.getComputedStyle(document.documentElement).fontSize) ||
+                      16)
+                : numericValue;
+            };
+            const getPinStartOffset = () => {
+              const rootStyle = window.getComputedStyle(document.documentElement);
+              const headerHeight =
+                document.querySelector('.site-header')?.getBoundingClientRect().height ||
+                readPixelLength(rootStyle.getPropertyValue('--site-header-clearance'));
+              const panelHeight =
+                splitContainer.getBoundingClientRect().height || splitContainer.offsetHeight;
+              const availableHeight = Math.max(window.innerHeight - headerHeight, panelHeight);
+
+              return Math.max(headerHeight, headerHeight + (availableHeight - panelHeight) / 2);
+            };
+
             gsap.set(panels, {
               opacity: 1,
               visibility: 'visible',
@@ -275,18 +293,28 @@ export function WhyChooseFelmex({
 
             const timeline = gsap.timeline({
               defaults: {
-                ease: 'power3.inOut',
+                ease: 'none',
                 overwrite: 'auto',
               },
               scrollTrigger: {
                 trigger: splitContainer,
-                start: 'top top',
+                start: () => `top ${getPinStartOffset()}px`,
                 end: () => `+=${window.innerHeight * (panels.length - 1)}`,
                 pin: true,
                 pinSpacing: true,
                 scrub: true,
                 anticipatePin: 1,
                 invalidateOnRefresh: true,
+                onUpdate: (self) => {
+                  const nextPanelIndex = Math.min(
+                    panels.length - 1,
+                    Math.round(self.progress * (panels.length - 1))
+                  );
+
+                  setActiveSplitPanelIndex((currentIndex) =>
+                    currentIndex === nextPanelIndex ? currentIndex : nextPanelIndex
+                  );
+                },
               },
             });
 
@@ -294,22 +322,13 @@ export function WhyChooseFelmex({
               const stateIndex = index + 1;
               const transitionStart = index;
               const outgoingPanel = panels[stateIndex - 1];
-              const backgroundLayer = backgroundLayers[stateIndex];
 
               timeline
-                .to(
-                  backgroundLayer,
-                  {
-                    yPercent: 0,
-                    duration: transitionDuration,
-                  },
-                  transitionStart
-                )
                 .to(
                   outgoingPanel,
                   {
                     yPercent: -110,
-                    duration: transitionDuration,
+                    duration: 1,
                   },
                   transitionStart
                 )
@@ -317,7 +336,7 @@ export function WhyChooseFelmex({
                   panel,
                   {
                     yPercent: 0,
-                    duration: transitionDuration,
+                    duration: 1,
                   },
                   transitionStart
                 );
@@ -368,7 +387,7 @@ export function WhyChooseFelmex({
                         width={segment.width}
                         height={segment.height}
                         decoding="async"
-                        fetchPriority="low"
+                        fetchpriority="low"
                       />
                     </div>
                     <div className="why-choose-felmex__train-content-wrapper train-content-wrapper">
@@ -409,7 +428,6 @@ export function WhyChooseFelmex({
               {WHY_CHOOSE_SPLIT_PANELS.map((panel) => (
                 <span
                   className={`why-choose-felmex__split-bg-layer why-choose-felmex__split-bg-layer--${panel.backgroundTone} split-scroll-bg-layer`}
-                  data-why-choose-bg
                   key={panel.key}
                 />
               ))}
