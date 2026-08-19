@@ -1371,15 +1371,13 @@ export function HomePage() {
     if (!node || typeof window === 'undefined') return undefined;
 
     const splitContainer = node.querySelector('.split-scroll-container');
-    const curtains = Array.from(node.querySelectorAll('.split-scroll-bg-layer'));
     const statements = Array.from(node.querySelectorAll('.split-scroll-statement'));
 
     if (
       !splitContainer ||
       isMobileViewport ||
       prefersReducedMotion ||
-      curtains.length < 2 ||
-      curtains.length !== statements.length
+      statements.length < 2
     ) {
       return undefined;
     }
@@ -1395,10 +1393,6 @@ export function HomePage() {
       animationContext = gsap.context(() => {
         const transitionDuration = 0.72;
 
-        gsap.set(curtains, {
-          y: 0,
-          yPercent: (index) => (index === 0 ? 0 : 100),
-        });
         gsap.set(statements, {
           opacity: 1,
           visibility: 'visible',
@@ -1427,17 +1421,8 @@ export function HomePage() {
           const stateIndex = index + 1;
           const transitionStart = index;
           const outgoingStatement = statements[stateIndex - 1];
-          const curtain = curtains[stateIndex];
 
           timeline
-            .to(
-              curtain,
-              {
-                yPercent: 0,
-                duration: transitionDuration,
-              },
-              transitionStart
-            )
             .to(
               outgoingStatement,
               {
@@ -2228,30 +2213,16 @@ export function HomePage() {
       >
         <div className="split-scroll-container">
           <div className="left-panel">
-            <div className="split-scroll-bg-stack" aria-hidden="true">
-              <span className="split-scroll-bg-layer split-scroll-bg-layer--vision" />
-              <span className="split-scroll-bg-layer split-scroll-bg-layer--mission" />
-              <span className="split-scroll-bg-layer split-scroll-bg-layer--about" />
-              <span className="split-scroll-bg-layer split-scroll-bg-layer--idd" />
-            </div>
-
             <div
               className="split-scroll-statement-frame"
               aria-label="Felmex mission, vision, and company overview"
             >
-              <article className="landing-overview-statement landing-overview-statement--vision split-scroll-statement">
-                <OverviewStatementIcon kind="vision" />
-                <h3>Vision</h3>
-                <p>
-                  Redefine global logistics by delivering seamless, multimodal solutions that connect
-                  businesses, markets, and communities with efficiency &amp; integrity.
-                </p>
-              </article>
               <article
                 className="landing-overview-statement landing-overview-statement--mission split-scroll-statement"
               >
                 <OverviewStatementIcon kind="mission" />
                 <h3>Mission</h3>
+                <span className="landing-overview-statement-rule" aria-hidden="true" />
                 <p>
                   FELMEX Global Logistics exists to simplify complexity in international trade. We
                   integrate air, sea, road, and rail services into one cohesive network, ensuring
@@ -2259,11 +2230,21 @@ export function HomePage() {
                   worldwide.
                 </p>
               </article>
+              <article className="landing-overview-statement landing-overview-statement--vision split-scroll-statement">
+                <OverviewStatementIcon kind="vision" />
+                <h3>Vision</h3>
+                <span className="landing-overview-statement-rule" aria-hidden="true" />
+                <p>
+                  Redefine global logistics by delivering seamless, multimodal solutions that connect
+                  businesses, markets, and communities with efficiency &amp; integrity.
+                </p>
+              </article>
               <article
                 className="landing-overview-statement landing-overview-statement--about split-scroll-statement"
               >
                 <OverviewStatementIcon kind="about" />
                 <h3>About Us</h3>
+                <span className="landing-overview-statement-rule" aria-hidden="true" />
                 <p>
                   FELMEX Global Logistics is an envisioned global multimodal service provider,
                   delivering integrated solutions across air, sea, road, and rail. We simplify complex
@@ -2276,6 +2257,7 @@ export function HomePage() {
               >
                 <OverviewStatementIcon kind="idd" />
                 <h3>IDD Statement</h3>
+                <span className="landing-overview-statement-rule" aria-hidden="true" />
                 <p>
                   Integrity Due Diligence keeps every partner, supplier, and agent aligned to clear
                   ethical, compliance, and operating standards so client cargo moves through a
@@ -2290,7 +2272,10 @@ export function HomePage() {
               <span className="landing-overview-rule" aria-hidden="true" />
               <h2 className="landing-overview-title">
                 <span className="landing-overview-title-line">
-                  <span>Moving Your Business Forward,</span>
+                  <span>Moving Your</span>
+                </span>
+                <span className="landing-overview-title-line">
+                  <span>Business Forward,</span>
                 </span>
                 <span className="landing-overview-title-line">
                   <span>
