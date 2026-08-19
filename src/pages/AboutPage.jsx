@@ -520,14 +520,7 @@ export function AboutPage() {
               </div>
             </nav>
             <section className="abt-story-section" aria-labelledby="abt-story-title">
-              <figure className="abt-story-visual" aria-hidden="true">
-                <img
-                  src="/about-story-truck-cutout.png"
-                  width="1774"
-                  height="887"
-                  alt=""
-                />
-              </figure>
+              <div className="abt-story-red-panel" aria-hidden="true" />
               <div className="abt-story-copy">
                 <p className="abt-story-kicker">Our Story</p>
                 <h2 className="abt-story-title" id="abt-story-title">
@@ -556,7 +549,9 @@ export function AboutPage() {
               </div>
             </section>
             <section className="abt-values-section" aria-labelledby="abt-values-title">
+              <div className="abt-values-red-panel" aria-hidden="true" />
               <div className="abt-values-copy">
+                <p className="abt-values-kicker">Our Story</p>
                 <span className="abt-values-rule" aria-hidden="true" />
                 <h2 className="abt-values-title" id="abt-values-title">
                   <span>Our mission, vision</span>
@@ -645,6 +640,32 @@ export function AboutPage() {
                     />
                   </div>
                 ))}
+              </div>
+            </section>
+            <section className="abt-final-cta-section" aria-labelledby="abt-final-cta-title">
+              <div className="abt-final-cta-shell">
+                <div className="abt-final-cta-heading">
+                  <h2 id="abt-final-cta-title">
+                    <span>Let&apos;s Move Your</span>
+                    <span>Business</span>
+                    <span>
+                      Forward, <strong>Together.</strong>
+                    </span>
+                  </h2>
+                  <span className="abt-final-cta-rule" aria-hidden="true" />
+                </div>
+                <div className="abt-final-cta-copy">
+                  <p>
+                    Partner with FELMEX Global Logistics for seamless, reliable, and scalable
+                    logistics solutions that drive growth and open new opportunities.
+                  </p>
+                  <a className="abt-final-cta-link" href="/contact">
+                    <span>Get in Touch</span>
+                    <span className="abt-final-cta-arrow" aria-hidden="true">
+                      <ArrowIcon />
+                    </span>
+                  </a>
+                </div>
               </div>
             </section>
           </div>

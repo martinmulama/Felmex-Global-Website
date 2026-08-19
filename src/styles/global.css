@@ -14,24 +14,18 @@
   --site-brand-accent: var(--site-brand-navy);
   --site-brand-accent-hover: var(--site-brand-navy-deep);
   --site-brand-accent-rgb: var(--site-brand-navy-rgb);
-  --site-brand-navy-gradient: linear-gradient(
-    180deg,
-    var(--site-brand-navy) 0%,
-    var(--site-brand-navy-mid) 56%,
-    var(--site-brand-navy-deep) 100%
-  );
-  --site-brand-navy-gradient-horizontal: linear-gradient(
-    90deg,
-    var(--site-brand-navy-deep) 0%,
-    var(--site-brand-navy) 55%,
-    var(--site-brand-navy-deep) 100%
-  );
-  --site-brand-navy-gradient-diagonal: linear-gradient(
-    135deg,
-    var(--site-brand-navy-deep) 0%,
-    var(--site-brand-navy) 48%,
-    var(--site-brand-navy-deep) 100%
-  );
+  --site-brand-navy-gradient: linear-gradient(180deg,
+      var(--site-brand-navy) 0%,
+      var(--site-brand-navy-mid) 56%,
+      var(--site-brand-navy-deep) 100%);
+  --site-brand-navy-gradient-horizontal: linear-gradient(90deg,
+      var(--site-brand-navy-deep) 0%,
+      var(--site-brand-navy) 55%,
+      var(--site-brand-navy-deep) 100%);
+  --site-brand-navy-gradient-diagonal: linear-gradient(135deg,
+      var(--site-brand-navy-deep) 0%,
+      var(--site-brand-navy) 48%,
+      var(--site-brand-navy-deep) 100%);
   --site-on-navy: #f2f8fd;
   --site-on-navy-strong: #ffffff;
   --site-on-navy-muted: rgba(192, 221, 246, 0.92);
@@ -712,11 +706,9 @@ a {
     border-radius: 999px;
     padding: 0 0.56rem;
     border: 1px solid rgba(188, 221, 249, 0.42);
-    background: linear-gradient(
-      120deg,
-      var(--site-brand-navy-deep) 0%,
-      var(--site-brand-navy) 100%
-    );
+    background: linear-gradient(120deg,
+        var(--site-brand-navy-deep) 0%,
+        var(--site-brand-navy) 100%);
     font-size: var(--fs-caption);
     font-weight: 700;
     letter-spacing: 0.05em;
@@ -1099,9 +1091,7 @@ a {
     min-height: 100svh;
     margin: 0;
     padding:
-      calc(var(--site-nav-height) + clamp(1.45rem, 5svh, 2.25rem))
-      var(--site-mobile-menu-edge)
-      calc(clamp(1.35rem, 4svh, 2.2rem) + env(safe-area-inset-bottom, 0px));
+      calc(var(--site-nav-height) + clamp(1.45rem, 5svh, 2.25rem)) var(--site-mobile-menu-edge) calc(clamp(1.35rem, 4svh, 2.2rem) + env(safe-area-inset-bottom, 0px));
     border: 0;
     border-radius: 0;
     background: transparent;
@@ -1308,6 +1298,7 @@ a {
 }
 
 @media (max-width: 380px) {
+
   .nav-links,
   .site-header.is-interior-page .nav-links {
     gap: clamp(0.95rem, 3.5svh, 1.55rem);
