@@ -225,6 +225,27 @@
   }
 }
 
+@media (min-width: 1024px) {
+  .hero--why-choose .why-choose-felmex {
+    --why-red-head-coupler-trim: calc(var(--why-container-image-height) * 0.045);
+  }
+
+  .hero--why-choose .why-choose-felmex__segment--red {
+    width: calc(var(--why-container-width) - var(--why-red-head-coupler-trim));
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .hero--why-choose .why-choose-felmex {
+    --why-tablet-train-shift: clamp(0px, calc((1280px - 100vw) * 1.5), 7rem);
+  }
+
+  .hero--why-choose .why-choose-felmex__segment--head
+    .why-choose-felmex__train-visual-wrapper {
+    transform: translateX(calc(-1 * var(--why-tablet-train-shift)));
+  }
+}
+
 @media (max-width: 1023px) {
   .hero--why-choose {
     margin-top: calc(-1 * var(--site-header-clearance, 4rem));

@@ -1,9 +1,9 @@
 .abt-page {
   --abt-white: #ffffff;
-  --abt-ink: #071b35;
+  --abt-ink: var(--site-footer-blue);
   --abt-red: var(--site-brand-red, #ed1c24);
-  --abt-blue: #0d253b;
-  --abt-blue-deep: #03172f;
+  --abt-blue: var(--site-footer-blue);
+  --abt-blue-deep: var(--site-footer-blue);
   --abt-home-section-title-size: clamp(2.25rem, 2.68vw, 3rem);
   --abt-home-section-title-line-height: 1.16;
   --abt-home-section-title-tracking: 0;
@@ -22,7 +22,11 @@
   --abt-partners-pull-up: clamp(6.25rem, 9vw, 9.5rem);
   --abt-values-blue-width: 38.5%;
   --abt-split-blue-bg:
-    linear-gradient(180deg, rgba(11, 39, 68, 0.18), rgba(2, 13, 26, 0.08)),
+    linear-gradient(
+      180deg,
+      rgba(var(--site-footer-blue-rgb), 0.18),
+      rgba(var(--site-footer-blue-rgb), 0.08)
+    ),
     var(--abt-blue);
   position: relative;
   overflow-x: clip;
@@ -1040,8 +1044,12 @@
     padding: clamp(4.75rem, 4.95vw, 5.5rem) clamp(2.5rem, 3.3vw, 3.6rem)
       clamp(3rem, 4vw, 4.4rem) clamp(8rem, 13.48vw, 14.95rem);
     background:
-      linear-gradient(180deg, rgba(17, 48, 78, 0.18), rgba(2, 16, 33, 0.12)),
-      #071f38;
+      linear-gradient(
+        180deg,
+        rgba(var(--site-footer-blue-rgb), 0.18),
+        rgba(var(--site-footer-blue-rgb), 0.12)
+      ),
+      var(--site-footer-blue);
     color: #ffffff;
   }
 
@@ -1082,9 +1090,8 @@
   }
 
   .abt-values-section {
-    --abt-values-section-gap: clamp(1.75rem, 2.8vw, 3.1rem);
     display: block;
-    min-height: calc(var(--abt-split-section-min-height) + var(--abt-values-section-gap));
+    min-height: var(--abt-split-section-min-height);
     margin-top: 0;
     padding: 0;
     overflow: hidden;
@@ -1098,7 +1105,7 @@
 
   .abt-values-red-panel {
     position: absolute;
-    inset: calc(var(--abt-values-section-gap) + clamp(5.7rem, 9.25vw, 10.25rem)) 0 0 auto;
+    inset: clamp(5.7rem, 9.25vw, 10.25rem) 0 0 auto;
     z-index: 1;
     display: block;
     width: clamp(25rem, 29.6vw, 32.82rem);
@@ -1109,18 +1116,22 @@
 
   .abt-values-copy {
     position: absolute;
-    inset: calc(var(--abt-values-section-gap) + clamp(4rem, 5.36vw, 5.95rem))
+    inset: clamp(4rem, 5.36vw, 5.95rem)
       clamp(12.5rem, 19.56vw, 21.7rem) 0 auto;
     z-index: 2;
     display: flex;
-    width: clamp(45rem, 52.42vw, 58.15rem);
+    width: clamp(45rem, 60vw, 66rem);
     flex-direction: column;
-    padding: clamp(4rem, 4.2vw, 4.65rem) clamp(8rem, 13.48vw, 14.95rem)
+    padding: clamp(4.75rem, 4.95vw, 5.5rem) clamp(8rem, 13.48vw, 14.95rem)
       clamp(3rem, 4vw, 4.4rem) clamp(2.5rem, 3.3vw, 3.6rem);
     margin: 0;
     background:
-      linear-gradient(180deg, rgba(17, 48, 78, 0.18), rgba(2, 16, 33, 0.12)),
-      #071f38;
+      linear-gradient(
+        180deg,
+        rgba(var(--site-footer-blue-rgb), 0.18),
+        rgba(var(--site-footer-blue-rgb), 0.12)
+      ),
+      var(--site-footer-blue);
     color: #ffffff;
   }
 
@@ -1138,14 +1149,20 @@
   }
 
   .abt-values-title {
+    display: block;
     order: 2;
-    max-width: 42rem;
+    max-width: none;
     margin-top: clamp(1.15rem, 1.45vw, 1.55rem);
     color: #ffffff;
     font-size: var(--abt-home-section-title-size);
     line-height: var(--abt-home-section-title-line-height);
     letter-spacing: var(--abt-home-section-title-tracking);
-    text-wrap: balance;
+    text-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  .abt-values-title > span {
+    display: inline;
   }
 
   .abt-values-rule {
@@ -1159,13 +1176,13 @@
   .abt-values-block-list {
     order: 4;
     width: min(100%, 40.75rem);
-    margin-top: clamp(1.35rem, 2vw, 2rem);
+    margin-top: clamp(1rem, 1.5vw, 1.45rem);
   }
 
   .abt-values-block {
     gap: clamp(0.78rem, 1.45vw, 1.1rem);
-    padding-block: clamp(0.95rem, 1.25vw, 1.2rem);
-    border-top-color: rgba(255, 255, 255, 0.4);
+    padding-block: clamp(0.75rem, 1vw, 0.95rem);
+    border-top: 0;
     color: rgba(255, 255, 255, 0.94);
     font-size: var(--abt-home-body-size);
     font-weight: var(--abt-home-body-weight);
@@ -1330,14 +1347,30 @@
   }
 
   .abt-final-cta-section {
+    position: relative;
+    z-index: 5;
     display: grid;
     min-height: clamp(34rem, 43vw, 46rem);
     box-sizing: border-box;
     margin-top: -1px;
-    padding: clamp(4rem, 6vw, 5.5rem) 0 clamp(6rem, 9vw, 8rem);
+    padding: clamp(4rem, 6vw, 5.5rem) 0 var(--site-final-cta-footer-clearance);
     place-items: center;
+    overflow: visible;
     background: var(--abt-blue-deep);
     color: #ffffff;
+  }
+
+  .abt-final-cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 1;
+    width: 100vw;
+    height: 1px;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateX(-50%);
   }
 
   .abt-final-cta-shell {
@@ -1347,6 +1380,19 @@
     min-height: clamp(18rem, 21vw, 22rem);
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: stretch;
+    position: relative;
+  }
+
+  .abt-final-cta-shell::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(50% - var(--site-final-cta-divider-offset));
+    width: 2px;
+    pointer-events: none;
+    background: var(--abt-red);
+    transform: translateX(-50%);
   }
 
   .abt-final-cta-heading,
@@ -1395,7 +1441,7 @@
 
   .abt-final-cta-copy {
     padding-left: var(--abt-final-cta-fold-gap);
-    border-left: 2px solid var(--abt-red);
+    border-left: 0;
   }
 
   .abt-final-cta-copy p {
@@ -1470,12 +1516,12 @@
     --abt-ref-nav-height: 4.7rem;
     --abt-hero-card-height: clamp(13.9rem, 28svh, 15.6rem);
     --abt-mobile-banner-height: clamp(12.5rem, 46vw, 18.5rem);
-    --abt-mobile-ink: #002b5c;
-    --abt-mobile-ink-soft: rgba(0, 43, 92, 0.72);
+    --abt-mobile-ink: var(--site-footer-blue);
+    --abt-mobile-ink-soft: rgba(var(--site-footer-blue-rgb), 0.72);
     --abt-mobile-red: var(--site-brand-red, #ed1c24);
-    --abt-mobile-rule: rgba(0, 43, 92, 0.16);
-    --abt-mobile-navy: #002b5c;
-    --abt-mobile-navy-deep: #001a3e;
+    --abt-mobile-rule: rgba(var(--site-footer-blue-rgb), 0.16);
+    --abt-mobile-navy: var(--site-footer-blue);
+    --abt-mobile-navy-deep: var(--site-footer-blue);
     --abt-mobile-menu-width: clamp(6.05rem, 25.8vw, 6.95rem);
     --abt-mobile-title-extra: clamp(2.2rem, 10vw, 3.15rem);
     --abt-mobile-intro-height: clamp(12rem, 49vw, 13.35rem);

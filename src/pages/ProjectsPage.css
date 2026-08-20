@@ -1,9 +1,9 @@
 .prj-page {
   --prj-white: #ffffff;
-  --prj-ink: var(--site-brand-navy, #12273b);
+  --prj-ink: var(--site-footer-blue);
   --prj-ink-soft: rgba(var(--site-brand-navy-rgb, 18, 39, 59), 0.16);
-  --prj-blue: var(--site-brand-navy, #12273b);
-  --prj-blue-deep: var(--site-brand-navy-deep, #0a1a29);
+  --prj-blue: var(--site-footer-blue);
+  --prj-blue-deep: var(--site-footer-blue);
   --prj-red: var(--site-brand-red, #ed1c24);
   --prj-muted: rgba(var(--site-brand-navy-rgb, 18, 39, 59), 0.7);
   --prj-neutral: #aeb4c2;
@@ -75,7 +75,7 @@
 }
 
 .prj-column--blue {
-  --prj-accent: #031db5;
+  --prj-accent: var(--site-footer-blue);
 }
 
 .prj-column--neutral {
@@ -566,7 +566,7 @@
 .prj-drop-media-item {
   min-width: 0;
   overflow: hidden;
-  background: #071b35;
+  background: var(--site-footer-blue);
 }
 
 .prj-drop-media-item img {
