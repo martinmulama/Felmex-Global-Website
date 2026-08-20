@@ -6,6 +6,7 @@ import { ONGOING_PROJECTS } from './projects/data';
 import { CLIENT_QUOTES } from './home/data';
 
 const HOME_PROJECT_THUMBNAIL_COPIES = 2;
+const HOME_MOBILE_PROJECT_TELEPROMPTER_CYCLE_REPETITIONS = 3;
 const HOME_PROJECT_PREVIEW =
   ONGOING_PROJECTS.find((project) => project.id === 'border-continuity') ?? ONGOING_PROJECTS[0];
 const HOME_PROJECT_PREVIEW_PARAGRAPHS = [
@@ -18,6 +19,7 @@ const HOME_PROJECT_PREVIEW_SERVICES = HOME_PROJECT_PREVIEW.services.slice(0, 2);
 const HOME_DESKTOP_PROJECT_PREVIEW =
   ONGOING_PROJECTS.find((project) => project.id === 'cold-chain-release') ?? ONGOING_PROJECTS[0];
 const HOME_DESKTOP_PROJECT_CLIENTS = ['Apple', 'NFL', 'BMW', 'Stella', 'State Farm'];
+const HOME_MOBILE_PROJECT_CLIENTS = ['Siginon Group', 'Mitchell Cotts', 'CEVA Logistics'];
 const HOME_DESKTOP_PROJECT_PREVIEW_PARAGRAPHS = [
   HOME_DESKTOP_PROJECT_PREVIEW.lead,
   ...(HOME_DESKTOP_PROJECT_PREVIEW.bodyParagraphs ?? [HOME_DESKTOP_PROJECT_PREVIEW.body]),
@@ -58,6 +60,15 @@ const HOME_MOBILE_PROJECTS = [
     index: String(index + 1).padStart(2, '0'),
     image: project?.image ?? '/sea-freight.webp',
     imageAlt: project?.imageAlt ?? `${caseStudy.title} logistics project`,
+    paragraphs: [
+      project?.lead,
+      ...(project?.bodyParagraphs ?? [project?.body]),
+    ].filter(Boolean),
+    publishedOn:
+      project?.meta?.find((item) => item.label.toLowerCase() === 'published')?.value ??
+      project?.publishedOn ??
+      'Ongoing',
+    clients: HOME_MOBILE_PROJECT_CLIENTS,
   };
 });
 const HOME_PROJECT_THUMBNAILS = ONGOING_PROJECTS.filter(
@@ -225,15 +236,8 @@ const FINAL_OPERATION_STEPS = [
   },
 ];
 
-const MOBILE_SOLUTION_DEFAULT_COPY = {
-  key: 'overview',
-  label: 'Overview',
-  text: 'At Felmex, every project is managed with a commitment to precision, transparency, and reliability.',
-  highlightWords: ['Felmex', 'precision', 'transparency', 'reliability'],
-};
-
 const MOBILE_SOLUTION_NAV_ORDER = ['source', 'ship', 'store', 'process', 'scale'];
-const MOBILE_SOLUTION_INITIAL_KEY = 'store';
+const MOBILE_SOLUTION_INITIAL_KEY = 'source';
 
 const OVERVIEW_MOBILE_STATEMENTS = [
   {
@@ -1224,7 +1228,6 @@ export function HomePage() {
     OVERVIEW_MOBILE_STATEMENTS[0].key
   );
   const [activeMobileSolution, setActiveMobileSolution] = useState(MOBILE_SOLUTION_INITIAL_KEY);
-  const [hasSelectedMobileSolution, setHasSelectedMobileSolution] = useState(false);
   const [activeMobileProjectIndex, setActiveMobileProjectIndex] = useState(0);
   const [isMobileViewport, setIsMobileViewport] = useState(
     () =>
@@ -1245,9 +1248,7 @@ export function HomePage() {
   const activeMobileSolutionStep =
     FINAL_OPERATION_STEPS.find((step) => step.key === activeMobileSolution) ??
     FINAL_OPERATION_STEPS[0];
-  const mobileSolutionPanelCopy = hasSelectedMobileSolution
-    ? activeMobileSolutionStep
-    : MOBILE_SOLUTION_DEFAULT_COPY;
+  const mobileSolutionPanelCopy = activeMobileSolutionStep;
   const activeOverviewStatementData =
     OVERVIEW_MOBILE_STATEMENTS.find((statement) => statement.key === activeOverviewStatement) ??
     OVERVIEW_MOBILE_STATEMENTS[0];
@@ -1687,11 +1688,21 @@ export function HomePage() {
   }, [prefersReducedMotion]);
 
   useLayoutEffect(() => {
+    const journalSection = journalSectionRef.current;
     const pinWrapper = journalPinWrapperRef.current;
     const stage = journalDesktopStageRef.current;
     const viewport = journalDesktopViewportRef.current;
     const track = journalDesktopTrackRef.current;
-    if (!pinWrapper || !stage || !viewport || !track || typeof window === 'undefined') return undefined;
+    if (
+      !journalSection ||
+      !pinWrapper ||
+      !stage ||
+      !viewport ||
+      !track ||
+      typeof window === 'undefined'
+    ) {
+      return undefined;
+    }
 
     const journalTitle = journalTitleRef.current;
     const projectTitle = journalTitleProjectRef.current;
@@ -1822,6 +1833,10 @@ export function HomePage() {
         .getPropertyValue('--site-header-clearance');
       return Number.parseFloat(rawValue) || 0;
     };
+    const getJournalPinStartOffset = () => {
+      const computedInset = Number.parseFloat(window.getComputedStyle(journalSection).top);
+      return computedInset || getHeaderClearance();
+    };
     const getTravelDistance = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
     const getHandoffDistance = () => {
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
@@ -1875,8 +1890,9 @@ export function HomePage() {
 
         const timeline = gsapInstance.timeline({
           scrollTrigger: {
-            trigger: pinWrapper,
-            start: () => `top top+=${getHeaderClearance()}`,
+            trigger: journalSection,
+            pin: pinWrapper,
+            start: () => `top top+=${getJournalPinStartOffset()}`,
             end: () => `+=${getScrollDistance()}`,
             scrub: 1.05,
             invalidateOnRefresh: true,
@@ -2559,6 +2575,10 @@ export function HomePage() {
                     Written takes from our active projects, alongside practical logistics news
                     from the routes and handoffs shaping global trade.
                   </p>
+                  <span className="landing-project-preview-swipe-hint" aria-hidden="true">
+                    <span>Swipe left to read</span>
+                    <span>←</span>
+                  </span>
                   <span className="landing-project-preview-rule" aria-hidden="true" />
                   <p className="landing-project-preview-copy">
                     <span>A wider look at the cargo programs, customs handoffs,</span>
@@ -2599,25 +2619,64 @@ export function HomePage() {
                 </div>
 
                 <div className="landing-project-mobile-feed" aria-label="Featured project case studies">
-                  {HOME_MOBILE_PROJECTS.map((project) => (
+                  {HOME_MOBILE_PROJECTS.slice(0, 1).map((project) => (
                     <article className="landing-project-mobile-card" key={project.projectId}>
-                      <figure className="landing-project-mobile-media">
-                        <img
-                          src={project.image}
-                          alt={project.imageAlt}
-                          width="1440"
-                          height="1080"
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      </figure>
-                      <div className="landing-project-mobile-copy">
-                        <span className="landing-project-mobile-rule" aria-hidden="true" />
-                        <p className="landing-project-mobile-index">{project.index}</p>
+                      <header className="landing-project-mobile-identity">
                         <h3 className="landing-project-mobile-title">{project.title}</h3>
                         <p className="landing-project-mobile-meta">{project.meta}</p>
-                        <p className="landing-project-mobile-brief">{project.brief}</p>
+                      </header>
+
+                      <div className="landing-project-mobile-media">
+                        <img
+                          className="landing-project-mobile-image"
+                          src={project.image}
+                          alt=""
+                        />
+                        <a className="landing-project-mobile-read-more" href="/blog">
+                          <span>Read more</span>
+                          <span aria-hidden="true">→</span>
+                        </a>
                       </div>
+
+                      <div className="landing-project-mobile-teleprompter" aria-label={`${project.title} preview`}>
+                        <div className="landing-project-mobile-teleprompter-track">
+                          {[0, 1].map((copyIndex) => (
+                            <div
+                              className="landing-project-mobile-teleprompter-copy"
+                              key={copyIndex}
+                              aria-hidden={copyIndex === 1}
+                            >
+                              {Array.from(
+                                { length: HOME_MOBILE_PROJECT_TELEPROMPTER_CYCLE_REPETITIONS },
+                                (_, cycleIndex) =>
+                                  project.paragraphs.map((paragraph, paragraphIndex) => (
+                                    <p
+                                      key={`${copyIndex}-${cycleIndex}-${paragraphIndex}`}
+                                      aria-hidden={cycleIndex > 0}
+                                    >
+                                      {paragraph}
+                                    </p>
+                                  ))
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <aside className="landing-project-mobile-facts" aria-label="Project metadata">
+                        <div className="landing-project-mobile-clients">
+                          <p>Clients</p>
+                          <ul>
+                            {project.clients.map((client) => (
+                              <li key={client}>{client}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div className="landing-project-mobile-published">
+                          <p>Published</p>
+                          <span>{project.publishedOn}</span>
+                        </div>
+                      </aside>
                     </article>
                   ))}
                 </div>
@@ -2627,10 +2686,7 @@ export function HomePage() {
         </section>
 
         <section className="landing-mobile-solutions" aria-label="About our solutions">
-          <div
-            className={`landing-mobile-solutions-switcher${hasSelectedMobileSolution ? ' has-solution-copy' : ' is-overview-copy'
-              }`}
-          >
+          <div className="landing-mobile-solutions-switcher has-solution-copy">
             <div
               id="landing-mobile-solution-panel"
               className="landing-mobile-solution-panel"
@@ -2656,10 +2712,9 @@ export function HomePage() {
                     key={step.key}
                     type="button"
                     aria-controls="landing-mobile-solution-panel"
-                    aria-pressed={hasSelectedMobileSolution && isActive}
+                    aria-pressed={isActive}
                     onClick={() => {
                       setActiveMobileSolution(step.key);
-                      setHasSelectedMobileSolution(true);
                     }}
                   >
                     <SolutionStageIcon kind={step.key} />
@@ -2668,10 +2723,9 @@ export function HomePage() {
                 );
               })}
             </nav>
-          </div>
 
-          <div className="landing-mobile-industries" aria-label="Industries we service">
-            <p className="landing-mobile-industries-kicker">Industries We Service</p>
+            <div className="landing-mobile-industries" aria-label="Industries we serve">
+            <p className="landing-mobile-industries-kicker">Industries We Serve</p>
             <div className="landing-mobile-industry-rail">
               <div className="landing-final-partner-track landing-mobile-industry-track">
                 {[0, 1, 2, 3].map((setIndex) => (
@@ -2694,6 +2748,7 @@ export function HomePage() {
                 ))}
               </div>
             </div>
+          </div>
           </div>
         </section>
 
@@ -2884,9 +2939,9 @@ export function HomePage() {
               </div>
               <h2>
                 <span className="landing-final-cta-title-line">Let&rsquo;s Move Your</span>{' '}
-                <span className="landing-final-cta-title-line">Business Forward,</span>{' '}
-                <span className="landing-final-cta-title-line landing-final-cta-title-line--accent">
-                  <strong>Together.</strong>
+                <span className="landing-final-cta-title-line">Business</span>{' '}
+                <span className="landing-final-cta-title-line">
+                  Forward, <strong>Together.</strong>
                 </span>
               </h2>
               <p>
@@ -2896,7 +2951,16 @@ export function HomePage() {
               <a className="landing-final-cta-link" href="/contact">
                 <span>Get in Touch</span>
                 <span className="landing-final-cta-arrow" aria-hidden="true">
-                  -&gt;
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <path
+                      d="M4.8 12h13.4m-5.7-5.8 5.8 5.8-5.8 5.8"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.25"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </span>
               </a>
             </div>
