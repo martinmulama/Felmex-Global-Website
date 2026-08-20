@@ -1181,12 +1181,19 @@
 
   .prj-drop-facts {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto;
     align-content: start;
-    gap: 1.2rem;
+    align-items: start;
+    gap: 1rem;
     margin-top: auto;
     padding-top: clamp(1.25rem, 5vw, 2rem);
-    padding-right: 2.6rem;
+    padding-right: 0;
+  }
+
+  .prj-drop-published {
+    align-self: end;
+    justify-items: end;
+    text-align: right;
   }
 
   .prj-drop-facts-label,
