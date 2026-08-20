@@ -554,11 +554,11 @@ export function AboutPage() {
                 <p className="abt-values-kicker">Our Story</p>
                 <span className="abt-values-rule" aria-hidden="true" />
                 <h2 className="abt-values-title" id="abt-values-title">
-                  <span>Our mission, vision</span>
+                  <span>Our Mission, Vision, </span>
                   <span>
                     and{' '}
                     <span className="abt-values-title-accent">
-                      values<span className="abt-red-punctuation">.</span>
+                      Values<span className="abt-red-punctuation">.</span>
                     </span>
                   </span>
                 </h2>

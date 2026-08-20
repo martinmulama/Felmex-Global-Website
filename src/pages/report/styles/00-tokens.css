@@ -6,23 +6,23 @@
 .report-page {
   --blue-950: var(--site-brand-navy-deep);
   --blue-900: var(--site-brand-navy);
-  --blue-800: #183248;
-  --blue-700: #223d54;
-  --blue-600: #2c4860;
+  --blue-800: color-mix(in srgb, var(--site-footer-blue) 90%, white);
+  --blue-700: color-mix(in srgb, var(--site-footer-blue) 80%, white);
+  --blue-600: color-mix(in srgb, var(--site-footer-blue) 70%, white);
   --blue-500: var(--site-brand-navy);
-  --blue-400: #405a70;
-  --blue-300: #73879a;
-  --blue-200: #bac6d0;
-  --blue-100: #e4e9ee;
-  --blue-50: #f2f5f7;
+  --blue-400: color-mix(in srgb, var(--site-footer-blue) 60%, white);
+  --blue-300: color-mix(in srgb, var(--site-footer-blue) 42%, white);
+  --blue-200: color-mix(in srgb, var(--site-footer-blue) 24%, white);
+  --blue-100: color-mix(in srgb, var(--site-footer-blue) 12%, white);
+  --blue-50: color-mix(in srgb, var(--site-footer-blue) 6%, white);
 
   --white: #ffffff;
   --ink: var(--blue-900);
   --muted: var(--blue-700);
   --faint: var(--blue-600);
 
-  --border: rgba(30, 72, 120, 0.1);
-  --border-strong: rgba(30, 72, 120, 0.17);
+  --border: rgba(var(--site-footer-blue-rgb), 0.1);
+  --border-strong: rgba(var(--site-footer-blue-rgb), 0.17);
 
   --accent: var(--blue-500);
   --accent-hover: var(--blue-600);

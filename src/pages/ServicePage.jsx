@@ -1050,19 +1050,31 @@ export function ServicePage() {
 
             <section className="svc-final-cta" aria-label="Start a logistics conversation">
               <div className="svc-final-cta-panel">
-                <h2>
-                  Let&rsquo;s Move Your Business Forward, <strong>Together.</strong>
-                </h2>
-                <p>
-                  Partner with FELMEX Global Logistics for seamless, reliable, and scalable
-                  logistics solutions that drive growth and open new opportunities.
-                </p>
-                <a className="svc-final-cta-link" href="/contact">
-                  <span>Get in Touch</span>
-                  <span className="svc-final-cta-arrow" aria-hidden="true">
-                    -&gt;
-                  </span>
-                </a>
+                <div className="svc-final-cta-heading">
+                  <h2>
+                    <span>Let&rsquo;s Move Your </span>
+                    <span>Business </span>
+                    <span>
+                      Forward, <strong>Together.</strong>
+                    </span>
+                  </h2>
+                  <span className="svc-final-cta-rule" aria-hidden="true" />
+                </div>
+                <div className="svc-final-cta-copy">
+                  <p>
+                    Partner with FELMEX Global Logistics for seamless, reliable, and scalable
+                    logistics solutions that drive growth and open new opportunities.
+                  </p>
+                  <a className="svc-final-cta-link" href="/contact">
+                    <span>Get in Touch</span>
+                    <span className="svc-final-cta-arrow" aria-hidden="true">
+                      <span className="svc-final-cta-arrow-text">-&gt;</span>
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <path d="M4.8 12h13.4m-5.7-5.8 5.8 5.8-5.8 5.8" />
+                      </svg>
+                    </span>
+                  </a>
+                </div>
               </div>
             </section>
           </div>

@@ -1,10 +1,10 @@
 .svc-page {
   --svc-white: #ffffff;
-  --svc-ink: #071b35;
+  --svc-ink: var(--site-footer-blue);
   --svc-red: var(--site-brand-red);
-  --svc-blue: #0d253b;
-  --svc-blue-deep: #03172f;
-  --svc-blue-light: #12375d;
+  --svc-blue: var(--site-footer-blue);
+  --svc-blue-deep: var(--site-footer-blue);
+  --svc-blue-light: var(--site-footer-blue);
   --svc-curtain-overlap: var(--svc-ref-nav-height);
   --svc-ref-artboard-max: 96rem;
   --svc-section-rail: clamp(3.4rem, 5.5vw, 5.25rem);
@@ -4425,5 +4425,169 @@
 
   .svc-service-detail-feature p {
     line-height: 1.58;
+  }
+}
+
+/* Desktop service CTA — shares the established two-column closing-CTA composition. */
+.svc-final-cta-rule,
+.svc-final-cta-arrow svg {
+  display: none;
+}
+
+@media (min-width: 1025px) {
+  .svc-process-section {
+    padding-block: clamp(4rem, 6vw, 5.5rem);
+  }
+
+  .svc-final-cta {
+    position: relative;
+    z-index: 5;
+    display: grid;
+    min-height: clamp(34rem, 43vw, 46rem);
+    margin: 0;
+    padding: clamp(4rem, 6vw, 5.5rem) 0 var(--site-final-cta-footer-clearance);
+    place-items: center;
+    overflow: visible;
+    background: var(--svc-blue);
+    color: #ffffff;
+    text-align: left;
+  }
+
+  .svc-final-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 1;
+    width: 100vw;
+    height: 1px;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateX(-50%);
+  }
+
+  .svc-final-cta-panel {
+    --svc-final-cta-fold-gap: clamp(3.8rem, 5.8vw, 6rem);
+    display: grid;
+    width: min(calc(100% - 4rem), 85rem);
+    min-height: clamp(18rem, 21vw, 22rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    padding: 0;
+    clip-path: none;
+    background: transparent;
+    color: #ffffff;
+  }
+
+  .svc-final-cta-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(50% - var(--site-final-cta-divider-offset));
+    width: 2px;
+    pointer-events: none;
+    background: var(--svc-red);
+    transform: translateX(-50%);
+  }
+
+  .svc-final-cta-heading,
+  .svc-final-cta-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .svc-final-cta-heading {
+    padding-left: clamp(4.5rem, 7.8vw, 8rem);
+    padding-right: var(--svc-final-cta-fold-gap);
+  }
+
+  .svc-final-cta-heading h2,
+  .svc-final-cta-copy p {
+    margin: 0;
+  }
+
+  .svc-final-cta-heading h2 {
+    max-width: none;
+    color: #ffffff;
+    font-size: clamp(2.25rem, 2.68vw, 3rem);
+    line-height: 1.16;
+    text-wrap: normal;
+  }
+
+  .svc-final-cta-heading h2 span {
+    display: block;
+  }
+
+  .svc-final-cta-rule {
+    display: block;
+    width: clamp(4.4rem, 4.9vw, 5.2rem);
+    height: 3px;
+    margin-top: clamp(1.85rem, 2.6vw, 2.35rem);
+    background: var(--svc-red);
+  }
+
+  .svc-final-cta-copy {
+    padding-left: var(--svc-final-cta-fold-gap);
+    border-left: 0;
+  }
+
+  .svc-final-cta-copy p {
+    max-width: 33rem;
+    color: rgba(255, 255, 255, 0.96);
+    font-size: clamp(1rem, 1.12vw, 1.16rem);
+    font-weight: 500;
+    line-height: var(--site-lh-body-loose);
+    text-wrap: balance;
+  }
+
+  .svc-final-cta-copy .svc-final-cta-link {
+    display: inline-flex;
+    width: min(100%, 19rem);
+    min-width: 0;
+    min-height: clamp(3.45rem, 4.8vw, 4rem);
+    box-sizing: border-box;
+    justify-content: space-between;
+    gap: 0;
+    margin-top: clamp(1.8rem, 3.2vw, 2.35rem);
+    padding: 0.85rem clamp(1.7rem, 3vw, 2.4rem);
+    background: var(--svc-red);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.22);
+  }
+
+  .svc-final-cta-copy .svc-final-cta-link:hover,
+  .svc-final-cta-copy .svc-final-cta-link:focus-visible {
+    background: #ff2931;
+    transform: translateY(-2px);
+    box-shadow: 0 1.15rem 2.3rem rgba(0, 0, 0, 0.28);
+  }
+
+  .svc-final-cta-copy .svc-final-cta-link:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.42);
+    outline-offset: 4px;
+  }
+
+  .svc-final-cta-copy .svc-final-cta-arrow {
+    display: grid;
+    width: 1.45rem;
+    height: 1.45rem;
+    place-items: center;
+  }
+
+  .svc-final-cta-copy .svc-final-cta-arrow-text {
+    display: none;
+  }
+
+  .svc-final-cta-copy .svc-final-cta-arrow svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 }
