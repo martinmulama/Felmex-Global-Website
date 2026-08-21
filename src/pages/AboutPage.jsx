@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import './AboutPage.css';
 import { WhyChooseFelmex } from '../components/WhyChooseFelmex';
 
@@ -54,17 +54,20 @@ const MOBILE_ABOUT_TABS = [
   {
     id: 'who-we-are',
     label: 'Who We Are',
+    tagLabel: 'Who we are.',
     labelLines: ['WHO WE', 'ARE'],
     icon: 'crowd',
     copyLines: [
-      'We coordinate freight, customs,',
-      'warehousing, and last-mile movement',
-      'with accountable handoffs.',
+      'We coordinate freight,',
+      'customs, warehousing, and',
+      'last-mile movement with',
+      'accountable handoffs.',
     ],
   },
   {
     id: 'mission',
     label: 'Our Mission',
+    tagLabel: 'Our mission',
     labelLines: ['OUR', 'MISSION'],
     icon: 'mission',
     copyLines: [
@@ -76,6 +79,7 @@ const MOBILE_ABOUT_TABS = [
   {
     id: 'vision',
     label: 'Our Vision',
+    tagLabel: 'Our vision',
     labelLines: ['OUR', 'VISION'],
     icon: 'vision',
     copyLines: [
@@ -87,6 +91,7 @@ const MOBILE_ABOUT_TABS = [
   {
     id: 'values',
     label: 'Our Values',
+    tagLabel: 'Our values',
     labelLines: ['OUR', 'VALUES'],
     icon: 'values',
     copyLines: [
@@ -281,6 +286,11 @@ function MobileAboutIcon({ kind }) {
 
 export function AboutPage() {
   const [activeBriefId, setActiveBriefId] = useState(ABOUT_BRIEFS[0].id);
+  const [isMobilePanelSliding, setIsMobilePanelSliding] = useState(false);
+  const [isMobilePanelSettling, setIsMobilePanelSettling] = useState(false);
+  const [mobileSlideDirection, setMobileSlideDirection] = useState(1);
+  const mobileSwipeStartRef = useRef(null);
+  const mobilePendingTabIndexRef = useRef(null);
   const activeBriefIndex = Math.max(
     ABOUT_BRIEFS.findIndex((brief) => brief.id === activeBriefId),
     0
@@ -288,6 +298,72 @@ export function AboutPage() {
   const activeBrief = ABOUT_BRIEFS[activeBriefIndex] ?? ABOUT_BRIEFS[0];
   const activeMobileTab =
     MOBILE_ABOUT_TABS.find((tab) => tab.id === activeBriefId) ?? MOBILE_ABOUT_TABS[0];
+  const activeMobileIndex = Math.max(
+    MOBILE_ABOUT_TABS.findIndex((tab) => tab.id === activeMobileTab.id),
+    0
+  );
+  const previousMobileTab =
+    MOBILE_ABOUT_TABS[
+      (activeMobileIndex - 1 + MOBILE_ABOUT_TABS.length) % MOBILE_ABOUT_TABS.length
+    ];
+  const nextMobileTab = MOBILE_ABOUT_TABS[(activeMobileIndex + 1) % MOBILE_ABOUT_TABS.length];
+
+  const changeMobileTab = (direction) => {
+    if (isMobilePanelSliding) return;
+
+    const nextIndex =
+      (activeMobileIndex + direction + MOBILE_ABOUT_TABS.length) % MOBILE_ABOUT_TABS.length;
+
+    if (
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    ) {
+      setActiveBriefId(MOBILE_ABOUT_TABS[nextIndex].id);
+      return;
+    }
+
+    mobilePendingTabIndexRef.current = nextIndex;
+    setMobileSlideDirection(direction);
+    setIsMobilePanelSliding(true);
+  };
+
+  const handleMobilePanelTransitionEnd = (event) => {
+    if (event.target !== event.currentTarget || event.propertyName !== 'transform') return;
+
+    const nextIndex = mobilePendingTabIndexRef.current;
+    if (nextIndex === null || nextIndex === undefined) return;
+
+    mobilePendingTabIndexRef.current = null;
+    setActiveBriefId(MOBILE_ABOUT_TABS[nextIndex].id);
+    setIsMobilePanelSliding(false);
+    setIsMobilePanelSettling(true);
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => setIsMobilePanelSettling(false));
+    });
+  };
+
+  const handleMobilePanelTouchStart = (event) => {
+    const touch = event.touches[0];
+    if (!touch) return;
+
+    mobileSwipeStartRef.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleMobilePanelTouchEnd = (event) => {
+    const start = mobileSwipeStartRef.current;
+    const touch = event.changedTouches[0];
+    mobileSwipeStartRef.current = null;
+
+    if (!start || !touch) return;
+
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+
+    if (Math.abs(deltaX) < 42 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+
+    changeMobileTab(deltaX < 0 ? 1 : -1);
+  };
 
   return (
     <section className="abt-page" id="about-top" aria-label="About Felmex">
@@ -303,12 +379,13 @@ export function AboutPage() {
             </span>
             <p>
               <span>
-                We connect <strong>air, sea, road</strong>, and
+                We connect <strong>air, sea,</strong>
               </span>
               <span>
-                <strong>rail</strong> to deliver flexible, cost-
+                <strong>road,</strong> and <strong>rail</strong> to deliver
               </span>
-              <span>effective transport solutions.</span>
+              <span>flexible, cost-effective</span>
+              <span>transport solutions.</span>
             </p>
             <span className="abt-mobile-quote-mark abt-mobile-quote-mark--close" aria-hidden="true">
               &rdquo;
@@ -316,62 +393,81 @@ export function AboutPage() {
           </blockquote>
         </section>
 
-        <section className="abt-mobile-tabs" aria-label="About sections">
-          <nav className="abt-mobile-tab-nav" aria-label="About sections">
-            <div className="abt-mobile-tab-list" role="tablist" aria-label="About sections">
-              {MOBILE_ABOUT_TABS.map((tab) => {
-                const isActive = tab.id === activeMobileTab.id;
-
-                return (
-                  <button
-                    className={`abt-mobile-tab${isActive ? ' is-active' : ''}`}
-                    type="button"
-                    role="tab"
-                    id={`abt-mobile-tab-${tab.id}`}
-                    key={tab.id}
-                    aria-label={tab.label}
-                    aria-selected={isActive}
-                    aria-controls="abt-mobile-panel"
-                    onClick={() => setActiveBriefId(tab.id)}
-                  >
-                    <span className="abt-mobile-tab-label" aria-hidden="true">
-                      {tab.labelLines.map((line) => (
-                        <span key={line}>{line}</span>
-                      ))}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </nav>
-
-          <section
-            className="abt-mobile-panel"
-            id="abt-mobile-panel"
-            role="tabpanel"
-            aria-labelledby={`abt-mobile-tab-${activeMobileTab.id}`}
-          >
-            <div className="abt-mobile-panel-icon" aria-hidden="true">
-              <MobileAboutIcon kind={activeMobileTab.icon} />
-            </div>
-            <p className="abt-mobile-panel-copy">
-              {activeMobileTab.copyLines.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
-            </p>
-          </section>
+        <section className="abt-mobile-brand-story" aria-label="Felmex brand story">
+          <header className="abt-mobile-brand-story-header">
+            <span className="abt-mobile-section-rule" aria-hidden="true" />
+            <h2 className="abt-mobile-section-title">
+              <span>
+                Our Story<span className="abt-red-punctuation">.</span>
+              </span>
+            </h2>
+          </header>
+          <p>
+            Felmex Global Logistics was built on the belief that logistics is more than movement&mdash;it&rsquo;s
+            about trust, reliability, and relationships. From our roots to our reach, we&rsquo;ve remained
+            committed to delivering smart, seamless solutions that help businesses grow across borders.
+          </p>
         </section>
 
-        <section className="abt-mobile-brand-story" aria-label="Felmex brand story">
-          <p>
-            <span>Felmex Global Logistics was built on the belief</span>
-            <span>that logistics is more than movement&mdash;it&rsquo;s</span>
-            <span>about trust, reliability, and relationships.</span>
-            <span>From our roots to our reach, we&rsquo;ve remained</span>
-            <span>committed to delivering smart, seamless</span>
-            <span>solutions that help businesses grow</span>
-            <span>across borders.</span>
-          </p>
+        <section
+          className={`abt-mobile-tabs${
+            isMobilePanelSliding
+              ? ` is-sliding is-sliding-${mobileSlideDirection > 0 ? 'forward' : 'backward'}`
+              : ''
+          }${isMobilePanelSettling ? ' is-settling' : ''}`}
+          aria-label="About sections"
+          onTouchStart={handleMobilePanelTouchStart}
+          onTouchEnd={handleMobilePanelTouchEnd}
+        >
+          <div
+            className="abt-mobile-layout-track"
+            aria-live="polite"
+            aria-label={activeMobileTab.label}
+            onTransitionEnd={handleMobilePanelTransitionEnd}
+          >
+              {[
+                { slot: 'previous', tab: previousMobileTab },
+                { slot: 'current', tab: activeMobileTab },
+                { slot: 'next', tab: nextMobileTab },
+              ].map(({ slot, tab }) => {
+                const panelIndex = MOBILE_ABOUT_TABS.findIndex((item) => item.id === tab.id);
+                const panelNextTab = MOBILE_ABOUT_TABS[(panelIndex + 1) % MOBILE_ABOUT_TABS.length];
+                const panelTagPosition = panelIndex % 2 === 0 ? 'top' : 'bottom';
+                const panelPeekPosition = panelTagPosition === 'top' ? 'bottom' : 'top';
+
+                return (
+                  <section
+                    className={`abt-mobile-layout abt-mobile-layout--${slot}`}
+                    key={`${slot}-${tab.id}`}
+                    aria-hidden={slot !== 'current'}
+                  >
+                    <section className="abt-mobile-panel">
+                      <p className="abt-mobile-panel-copy">
+                        {tab.copyLines.map((line) => (
+                          <span key={line}>{line}</span>
+                        ))}
+                      </p>
+
+                      <span
+                        className={`abt-mobile-panel-tag abt-mobile-panel-tag--active abt-mobile-panel-tag--${panelTagPosition}`}
+                      >
+                        {tab.tagLabel}
+                      </span>
+
+                      <button
+                        className={`abt-mobile-panel-tag abt-mobile-panel-tag--peek abt-mobile-panel-tag--${panelPeekPosition}`}
+                        type="button"
+                        tabIndex={slot === 'current' ? 0 : -1}
+                        aria-label={`Show ${panelNextTab.label}`}
+                        onClick={() => slot === 'current' && changeMobileTab(1)}
+                      >
+                        {panelNextTab.tagLabel}
+                      </button>
+                    </section>
+                  </section>
+                );
+              })}
+          </div>
         </section>
 
         <div className="abt-mobile-why-choose">
@@ -426,6 +522,26 @@ export function AboutPage() {
               ))}
             </div>
           </div>
+        </section>
+
+        <section className="abt-mobile-final-cta" aria-labelledby="abt-mobile-final-cta-title">
+          <h2 id="abt-mobile-final-cta-title">
+            <span>Let&apos;s Move Your</span>
+            <span>Business</span>
+            <span>
+              Forward, <strong>Together.</strong>
+            </span>
+          </h2>
+          <p>
+            Partner with FELMEX Global Logistics for seamless, reliable, and scalable logistics
+            solutions that drive growth and open new opportunities.
+          </p>
+          <a className="abt-mobile-final-cta-link" href="/contact">
+            <span>Get in Touch</span>
+            <span className="abt-mobile-final-cta-arrow" aria-hidden="true">
+              <ArrowIcon />
+            </span>
+          </a>
         </section>
       </section>
 
