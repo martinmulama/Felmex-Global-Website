@@ -1,0 +1,184 @@
+/* Tablet has room for the desktop CTA composition at a more compact scale. */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .scroll-wrapper > .rising-group.landing-close,
+  .landing-close,
+  .landing-close-canvas {
+    min-height: 0;
+    height: auto;
+    background: var(--site-footer-blue);
+  }
+
+  .landing-close {
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .landing-close-canvas {
+    padding: 0;
+  }
+
+  .landing-final-cta {
+    --landing-final-cta-tablet-edge: clamp(3rem, 7vw, 5.5rem);
+    --landing-final-cta-fold-gap: clamp(2.35rem, 4.5vw, 3.6rem);
+    position: relative;
+    z-index: 5;
+    min-height: clamp(32rem, 58vw, 36rem);
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding:
+      clamp(4.25rem, 8vw, 5.5rem)
+      var(--landing-final-cta-tablet-edge)
+      clamp(4rem, 7.5vw, 5.25rem);
+    clip-path: none;
+    background: var(--site-footer-blue);
+    color: #ffffff;
+    text-align: left;
+  }
+
+  .landing-final-cta > :not(.landing-final-cta-desktop) {
+    display: none;
+  }
+
+  .landing-final-cta > p::before,
+  .landing-final-cta-copy p::before {
+    content: none;
+  }
+
+  .landing-final-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    height: 1px;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateX(-50%);
+  }
+
+  .landing-final-cta-desktop {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+    width: min(100%, 57rem);
+    min-height: clamp(16rem, 28vw, 18rem);
+  }
+
+  .landing-final-cta-desktop::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 47%;
+    width: 2px;
+    pointer-events: none;
+    background: var(--site-brand-red);
+    transform: translateX(-50%);
+  }
+
+  .landing-final-cta-heading,
+  .landing-final-cta-copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .landing-final-cta-heading {
+    padding-right: var(--landing-final-cta-fold-gap);
+  }
+
+  .landing-final-cta-copy {
+    padding-left: var(--landing-final-cta-fold-gap);
+  }
+
+  .landing-final-cta-heading h2,
+  .landing-final-cta-copy p {
+    margin: 0;
+  }
+
+  .landing-final-cta-heading h2 {
+    max-width: none;
+    color: #ffffff;
+    font-family: var(--site-font-display);
+    font-size: clamp(2.05rem, 3.85vw, 2.65rem);
+    font-weight: 800;
+    line-height: 1.14;
+    letter-spacing: 0;
+    text-align: left;
+  }
+
+  .landing-final-cta-heading h2 span {
+    display: block;
+  }
+
+  .landing-final-cta-heading h2 strong {
+    color: var(--site-brand-red);
+    font-weight: 900;
+  }
+
+  .landing-final-cta-rule {
+    display: block;
+    width: clamp(3.75rem, 5vw, 4.65rem);
+    height: 3px;
+    margin-top: clamp(1.4rem, 2.6vw, 1.9rem);
+    background: var(--site-brand-red);
+  }
+
+  .landing-final-cta-copy p {
+    max-width: 29rem;
+    color: rgba(255, 255, 255, 0.96);
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.98rem, 1.65vw, 1.1rem);
+    font-weight: 500;
+    line-height: 1.58;
+    letter-spacing: 0;
+  }
+
+  .landing-final-cta-copy .landing-final-cta-link {
+    width: min(100%, 17.5rem);
+    min-width: 0;
+    min-height: clamp(3.4rem, 5.6vw, 3.85rem);
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+    margin-top: clamp(1.65rem, 3vw, 2.15rem);
+    padding: 0.8rem clamp(1.55rem, 2.8vw, 2.2rem);
+    border-radius: 0.45rem;
+    background: var(--site-brand-red);
+    color: #ffffff;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.22);
+    font-family: var(--site-font-display);
+    font-size: clamp(0.92rem, 1.3vw, 1rem);
+    font-weight: 800;
+    text-decoration: none;
+    text-transform: none;
+  }
+
+  .landing-final-cta-copy .landing-final-cta-link:hover,
+  .landing-final-cta-copy .landing-final-cta-link:focus-visible {
+    background: #ff2931;
+    transform: translateY(-2px);
+    box-shadow: 0 1.15rem 2.3rem rgba(0, 0, 0, 0.28);
+  }
+
+  .landing-final-cta-copy .landing-final-cta-link:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.42);
+    outline-offset: 4px;
+  }
+
+  .landing-final-cta-copy .landing-final-cta-arrow {
+    display: grid;
+    width: 1.35rem;
+    height: 1.35rem;
+    place-items: center;
+  }
+
+  .landing-final-cta-copy .landing-final-cta-arrow svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}

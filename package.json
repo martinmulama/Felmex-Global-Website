@@ -7,8 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "purge:reset-landing": "node scripts/purge-reset-landing-css.mjs --write",
-    "purge:reset-landing:dry": "node scripts/purge-reset-landing-css.mjs",
+    "purge:reset-landing": "node scripts/purge-reset-landing-css.mjs --rejected",
+    "purge:reset-landing:dry": "node scripts/purge-reset-landing-css.mjs --rejected",
+    "purge:reset-landing:write": "node scripts/purge-reset-landing-css.mjs --write --rejected",
     "share": "bash ./scripts/share.sh"
   },
   "dependencies": {

@@ -1,0 +1,263 @@
+/* Mobile solutions: a horizontal stage rail emerging from the blue panel. */
+@media (max-width: 768px) {
+  .landing-mobile-solutions {
+    --mobile-solution-panel-height: auto;
+    --mobile-solution-rail-height: clamp(5.85rem, 25vw, 6.6rem);
+    --mobile-solution-rail-overlap: clamp(2.7rem, 12.5vw, 3.3rem);
+    --mobile-solution-copy-top: clamp(8rem, 35vw, 9.5rem);
+    --mobile-solution-rail-to-copy-gap: calc(
+      var(--mobile-solution-copy-top) - var(--mobile-solution-rail-height) +
+        var(--mobile-solution-rail-overlap)
+    );
+    margin-top: 0;
+    padding-top: var(--mobile-solution-rail-overlap);
+    overflow: visible;
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    overflow: visible;
+    background: var(--mobile-solution-navy);
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-solution-panel {
+    min-height: 0;
+    align-content: start;
+    justify-items: center;
+    padding:
+      var(--mobile-solution-copy-top)
+      var(--home-mobile-edge, clamp(1.5rem, 7vw, 2rem))
+      0;
+    background: transparent;
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-solution-copy {
+    width: min(100%, 24ch);
+    text-align: center;
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-solutions-nav {
+    position: absolute;
+    z-index: 2;
+    top: calc(-1 * var(--mobile-solution-rail-overlap));
+    right: clamp(1.2rem, 5vw, 1.75rem);
+    bottom: auto;
+    left: clamp(1.2rem, 5vw, 1.75rem);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+    width: auto;
+    height: var(--mobile-solution-rail-height);
+    padding: clamp(0.5rem, 2.4vw, 0.75rem) 0;
+    border-radius: 0.2rem;
+    background: var(--site-brand-red, #ed1c24);
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-solution-button {
+    align-content: center;
+    gap: clamp(0.3rem, 1.5vw, 0.48rem);
+    padding: clamp(0.25rem, 1.2vw, 0.4rem) 0.15rem;
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-solution-button + .landing-mobile-solution-button::after {
+    top: 17%;
+    right: auto;
+    bottom: 17%;
+    left: 0;
+    width: 1px;
+    height: auto;
+    background: rgba(255, 255, 255, 0.54);
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-solution-icon {
+    width: clamp(1.9rem, 8.1vw, 2.2rem);
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-solution-icon svg {
+    stroke-width: 4.8;
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-solution-label {
+    font-size: clamp(0.56rem, 2.45vw, 0.68rem);
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-industries {
+    padding: var(--mobile-solution-rail-to-copy-gap) 0 clamp(1.5rem, 6vw, 2.25rem);
+    overflow: hidden;
+    background: transparent;
+    color: #ffffff;
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-industries-kicker {
+    margin: 0;
+    padding: 0 var(--home-mobile-edge, clamp(1.5rem, 7vw, 2rem)) clamp(0.85rem, 3.5vw, 1.15rem);
+    color: var(--site-brand-red, #ed1c24);
+    text-align: center;
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-industry-rail {
+    width: 100vw;
+    margin: 0 0 0 calc(50% - 50vw);
+    overflow: hidden;
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-industry-track {
+    display: flex;
+    grid-template-columns: none;
+    width: max-content;
+    transform: translate3d(0, 0, 0);
+    animation: landingFinalPartnerMarquee 68s linear infinite;
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-industry-item,
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-final-partner-set:last-child .landing-mobile-industry-item:last-child {
+    min-width: max-content;
+    min-height: 0;
+    height: auto;
+    padding: clamp(0.35rem, 1.5vw, 0.5rem) 0;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-final-partner-set {
+    display: flex;
+    flex: 0 0 auto;
+    gap: clamp(1.8rem, 7vw, 2.5rem);
+    padding-right: clamp(1.8rem, 7vw, 2.5rem);
+  }
+
+  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-industry-name.landing-final-industry-name {
+    color: #ffffff;
+    font-size: clamp(0.72rem, 3vw, 0.84rem);
+    font-weight: 800;
+    text-align: center;
+  }
+}
+
+/* Mobile final CTA: an uninterrupted navy closing canvas. */
+@media (max-width: 768px) {
+  .scroll-wrapper > .rising-group.landing-close,
+  .landing-close,
+  .landing-close-canvas {
+    min-height: max(48rem, calc(100svh - var(--site-header-clearance, 0px)));
+    background: var(--site-footer-blue);
+  }
+
+  .landing-close-canvas {
+    padding: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.24);
+  }
+
+  .landing-final-cta {
+    --landing-final-cta-content-inset: clamp(1.4rem, 6vw, 1.8rem);
+    --landing-final-cta-brief-gap: clamp(7.2rem, 32vw, 8.4rem);
+    min-height: max(48rem, calc(100svh - var(--site-header-clearance, 0px)));
+    display: grid;
+    align-content: start;
+    justify-items: stretch;
+    margin: 0;
+    padding:
+      clamp(7.25rem, 31vw, 8.75rem)
+      var(--home-mobile-edge, clamp(1.5rem, 7vw, 2rem))
+      clamp(4.5rem, 18vw, 6.5rem);
+    background:
+      radial-gradient(circle at 28% 38%, rgba(18, 70, 123, 0.3), transparent 38%),
+      var(--site-footer-blue);
+    color: #ffffff;
+    text-align: left;
+  }
+
+  .landing-final-cta h2 {
+    display: grid;
+    justify-items: start;
+    justify-self: start;
+    gap: 0.08em;
+    max-width: none;
+    margin: 0 0 0 calc(var(--landing-final-cta-content-inset) + 0.55rem);
+    color: #ffffff;
+    font-size: var(--home-mobile-title-size, clamp(1.95rem, 2.24vw, 2.72rem));
+    font-weight: 800;
+    line-height: 1.06;
+    text-align: left;
+  }
+
+  .landing-final-cta-title-line {
+    justify-self: start;
+  }
+
+  .landing-final-cta h2 strong {
+    color: var(--site-brand-red, #ed1c24);
+    font-weight: 900;
+  }
+
+  .landing-final-cta h2::before {
+    content: none;
+  }
+
+  .landing-final-cta p {
+    position: relative;
+    width: min(100%, 28ch);
+    max-width: none;
+    justify-self: start;
+    margin-top: var(--landing-final-cta-brief-gap);
+    margin-left: calc(var(--landing-final-cta-content-inset) + 0.55rem);
+    padding-left: clamp(1.5rem, 6.5vw, 2rem);
+    color: rgba(255, 255, 255, 0.96);
+    font-size: var(--home-mobile-body-size, 0.98rem);
+    font-weight: 400;
+    line-height: var(--home-mobile-body-line, 1.58);
+    text-align: left;
+  }
+
+  .landing-final-cta p::before {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--landing-final-cta-brief-gap));
+    bottom: 0;
+    left: 0;
+    width: 3px;
+    background: var(--site-brand-red, #ed1c24);
+  }
+
+  .landing-final-cta-link {
+    width: min(100%, 16rem);
+    min-width: 0;
+    min-height: 3.8rem;
+    justify-content: space-between;
+    justify-self: start;
+    margin-top: clamp(2.5rem, 10vw, 3.2rem);
+    margin-left: calc(var(--landing-final-cta-content-inset) + 0.55rem);
+    padding: 0 1.55rem;
+    border-radius: 0.55rem;
+    background: var(--site-brand-red, #ed1c24);
+    color: #ffffff;
+    font-family: var(--site-font-display);
+    font-size: clamp(1.15rem, 5vw, 1.35rem);
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .landing-final-cta-arrow {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+  }
+
+  .landing-final-cta-arrow svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .site-main:has(#final-conviction) + .site-footer .site-footer-shell {
+    padding-top: 0;
+  }
+}

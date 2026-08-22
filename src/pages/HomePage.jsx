@@ -27,6 +27,7 @@ const HOME_DESKTOP_PROJECT_PREVIEW_PARAGRAPHS = [
 const SERVICE_CATALOG_IMAGE_WIDTHS = [640, 960, 1280];
 const SERVICE_CATALOG_IMAGE_SIZES =
   '(min-width: 1081px) min(60rem, 68vw), (max-width: 640px) 92vw, 100vw';
+const TABLET_HOME_QUERY = '(max-width: 1024px)';
 const HOME_MOBILE_PROJECTS = [
   {
     projectId: 'port-drayage-window',
@@ -1234,6 +1235,11 @@ export function HomePage() {
       typeof window !== 'undefined' &&
       window.matchMedia(MQ.mobile).matches
   );
+  const [isCompactHomeViewport, setIsCompactHomeViewport] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia(TABLET_HOME_QUERY).matches
+  );
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(
     () =>
       typeof window !== 'undefined' &&
@@ -1267,6 +1273,22 @@ export function HomePage() {
 
     mediaQuery.addListener(syncMobileViewport);
     return () => mediaQuery.removeListener(syncMobileViewport);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+
+    const mediaQuery = window.matchMedia(TABLET_HOME_QUERY);
+    const syncCompactHomeViewport = () => setIsCompactHomeViewport(mediaQuery.matches);
+    syncCompactHomeViewport();
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', syncCompactHomeViewport);
+      return () => mediaQuery.removeEventListener('change', syncCompactHomeViewport);
+    }
+
+    mediaQuery.addListener(syncCompactHomeViewport);
+    return () => mediaQuery.removeListener(syncCompactHomeViewport);
   }, []);
 
   useLayoutEffect(() => {
@@ -1376,7 +1398,7 @@ export function HomePage() {
 
     if (
       !splitContainer ||
-      isMobileViewport ||
+      isCompactHomeViewport ||
       prefersReducedMotion ||
       statements.length < 2
     ) {
@@ -1451,11 +1473,11 @@ export function HomePage() {
       animationContext?.revert();
       ScrollTriggerInstance?.refresh();
     };
-  }, [isMobileViewport, prefersReducedMotion]);
+  }, [isCompactHomeViewport, prefersReducedMotion]);
 
   useEffect(() => {
     const list = servicesListRef.current;
-    if (!list || isMobileViewport || typeof window === 'undefined') return undefined;
+    if (!list || isCompactHomeViewport || typeof window === 'undefined') return undefined;
 
     const preloadServiceImages = () => {
       if (hasPreloadedServiceImagesRef.current) return;
@@ -1492,11 +1514,11 @@ export function HomePage() {
     observer.observe(list);
 
     return () => observer.disconnect();
-  }, [isMobileViewport]);
+  }, [isCompactHomeViewport]);
 
   useEffect(() => {
     const list = servicesListRef.current;
-    if (!list || isMobileViewport || typeof window === 'undefined') return undefined;
+    if (!list || isCompactHomeViewport || typeof window === 'undefined') return undefined;
 
     const serviceEntries = Array.from(list.querySelectorAll('.landing-service-entry'));
     let frameId = null;
@@ -1541,11 +1563,11 @@ export function HomePage() {
       window.removeEventListener('scroll', queueActiveServiceSync);
       window.removeEventListener('resize', queueActiveServiceSync);
     };
-  }, [isMobileViewport]);
+  }, [isCompactHomeViewport]);
 
   useEffect(() => {
     const list = servicesListRef.current;
-    if (!list || isMobileViewport) return undefined;
+    if (!list || isCompactHomeViewport) return undefined;
 
     const serviceEntries = Array.from(list.querySelectorAll('.landing-service-entry'));
     const servicePieces = serviceEntries.flatMap((entry) =>
@@ -1654,7 +1676,7 @@ export function HomePage() {
         ]);
       }
     };
-  }, [isMobileViewport, prefersReducedMotion]);
+  }, [isCompactHomeViewport, prefersReducedMotion]);
 
   useEffect(() => {
     testimonialsTitleDroppedRef.current = isTestimonialsTitleDropped;
@@ -1822,7 +1844,7 @@ export function HomePage() {
       clearTrackTransform();
     };
 
-    if (isMobileViewport || prefersReducedMotion) {
+    if (isCompactHomeViewport || prefersReducedMotion) {
       clearHorizontalMotion();
       return undefined;
     }
@@ -2036,7 +2058,7 @@ export function HomePage() {
       animationContext?.revert();
       clearTrackTransform();
     };
-  }, [isMobileViewport, prefersReducedMotion]);
+  }, [isCompactHomeViewport, prefersReducedMotion]);
 
   useEffect(() => {
     const stage = journalDesktopStageRef.current;
@@ -2059,7 +2081,7 @@ export function HomePage() {
 
     videos.forEach(pauseVideo);
 
-    if (isMobileViewport || prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
+    if (isCompactHomeViewport || prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
       return () => {
         videos.forEach(pauseVideo);
       };
@@ -2091,7 +2113,7 @@ export function HomePage() {
       observer.disconnect();
       videos.forEach(pauseVideo);
     };
-  }, [isMobileViewport, prefersReducedMotion]);
+  }, [isCompactHomeViewport, prefersReducedMotion]);
 
   useEffect(() => {
     const node = closeSectionRef.current;
@@ -2563,7 +2585,7 @@ export function HomePage() {
                 <header className="landing-project-preview-intro">
                   <p className="landing-project-preview-label">Projects Preview</p>
                   <h2 className="landing-project-preview-title">
-                    Ongoing logistics
+                    <span className="landing-project-preview-title-line">Ongoing logistics</span>
                     <span>
                       in{' '}
                       <span className="landing-project-preview-title-accent">

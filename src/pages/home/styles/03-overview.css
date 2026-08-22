@@ -1,0 +1,744 @@
+/* Redesigned post-hero overview */
+.landing-overview {
+  --overview-navy-panel: linear-gradient(180deg,
+      var(--site-brand-navy) 0%,
+      var(--site-brand-navy-mid) 54%,
+      var(--site-brand-navy-deep) 100%);
+  --overview-red-panel: linear-gradient(180deg, #f3131b 0%, #e60008 100%);
+  padding: clamp(1.6rem, 3vw, 3rem) 0 0;
+  overflow: clip;
+  background: #ffffff;
+}
+
+.landing-overview::before {
+  content: none;
+}
+
+.landing-overview-rule {
+  display: block;
+  width: 2.6rem;
+  height: 2px;
+  background: #ed1c24;
+}
+
+.landing-overview-title {
+  width: min(100%, 31rem);
+  margin: 0;
+  color: var(--site-footer-blue);
+  font-family: var(--site-font-display);
+  font-size: clamp(2.05rem, 2.45vw, 2.85rem);
+  line-height: 1.14;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.landing-overview-title-line {
+  display: block;
+  overflow: clip;
+}
+
+.landing-overview-title-line>span {
+  display: block;
+}
+
+.landing-overview-title strong {
+  color: #ed1c24;
+  font: inherit;
+}
+
+.landing-overview-statement {
+  --overview-card-top: 0rem;
+  position: relative;
+  min-width: 0;
+  height: calc(100% - var(--overview-card-top));
+  margin-top: var(--overview-card-top);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding:
+    clamp(2.35rem, 3.2vw, 3.35rem) clamp(1.65rem, 2.55vw, 2.45rem) clamp(2rem, 3vw, 2.9rem);
+  overflow: hidden;
+  box-shadow: 0 22px 45px rgba(7, 27, 53, 0.12);
+}
+
+.landing-overview-statement::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.1), transparent 32%),
+    linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 44%);
+  opacity: 0.62;
+}
+
+.landing-overview-statement::before {
+  position: relative;
+  z-index: 1;
+  order: 1;
+  margin-bottom: clamp(0.75rem, 1.2vw, 1rem);
+  color: rgba(255, 255, 255, 0.16);
+  font-family: var(--site-font-display);
+  font-size: clamp(3.35rem, 4.6vw, 5.1rem);
+  line-height: 0.9;
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.landing-overview-statement--vision {
+  --overview-card-top: clamp(16rem, 22vw, 21rem);
+  grid-column: 1;
+  order: 1;
+  background: var(--overview-navy-panel);
+}
+
+.landing-overview-statement--mission {
+  --overview-card-top: clamp(10.5rem, 15vw, 14.5rem);
+  grid-column: 2;
+  order: 2;
+  background: var(--overview-red-panel);
+}
+
+.landing-overview-statement--about {
+  --overview-card-top: clamp(5rem, 8vw, 7.5rem);
+  grid-column: 3;
+  order: 3;
+  background: var(--overview-navy-panel);
+}
+
+.landing-overview-statement--vision::before {
+  content: '01';
+}
+
+.landing-overview-statement--mission::before {
+  content: '02';
+}
+
+.landing-overview-statement--about::before {
+  content: '03';
+}
+
+.landing-overview-icon,
+.landing-overview-statement h3,
+.landing-overview-statement p {
+  position: relative;
+  z-index: 1;
+}
+
+.landing-overview-icon {
+  order: 3;
+  width: clamp(2.9rem, 3.65vw, 3.75rem);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  margin: clamp(1.4rem, 2vw, 2rem) 0 clamp(1rem, 1.45vw, 1.28rem);
+}
+
+.landing-overview-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.landing-overview-statement h3 {
+  order: 4;
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(1.55rem, 2.25vw, 2.08rem);
+  line-height: 1.06;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.landing-overview-statement p {
+  order: 5;
+  max-width: 28ch;
+  margin: clamp(1rem, 1.45vw, 1.25rem) 0 0;
+  color: rgba(255, 255, 255, 0.96);
+  font-size: clamp(0.9rem, 1vw, 1.04rem);
+  line-height: 1.56;
+  font-weight: 500;
+}
+
+.landing-overview-statement--vision p {
+  max-width: 25ch;
+}
+
+.landing-overview-statement--mission p,
+.landing-overview-statement--about p {
+  max-width: 29ch;
+}
+
+/* Integrity card overrides — placed AFTER general statement rules to win cascade */
+
+@media (max-width: 1280px) {
+
+  .landing-overview-title {
+    font-size: clamp(1.95rem, 2.35vw, 2.4rem);
+  }
+
+  .landing-overview-statement {
+    padding-inline: clamp(1.25rem, 2vw, 1.85rem);
+  }
+
+  .landing-overview-statement--vision {
+    --overview-card-top: clamp(14rem, 20vw, 18rem);
+  }
+
+  .landing-overview-statement--mission {
+    --overview-card-top: clamp(9rem, 13vw, 12rem);
+  }
+
+  .landing-overview-statement--about {
+    --overview-card-top: clamp(4.2rem, 7vw, 6.5rem);
+  }
+
+  .landing-overview-statement p {
+    font-size: clamp(0.84rem, 0.95vw, 0.98rem);
+    line-height: 1.52;
+  }
+}
+
+@media (max-width: 1080px) {
+
+  .landing-overview-title {
+    font-size: clamp(1.78rem, 2.35vw, 2.15rem);
+  }
+
+  .landing-overview-statement--vision {
+    --overview-card-top: clamp(12rem, 17vw, 15.5rem);
+  }
+
+  .landing-overview-statement--mission {
+    --overview-card-top: clamp(7.5rem, 11vw, 10rem);
+  }
+
+  .landing-overview-statement--about {
+    --overview-card-top: clamp(3.6rem, 6vw, 5.5rem);
+  }
+
+  .landing-overview-statement::before {
+    font-size: clamp(2.8rem, 4.6vw, 3.65rem);
+  }
+
+  .landing-overview-icon {
+    width: clamp(2.45rem, 3.7vw, 3.1rem);
+    margin-block: clamp(1rem, 1.7vw, 1.35rem) clamp(0.75rem, 1.2vw, 1rem);
+  }
+
+  /* Keep integrity icon in sync with other cards at this breakpoint */
+
+  .landing-overview-statement h3 {
+    font-size: clamp(1.32rem, 2.1vw, 1.65rem);
+  }
+
+  .landing-overview-statement p {
+    font-size: clamp(0.78rem, 1.18vw, 0.88rem);
+    line-height: 1.48;
+  }
+}
+
+@media (max-width: 960px) {
+  .landing-overview {
+    padding: clamp(1.6rem, 4.5vw, 2.6rem) 0 0;
+  }
+
+  .landing-overview-title {
+    width: min(100%, 24rem);
+    font-size: clamp(1.32rem, 4vw, 2.05rem);
+    line-height: 1.12;
+  }
+
+  .landing-overview-statement {
+    padding: clamp(1.5rem, 4vw, 2.35rem) clamp(1.1rem, 3vw, 1.8rem);
+  }
+
+  .landing-overview-statement--vision {
+    --overview-card-top: clamp(8rem, 18vw, 11rem);
+  }
+
+  .landing-overview-statement--mission {
+    --overview-card-top: clamp(4rem, 9vw, 5.8rem);
+  }
+
+  .landing-overview-statement p {
+    max-width: 27ch;
+  }
+}
+
+@media (max-width: 720px) {
+
+  .landing-overview-title {
+    font-size: clamp(1.32rem, 4vw, 2.05rem);
+  }
+
+  .landing-overview-statement {
+    --overview-card-top: 0rem;
+    grid-column: 1;
+    height: auto;
+    min-height: clamp(15.5rem, 47vw, 19.5rem);
+    margin-top: 0;
+    padding: clamp(1.55rem, 6vw, 2.15rem) clamp(1.2rem, 5.4vw, 1.9rem);
+  }
+
+  .landing-overview-statement--vision {
+    width: 91%;
+    justify-self: start;
+  }
+
+  .landing-overview-statement--mission {
+    width: 96%;
+    justify-self: center;
+  }
+
+  .landing-overview-statement--about {
+    width: 100%;
+    justify-self: end;
+  }
+
+  .landing-overview-statement::before {
+    font-size: clamp(2.7rem, 13vw, 3.7rem);
+    margin-bottom: 0.68rem;
+  }
+
+  .landing-overview-icon {
+    width: clamp(2.45rem, 10vw, 3.1rem);
+    margin: clamp(0.95rem, 3.6vw, 1.3rem) 0 clamp(0.72rem, 2.6vw, 1rem);
+  }
+
+  .landing-overview-statement h3 {
+    font-size: clamp(1.35rem, 6.6vw, 1.8rem);
+  }
+
+  .landing-overview-statement p {
+    max-width: 35ch;
+    font-size: clamp(0.86rem, 3.9vw, 0.98rem);
+    line-height: 1.48;
+  }
+}
+
+@media (max-width: 640px) {
+  .landing-overview-title {
+    font-size: clamp(1.08rem, 4.35vw, 1.5rem);
+  }
+}
+
+@media (max-width: 520px) {
+
+  .landing-overview-title {
+    font-size: clamp(1.08rem, 4.35vw, 1.5rem);
+  }
+
+  .landing-overview-title-line {
+    overflow: visible;
+  }
+
+  .landing-overview-title-line>span {
+    white-space: normal;
+  }
+
+  .landing-overview-statement--vision,
+  .landing-overview-statement--mission,
+  .landing-overview-statement--about {
+    width: 100%;
+  }
+
+  .landing-overview-statement {
+    min-height: 0;
+  }
+}
+
+/* Split-scroll overview */
+.landing-overview--split {
+  --split-left-share: 65vw;
+  --split-page-inset: max(var(--page-gutter-wide),
+      calc((100vw - 96rem) / 2 + var(--page-gutter-wide)));
+  --split-left-copy-inset: calc(var(--split-page-inset) + clamp(1.5rem, 3vw, 3.35rem));
+  --split-left-copy-trim: clamp(2.4rem, 5.8vw, 6.5rem);
+  --split-statement-width: min(clamp(34rem, 42vw, 43rem),
+      calc(var(--split-left-share) - var(--split-left-copy-inset) - var(--split-left-copy-trim)));
+  --split-statement-height: clamp(20rem, 38vh, 28rem);
+  --split-statement-copy-width: min(100%, 42ch);
+  --split-right-pad: clamp(2.2rem, 4vw, 5rem);
+  padding: 0;
+  padding-inline: 0;
+  overflow: visible;
+  background: #ffffff;
+}
+
+.landing-overview--split .split-scroll-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 65fr) minmax(20rem, 35fr);
+  align-items: stretch;
+  overflow: clip;
+  background: #ffffff;
+}
+
+.landing-overview--split .left-panel {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-items: start;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.landing-overview--split .split-scroll-bg-stack,
+.landing-overview--split .split-scroll-bg-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.landing-overview--split .split-scroll-bg-stack {
+  z-index: 0;
+  overflow: hidden;
+}
+
+.landing-overview--split .split-scroll-bg-layer {
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
+}
+
+.landing-overview--split .split-scroll-statement-frame {
+  position: relative;
+  z-index: 5;
+  width: var(--split-statement-width);
+  height: var(--split-statement-height);
+  min-height: var(--split-statement-height);
+  display: grid;
+  align-items: center;
+  margin-left: var(--split-left-copy-inset);
+  overflow: hidden;
+}
+
+.landing-overview--split .split-scroll-statement {
+  --overview-card-top: 0rem;
+  position: absolute;
+  inset: 0;
+  min-width: 0;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: visible;
+  background: transparent;
+  box-shadow: none;
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 110%, 0);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.landing-overview--split .split-scroll-statement:first-child {
+  transform: translate3d(0, 0, 0);
+}
+
+.landing-overview--split .split-scroll-statement::before,
+.landing-overview--split .split-scroll-statement::after {
+  content: none;
+}
+
+.landing-overview--split .split-scroll-statement h3 {
+  max-width: min(100%, 13ch);
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--site-font-display);
+  font-size: clamp(1.95rem, 2.24vw, 2.72rem);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.landing-overview--split .split-scroll-statement p {
+  max-width: var(--split-statement-copy-width);
+  margin: clamp(1.2rem, 1.8vw, 1.65rem) 0 0;
+  color: #ffffff;
+  font-size: clamp(1.02rem, 1.18vw, 1.24rem);
+  line-height: 1.62;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.landing-overview--split .landing-overview-statement--idd h3,
+.landing-overview--split .landing-overview-statement--idd p {
+  color: #ffffff;
+}
+
+.landing-overview--split .landing-overview-statement--idd p {
+  max-width: var(--split-statement-copy-width);
+}
+
+.landing-overview--split .right-panel {
+  position: relative;
+  min-height: 100vh;
+  padding: 0 var(--split-right-pad);
+  background: #ffffff;
+}
+
+.landing-overview--split .right-panel-inner {
+  position: absolute;
+  top: 50%;
+  left: var(--split-right-pad);
+  right: var(--split-right-pad);
+  display: flex;
+  align-items: center;
+  gap: clamp(0.95rem, 1.5vw, 1.45rem);
+  max-width: 30rem;
+  transform: translateY(-50%);
+}
+
+.landing-overview--split .landing-overview-title {
+  width: min(100%, 28rem);
+  font-size: clamp(1.95rem, 2.24vw, 2.72rem);
+  line-height: 1.08;
+}
+
+.landing-overview--split .right-panel .landing-overview-rule {
+  flex: 0 0 auto;
+  margin-top: 0.78rem;
+}
+
+@media (max-width: 960px),
+(prefers-reduced-motion: reduce) {
+  .landing-overview--split .split-scroll-container {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+
+  .landing-overview--split .left-panel {
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 0;
+    display: block;
+    overflow: visible;
+  }
+
+  .landing-overview--split .split-scroll-bg-stack {
+    display: none;
+  }
+
+  .landing-overview--split .split-scroll-statement-frame {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    display: grid;
+    margin-left: 0;
+  }
+
+  .landing-overview--split .split-scroll-statement {
+    position: relative;
+    inset: auto;
+    min-height: clamp(18rem, 58vw, 26rem);
+    padding:
+      clamp(2rem, 8vw, 3.2rem) clamp(1.35rem, 7vw, 3.8rem);
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .landing-overview--split .split-scroll-statement h3 {
+    max-width: min(100%, 13ch);
+    font-size: clamp(1.95rem, 2.24vw, 2.72rem);
+    line-height: 1.08;
+  }
+
+  .landing-overview--split .split-scroll-statement p {
+    max-width: min(100%, 42ch);
+    margin-top: clamp(1rem, 3.2vw, 1.45rem);
+    font-size: clamp(0.94rem, 2.5vw, 1.08rem);
+    line-height: 1.6;
+  }
+
+  .landing-overview--split .landing-overview-statement--vision {
+    order: 1;
+    background: #16222f;
+  }
+
+  .landing-overview--split .landing-overview-statement--mission {
+    order: 2;
+    background: #e72d2d;
+  }
+
+  .landing-overview--split .landing-overview-statement--about {
+    order: 3;
+    background: #121b24;
+  }
+
+  .landing-overview--split .landing-overview-statement--idd {
+    order: 4;
+    display: flex;
+    background: var(--site-brand-red, #ed1c24);
+  }
+
+  .landing-overview--split .right-panel {
+    order: -1;
+    min-height: 0;
+    padding: clamp(2.4rem, 9vw, 4.4rem) clamp(1.25rem, 7vw, 3.8rem);
+  }
+
+  .landing-overview--split .right-panel-inner {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    max-width: 35rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .landing-overview--split .split-scroll-statement h3 {
+    font-size: clamp(1.95rem, 2.24vw, 2.72rem);
+  }
+
+  .landing-overview--split .split-scroll-statement p {
+    font-size: 0.96rem;
+  }
+
+  .landing-overview--split .right-panel-inner {
+    gap: 0.85rem;
+  }
+
+  .landing-overview--split .right-panel .landing-overview-rule {
+    margin-top: 0.58rem;
+  }
+}
+
+/* Mobile statement cards */
+.landing-overview--split .split-scroll-statement .landing-overview-icon {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .landing-overview--split .split-scroll-statement-frame {
+    gap: clamp(1.05rem, 4.4vw, 1.55rem);
+    padding:
+      0 clamp(1.15rem, 5.8vw, 2.45rem) clamp(3.4rem, 10vw, 5.2rem);
+  }
+
+  .landing-overview--split .split-scroll-statement {
+    --overview-mobile-icon-column: clamp(4.25rem, 16vw, 5.85rem);
+    --overview-mobile-card-gap: clamp(0.85rem, 3.2vw, 1.25rem);
+    min-height: 0;
+    padding:
+      clamp(1.58rem, 5.6vw, 2.28rem) clamp(1.18rem, 5.2vw, 1.95rem);
+    display: grid;
+    grid-template-columns: var(--overview-mobile-icon-column) minmax(0, 1fr);
+    column-gap: var(--overview-mobile-card-gap);
+    align-items: center;
+    border-radius: 0.9rem;
+    box-shadow: 0 18px 38px rgba(7, 27, 53, 0.16);
+  }
+
+  .landing-overview--split .split-scroll-statement .landing-overview-icon {
+    position: relative;
+    width: clamp(3.7rem, 15.5vw, 5.05rem);
+    aspect-ratio: 1;
+    margin: 0;
+    display: grid;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    place-items: center;
+    justify-self: center;
+    align-self: center;
+    border-radius: 50%;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .landing-overview--split .split-scroll-statement .landing-overview-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: calc(var(--overview-mobile-card-gap) * -0.5);
+    width: 1px;
+    height: clamp(5rem, 21vw, 7.15rem);
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  .landing-overview--split .split-scroll-statement .landing-overview-icon svg {
+    width: 58%;
+    height: 58%;
+    display: block;
+  }
+
+  .landing-overview--split .split-scroll-statement h3 {
+    max-width: none;
+    margin: 0 0 clamp(0.55rem, 2.2vw, 0.82rem);
+    grid-column: 2;
+    color: #ffffff;
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.82rem, 3.1vw, 1.02rem);
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .landing-overview--split .split-scroll-statement p {
+    max-width: min(100%, 42ch);
+    margin: 0;
+    grid-column: 2;
+    color: #ffffff;
+    font-size: clamp(0.84rem, 3.1vw, 0.94rem);
+    line-height: 1.58;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .landing-overview--split .landing-overview-statement--about {
+    order: 1;
+    background: var(--overview-red-panel);
+  }
+
+  .landing-overview--split .landing-overview-statement--vision {
+    order: 2;
+    background: var(--overview-navy-panel);
+  }
+
+  .landing-overview--split .landing-overview-statement--mission {
+    order: 3;
+    background: var(--overview-red-panel);
+  }
+
+  .landing-overview--split .landing-overview-statement--idd {
+    order: 4;
+    background: var(--overview-navy-panel);
+  }
+}
+
+@media (max-width: 420px) {
+  .landing-overview--split .split-scroll-statement {
+    --overview-mobile-icon-column: clamp(3.65rem, 15vw, 4.25rem);
+    --overview-mobile-card-gap: 0.78rem;
+    padding: 1.35rem 1.08rem;
+    border-radius: 0.78rem;
+  }
+
+  .landing-overview--split .split-scroll-statement .landing-overview-icon {
+    width: clamp(3rem, 13vw, 3.55rem);
+  }
+
+  .landing-overview--split .split-scroll-statement p {
+    font-size: clamp(0.8rem, 3.45vw, 0.88rem);
+    line-height: 1.55;
+  }
+}
+
