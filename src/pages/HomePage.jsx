@@ -27,6 +27,7 @@ const HOME_DESKTOP_PROJECT_PREVIEW_PARAGRAPHS = [
 const SERVICE_CATALOG_IMAGE_WIDTHS = [640, 960, 1280];
 const SERVICE_CATALOG_IMAGE_SIZES =
   '(min-width: 1081px) min(60rem, 68vw), (max-width: 640px) 92vw, 100vw';
+const TABLET_HOME_QUERY = '(max-width: 1024px)';
 const HOME_MOBILE_PROJECTS = [
   {
     projectId: 'port-drayage-window',
@@ -1213,15 +1214,12 @@ export function HomePage() {
   const journalCarouselDelayRef = useRef(null);
   const journalMobileScrollFrameRef = useRef(null);
   const closeSectionRef = useRef(null);
-  const desktopProjectPreviewCopyRef = useRef(null);
-  const desktopProjectPreviewCopyTrackRef = useRef(null);
   const servicesListRef = useRef(null);
   const serviceImagePreloadersRef = useRef([]);
   const hasPreloadedServiceImagesRef = useRef(false);
   const testimonialsTitleDroppedRef = useRef(false);
   const [isTestimonialsTitleDropped, setIsTestimonialsTitleDropped] = useState(false);
   const [isCloseVisible, setIsCloseVisible] = useState(false);
-  const [desktopProjectPreviewScrollDistance, setDesktopProjectPreviewScrollDistance] = useState(0);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
   const [activeFinalOperation, setActiveFinalOperation] = useState(FINAL_OPERATION_STEPS[0].key);
   const [activeOverviewStatement, setActiveOverviewStatement] = useState(
@@ -1233,6 +1231,11 @@ export function HomePage() {
     () =>
       typeof window !== 'undefined' &&
       window.matchMedia(MQ.mobile).matches
+  );
+  const [isCompactHomeViewport, setIsCompactHomeViewport] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia(TABLET_HOME_QUERY).matches
   );
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(
     () =>
@@ -1269,40 +1272,20 @@ export function HomePage() {
     return () => mediaQuery.removeListener(syncMobileViewport);
   }, []);
 
-  useLayoutEffect(() => {
-    const copy = desktopProjectPreviewCopyRef.current;
-    const copyTrack = desktopProjectPreviewCopyTrackRef.current;
-    if (!copy || !copyTrack || typeof window === 'undefined') return undefined;
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
 
-    let frameId = null;
-    const measureOverflow = () => {
-      frameId = null;
-      const nextDistance = Math.max(0, Math.ceil(copy.scrollHeight - copy.clientHeight));
+    const mediaQuery = window.matchMedia(TABLET_HOME_QUERY);
+    const syncCompactHomeViewport = () => setIsCompactHomeViewport(mediaQuery.matches);
+    syncCompactHomeViewport();
 
-      setDesktopProjectPreviewScrollDistance((currentDistance) =>
-        currentDistance === nextDistance ? currentDistance : nextDistance
-      );
-    };
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', syncCompactHomeViewport);
+      return () => mediaQuery.removeEventListener('change', syncCompactHomeViewport);
+    }
 
-    const queueMeasurement = () => {
-      if (frameId !== null) return;
-      frameId = window.requestAnimationFrame(measureOverflow);
-    };
-
-    const resizeObserver =
-      typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(queueMeasurement);
-
-    resizeObserver?.observe(copy);
-    resizeObserver?.observe(copyTrack);
-    window.addEventListener('resize', queueMeasurement);
-    document.fonts?.ready.then(queueMeasurement).catch(() => {});
-    queueMeasurement();
-
-    return () => {
-      resizeObserver?.disconnect();
-      window.removeEventListener('resize', queueMeasurement);
-      if (frameId !== null) window.cancelAnimationFrame(frameId);
-    };
+    mediaQuery.addListener(syncCompactHomeViewport);
+    return () => mediaQuery.removeListener(syncCompactHomeViewport);
   }, []);
 
   useEffect(() => {
@@ -1376,7 +1359,7 @@ export function HomePage() {
 
     if (
       !splitContainer ||
-      isMobileViewport ||
+      isCompactHomeViewport ||
       prefersReducedMotion ||
       statements.length < 2
     ) {
@@ -1451,11 +1434,11 @@ export function HomePage() {
       animationContext?.revert();
       ScrollTriggerInstance?.refresh();
     };
-  }, [isMobileViewport, prefersReducedMotion]);
+  }, [isCompactHomeViewport, prefersReducedMotion]);
 
   useEffect(() => {
     const list = servicesListRef.current;
-    if (!list || isMobileViewport || typeof window === 'undefined') return undefined;
+    if (!list || isCompactHomeViewport || typeof window === 'undefined') return undefined;
 
     const preloadServiceImages = () => {
       if (hasPreloadedServiceImagesRef.current) return;
@@ -1492,11 +1475,11 @@ export function HomePage() {
     observer.observe(list);
 
     return () => observer.disconnect();
-  }, [isMobileViewport]);
+  }, [isCompactHomeViewport]);
 
   useEffect(() => {
     const list = servicesListRef.current;
-    if (!list || isMobileViewport || typeof window === 'undefined') return undefined;
+    if (!list || isCompactHomeViewport || typeof window === 'undefined') return undefined;
 
     const serviceEntries = Array.from(list.querySelectorAll('.landing-service-entry'));
     let frameId = null;
@@ -1541,11 +1524,11 @@ export function HomePage() {
       window.removeEventListener('scroll', queueActiveServiceSync);
       window.removeEventListener('resize', queueActiveServiceSync);
     };
-  }, [isMobileViewport]);
+  }, [isCompactHomeViewport]);
 
   useEffect(() => {
     const list = servicesListRef.current;
-    if (!list || isMobileViewport) return undefined;
+    if (!list || isCompactHomeViewport) return undefined;
 
     const serviceEntries = Array.from(list.querySelectorAll('.landing-service-entry'));
     const servicePieces = serviceEntries.flatMap((entry) =>
@@ -1654,7 +1637,7 @@ export function HomePage() {
         ]);
       }
     };
-  }, [isMobileViewport, prefersReducedMotion]);
+  }, [isCompactHomeViewport, prefersReducedMotion]);
 
   useEffect(() => {
     testimonialsTitleDroppedRef.current = isTestimonialsTitleDropped;
@@ -1822,7 +1805,7 @@ export function HomePage() {
       clearTrackTransform();
     };
 
-    if (isMobileViewport || prefersReducedMotion) {
+    if (isCompactHomeViewport || prefersReducedMotion) {
       clearHorizontalMotion();
       return undefined;
     }
@@ -2036,7 +2019,7 @@ export function HomePage() {
       animationContext?.revert();
       clearTrackTransform();
     };
-  }, [isMobileViewport, prefersReducedMotion]);
+  }, [isCompactHomeViewport, prefersReducedMotion]);
 
   useEffect(() => {
     const stage = journalDesktopStageRef.current;
@@ -2059,7 +2042,7 @@ export function HomePage() {
 
     videos.forEach(pauseVideo);
 
-    if (isMobileViewport || prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
+    if (isCompactHomeViewport || prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
       return () => {
         videos.forEach(pauseVideo);
       };
@@ -2091,7 +2074,7 @@ export function HomePage() {
       observer.disconnect();
       videos.forEach(pauseVideo);
     };
-  }, [isMobileViewport, prefersReducedMotion]);
+  }, [isCompactHomeViewport, prefersReducedMotion]);
 
   useEffect(() => {
     const node = closeSectionRef.current;
@@ -2563,7 +2546,7 @@ export function HomePage() {
                 <header className="landing-project-preview-intro">
                   <p className="landing-project-preview-label">Projects Preview</p>
                   <h2 className="landing-project-preview-title">
-                    Ongoing logistics
+                    <span className="landing-project-preview-title-line">Ongoing logistics</span>
                     <span>
                       in{' '}
                       <span className="landing-project-preview-title-accent">
@@ -2787,26 +2770,20 @@ export function HomePage() {
               <div className="landing-project-preview-desktop-story">
                 <div
                   className={`landing-project-preview-desktop-copy${
-                    desktopProjectPreviewScrollDistance > 0 && !prefersReducedMotion
-                      ? ' is-teleprompting'
-                      : ''
+                    prefersReducedMotion ? '' : ' is-teleprompting'
                   }`}
-                  ref={desktopProjectPreviewCopyRef}
-                  style={
-                    desktopProjectPreviewScrollDistance > 0
-                      ? {
-                          '--landing-project-preview-scroll-distance': `${desktopProjectPreviewScrollDistance}px`,
-                          '--landing-project-preview-scroll-duration': `${Math.max(
-                            24,
-                            Math.min(58, 14 + desktopProjectPreviewScrollDistance / 18)
-                          )}s`,
-                        }
-                      : undefined
-                  }
                 >
-                  <div className="landing-project-preview-desktop-copy-track" ref={desktopProjectPreviewCopyTrackRef}>
-                    {HOME_DESKTOP_PROJECT_PREVIEW_PARAGRAPHS.map((paragraph, index) => (
-                      <p key={`${index}-${paragraph}`}>{paragraph}</p>
+                  <div className="landing-project-preview-desktop-copy-track">
+                    {[0, 1].map((copyIndex) => (
+                      <div
+                        className="landing-project-preview-desktop-copy-set"
+                        key={copyIndex}
+                        aria-hidden={copyIndex === 1 ? true : undefined}
+                      >
+                        {HOME_DESKTOP_PROJECT_PREVIEW_PARAGRAPHS.map((paragraph, index) => (
+                          <p key={`${copyIndex}-${index}-${paragraph}`}>{paragraph}</p>
+                        ))}
+                      </div>
                     ))}
                   </div>
                 </div>

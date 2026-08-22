@@ -225,7 +225,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
   .hero--why-choose .why-choose-felmex {
     --why-red-head-coupler-trim: calc(var(--why-container-image-height) * 0.045);
   }
@@ -235,7 +235,7 @@
   }
 }
 
-@media (min-width: 1024px) and (max-width: 1280px) {
+@media (min-width: 1025px) and (max-width: 1280px) {
   .hero--why-choose .why-choose-felmex {
     --why-tablet-train-shift: clamp(0px, calc((1280px - 100vw) * 1.5), 7rem);
   }
@@ -246,7 +246,7 @@
   }
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .hero--why-choose {
     margin-top: calc(-1 * var(--site-header-clearance, 4rem));
     min-height: 100svh;
@@ -557,5 +557,146 @@
     width: min(13rem, calc(100vw - 3rem));
     min-height: 2.85rem;
     margin-top: clamp(0.95rem, 3svh, 1.24rem);
+  }
+}
+
+/* Tablet uses the mobile hero composition, with a shorter copy block and a visible train-head rail. */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hero--why-choose .why-choose-felmex {
+    /* Start on the artwork's blue car, as desktop does, and give the locomotive
+       enough scale to carry the lower half of a tablet viewport. */
+    --why-mobile-track-height: clamp(15.5rem, 28vw, 18.25rem);
+    --why-mobile-head-width: calc(100vw + clamp(11rem, 30vw, 15rem));
+    --why-mobile-head-image-height: calc(var(--why-mobile-track-height) * 2.55);
+    --why-mobile-head-image-offset-x: 0px;
+    --why-mobile-head-image-offset-y: calc(var(--why-mobile-track-height) * 1.085);
+    /* The separate cars use a taller source canvas than the leading artwork.
+       This compensates for its transparent top and bottom so every revealed
+       container matches the locomotive's leading blue container in height. */
+    --why-container-image-height: calc(var(--why-mobile-track-height) * 1.67);
+    --why-container-image-top: calc(var(--why-mobile-track-height) * -0.082);
+    --why-container-width: calc(var(--why-container-image-height) * 1.15);
+    --why-title-size: clamp(2.25rem, 4.7vw, 2.9rem);
+    --why-body-size: clamp(0.98rem, 1.55vw, 1.08rem);
+    --why-card-title-size: clamp(1.12rem, 2.15vw, 1.42rem);
+    --why-card-body-size: clamp(0.8rem, 1.2vw, 0.94rem);
+  }
+
+  .hero--why-choose .why-choose-felmex__mobile-hero-copy {
+    padding:
+      calc(var(--site-header-clearance, 4rem) + clamp(2.5rem, 6.2svh, 3.35rem))
+      clamp(2rem, 6vw, 3.5rem)
+      clamp(2.75rem, 6.25svh, 3.25rem);
+  }
+
+  .hero--why-choose .why-choose-felmex__mobile-hero-copy .why-choose-felmex__headline h1 {
+    max-width: min(100%, 35rem);
+    line-height: 1.05;
+  }
+
+  .hero--why-choose .why-choose-felmex__mobile-rule {
+    width: clamp(2.5rem, 4.4vw, 3rem);
+    margin-top: clamp(1.15rem, 2.4svh, 1.5rem);
+  }
+
+  .hero--why-choose .why-choose-felmex__mobile-hero-copy .why-choose-felmex__hero-subtext {
+    max-width: min(100%, 34rem);
+    margin-top: clamp(1.15rem, 2.4svh, 1.5rem);
+    line-height: 1.5;
+  }
+
+  .hero--why-choose .why-choose-felmex__hero-cta {
+    width: clamp(13.5rem, 24vw, 15.5rem);
+    min-height: clamp(3.2rem, 6.2vw, 3.6rem);
+    margin-top: clamp(1.35rem, 2.7svh, 1.65rem);
+    font-size: clamp(1rem, 1.65vw, 1.12rem);
+  }
+}
+
+/* Short landscape tablets need the entire first train frame inside the viewport. */
+@media (min-width: 768px) and (max-width: 1024px) and (max-height: 700px) {
+  .hero--why-choose .why-choose-felmex {
+    --why-mobile-track-height: clamp(9.5rem, calc(11.5vw + 3.5rem), 11rem);
+    --why-title-size: clamp(1.9rem, 4vw, 2.1rem);
+    --why-body-size: clamp(0.88rem, 1.4vw, 0.96rem);
+    --why-card-title-size: clamp(0.92rem, 1.75vw, 1.05rem);
+    --why-card-body-size: clamp(0.7rem, 1.05vw, 0.8rem);
+  }
+
+  .hero--why-choose .why-choose-felmex__mobile-hero-copy {
+    padding:
+      calc(var(--site-header-clearance, 4rem) + clamp(1.15rem, 2.4svh, 1.45rem))
+      clamp(1.5rem, 5vw, 2.5rem)
+      clamp(1.2rem, 2.4svh, 1.5rem);
+  }
+
+  .hero--why-choose .why-choose-felmex__mobile-hero-copy .why-choose-felmex__headline h1 {
+    line-height: 1.02;
+  }
+
+  .hero--why-choose .why-choose-felmex__mobile-rule {
+    width: 2.35rem;
+    margin-top: clamp(0.7rem, 1.7svh, 0.85rem);
+  }
+
+  .hero--why-choose .why-choose-felmex__mobile-hero-copy .why-choose-felmex__hero-subtext {
+    margin-top: clamp(0.75rem, 1.7svh, 0.9rem);
+    line-height: 1.42;
+  }
+
+  .hero--why-choose .why-choose-felmex__hero-cta {
+    width: clamp(12.5rem, 23vw, 14rem);
+    min-height: 3rem;
+    margin-top: clamp(0.85rem, 1.8svh, 1rem);
+    font-size: 0.96rem;
+  }
+}
+
+/* Ease from the short-height composition back to the standard tablet rail. */
+@media (min-width: 768px) and (max-width: 1024px) and (min-height: 701px) and (max-height: 860px) {
+  .hero--why-choose .why-choose-felmex {
+    --why-mobile-track-height: clamp(12rem, 27svh, 15.5rem);
+    --why-title-size: clamp(2.1rem, 4.3vw, 2.6rem);
+    --why-body-size: clamp(0.92rem, 1.5vw, 1.02rem);
+    --why-card-title-size: clamp(1rem, 1.9vw, 1.2rem);
+    --why-card-body-size: clamp(0.74rem, 1.1vw, 0.86rem);
+  }
+
+  .hero--why-choose .why-choose-felmex__mobile-hero-copy {
+    padding:
+      calc(
+        var(--site-header-clearance, 4rem) +
+          clamp(1.65rem, calc(17.85svh - 6.375rem), 3.35rem)
+      )
+      clamp(1.75rem, 5.5vw, 3rem)
+      clamp(1.875rem, calc(17.85svh - 6.375rem), 3.3rem);
+  }
+
+  .hero--why-choose .why-choose-felmex__mobile-hero-copy .why-choose-felmex__headline h1 {
+    line-height: 1.035;
+  }
+
+  .hero--why-choose .why-choose-felmex__mobile-rule {
+    margin-top: clamp(0.95rem, calc(6svh - 1.75rem), 1.15rem);
+  }
+
+  .hero--why-choose .why-choose-felmex__mobile-hero-copy .why-choose-felmex__hero-subtext {
+    margin-top: clamp(0.95rem, calc(6svh - 1.75rem), 1.15rem);
+    line-height: 1.46;
+  }
+
+  .hero--why-choose .why-choose-felmex__hero-cta {
+    min-height: 3.1rem;
+    margin-top: clamp(1rem, calc(6svh - 1.75rem), 1.35rem);
+    font-size: clamp(0.98rem, 1.55vw, 1.06rem);
+  }
+}
+
+/* Tall portrait tablets keep the compact hero composition without an empty lower viewport. */
+@media (min-width: 768px) and (max-width: 1024px) and (min-height: 960px) {
+  .hero--why-choose,
+  .hero--why-choose .why-choose-felmex,
+  .hero--why-choose .why-choose-felmex__viewport {
+    min-height: clamp(52rem, calc(24rem + 58vw), 59rem);
   }
 }

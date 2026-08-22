@@ -211,8 +211,8 @@ export function WhyChooseFelmex({
 
         if (track) {
           matchMedia.add('(prefers-reduced-motion: no-preference)', () => {
-            const mobileHomeContainerPeek = () => {
-              if (!window.matchMedia('(max-width: 1023px)').matches) return 0;
+            const mobileHomeTrackInset = () => {
+              if (!window.matchMedia('(max-width: 1024px)').matches) return 0;
 
               const rootFontSize =
                 Number.parseFloat(window.getComputedStyle(document.documentElement).fontSize) || 16;
@@ -221,8 +221,29 @@ export function WhyChooseFelmex({
                 Math.max(rootFontSize * 1.35, window.innerWidth * 0.055)
               );
             };
+            const tabletHomeTrackStartOffset = () => {
+              const trainHead = track.querySelector('.why-choose-felmex__segment--head');
+              const blueCar = track.querySelector('.why-choose-felmex__segment--blue');
+              const blueCarArtwork = blueCar?.querySelector('.why-choose-felmex__image');
+              const trailingArtworkOverhang = Math.max(
+                ((blueCarArtwork?.offsetWidth || 0) - (blueCar?.offsetWidth || 0)) / 2,
+                0
+              );
+              const tabletArtworkPoke = Math.min(24, Math.max(12, window.innerWidth * 0.02));
+
+              return Math.max(
+                (trainHead?.offsetLeft || 0) + trailingArtworkOverhang + tabletArtworkPoke,
+                0
+              );
+            };
             const scrollAmount = () => Math.max(track.offsetWidth - window.innerWidth, 0);
-            const startOffset = () => Math.max(scrollAmount() - mobileHomeContainerPeek(), 0);
+            const startOffset = () => {
+              if (window.matchMedia('(min-width: 768px) and (max-width: 1024px)').matches) {
+                return tabletHomeTrackStartOffset();
+              }
+
+              return Math.max(scrollAmount() - mobileHomeTrackInset(), 0);
+            };
             const setTrackStart = () => gsap.set(track, { x: -startOffset() });
 
             setTrackStart();

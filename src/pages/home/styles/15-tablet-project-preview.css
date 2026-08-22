@@ -1,0 +1,391 @@
+/* Tablet follows the mobile project-preview rail, with roomier type and card proportions. */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .landing-final-curtain {
+    --landing-project-preview-tablet-height: max(
+      42rem,
+      calc(100svh - var(--site-header-clearance, 0px))
+    );
+  }
+
+  .landing-final-curtain .landing-journal {
+    position: relative;
+    top: auto;
+    display: block;
+    height: var(--landing-project-preview-tablet-height);
+    min-height: var(--landing-project-preview-tablet-height);
+    margin-top: 0;
+    padding-top: 0;
+    overflow: hidden;
+  }
+
+  .landing-final-curtain .landing-journal-pin-wrap,
+  .landing-final-curtain .landing-journal-shell {
+    height: var(--landing-project-preview-tablet-height);
+    min-height: var(--landing-project-preview-tablet-height);
+  }
+
+  .landing-project-preview-stage {
+    --landing-project-preview-title-pane: clamp(24rem, 44vw, 28rem);
+    --landing-project-preview-tablet-card-gap: clamp(1.5rem, 4svh, 2.75rem);
+    display: flex;
+    gap: 0;
+    width: 100%;
+    height: var(--landing-project-preview-tablet-height);
+    min-height: var(--landing-project-preview-tablet-height);
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y;
+    background: #ffffff;
+  }
+
+  .landing-project-preview-stage::-webkit-scrollbar {
+    display: none;
+  }
+
+  .landing-project-preview-stage::before,
+  .landing-project-preview-ornament,
+  .landing-project-preview-label,
+  .landing-project-preview-copy,
+  .landing-project-preview-link,
+  .landing-project-preview-controlbar {
+    display: none;
+  }
+
+  .landing-project-preview-intro {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 var(--landing-project-preview-title-pane);
+    width: var(--landing-project-preview-title-pane);
+    min-width: var(--landing-project-preview-title-pane);
+    align-self: stretch;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    align-content: center;
+    align-items: start;
+    justify-items: start;
+    gap: clamp(1.15rem, 2.25vw, 1.6rem);
+    margin: 0;
+    padding:
+      clamp(3.25rem, 7svh, 5rem)
+      clamp(1rem, 2.25vw, 1.75rem)
+      clamp(3.25rem, 7svh, 5rem)
+      clamp(1.75rem, 4.5vw, 3.25rem);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    text-align: left;
+  }
+
+  /* The desktop closing-preview variants must not rise over the tablet rail. */
+  .landing-close-canvas > .landing-project-preview-process--legacy,
+  .landing-project-preview-desktop-panel,
+  .landing-project-preview-desktop-article {
+    display: none;
+  }
+
+  .landing-project-preview-rule {
+    display: block;
+    order: 0;
+    width: clamp(2.6rem, 4vw, 3.25rem);
+    height: 0.18rem;
+    margin: 0;
+  }
+
+  .landing-project-preview-title,
+  .landing-project-preview-title > span {
+    display: block;
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .landing-project-preview-title {
+    order: 1;
+    width: 100%;
+    margin: 0;
+    color: var(--project-preview-navy);
+    font-family: var(--site-font-display);
+    font-size: clamp(2.25rem, 3.95vw, 2.9rem);
+    font-weight: 800;
+    line-height: 1.03;
+    letter-spacing: 0;
+    text-align: left;
+  }
+
+  .landing-project-preview-title-line {
+    white-space: nowrap;
+  }
+
+  .landing-project-preview-title-accent,
+  .landing-project-preview-dot {
+    display: inline;
+    color: var(--site-brand-red);
+  }
+
+  .landing-project-preview-brief {
+    display: block;
+    order: 2;
+    width: min(100%, 31ch);
+    margin: 0;
+    color: rgba(7, 27, 53, 0.76);
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.9rem, 1.55vw, 1.04rem);
+    font-weight: 500;
+    line-height: 1.58;
+  }
+
+  .landing-project-preview-swipe-hint {
+    display: inline-flex;
+    order: 3;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0.15rem 0 0;
+    color: var(--site-footer-blue);
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.66rem, 1.05vw, 0.75rem);
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .landing-project-preview-swipe-hint span:last-child {
+    color: var(--site-brand-red);
+    font-size: 1.12rem;
+    line-height: 0.7;
+  }
+
+  .landing-project-mobile-feed {
+    flex: 0 0 clamp(48rem, 88vw, 58rem);
+    width: clamp(48rem, 88vw, 58rem);
+    min-width: clamp(48rem, 88vw, 58rem);
+    align-self: center;
+    height: calc(
+      var(--landing-project-preview-tablet-height) -
+        (var(--landing-project-preview-tablet-card-gap) * 2)
+    );
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 0;
+    overflow: visible;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    touch-action: auto;
+  }
+
+  .landing-project-mobile-card,
+  .landing-project-mobile-card:nth-child(even) {
+    --landing-project-mobile-media-width: clamp(12.5rem, 22vw, 15.5rem);
+    position: relative;
+    flex: 0 0 100%;
+    width: 100%;
+    height: calc(
+      var(--landing-project-preview-tablet-height) -
+        (var(--landing-project-preview-tablet-card-gap) * 2)
+    );
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-items: stretch;
+    gap: clamp(1.35rem, 2.8vw, 2rem);
+    margin: 0;
+    padding:
+      clamp(2.25rem, 5.1vw, 3.75rem)
+      clamp(2.1rem, 4.8vw, 3.65rem)
+      clamp(1.8rem, 4vw, 3rem);
+    overflow: hidden;
+    border-radius: 0;
+    background: var(--site-footer-blue);
+    color: #ffffff;
+    box-shadow: none;
+    scroll-snap-align: none;
+  }
+
+  .landing-project-mobile-identity {
+    grid-row: 1;
+    display: grid;
+    align-content: start;
+    gap: clamp(0.55rem, 1.25vw, 0.8rem);
+    padding-right: calc(var(--landing-project-mobile-media-width) + 1.25rem);
+  }
+
+  .landing-project-mobile-identity::before {
+    width: 2.5rem;
+    height: 0.2rem;
+    content: '';
+    background: var(--site-brand-red);
+  }
+
+  .landing-project-mobile-title,
+  .landing-project-mobile-meta,
+  .landing-project-mobile-teleprompter-copy p,
+  .landing-project-mobile-facts p,
+  .landing-project-mobile-facts ul,
+  .landing-project-mobile-facts li,
+  .landing-project-mobile-published span {
+    margin: 0;
+  }
+
+  .landing-project-mobile-card .landing-project-mobile-title {
+    max-width: 19ch;
+    color: #ffffff;
+    font-family: var(--site-font-display);
+    font-size: clamp(1.45rem, 2.55vw, 1.78rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .landing-project-mobile-card .landing-project-mobile-meta {
+    max-width: none;
+    color: rgba(255, 255, 255, 0.82);
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.86rem, 1.38vw, 0.98rem);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .landing-project-mobile-media {
+    position: absolute;
+    z-index: 2;
+    top: clamp(2.3rem, 5.25vw, 4rem);
+    right: clamp(2rem, 4.35vw, 3.5rem);
+    display: grid;
+    grid-column: auto;
+    grid-row: auto;
+    width: var(--landing-project-mobile-media-width);
+    margin: 0;
+    gap: 0.72rem;
+    overflow: visible;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .landing-project-mobile-image {
+    display: block;
+    width: 100%;
+    height: clamp(13.5rem, 27vw, 17.25rem);
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .landing-project-mobile-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.52rem;
+    color: rgba(255, 255, 255, 0.94);
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.68rem, 1.02vw, 0.76rem);
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .landing-project-mobile-read-more span:last-child {
+    font-size: 1.12rem;
+    line-height: 0.7;
+  }
+
+  .landing-project-mobile-read-more:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 0.35rem;
+  }
+
+  .landing-project-mobile-teleprompter {
+    grid-row: 2;
+    min-height: 0;
+    padding-right: calc(var(--landing-project-mobile-media-width) + 1.35rem);
+    overflow: hidden;
+    mask-image: linear-gradient(180deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+  }
+
+  .landing-project-mobile-teleprompter-track,
+  .landing-project-mobile-teleprompter-copy {
+    display: grid;
+  }
+
+  .landing-project-mobile-teleprompter-track {
+    gap: clamp(1.7rem, 3.4vw, 2.25rem);
+  }
+
+  .landing-project-mobile-teleprompter-copy {
+    gap: clamp(1rem, 2.25vw, 1.4rem);
+  }
+
+  .landing-project-mobile-teleprompter-copy p {
+    color: rgba(255, 255, 255, 0.96);
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.93rem, 1.48vw, 1.05rem);
+    font-weight: 400;
+    line-height: 1.58;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .landing-project-mobile-teleprompter-track {
+      animation: landing-project-mobile-teleprompt 48s linear infinite;
+    }
+  }
+
+  .landing-project-mobile-facts {
+    grid-row: 3;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 1.2rem;
+    padding-top: clamp(1rem, 2.3vw, 1.35rem);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .landing-project-mobile-facts > div > p {
+    color: rgba(255, 255, 255, 0.8);
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.68rem, 1vw, 0.75rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .landing-project-mobile-clients,
+  .landing-project-mobile-published {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .landing-project-mobile-clients ul {
+    display: grid;
+    gap: 0.1rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .landing-project-mobile-facts li,
+  .landing-project-mobile-published span {
+    color: #ffffff;
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.82rem, 1.3vw, 0.94rem);
+    font-weight: 800;
+    line-height: 1.18;
+  }
+
+  .landing-project-mobile-published {
+    align-self: end;
+    justify-items: end;
+    text-align: right;
+  }
+
+  .landing-project-mobile-published span {
+    white-space: nowrap;
+  }
+}
