@@ -331,6 +331,12 @@
     line-height: 1.58;
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .landing-project-mobile-teleprompter-track {
+      animation: landing-project-mobile-teleprompt 48s linear infinite;
+    }
+  }
+
   .landing-project-mobile-facts {
     grid-row: 3;
     display: grid;

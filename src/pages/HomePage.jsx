@@ -1214,15 +1214,12 @@ export function HomePage() {
   const journalCarouselDelayRef = useRef(null);
   const journalMobileScrollFrameRef = useRef(null);
   const closeSectionRef = useRef(null);
-  const desktopProjectPreviewCopyRef = useRef(null);
-  const desktopProjectPreviewCopyTrackRef = useRef(null);
   const servicesListRef = useRef(null);
   const serviceImagePreloadersRef = useRef([]);
   const hasPreloadedServiceImagesRef = useRef(false);
   const testimonialsTitleDroppedRef = useRef(false);
   const [isTestimonialsTitleDropped, setIsTestimonialsTitleDropped] = useState(false);
   const [isCloseVisible, setIsCloseVisible] = useState(false);
-  const [desktopProjectPreviewScrollDistance, setDesktopProjectPreviewScrollDistance] = useState(0);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
   const [activeFinalOperation, setActiveFinalOperation] = useState(FINAL_OPERATION_STEPS[0].key);
   const [activeOverviewStatement, setActiveOverviewStatement] = useState(
@@ -1289,42 +1286,6 @@ export function HomePage() {
 
     mediaQuery.addListener(syncCompactHomeViewport);
     return () => mediaQuery.removeListener(syncCompactHomeViewport);
-  }, []);
-
-  useLayoutEffect(() => {
-    const copy = desktopProjectPreviewCopyRef.current;
-    const copyTrack = desktopProjectPreviewCopyTrackRef.current;
-    if (!copy || !copyTrack || typeof window === 'undefined') return undefined;
-
-    let frameId = null;
-    const measureOverflow = () => {
-      frameId = null;
-      const nextDistance = Math.max(0, Math.ceil(copy.scrollHeight - copy.clientHeight));
-
-      setDesktopProjectPreviewScrollDistance((currentDistance) =>
-        currentDistance === nextDistance ? currentDistance : nextDistance
-      );
-    };
-
-    const queueMeasurement = () => {
-      if (frameId !== null) return;
-      frameId = window.requestAnimationFrame(measureOverflow);
-    };
-
-    const resizeObserver =
-      typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(queueMeasurement);
-
-    resizeObserver?.observe(copy);
-    resizeObserver?.observe(copyTrack);
-    window.addEventListener('resize', queueMeasurement);
-    document.fonts?.ready.then(queueMeasurement).catch(() => {});
-    queueMeasurement();
-
-    return () => {
-      resizeObserver?.disconnect();
-      window.removeEventListener('resize', queueMeasurement);
-      if (frameId !== null) window.cancelAnimationFrame(frameId);
-    };
   }, []);
 
   useEffect(() => {
@@ -2809,26 +2770,20 @@ export function HomePage() {
               <div className="landing-project-preview-desktop-story">
                 <div
                   className={`landing-project-preview-desktop-copy${
-                    desktopProjectPreviewScrollDistance > 0 && !prefersReducedMotion
-                      ? ' is-teleprompting'
-                      : ''
+                    prefersReducedMotion ? '' : ' is-teleprompting'
                   }`}
-                  ref={desktopProjectPreviewCopyRef}
-                  style={
-                    desktopProjectPreviewScrollDistance > 0
-                      ? {
-                          '--landing-project-preview-scroll-distance': `${desktopProjectPreviewScrollDistance}px`,
-                          '--landing-project-preview-scroll-duration': `${Math.max(
-                            24,
-                            Math.min(58, 14 + desktopProjectPreviewScrollDistance / 18)
-                          )}s`,
-                        }
-                      : undefined
-                  }
                 >
-                  <div className="landing-project-preview-desktop-copy-track" ref={desktopProjectPreviewCopyTrackRef}>
-                    {HOME_DESKTOP_PROJECT_PREVIEW_PARAGRAPHS.map((paragraph, index) => (
-                      <p key={`${index}-${paragraph}`}>{paragraph}</p>
+                  <div className="landing-project-preview-desktop-copy-track">
+                    {[0, 1].map((copyIndex) => (
+                      <div
+                        className="landing-project-preview-desktop-copy-set"
+                        key={copyIndex}
+                        aria-hidden={copyIndex === 1 ? true : undefined}
+                      >
+                        {HOME_DESKTOP_PROJECT_PREVIEW_PARAGRAPHS.map((paragraph, index) => (
+                          <p key={`${copyIndex}-${index}-${paragraph}`}>{paragraph}</p>
+                        ))}
+                      </div>
                     ))}
                   </div>
                 </div>
