@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import './ServicePage.css';
 
-const SERVICE_MOBILE_QUERY = '(max-width: 760px)';
+const SERVICE_COMPACT_FAQ_QUERY =
+  '(max-width: 760px), (min-width: 768px) and (max-width: 1024px)';
 
-function isServiceMobileViewport() {
-  return typeof window !== 'undefined' && window.matchMedia(SERVICE_MOBILE_QUERY).matches;
+function isServiceCompactFaqViewport() {
+  return (
+    typeof window !== 'undefined' && window.matchMedia(SERVICE_COMPACT_FAQ_QUERY).matches
+  );
 }
 
 const SERVICE_CATEGORIES = [
@@ -680,10 +683,12 @@ function ProcessIcon({ kind }) {
 
 export function ServicePage() {
   const [activeCategoryId, setActiveCategoryId] = useState(SERVICE_CATEGORIES[0].id);
-  const [isMobileFaqViewport, setIsMobileFaqViewport] = useState(() =>
-    isServiceMobileViewport()
+  const [isCompactFaqViewport, setIsCompactFaqViewport] = useState(() =>
+    isServiceCompactFaqViewport()
   );
-  const [openFaqIndex, setOpenFaqIndex] = useState(() => (isServiceMobileViewport() ? null : 0));
+  const [openFaqIndex, setOpenFaqIndex] = useState(() =>
+    isServiceCompactFaqViewport() ? null : 0
+  );
   const [activeProcessIndex, setActiveProcessIndex] = useState(0);
   const processGridRef = useRef(null);
   const activeCategoryIndex = Math.max(
@@ -732,7 +737,7 @@ export function ServicePage() {
 
   const handleFaqToggle = (index) => {
     setOpenFaqIndex((currentIndex) => {
-      if (isMobileFaqViewport && currentIndex === index) {
+      if (isCompactFaqViewport && currentIndex === index) {
         return null;
       }
 
@@ -745,10 +750,10 @@ export function ServicePage() {
       return undefined;
     }
 
-    const mediaQuery = window.matchMedia(SERVICE_MOBILE_QUERY);
+    const mediaQuery = window.matchMedia(SERVICE_COMPACT_FAQ_QUERY);
 
     const syncFaqState = () => {
-      setIsMobileFaqViewport(mediaQuery.matches);
+      setIsCompactFaqViewport(mediaQuery.matches);
       setOpenFaqIndex((currentIndex) => (mediaQuery.matches ? null : currentIndex ?? 0));
     };
 

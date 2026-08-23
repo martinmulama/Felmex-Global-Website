@@ -378,14 +378,8 @@ export function AboutPage() {
               &ldquo;
             </span>
             <p>
-              <span>
-                We connect <strong>air, sea,</strong>
-              </span>
-              <span>
-                <strong>road,</strong> and <strong>rail</strong> to deliver
-              </span>
-              <span>flexible, cost-effective</span>
-              <span>transport solutions.</span>
+              Built around <strong>reliable logistics</strong>, clear <strong>accountability</strong>, and
+              practical <strong>execution</strong>.
             </p>
             <span className="abt-mobile-quote-mark abt-mobile-quote-mark--close" aria-hidden="true">
               &rdquo;
@@ -393,20 +387,47 @@ export function AboutPage() {
           </blockquote>
         </section>
 
-        <section className="abt-mobile-brand-story" aria-label="Felmex brand story">
-          <header className="abt-mobile-brand-story-header">
-            <span className="abt-mobile-section-rule" aria-hidden="true" />
-            <h2 className="abt-mobile-section-title">
-              <span>
-                Our Story<span className="abt-red-punctuation">.</span>
-              </span>
-            </h2>
-          </header>
-          <p>
-            Felmex Global Logistics was built on the belief that logistics is more than movement&mdash;it&rsquo;s
-            about trust, reliability, and relationships. From our roots to our reach, we&rsquo;ve remained
-            committed to delivering smart, seamless solutions that help businesses grow across borders.
-          </p>
+        <section className="abt-mobile-brand-story" aria-label="Our story">
+          <div className="abt-mobile-brand-story-layout">
+            <div className="abt-mobile-brand-story-visual">
+              <img
+                src="/about-our-story-people.png"
+                alt="A Felmex logistics consultant and field worker"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
+
+            <div className="abt-mobile-brand-story-copy">
+              <article className="abt-mobile-story-entry">
+                <h2>Origin</h2>
+                <span className="abt-mobile-story-entry-rule" aria-hidden="true" />
+                <p>
+                  FELMEX Global Logistics was founded on a simple principle: freight should be
+                  predictable, transparent, and accountable.
+                </p>
+              </article>
+
+              <article className="abt-mobile-story-entry">
+                <h2>Growth</h2>
+                <span className="abt-mobile-story-entry-rule" aria-hidden="true" />
+                <p>
+                  As trade grew more complex, businesses needed more than transportation; they needed a
+                  partner capable of coordinating every stage of the supply chain with precision and care.
+                </p>
+              </article>
+
+              <article className="abt-mobile-story-entry">
+                <h2>Today</h2>
+                <span className="abt-mobile-story-entry-rule" aria-hidden="true" />
+                <p>
+                  Today, FELMEX integrates sea, road, rail, and air freight into one seamless network,
+                  helping businesses move confidently across borders with reliability, integrity, and
+                  efficiency.
+                </p>
+              </article>
+            </div>
+          </div>
         </section>
 
         <section
@@ -489,38 +510,33 @@ export function AboutPage() {
         </div>
 
         <section className="abt-mobile-partners" aria-labelledby="abt-mobile-partners-title">
-          <h2 className="abt-mobile-partners-title" id="abt-mobile-partners-title">
-            Trusted by industry leaders
-          </h2>
-          <div className="abt-mobile-partner-rail" aria-label="Trusted logistics partners">
-            <div className="abt-mobile-partner-track">
-              {[0, 1, 2, 3].map((setIndex) => (
-                <div
-                  className="abt-mobile-partner-set"
-                  key={setIndex}
-                  aria-hidden={setIndex !== 0}
-                >
-                  {PARTNER_LOGOS.map((partner) => (
-                    <div
-                      className={`abt-mobile-partner-item abt-mobile-partner-item--${partner.tone} abt-mobile-partner-item--${partner.className}`}
-                      key={`${setIndex}-${partner.name}`}
-                      style={{
-                        '--abt-partner-logo-width': partner.logoWidth,
-                        '--abt-partner-logo-max-height': partner.logoMaxHeight,
-                      }}
-                    >
-                      <img
-                        className="abt-mobile-partner-logo"
-                        src={partner.logo}
-                        alt={partner.name}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
+          <header className="abt-mobile-partners-header">
+            <h2 className="abt-mobile-partners-title" id="abt-mobile-partners-title">
+              Trusted by Industry{' '}
+              <span className="abt-partners-title-impact">
+                Leaders<span className="abt-red-punctuation">.</span>
+              </span>
+            </h2>
+            <span className="abt-mobile-partners-rule" aria-hidden="true" />
+          </header>
+          <div className="abt-mobile-partner-grid" aria-label="Trusted logistics partners">
+            {PARTNER_LOGOS.map((partner) => (
+              <div
+                className={`abt-mobile-partner-tile abt-mobile-partner-tile--${partner.className}`}
+                key={partner.name}
+                style={{
+                  '--abt-partner-logo-width': partner.logoWidth,
+                }}
+              >
+                <img
+                  className="abt-mobile-partner-logo"
+                  src={partner.logo}
+                  alt={partner.name}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            ))}
           </div>
         </section>
 
