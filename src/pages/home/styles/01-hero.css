@@ -383,7 +383,7 @@
   }
 
   .hero--why-choose .why-choose-felmex__segment--red {
-    order: 1;
+    order: 3;
   }
 
   .hero--why-choose .why-choose-felmex__segment--white {
@@ -391,7 +391,7 @@
   }
 
   .hero--why-choose .why-choose-felmex__segment--blue {
-    order: 3;
+    order: 1;
   }
 
   .hero--why-choose .why-choose-felmex__segment--head {
@@ -563,7 +563,7 @@
 /* Tablet uses the mobile hero composition, with a shorter copy block and a visible train-head rail. */
 @media (min-width: 768px) and (max-width: 1024px) {
   .hero--why-choose .why-choose-felmex {
-    /* Start on the artwork's blue car, as desktop does, and give the locomotive
+    /* Start on the artwork's red trailing car, as desktop does, and give the locomotive
        enough scale to carry the lower half of a tablet viewport. */
     --why-mobile-track-height: clamp(15.5rem, 28vw, 18.25rem);
     --why-mobile-head-width: calc(100vw + clamp(11rem, 30vw, 15rem));
@@ -576,6 +576,9 @@
     --why-container-image-height: calc(var(--why-mobile-track-height) * 1.67);
     --why-container-image-top: calc(var(--why-mobile-track-height) * -0.082);
     --why-container-width: calc(var(--why-container-image-height) * 1.15);
+    --why-tablet-trailing-car-join-y: calc(var(--why-mobile-track-height) * 0.012);
+    --why-tablet-red-car-join-y: calc(var(--why-mobile-track-height) * 0.02);
+    --why-tablet-red-car-width-trim: calc(var(--why-mobile-track-height) * 0.051);
     --why-title-size: clamp(2.25rem, 4.7vw, 2.9rem);
     --why-body-size: clamp(0.98rem, 1.55vw, 1.08rem);
     --why-card-title-size: clamp(1.12rem, 2.15vw, 1.42rem);
@@ -587,6 +590,19 @@
       calc(var(--site-header-clearance, 4rem) + clamp(2.5rem, 6.2svh, 3.35rem))
       clamp(2rem, 6vw, 3.5rem)
       clamp(2.75rem, 6.25svh, 3.25rem);
+  }
+
+  .hero--why-choose .why-choose-felmex__segment--container .why-choose-felmex__image {
+    top: calc(var(--why-container-image-top) + var(--why-tablet-trailing-car-join-y));
+  }
+
+  .hero--why-choose .why-choose-felmex__segment--red {
+    width: calc(var(--why-container-width) - var(--why-tablet-red-car-width-trim));
+  }
+
+  .hero--why-choose .why-choose-felmex__segment--red .why-choose-felmex__image {
+    top: calc(var(--why-container-image-top) + var(--why-tablet-red-car-join-y));
+    transform: translateX(-50%);
   }
 
   .hero--why-choose .why-choose-felmex__mobile-hero-copy .why-choose-felmex__headline h1 {
