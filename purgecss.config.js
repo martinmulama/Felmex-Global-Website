@@ -1,15 +1,21 @@
-export const RESET_LANDING_CSS = 'src/pages/home/styles/11-reset-landing.css';
-export const RESET_LANDING_CSS_FILES = [
-  'src/pages/home/styles/02-foundations.css',
-  'src/pages/home/styles/03-overview.css',
-  'src/pages/home/styles/04-services.css',
-  'src/pages/home/styles/05-testimonials.css',
-  'src/pages/home/styles/06-project-preview.css',
-  'src/pages/home/styles/07-project-preview-desktop.css',
-  'src/pages/home/styles/08-overview-desktop.css',
-  'src/pages/home/styles/09-mobile-solutions.css',
-  'src/pages/home/styles/10-project-mobile.css',
-  'src/pages/home/styles/11-mobile-final.css',
+export const HOME_CSS_INDEX = 'src/pages/home/styles/index.css';
+export const HOME_CSS_FILES = [
+  'src/pages/home/styles/sections/shared.css',
+  'src/pages/home/styles/sections/overview.css',
+  'src/pages/home/styles/sections/services.css',
+  'src/pages/home/styles/sections/testimonials.css',
+  'src/pages/home/styles/sections/project-preview.css',
+  'src/pages/home/styles/responsive/desktop/project-preview.css',
+  'src/pages/home/styles/responsive/desktop/overview.css',
+  'src/pages/home/styles/responsive/mobile/solutions.css',
+  'src/pages/home/styles/responsive/mobile/project-preview.css',
+  'src/pages/home/styles/responsive/mobile/final-cta.css',
+  'src/pages/home/styles/responsive/tablet/overview.css',
+  'src/pages/home/styles/responsive/tablet/services.css',
+  'src/pages/home/styles/responsive/tablet/testimonials.css',
+  'src/pages/home/styles/responsive/tablet/project-preview.css',
+  'src/pages/home/styles/responsive/tablet/solutions.css',
+  'src/pages/home/styles/responsive/tablet/final-cta.css',
 ];
 export const PURGECSS_CONTENT = ['index.html', 'src/**/*.{js,jsx,ts,tsx}'];
 
@@ -25,7 +31,7 @@ const dynamicRuntimeClasses = [
 
 export default {
   content: PURGECSS_CONTENT,
-  css: RESET_LANDING_CSS_FILES,
+  css: HOME_CSS_FILES,
   defaultExtractor: (content) => content.match(/[A-Za-z0-9_-]+/gu) ?? [],
   keyframes: true,
   rejected: true,

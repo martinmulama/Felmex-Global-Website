@@ -1,0 +1,148 @@
+.cnt-form-panel {
+  display: grid;
+  align-self: stretch;
+  align-content: start;
+  min-width: 0;
+  padding: clamp(2rem, 4svh, 3rem) var(--cnt-page-gutter) 2.4rem clamp(13.7rem, 17.45vw, 16.8rem);
+  background:
+    radial-gradient(circle at 62% 35%, rgba(25, 79, 120, 0.15), transparent 31rem),
+    var(--cnt-blue);
+}
+
+.cnt-form-heading {
+  width: min(100%, 42rem);
+}
+
+.cnt-form-heading > p {
+  color: var(--cnt-red);
+  font-size: clamp(0.95rem, 1.25vw, 1.15rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.cnt-form-heading h2 {
+  margin-top: 1rem;
+  color: var(--cnt-white);
+  font-family: var(--site-font-display);
+  font-size: clamp(2.35rem, 3vw, 3rem);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+.cnt-form-heading h2 span {
+  color: var(--cnt-red);
+}
+
+.cnt-form-heading > div {
+  max-width: 37rem;
+  margin-top: 0.85rem;
+  color: rgba(255, 255, 255, 0.96);
+  font-size: clamp(0.94rem, 1.15vw, 1.06rem);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.cnt-form {
+  width: min(100%, 42rem);
+  margin-top: clamp(2.25rem, 4.5svh, 3.5rem);
+}
+
+.cnt-form-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(1.7rem, 3.1vw, 2.5rem);
+  row-gap: clamp(2.4rem, 4.4svh, 3.5rem);
+}
+
+.cnt-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.cnt-field span {
+  color: var(--cnt-white);
+  font-size: clamp(0.86rem, 1vw, 0.96rem);
+  font-weight: 500;
+}
+
+.cnt-field input,
+.cnt-field textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 0 0 0.5rem;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: var(--cnt-white);
+  font: inherit;
+  font-size: clamp(0.94rem, 1.1vw, 1.05rem);
+  font-weight: 400;
+  line-height: 1.35;
+  transition: border-color 180ms ease;
+}
+
+.cnt-field textarea {
+  min-height: 2.8rem;
+  resize: vertical;
+}
+
+.cnt-field input::placeholder,
+.cnt-field textarea::placeholder {
+  color: rgba(225, 232, 242, 0.72);
+  opacity: 1;
+}
+
+.cnt-field input:focus,
+.cnt-field textarea:focus {
+  border-bottom-color: var(--cnt-red);
+}
+
+.cnt-field-message {
+  margin-top: clamp(2.7rem, 5svh, 3.6rem);
+}
+
+.cnt-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(16.3rem, 100%);
+  min-height: 3.8rem;
+  margin-top: 1.45rem;
+  padding: 0 2.2rem;
+  border: 0;
+  border-radius: 0.35rem;
+  background: var(--cnt-red);
+  color: var(--cnt-white);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: filter 180ms ease, transform 180ms ease;
+}
+
+.cnt-submit:hover,
+.cnt-submit:focus-visible {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+}
+
+.cnt-submit:focus-visible {
+  outline: 2px solid var(--cnt-white);
+  outline-offset: 3px;
+}
+
+.cnt-submit svg {
+  width: 1.45rem;
+  height: 1.45rem;
+}
+
+.cnt-form-status {
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+

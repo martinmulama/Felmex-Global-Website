@@ -1,21 +1,12 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './HomePage.css';
 import { MQ } from '../constants/breakpoints';
-import { WhyChooseFelmex } from '../components/WhyChooseFelmex';
+import { WhyChooseFelmex } from '../components/why-choose/WhyChooseFelmex';
 import { ONGOING_PROJECTS } from './projects/data';
 import { CLIENT_QUOTES } from './home/data';
 
-const HOME_PROJECT_THUMBNAIL_COPIES = 2;
 const HOME_MOBILE_PROJECT_TELEPROMPTER_CYCLE_REPETITIONS = 3;
-const HOME_PROJECT_PREVIEW =
-  ONGOING_PROJECTS.find((project) => project.id === 'border-continuity') ?? ONGOING_PROJECTS[0];
-const HOME_PROJECT_PREVIEW_PARAGRAPHS = [
-  HOME_PROJECT_PREVIEW.lead,
-  HOME_PROJECT_PREVIEW.body,
-  'The sharp point is continuity: every document, release note, and dispatch decision has to protect the next movement before the border process is finished.',
-];
-const HOME_PROJECT_PREVIEW_META = HOME_PROJECT_PREVIEW.meta.slice(-2);
-const HOME_PROJECT_PREVIEW_SERVICES = HOME_PROJECT_PREVIEW.services.slice(0, 2);
+
 const HOME_DESKTOP_PROJECT_PREVIEW =
   ONGOING_PROJECTS.find((project) => project.id === 'cold-chain-release') ?? ONGOING_PROJECTS[0];
 const HOME_DESKTOP_PROJECT_CLIENTS = ['Apple', 'NFL', 'BMW', 'Stella', 'State Farm'];
@@ -72,51 +63,8 @@ const HOME_MOBILE_PROJECTS = [
     clients: HOME_MOBILE_PROJECT_CLIENTS,
   };
 });
-const HOME_PROJECT_THUMBNAILS = ONGOING_PROJECTS.filter(
-  (project) => project.id !== HOME_PROJECT_PREVIEW.id
-).slice(0, 6);
 const JOURNAL_PROJECT_TITLE = 'Projects planned around real handoffs.';
 const JOURNAL_OOG_TITLE = 'Built for the Extra ordinary- OOG-Project Logistics.';
-const JOURNAL_PROJECT_TITLE_LINES = ['Projects planned around', 'real handoffs.'];
-const JOURNAL_OOG_TITLE_LINES = ['Built for the Extra ordinary-', 'OOG-Project Logistics.'];
-const OOG_PROJECT_CAPABILITIES = [
-  {
-    index: '01',
-    icon: 'survey',
-    title: 'Engineering & Planning',
-    text: 'Route surveys, load analysis, and lift planning tailored for complex and oversized cargo.',
-    image: '/project-hero-1536.webp',
-    video: '/oog-project-logistics-preview.mp4',
-  },
-  {
-    index: '02',
-    icon: 'vessel',
-    title: 'Specialized Equipment',
-    text: 'Access to specialized trailers, cranes, and lifting gear to handle all dimensions.',
-    image: '/service-oog-project-3d-cutout-v2.webp',
-  },
-  {
-    index: '03',
-    icon: 'checklist',
-    title: 'Multi-Modal Execution',
-    text: 'Seamless coordination across sea, land, and air to support on-time, damage-free delivery.',
-    image: '/felmex-overview-port-lift-1536.webp',
-  },
-  {
-    index: '04',
-    icon: 'operator',
-    title: 'Permits & Compliance',
-    text: 'End-to-end handling of permits, escorts, and regulatory requirements across all jurisdictions.',
-    image: '/air-freight.webp',
-  },
-  {
-    index: '05',
-    icon: 'control',
-    title: 'End-to-End Project Control',
-    text: 'Dedicated project teams providing real-time updates, risk management, and complete visibility.',
-    image: '/road-freight.webp',
-  },
-];
 const HOME_SERVICE_FEATURES = [
   {
     number: '01',
@@ -964,111 +912,6 @@ function SolutionStageIcon({ kind }) {
     <span className="landing-mobile-solution-icon" aria-hidden="true">
       <svg viewBox="0 0 64 64" focusable="false">
         {icons[kind] ?? icons.source}
-      </svg>
-    </span>
-  );
-}
-
-function OogCapabilityIcon({ kind }) {
-  const icons = {
-    survey: (
-      <>
-        <path
-          d="M8.2 4.7h7.6a1.4 1.4 0 0 1 1.4 1.4v12.8a1.4 1.4 0 0 1-1.4 1.4H8.2a1.4 1.4 0 0 1-1.4-1.4V6.1a1.4 1.4 0 0 1 1.4-1.4Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M9.4 8.5h5.2M9.4 11.3h4.2M9.4 14.1h2.7M15.8 19.8l3.1 3.1M15 17.1a3.1 3.1 0 1 0 6.2 0 3.1 3.1 0 0 0-6.2 0Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    vessel: (
-      <>
-        <path
-          d="M4.2 14h15.6M6.1 12V8.2h11.8V12M9.5 8.2V5.9h5v2.3"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="m4.9 16.4 1.8 1.6 1.8-1.6 1.8 1.6 1.8-1.6 1.8 1.6 1.8-1.6 1.8 1.6 1.8-1.6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    checklist: (
-      <>
-        <path
-          d="M8.4 5.1h7.2a1.6 1.6 0 0 1 1.6 1.6v11.8a1.6 1.6 0 0 1-1.6 1.6H8.4a1.6 1.6 0 0 1-1.6-1.6V6.7a1.6 1.6 0 0 1 1.6-1.6Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="m9.3 9.5.9.9 1.7-1.9M13.7 9.6h2M9.3 13.1l.9.9 1.7-1.9M13.7 13.2h2M9.3 16.7l.9.9 1.7-1.9M13.7 16.8h2"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    operator: (
-      <>
-        <path
-          d="M8.7 10.1V8.7a3.3 3.3 0 0 1 6.6 0v1.4M7.7 10.1h8.6M9.2 12.2a3.1 3.1 0 0 0 5.6 0M6.2 20.1c.6-2.9 2.7-4.5 5.8-4.5s5.2 1.6 5.8 4.5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    control: (
-      <>
-        <path
-          d="m12 4.2 6.5 3.7v8.2L12 19.8l-6.5-3.7V7.9L12 4.2Zm0 0v7.5m6.5-3.8L12 11.7 5.5 7.9"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M8.9 14.2 12 16l3.1-1.8"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-  };
-
-  return (
-    <span className="landing-oog-card-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" focusable="false">
-        {icons[kind] ?? icons.control}
       </svg>
     </span>
   );

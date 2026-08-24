@@ -1,14 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { PurgeCSS } from 'purgecss';
-import purgeCssConfig, { RESET_LANDING_CSS } from './purgecss.config.js';
+import purgeCssConfig, { HOME_CSS_INDEX } from './purgecss.config.js';
 
-function purgeResetLandingCss() {
+function purgeHomeCss() {
   return {
-    name: 'purge-reset-landing-css',
+    name: 'purge-home-css',
     apply: 'build',
     async transform(code, id) {
-      if (!id.endsWith(RESET_LANDING_CSS)) return null;
+      if (!id.endsWith(HOME_CSS_INDEX)) return null;
 
       const [result] = await new PurgeCSS().purge({
         ...purgeCssConfig,
@@ -26,7 +26,7 @@ function purgeResetLandingCss() {
 }
 
 export default defineConfig({
-  plugins: [react(), purgeResetLandingCss()],
+  plugins: [react(), purgeHomeCss()],
   preview: {
     allowedHosts: [
       'hurtless-carleen-bionomically.ngrok-free.dev',

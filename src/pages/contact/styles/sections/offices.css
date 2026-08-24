@@ -1,0 +1,156 @@
+.cnt-contact-layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: 29.5% 70.5%;
+  align-items: center;
+  min-height: calc(100svh - var(--site-header-clearance, 0px));
+  background: linear-gradient(90deg, var(--cnt-white) 0 29.5%, var(--cnt-blue) 29.5% 100%);
+}
+
+.cnt-office-panel {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: calc(29.5vw + clamp(3.375rem, 3.75vw, 4rem));
+  min-height: clamp(32.5rem, 64svh, 40rem);
+  flex-direction: column;
+  margin-top: 0;
+  padding: clamp(3rem, 5.4svh, 4rem) clamp(3rem, 7.4vw, 7.1rem) 2rem;
+  align-self: center;
+  background: linear-gradient(135deg, #c90010 0%, var(--cnt-red) 58%, #c90010 100%);
+  box-shadow: 0 1.25rem 2.8rem rgba(130, 0, 12, 0.12);
+}
+
+.cnt-office-intro h1,
+.cnt-office-intro p,
+.cnt-form-heading p,
+.cnt-form-heading h2,
+.cnt-form-heading div,
+.cnt-form-status {
+  margin: 0;
+}
+
+.cnt-office-intro h1 {
+  color: var(--cnt-white);
+  font-family: var(--site-font-display);
+  font-size: clamp(2.15rem, 2.6vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.cnt-office-rule {
+  display: block;
+  width: 4.95rem;
+  height: 3px;
+  margin-top: 1rem;
+  background: var(--cnt-white);
+}
+
+.cnt-office-intro p {
+  max-width: 18rem;
+  margin-top: 1.35rem;
+  font-size: clamp(1rem, 1.25vw, 1.18rem);
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.cnt-office-details {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2.15rem;
+}
+
+.cnt-office-detail {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+  color: var(--cnt-white);
+  font-size: clamp(0.96rem, 1.16vw, 1.1rem);
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.cnt-office-detail svg,
+.cnt-submit svg {
+  width: 1.65rem;
+  height: 1.65rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cnt-office-detail svg {
+  justify-self: center;
+  margin-top: 0.1rem;
+}
+
+.cnt-office-detail a {
+  color: inherit;
+}
+
+.cnt-office-address {
+  margin-top: 0.15rem;
+}
+
+.cnt-office-address > div {
+  display: grid;
+  gap: 0.12rem;
+}
+
+.cnt-office-address strong {
+  margin-bottom: 0.1rem;
+  font-family: var(--site-font-display);
+  font-size: 1.12em;
+  font-weight: 800;
+}
+
+.cnt-office-switcher {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.2vw, 2rem);
+  margin-top: auto;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.cnt-office-switcher button {
+  position: relative;
+  padding: 0 0 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--cnt-white);
+  font: inherit;
+  font-size: clamp(0.76rem, 0.95vw, 0.9rem);
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.cnt-office-switcher button:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 0.12rem;
+  right: calc(clamp(1rem, 2.2vw, 2rem) / -2);
+  width: 1px;
+  height: 1rem;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.cnt-office-switcher button.is-active {
+  font-weight: 800;
+}
+
+.cnt-office-switcher button.is-active::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: var(--cnt-white);
+}
+

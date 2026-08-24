@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import './AboutPage.css';
-import { WhyChooseFelmex } from '../components/WhyChooseFelmex';
+import { WhyChooseFelmex } from '../components/why-choose/WhyChooseFelmex';
 
 const ABOUT_BRIEFS = [
   {
