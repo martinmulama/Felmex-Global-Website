@@ -1,0 +1,43 @@
+.abt-page {
+  --abt-white: #ffffff;
+  --abt-ink: var(--site-footer-blue);
+  --abt-red: var(--site-brand-red, #ed1c24);
+  --abt-blue: var(--site-footer-blue);
+  --abt-blue-deep: var(--site-footer-blue);
+  --abt-home-section-title-size: clamp(2.25rem, 2.68vw, 3rem);
+  --abt-home-section-title-line-height: 1.16;
+  --abt-home-section-title-tracking: 0;
+  --abt-home-body-size: clamp(1rem, 1.12vw, 1.16rem);
+  --abt-home-body-weight: 500;
+  --abt-ref-artboard-max: 96rem;
+  --abt-ref-nav-height: clamp(7.35rem, 8.35vw, 8rem);
+  --abt-hero-card-height: clamp(18.4rem, 30.7svh, 19.65rem);
+  --abt-curtain-overlap: calc(var(--abt-hero-card-height) + var(--abt-ref-nav-height));
+  --abt-split-blue-width: min(30rem, 26.75vw);
+  --abt-split-section-min-height: clamp(41.5rem, 50vw, 55.5rem);
+  --abt-split-copy-offset: clamp(5.9rem, 7.1vw, 7rem);
+  --abt-split-copy-inset: clamp(3rem, 6vw, 6.9rem);
+  --abt-split-edge-pad: clamp(1.5rem, 3.2vw, 3.75rem);
+  --abt-section-pad-y: clamp(2.1rem, 3.1vw, 3rem);
+  --abt-partners-pull-up: clamp(6.25rem, 9vw, 9.5rem);
+  --abt-values-blue-width: 38.5%;
+  --abt-split-blue-bg:
+    linear-gradient(
+      180deg,
+      rgba(var(--site-footer-blue-rgb), 0.18),
+      rgba(var(--site-footer-blue-rgb), 0.08)
+    ),
+    var(--abt-blue);
+  position: relative;
+  overflow-x: clip;
+  background: var(--abt-white);
+  color: var(--abt-ink);
+  font-family: var(--home-font-sans, var(--site-font-sans));
+  font-size: var(--site-fs-body);
+  line-height: var(--site-lh-body);
+}
+
+.abt-mobile-reference {
+  display: none;
+}
+

@@ -1,0 +1,10 @@
+@media (prefers-reduced-motion: reduce) {
+  .prj-column-media img,
+  .prj-detail-overlay,
+  .prj-drop-panel,
+  .prj-drop-media-strip,
+  .prj-drop-close {
+    animation: none;
+    transition: none;
+  }
+}

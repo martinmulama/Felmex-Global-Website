@@ -1,0 +1,43 @@
+@media (min-width: 901px) {
+  .cnt-office-description {
+    display: none;
+  }
+
+  .cnt-form-panel {
+    align-content: center;
+    padding-block: clamp(3rem, 5.6svh, 4.5rem);
+  }
+
+  .cnt-form {
+    margin-top: clamp(2.75rem, 5.2svh, 4rem);
+  }
+
+  .cnt-form-fields {
+    row-gap: clamp(2.7rem, 5.2svh, 3.8rem);
+  }
+
+  .cnt-field-message {
+    margin-top: clamp(3.1rem, 5.6svh, 4rem);
+  }
+
+  .cnt-submit {
+    margin-top: 1.65rem;
+  }
+}
+
+@media (max-width: 1180px) and (min-width: 901px) {
+  .cnt-contact-layout {
+    grid-template-columns: 26% 74%;
+    background: linear-gradient(90deg, var(--cnt-white) 0 26%, var(--cnt-blue) 26% 100%);
+  }
+
+  .cnt-office-panel {
+    width: calc(26vw + clamp(2.5rem, 3.75vw, 3.4rem));
+    padding-inline: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .cnt-form-panel {
+    padding-left: clamp(12rem, 15vw, 13.7rem);
+  }
+}
+

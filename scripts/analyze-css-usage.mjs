@@ -2,11 +2,17 @@ import fs from 'fs';
 import path from 'path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const CSS_FILE = path.join(ROOT, 'src/pages/home/styles/11-reset-landing.css');
+const CSS_FILES = [
+  'src/pages/home/styles/sections/shared.css',
+  'src/pages/home/styles/sections/overview.css',
+  'src/pages/home/styles/sections/services.css',
+  'src/pages/home/styles/sections/testimonials.css',
+  'src/pages/home/styles/sections/project-preview.css',
+];
 
 const SOURCE_FILES = [
   'src/pages/HomePage.jsx',
-  'src/components/WhyChooseFelmex.jsx',
+  'src/components/why-choose/WhyChooseFelmex.jsx',
   'src/components/footer/SiteFooter.jsx',
 ];
 
@@ -85,14 +91,14 @@ for (const rel of SOURCE_FILES) {
   for (const cls of collectUsedClasses(fs.readFileSync(file, 'utf8'))) used.add(cls);
 }
 
-const css = fs.readFileSync(CSS_FILE, 'utf8');
+const css = CSS_FILES.map((file) => fs.readFileSync(path.join(ROOT, file), 'utf8')).join('\n');
 const cssClasses = collectCssClasses(css);
 const landingCss = [...cssClasses].filter((c) => c.startsWith('landing-') || c.startsWith('is-') || c.startsWith('split-'));
 
 const unused = landingCss.filter((c) => !isClassUsed(c, used));
 const usedInCss = landingCss.filter((c) => isClassUsed(c, used));
 
-console.log('=== CSS Usage Analysis: 11-reset-landing.css ===\n');
+console.log('=== CSS Usage Analysis: home page section styles ===\n');
 console.log(`Total lines: ${css.split('\n').length}`);
 console.log(`Total CSS classes: ${cssClasses.size}`);
 console.log(`Landing-related CSS classes: ${landingCss.length}`);

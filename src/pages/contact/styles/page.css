@@ -1,0 +1,12 @@
+.cnt-page {
+  --cnt-blue: var(--site-footer-blue);
+  --cnt-red: var(--site-brand-red);
+  --cnt-white: #ffffff;
+  --cnt-page-gutter: clamp(1.5rem, 5.6vw, 5.3rem);
+  position: relative;
+  overflow: clip;
+  background: var(--cnt-white);
+  color: var(--cnt-white);
+  font-family: var(--site-font-sans);
+}
+

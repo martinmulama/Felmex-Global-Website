@@ -1,18 +1,22 @@
-# ServicePage Styles
+# Service Page Styles
 
-This directory splits `src/pages/ServicePage.css` into concern-based modules.
+`ServicePage.css` is the sole import index for the live service-page CSS. Every section has an owning file under `sections/`; device-specific treatments are kept in `responsive/`.
 
-## File map
+```text
+styles/
+├── page-and-hero.css
+├── sections/
+│   ├── category-browser.css
+│   ├── process.css
+│   ├── promise.css
+│   ├── promise-and-faq.css
+│   ├── service-canvas.css
+│   ├── service-detail.css
+│   ├── faq.css
+│   └── final-cta.css
+└── responsive/
+    ├── desktop.css
+    └── tablet.css
+```
 
-- `00-tokens.css`: page tokens, container, shared labels and button primitives
-- `01-hero.css`: hero section styles
-- `02-main-services.css`: services grid and service cards
-- `03-service-strip.css`: operating principles marquee
-- `04-reveal.css`: reveal-state animation hooks
-- `05-deep-dive.css`: service detail layout and content blocks
-- `06-final-cta.css`: final CTA block
-- `08-responsive.css`: responsive breakpoints
-
-## Editing guideline
-
-Keep rules in their matching concern file. Preserve import order in `ServicePage.css` because later files intentionally override earlier rules.
+The current import order preserves the existing visual cascade. Add new default rules to their section file and add new viewport-specific rules to `responsive/`.
