@@ -1,5 +1,6 @@
 import { Navbar } from '../components/navigation/Navbar';
 import { SiteFooter } from '../components/footer/SiteFooter';
+import { ScrollSectionTitleObserver } from '../components/scroll-reveal/ScrollSectionTitleObserver';
 
 export function MainLayout({
   children,
@@ -14,6 +15,7 @@ export function MainLayout({
         <div className={`site-main-content${isContentPreview ? ' is-blurred' : ''}`}>
           {children}
         </div>
+        <ScrollSectionTitleObserver />
         {isContentPreview ? (
           <div className="site-preview-banner" role="status" aria-live="polite">
             <p className="site-preview-kicker">Under Development</p>

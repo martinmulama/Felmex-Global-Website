@@ -425,6 +425,14 @@
     height: 100%;
     padding-left: 0;
     overflow: visible;
+    clip-path: inset(-100vmax 0 -100vmax 0);
+  }
+
+  .hero--why-choose .why-choose-felmex__train-visual-reveal {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   .hero--why-choose .why-choose-felmex__train-image {
@@ -619,6 +627,18 @@
     max-width: min(100%, 34rem);
     margin-top: clamp(1.15rem, 2.4svh, 1.5rem);
     line-height: 1.5;
+  }
+
+  .hero--why-choose
+    .why-choose-felmex__mobile-hero-copy
+    .why-choose-felmex__hero-reveal-mask--subtext {
+    align-self: center;
+    width: min(100%, 34rem);
+  }
+
+  .hero--why-choose .why-choose-felmex__mobile-hero-copy .why-choose-felmex__hero-subtext {
+    width: 100%;
+    text-align: center;
   }
 
   .hero--why-choose .why-choose-felmex__hero-cta {

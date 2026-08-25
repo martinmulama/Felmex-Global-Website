@@ -125,6 +125,32 @@
     hue-rotate(181deg) brightness(88%) contrast(101%);
 }
 
+.abt-partner-reveal > img {
+  transition: clip-path 1.2s cubic-bezier(0.16, 1, 0.3, 1) var(--abt-partner-reveal-delay, 0s);
+  will-change: clip-path;
+}
+
+.abt-partner-reveal--vertical-up > img {
+  clip-path: inset(100% 0 0 0);
+}
+
+.abt-partner-reveal--vertical-down > img {
+  clip-path: inset(0 0 100% 0);
+}
+
+.abt-partner-reveal--horizontal-left > img {
+  clip-path: inset(0 100% 0 0);
+}
+
+.abt-partner-reveal--horizontal-right > img {
+  clip-path: inset(0 0 0 100%);
+}
+
+.abt-partners-grid.in-view .abt-partner-reveal > img,
+.abt-mobile-partner-grid.in-view .abt-partner-reveal > img {
+  clip-path: inset(0);
+}
+
 .abt-partner-tile--blue .abt-partner-logo,
 .abt-partner-tile--red .abt-partner-logo {
   filter: brightness(0) invert(1);
@@ -134,3 +160,8 @@
   filter: invert(1) grayscale(1) brightness(2.65) contrast(1.18);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .abt-partner-reveal > img {
+    transition: none;
+  }
+}

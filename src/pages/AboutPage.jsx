@@ -1,6 +1,9 @@
 import { useRef, useState } from 'react';
+import { SplitPanelPreloader } from '../components/preloader/SplitPanelPreloader';
 import './AboutPage.css';
 import { WhyChooseFelmex } from '../components/why-choose/WhyChooseFelmex';
+import { ScrollSectionTitle } from '../components/scroll-reveal/ScrollSectionTitle';
+import { useSplitPanelPreloader } from '../hooks/useSplitPanelPreloader';
 
 const ABOUT_BRIEFS = [
   {
@@ -103,6 +106,18 @@ const MOBILE_ABOUT_TABS = [
 ];
 
 const CORE_VALUES = ['Integrity', 'Reliability', 'Excellence', 'Collaboration'];
+const PARTNER_REVEAL_PATTERNS = [
+  'vertical-up',
+  'horizontal-left',
+  'vertical-down',
+  'horizontal-right',
+  'vertical-up',
+  'horizontal-right',
+  'vertical-down',
+  'horizontal-left',
+  'vertical-up',
+  'horizontal-right',
+];
 
 const PARTNER_LOGOS = [
   {
@@ -285,6 +300,7 @@ function MobileAboutIcon({ kind }) {
 }
 
 export function AboutPage() {
+  const isAppLoaded = useSplitPanelPreloader();
   const [activeBriefId, setActiveBriefId] = useState(ABOUT_BRIEFS[0].id);
   const [isMobilePanelSliding, setIsMobilePanelSliding] = useState(false);
   const [isMobilePanelSettling, setIsMobilePanelSettling] = useState(false);
@@ -366,7 +382,12 @@ export function AboutPage() {
   };
 
   return (
-    <section className="abt-page" id="about-top" aria-label="About Felmex">
+    <section
+      className={`abt-page${isAppLoaded ? ' is-loaded' : ''}`}
+      id="about-top"
+      aria-label="About Felmex"
+    >
+      <SplitPanelPreloader isAppLoaded={isAppLoaded} />
       <section className="abt-mobile-reference" aria-label="About Felmex mobile overview">
         <section className="abt-mobile-hero" aria-label="About introduction">
           <h1 className="abt-mobile-title">
@@ -491,15 +512,15 @@ export function AboutPage() {
           </div>
         </section>
 
-        <div className="abt-mobile-why-choose">
+        <section className="abt-mobile-why-choose scroll-section">
           <header className="abt-mobile-why-choose-header">
             <span className="abt-mobile-section-rule" aria-hidden="true" />
-            <h2 className="abt-mobile-section-title" id="abt-mobile-why-choose-felmex-title">
+            <ScrollSectionTitle className="abt-mobile-section-title" id="abt-mobile-why-choose-felmex-title">
               <span>Why Choose</span>
               <span>
                 Felmex<span className="abt-red-punctuation">.</span>
               </span>
-            </h2>
+            </ScrollSectionTitle>
           </header>
           <WhyChooseFelmex
             sectionId="abt-mobile-why-choose-felmex"
@@ -507,25 +528,29 @@ export function AboutPage() {
             labelledById="abt-mobile-why-choose-felmex-title"
             enableDesktopScroll={false}
           />
-        </div>
+        </section>
 
-        <section className="abt-mobile-partners" aria-labelledby="abt-mobile-partners-title">
+        <section className="abt-mobile-partners scroll-section" aria-labelledby="abt-mobile-partners-title">
           <header className="abt-mobile-partners-header">
-            <h2 className="abt-mobile-partners-title" id="abt-mobile-partners-title">
+            <ScrollSectionTitle className="abt-mobile-partners-title" id="abt-mobile-partners-title">
               Trusted by Industry{' '}
               <span className="abt-partners-title-impact">
                 Leaders<span className="abt-red-punctuation">.</span>
               </span>
-            </h2>
+            </ScrollSectionTitle>
             <span className="abt-mobile-partners-rule" aria-hidden="true" />
           </header>
-          <div className="abt-mobile-partner-grid" aria-label="Trusted logistics partners">
-            {PARTNER_LOGOS.map((partner) => (
+          <div
+            className="abt-mobile-partner-grid scroll-section"
+            aria-label="Trusted logistics partners"
+          >
+            {PARTNER_LOGOS.map((partner, index) => (
               <div
-                className={`abt-mobile-partner-tile abt-mobile-partner-tile--${partner.className}`}
+                className={`abt-mobile-partner-tile abt-mobile-partner-tile--${partner.className} abt-partner-reveal abt-partner-reveal--${PARTNER_REVEAL_PATTERNS[index]}`}
                 key={partner.name}
                 style={{
                   '--abt-partner-logo-width': partner.logoWidth,
+                  '--abt-partner-reveal-delay': `${index * 0.07}s`,
                 }}
               >
                 <img
@@ -540,14 +565,14 @@ export function AboutPage() {
           </div>
         </section>
 
-        <section className="abt-mobile-final-cta" aria-labelledby="abt-mobile-final-cta-title">
-          <h2 id="abt-mobile-final-cta-title">
+        <section className="abt-mobile-final-cta scroll-section" aria-labelledby="abt-mobile-final-cta-title">
+          <ScrollSectionTitle id="abt-mobile-final-cta-title">
             <span>Let&apos;s Move Your</span>
             <span>Business</span>
             <span>
               Forward, <strong>Together.</strong>
             </span>
-          </h2>
+          </ScrollSectionTitle>
           <p>
             Partner with FELMEX Global Logistics for seamless, reliable, and scalable logistics
             solutions that drive growth and open new opportunities.
@@ -563,21 +588,35 @@ export function AboutPage() {
 
       <section className="abt-hero" aria-label="About introduction">
         <div className="abt-hero-copy">
-          <p className="abt-hero-kicker">About Us</p>
-          <h1 className="abt-hero-title">
-            About Us<span>.</span>
-          </h1>
+          <div className="clip-mask abt-hero-kicker-mask">
+            <p className="abt-hero-kicker abt-hero-reveal">About Us</p>
+          </div>
+          <div className="clip-mask abt-hero-title-mask">
+            <h1 className="abt-hero-title abt-hero-reveal">
+              About Us<span>.</span>
+            </h1>
+          </div>
           <span className="abt-hero-rule" aria-hidden="true" />
           <p className="abt-hero-subtitle">
-            <span>Built around reliable logistics, clear accountability, and practical execution.</span>
-            <span>Learn how FELMEX moves cargo with discipline from planning to delivery.</span>
-          </p>
-          <a className="abt-hero-link" href="#abt-curtain-canvas">
-            <span className="abt-hero-link-icon" aria-hidden="true">
-              <ArrowIcon />
+            <span className="clip-mask abt-hero-subtitle-line-mask">
+              <span className="abt-hero-reveal">
+                Built around reliable logistics, clear accountability, and practical execution.
+              </span>
             </span>
-            <span>Explore our story</span>
-          </a>
+            <span className="clip-mask abt-hero-subtitle-line-mask">
+              <span className="abt-hero-reveal">
+                Learn how FELMEX moves cargo with discipline from planning to delivery.
+              </span>
+            </span>
+          </p>
+          <div className="clip-mask abt-hero-link-mask">
+            <a className="abt-hero-link abt-hero-reveal" href="#abt-curtain-canvas">
+              <span className="abt-hero-link-icon" aria-hidden="true">
+                <ArrowIcon />
+              </span>
+              <span>Explore our story</span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -586,7 +625,7 @@ export function AboutPage() {
           <div className="abt-curtain-stage">
             <div className="abt-curtain-canvas" key={activeBrief.id} data-brief={activeBrief.id}>
               <section
-                className="abt-curtain-scene"
+                className="abt-curtain-scene scroll-section"
                 id="abt-brief-panel"
                 role="tabpanel"
                 aria-labelledby={`abt-brief-tab-${activeBrief.id}`}
@@ -596,11 +635,11 @@ export function AboutPage() {
                   <p className="abt-curtain-kicker">
                     {String(activeBriefIndex + 1).padStart(2, '0')}
                   </p>
-                  <h2 className="abt-curtain-scene-title">
+                  <ScrollSectionTitle className="abt-curtain-scene-title">
                     {activeBrief.titleLines.map((line) => (
                       <span key={line}>{line}</span>
                     ))}
-                  </h2>
+                  </ScrollSectionTitle>
                   <span className="abt-curtain-title-rule" aria-hidden="true" />
                   <p className="abt-curtain-scene-copy">{activeBrief.copy}</p>
                   <div className="abt-curtain-dots" aria-label="About brief slides">
@@ -651,16 +690,16 @@ export function AboutPage() {
                 })}
               </div>
             </nav>
-            <section className="abt-story-section" aria-labelledby="abt-story-title">
+            <section className="abt-story-section scroll-section" aria-labelledby="abt-story-title">
               <div className="abt-story-red-panel" aria-hidden="true" />
               <div className="abt-story-copy">
                 <p className="abt-story-kicker">Our Story</p>
-                <h2 className="abt-story-title" id="abt-story-title">
+                <ScrollSectionTitle className="abt-story-title" id="abt-story-title">
                   Built on reliable{' '}
                   <span className="abt-title-impact">
                     movement<span className="abt-red-punctuation">.</span>
                   </span>
-                </h2>
+                </ScrollSectionTitle>
                 <span className="abt-story-rule" aria-hidden="true" />
                 <div className="abt-story-text">
                   <p>
@@ -680,12 +719,11 @@ export function AboutPage() {
                 </div>
               </div>
             </section>
-            <section className="abt-values-section" aria-labelledby="abt-values-title">
+            <section className="abt-values-section scroll-section" aria-labelledby="abt-values-title">
               <div className="abt-values-red-panel" aria-hidden="true" />
               <div className="abt-values-copy">
-                <p className="abt-values-kicker">Our Story</p>
                 <span className="abt-values-rule" aria-hidden="true" />
-                <h2 className="abt-values-title" id="abt-values-title">
+                <ScrollSectionTitle className="abt-values-title" id="abt-values-title">
                   <span>Our Mission, Vision, </span>
                   <span>
                     and{' '}
@@ -693,7 +731,7 @@ export function AboutPage() {
                       Values<span className="abt-red-punctuation">.</span>
                     </span>
                   </span>
-                </h2>
+                </ScrollSectionTitle>
                 <div className="abt-values-block-list">
                   <section className="abt-values-block" aria-labelledby="abt-values-vision-title">
                     <p className="abt-values-label" id="abt-values-vision-title">
@@ -738,29 +776,30 @@ export function AboutPage() {
               </figure>
             </section>
             <WhyChooseFelmex />
-            <section className="abt-partners-section" aria-labelledby="abt-partners-title">
+            <section className="abt-partners-section scroll-section" aria-labelledby="abt-partners-title">
               <div className="abt-partners-header">
                 <p className="abt-partners-kicker">Our Partners</p>
-                <h2 className="abt-partners-title" id="abt-partners-title">
+                <ScrollSectionTitle className="abt-partners-title" id="abt-partners-title">
                   Trusted by Industry{' '}
                   <span className="abt-partners-title-impact">
                     Leaders<span className="abt-red-punctuation">.</span>
                   </span>
-                </h2>
+                </ScrollSectionTitle>
                 <span className="abt-partners-rule" aria-hidden="true" />
                 <p className="abt-partners-copy">
                   We collaborate with forward-thinking companies worldwide to deliver smarter
                   logistics solutions and lasting impact.
                 </p>
               </div>
-              <div className="abt-partners-grid" aria-label="Trusted logistics partners">
-                {PARTNER_LOGOS.map((partner) => (
+              <div className="abt-partners-grid scroll-section" aria-label="Trusted logistics partners">
+                {PARTNER_LOGOS.map((partner, index) => (
                   <div
-                    className={`abt-partner-tile abt-partner-tile--${partner.tone} abt-partner-tile--${partner.className}`}
+                    className={`abt-partner-tile abt-partner-tile--${partner.tone} abt-partner-tile--${partner.className} abt-partner-reveal abt-partner-reveal--${PARTNER_REVEAL_PATTERNS[index]}`}
                     key={partner.name}
                     style={{
                       '--abt-partner-logo-width': partner.logoWidth,
                       '--abt-partner-logo-max-height': partner.logoMaxHeight,
+                      '--abt-partner-reveal-delay': `${index * 0.07}s`,
                     }}
                   >
                     <img
@@ -774,16 +813,16 @@ export function AboutPage() {
                 ))}
               </div>
             </section>
-            <section className="abt-final-cta-section" aria-labelledby="abt-final-cta-title">
+            <section className="abt-final-cta-section scroll-section" aria-labelledby="abt-final-cta-title">
               <div className="abt-final-cta-shell">
                 <div className="abt-final-cta-heading">
-                  <h2 id="abt-final-cta-title">
+                  <ScrollSectionTitle id="abt-final-cta-title">
                     <span>Let&apos;s Move Your</span>
                     <span>Business</span>
                     <span>
                       Forward, <strong>Together.</strong>
                     </span>
-                  </h2>
+                  </ScrollSectionTitle>
                   <span className="abt-final-cta-rule" aria-hidden="true" />
                 </div>
                 <div className="abt-final-cta-copy">

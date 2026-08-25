@@ -1,0 +1,30 @@
+:root {
+  --home-preloader-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: #ed1c24;
+  color: #ffffff;
+  transform: translateX(0);
+  transition: transform 1.2s var(--home-preloader-ease);
+  will-change: transform;
+}
+
+#load-counter {
+  font-family: var(--site-font-display, 'Rajdhani', 'Segoe UI', Arial, sans-serif);
+  font-size: clamp(5rem, 17vw, 16rem);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.075em;
+  font-variant-numeric: tabular-nums;
+}
+
+body.is-loaded #preloader {
+  pointer-events: none;
+  transform: translateX(100%);
+}

@@ -1,7 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './HomePage.css';
-import { MQ } from '../constants/breakpoints';
 import { WhyChooseFelmex } from '../components/why-choose/WhyChooseFelmex';
+import { HomePreloader } from '../components/preloader/HomePreloader';
+import { ScrollSectionTitle } from '../components/scroll-reveal/ScrollSectionTitle';
 import { ONGOING_PROJECTS } from './projects/data';
 import { CLIENT_QUOTES } from './home/data';
 
@@ -63,8 +64,6 @@ const HOME_MOBILE_PROJECTS = [
     clients: HOME_MOBILE_PROJECT_CLIENTS,
   };
 });
-const JOURNAL_PROJECT_TITLE = 'Projects planned around real handoffs.';
-const JOURNAL_OOG_TITLE = 'Built for the Extra ordinary- OOG-Project Logistics.';
 const HOME_SERVICE_FEATURES = [
   {
     number: '01',
@@ -1035,46 +1034,17 @@ function loadScrollTrigger() {
   return scrollTriggerLoadPromise;
 }
 
-function clearInlineMotionStyles(elements, properties) {
-  elements.forEach((element) => {
-    properties.forEach((property) => element.style.removeProperty(property));
-  });
-}
-
 export function HomePage() {
   const overviewRef = useRef(null);
-  const testimonialsSectionRef = useRef(null);
-  const journalSectionRef = useRef(null);
-  const journalPinWrapperRef = useRef(null);
-  const journalDesktopStageRef = useRef(null);
-  const journalDesktopViewportRef = useRef(null);
-  const journalDesktopTrackRef = useRef(null);
-  const journalMobileTrackRef = useRef(null);
-  const journalTitleRef = useRef(null);
-  const journalTitleProjectRef = useRef(null);
-  const journalTitleOogRef = useRef(null);
-  const journalScrollTriggerRef = useRef(null);
-  const journalCarouselDelayRef = useRef(null);
-  const journalMobileScrollFrameRef = useRef(null);
-  const closeSectionRef = useRef(null);
   const servicesListRef = useRef(null);
   const serviceImagePreloadersRef = useRef([]);
   const hasPreloadedServiceImagesRef = useRef(false);
-  const testimonialsTitleDroppedRef = useRef(false);
-  const [isTestimonialsTitleDropped, setIsTestimonialsTitleDropped] = useState(false);
-  const [isCloseVisible, setIsCloseVisible] = useState(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
   const [activeFinalOperation, setActiveFinalOperation] = useState(FINAL_OPERATION_STEPS[0].key);
   const [activeOverviewStatement, setActiveOverviewStatement] = useState(
     OVERVIEW_MOBILE_STATEMENTS[0].key
   );
   const [activeMobileSolution, setActiveMobileSolution] = useState(MOBILE_SOLUTION_INITIAL_KEY);
-  const [activeMobileProjectIndex, setActiveMobileProjectIndex] = useState(0);
-  const [isMobileViewport, setIsMobileViewport] = useState(
-    () =>
-      typeof window !== 'undefined' &&
-      window.matchMedia(MQ.mobile).matches
-  );
   const [isCompactHomeViewport, setIsCompactHomeViewport] = useState(
     () =>
       typeof window !== 'undefined' &&
@@ -1098,22 +1068,6 @@ export function HomePage() {
   const activeOverviewStatementData =
     OVERVIEW_MOBILE_STATEMENTS.find((statement) => statement.key === activeOverviewStatement) ??
     OVERVIEW_MOBILE_STATEMENTS[0];
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-
-    const mediaQuery = window.matchMedia(MQ.mobile);
-    const syncMobileViewport = () => setIsMobileViewport(mediaQuery.matches);
-    syncMobileViewport();
-
-    if (typeof mediaQuery.addEventListener === 'function') {
-      mediaQuery.addEventListener('change', syncMobileViewport);
-      return () => mediaQuery.removeEventListener('change', syncMobileViewport);
-    }
-
-    mediaQuery.addListener(syncMobileViewport);
-    return () => mediaQuery.removeListener(syncMobileViewport);
-  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
@@ -1146,52 +1100,6 @@ export function HomePage() {
     mediaQuery.addListener(syncReducedMotion);
     return () => mediaQuery.removeListener(syncReducedMotion);
   }, []);
-
-  useEffect(() => {
-    const track = journalMobileTrackRef.current;
-    if (!isMobileViewport || !track || typeof window === 'undefined') return undefined;
-
-    const syncActiveMobileProject = () => {
-      journalMobileScrollFrameRef.current = null;
-
-      const firstCard = track.querySelector('.landing-journal-mobile-card');
-      if (!firstCard) return;
-
-      const styles = window.getComputedStyle(track);
-      const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
-      const cardSpan = firstCard.getBoundingClientRect().width + gap;
-      if (cardSpan <= 0) return;
-
-      const nextIndex = Math.min(
-        HOME_MOBILE_PROJECTS.length - 1,
-        Math.max(0, Math.round(track.scrollLeft / cardSpan))
-      );
-
-      setActiveMobileProjectIndex((currentIndex) =>
-        currentIndex === nextIndex ? currentIndex : nextIndex
-      );
-    };
-
-    const queueActiveMobileProjectSync = () => {
-      if (journalMobileScrollFrameRef.current !== null) return;
-
-      journalMobileScrollFrameRef.current = window.requestAnimationFrame(syncActiveMobileProject);
-    };
-
-    queueActiveMobileProjectSync();
-    track.addEventListener('scroll', queueActiveMobileProjectSync, { passive: true });
-    window.addEventListener('resize', queueActiveMobileProjectSync);
-
-    return () => {
-      if (journalMobileScrollFrameRef.current !== null) {
-        window.cancelAnimationFrame(journalMobileScrollFrameRef.current);
-        journalMobileScrollFrameRef.current = null;
-      }
-
-      track.removeEventListener('scroll', queueActiveMobileProjectSync);
-      window.removeEventListener('resize', queueActiveMobileProjectSync);
-    };
-  }, [isMobileViewport]);
 
   useLayoutEffect(() => {
     const node = overviewRef.current;
@@ -1369,680 +1277,9 @@ export function HomePage() {
     };
   }, [isCompactHomeViewport]);
 
-  useEffect(() => {
-    const list = servicesListRef.current;
-    if (!list || isCompactHomeViewport) return undefined;
-
-    const serviceEntries = Array.from(list.querySelectorAll('.landing-service-entry'));
-    const servicePieces = serviceEntries.flatMap((entry) =>
-      Array.from(entry.querySelectorAll('.landing-service-figure, .landing-service-copy'))
-    );
-    const contexts = new Map();
-    let isCancelled = false;
-    let loadedGsap = null;
-
-    if (prefersReducedMotion) {
-      servicePieces.forEach((piece) => {
-        piece.style.opacity = '1';
-        piece.style.visibility = 'visible';
-        piece.style.transform = 'none';
-        piece.style.clipPath = 'inset(0% 0% 0% 0%)';
-      });
-      return () => {
-        clearInlineMotionStyles(servicePieces, [
-          'opacity',
-          'visibility',
-          'transform',
-          'clip-path',
-        ]);
-      };
-    }
-
-    serviceEntries.forEach((entry) => {
-      const pieces = entry.querySelectorAll('.landing-service-figure, .landing-service-copy');
-      pieces.forEach((piece) => {
-        piece.style.opacity = '0';
-        piece.style.visibility = 'hidden';
-        piece.style.transform = 'translate3d(26px, 0, 0)';
-        piece.style.clipPath = 'inset(0% 0% 0% 100%)';
-      });
-    });
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-
-          const serviceEntry = entry.target;
-          observer.unobserve(serviceEntry);
-
-          loadGsap().then((gsap) => {
-            if (isCancelled) return;
-            loadedGsap = gsap;
-            const animationContext = gsap.context(() => {
-              const figure = serviceEntry.querySelector('.landing-service-figure');
-              const copy = serviceEntry.querySelector('.landing-service-copy');
-              const pieces = [figure, copy].filter(Boolean);
-
-              gsap
-                .timeline({
-                  defaults: {
-                    ease: 'power3.out',
-                    overwrite: 'auto',
-                  },
-                })
-                .to(figure, {
-                  autoAlpha: 1,
-                  x: 0,
-                  clipPath: 'inset(0% 0% 0% 0%)',
-                  duration: 0.32,
-                })
-                .to(
-                  copy,
-                  {
-                    autoAlpha: 1,
-                    x: 0,
-                    clipPath: 'inset(0% 0% 0% 0%)',
-                    duration: 0.3,
-                  },
-                  '>-0.14'
-                );
-
-              gsap.set(pieces, { clearProps: 'visibility' });
-            }, serviceEntry);
-
-            contexts.set(serviceEntry, animationContext);
-          });
-        });
-      },
-      {
-        threshold: 0.22,
-        rootMargin: '0px 0px -12% 0px',
-      }
-    );
-
-    serviceEntries.forEach((entry) => observer.observe(entry));
-
-    return () => {
-      isCancelled = true;
-      observer.disconnect();
-      contexts.forEach((context) => context.revert());
-      if (loadedGsap) {
-        loadedGsap.set(servicePieces, {
-          clearProps: 'opacity,visibility,transform,clipPath',
-        });
-      } else {
-        clearInlineMotionStyles(servicePieces, [
-          'opacity',
-          'visibility',
-          'transform',
-          'clip-path',
-        ]);
-      }
-    };
-  }, [isCompactHomeViewport, prefersReducedMotion]);
-
-  useEffect(() => {
-    testimonialsTitleDroppedRef.current = isTestimonialsTitleDropped;
-  }, [isTestimonialsTitleDropped]);
-
-  useEffect(() => {
-    const node = testimonialsSectionRef.current;
-    if (!node) return undefined;
-
-    if (prefersReducedMotion) {
-      testimonialsTitleDroppedRef.current = true;
-      setIsTestimonialsTitleDropped(true);
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        testimonialsTitleDroppedRef.current = true;
-        setIsTestimonialsTitleDropped(true);
-        observer.disconnect();
-      },
-      {
-        threshold: 0,
-        rootMargin: '0px 0px -24% 0px',
-      }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [prefersReducedMotion]);
-
-  useLayoutEffect(() => {
-    const journalSection = journalSectionRef.current;
-    const pinWrapper = journalPinWrapperRef.current;
-    const stage = journalDesktopStageRef.current;
-    const viewport = journalDesktopViewportRef.current;
-    const track = journalDesktopTrackRef.current;
-    if (
-      !journalSection ||
-      !pinWrapper ||
-      !stage ||
-      !viewport ||
-      !track ||
-      typeof window === 'undefined'
-    ) {
-      return undefined;
-    }
-
-    const journalTitle = journalTitleRef.current;
-    const projectTitle = journalTitleProjectRef.current;
-    const oogTitle = journalTitleOogRef.current;
-    let isOogTitleActive = false;
-    let titleTween = null;
-    let gsapInstance = null;
-    let scrollTriggerInstance = null;
-    let isCancelled = false;
-    let hasStartedSetup = false;
-    let animationContext = null;
-    let refreshFrameId = null;
-    let resizeObserver = null;
-    let setupObserver = null;
-    let mediaElements = [];
-    const layoutSettleFrameIds = [];
-
-    const clearThumbnailCarouselDelay = () => {
-      if (journalCarouselDelayRef.current === null) return;
-      window.clearTimeout(journalCarouselDelayRef.current);
-      journalCarouselDelayRef.current = null;
-    };
-
-    const stopThumbnailCarousel = () => {
-      clearThumbnailCarouselDelay();
-      journalSectionRef.current?.classList.remove('is-carousel-running');
-    };
-
-    const startThumbnailCarousel = () => {
-      const node = journalSectionRef.current;
-      if (!node || node.classList.contains('is-carousel-running')) return;
-      clearThumbnailCarouselDelay();
-      journalCarouselDelayRef.current = window.setTimeout(() => {
-        node.classList.add('is-carousel-running');
-        journalCarouselDelayRef.current = null;
-      }, 420);
-    };
-
-    const setTitleLayerTransform = (node, yPercent) => {
-      node.style.opacity = '1';
-      node.style.visibility = 'visible';
-      node.style.transform = `translate3d(0, ${yPercent}%, 0)`;
-    };
-
-    const setJournalTitle = (shouldUseOogTitle, immediate = false) => {
-      if (!journalTitle || !projectTitle || !oogTitle) return;
-      if (isOogTitleActive === shouldUseOogTitle && !immediate) return;
-
-      isOogTitleActive = shouldUseOogTitle;
-      journalTitle.setAttribute(
-        'aria-label',
-        shouldUseOogTitle ? JOURNAL_OOG_TITLE : JOURNAL_PROJECT_TITLE
-      );
-
-      titleTween?.kill();
-
-      const enteringTitle = shouldUseOogTitle ? oogTitle : projectTitle;
-      const leavingTitle = shouldUseOogTitle ? projectTitle : oogTitle;
-      const enterYPercent = shouldUseOogTitle ? 100 : -100;
-      const leaveYPercent = shouldUseOogTitle ? -100 : 100;
-
-      if (immediate || !gsapInstance) {
-        setTitleLayerTransform(enteringTitle, 0);
-        setTitleLayerTransform(leavingTitle, leaveYPercent);
-        return;
-      }
-
-      titleTween = gsapInstance
-        .timeline({
-          defaults: {
-            duration: 0.58,
-            ease: 'power3.inOut',
-            overwrite: 'auto',
-          },
-        })
-        .set(enteringTitle, { autoAlpha: 1, y: 0, yPercent: enterYPercent }, 0)
-        .to(leavingTitle, { y: 0, yPercent: leaveYPercent }, 0)
-        .to(enteringTitle, { y: 0, yPercent: 0 }, 0);
-    };
-
-    const syncJournalTitle = () => {
-      const firstOogRail = track.querySelector('.landing-oog-card');
-      if (!firstOogRail) {
-        setJournalTitle(false);
-        return;
-      }
-
-      const rootStyles = window.getComputedStyle(document.documentElement);
-      const viewportRect = viewport.getBoundingClientRect();
-      const railRect = firstOogRail.getBoundingClientRect();
-      const rootFontSize = Number.parseFloat(rootStyles.fontSize) || 16;
-      const contentMaxWidth =
-        Number.parseFloat(rootStyles.getPropertyValue('--site-content-max-width')) ||
-        Number.parseFloat(rootStyles.getPropertyValue('--max-width')) ||
-        viewportRect.width;
-      const contentLeftEdge =
-        viewportRect.left + Math.max(rootFontSize, (viewportRect.width - contentMaxWidth) / 2);
-
-      setJournalTitle(railRect.left <= contentLeftEdge);
-    };
-
-    const clearTrackTransform = () => {
-      if (gsapInstance) {
-        gsapInstance.set(track, { clearProps: 'transform' });
-        return;
-      }
-
-      track.style.removeProperty('transform');
-    };
-
-    const clearHorizontalMotion = () => {
-      journalScrollTriggerRef.current?.kill();
-      journalScrollTriggerRef.current = null;
-      stopThumbnailCarousel();
-      setJournalTitle(false, true);
-      pinWrapper.style.removeProperty('--landing-journal-pin-distance');
-      clearTrackTransform();
-    };
-
-    if (isCompactHomeViewport || prefersReducedMotion) {
-      clearHorizontalMotion();
-      return undefined;
-    }
-
-    const getHeaderClearance = () => {
-      const rawValue = window
-        .getComputedStyle(document.documentElement)
-        .getPropertyValue('--site-header-clearance');
-      return Number.parseFloat(rawValue) || 0;
-    };
-    const getJournalPinStartOffset = () => {
-      const computedInset = Number.parseFloat(window.getComputedStyle(journalSection).top);
-      return computedInset || getHeaderClearance();
-    };
-    const getTravelDistance = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
-    const getHandoffDistance = () => {
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
-      return Math.min(220, Math.max(120, viewportHeight * 0.16));
-    };
-    const getReleaseDistance = () => {
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
-      return Math.min(520, Math.max(280, viewportHeight * 0.36));
-    };
-    const getScrollDistance = () =>
-      Math.max(getHandoffDistance() + getTravelDistance() + getReleaseDistance(), 1);
-    const syncPinnedScrollDistance = () => {
-      const stageHeight = Math.ceil(stage.getBoundingClientRect().height || stage.offsetHeight || 1);
-      pinWrapper.style.setProperty(
-        '--landing-journal-pin-distance',
-        `${stageHeight + getScrollDistance()}px`
-      );
-    };
-
-    const runScrollTriggerRefresh = () => {
-      syncPinnedScrollDistance();
-      const currentTrigger = journalScrollTriggerRef.current;
-      if (!currentTrigger || !scrollTriggerInstance) return;
-
-      scrollTriggerInstance.refresh();
-    };
-
-    const queueScrollTriggerRefresh = () => {
-      if (refreshFrameId !== null) {
-        window.cancelAnimationFrame(refreshFrameId);
-      }
-
-      refreshFrameId = window.requestAnimationFrame(() => {
-        refreshFrameId = null;
-        runScrollTriggerRefresh();
-      });
-    };
-
-    const waitForAnimationFrame = () =>
-      new Promise((resolve) => {
-        const frameId = window.requestAnimationFrame(resolve);
-        layoutSettleFrameIds.push(frameId);
-      });
-
-    const createHorizontalScrollTrigger = () => {
-      if (isCancelled || !gsapInstance) return;
-
-      animationContext = gsapInstance.context(() => {
-        gsapInstance.set(track, { x: 0 });
-        setJournalTitle(false, true);
-
-        const timeline = gsapInstance.timeline({
-          scrollTrigger: {
-            trigger: journalSection,
-            pin: pinWrapper,
-            start: () => `top top+=${getJournalPinStartOffset()}`,
-            end: () => `+=${getScrollDistance()}`,
-            scrub: 1.05,
-            invalidateOnRefresh: true,
-            onEnter: () => {
-              startThumbnailCarousel();
-              syncJournalTitle();
-            },
-            onEnterBack: () => {
-              startThumbnailCarousel();
-              syncJournalTitle();
-            },
-            onLeave: () => {
-              stopThumbnailCarousel();
-              syncJournalTitle();
-            },
-            onLeaveBack: () => {
-              stopThumbnailCarousel();
-              setJournalTitle(false);
-            },
-            onRefreshInit: () => {
-              stopThumbnailCarousel();
-              setJournalTitle(false, true);
-            },
-            onUpdate: syncJournalTitle,
-            onRefresh: (self) => {
-              if (self.isActive) startThumbnailCarousel();
-              syncJournalTitle();
-            },
-          },
-        });
-
-        timeline
-          .to(track, {
-            x: 0,
-            duration: () => getHandoffDistance(),
-            ease: 'none',
-          })
-          .to(track, {
-            x: () => -getTravelDistance(),
-            duration: () => Math.max(getTravelDistance(), 1),
-            ease: 'none',
-          })
-          .to(track, {
-            x: () => -getTravelDistance(),
-            duration: () => getReleaseDistance(),
-            ease: 'none',
-          });
-
-        journalScrollTriggerRef.current = timeline.scrollTrigger;
-      }, pinWrapper);
-
-      runScrollTriggerRefresh();
-    };
-
-    const settleLayoutThenCreateTrigger = async () => {
-      if (document.fonts?.ready) {
-        await document.fonts.ready.catch(() => undefined);
-      }
-
-      if (isCancelled) return;
-      await waitForAnimationFrame();
-      if (isCancelled) return;
-      await waitForAnimationFrame();
-      createHorizontalScrollTrigger();
-    };
-
-    const refreshScrollTrigger = () => queueScrollTriggerRefresh();
-
-    const setupPinnedJournal = async () => {
-      if (hasStartedSetup) return;
-      hasStartedSetup = true;
-
-      const loadedModules = await loadScrollTrigger().catch(() => null);
-      if (!loadedModules || isCancelled) return;
-
-      gsapInstance = loadedModules.gsap;
-      scrollTriggerInstance = loadedModules.ScrollTrigger;
-
-      mediaElements = Array.from(stage.querySelectorAll('img'));
-      mediaElements.forEach((mediaElement) => {
-        if (mediaElement.complete) return;
-        mediaElement.addEventListener('load', refreshScrollTrigger, { once: true });
-        mediaElement.addEventListener('error', refreshScrollTrigger, { once: true });
-      });
-
-      resizeObserver =
-        typeof ResizeObserver === 'function'
-          ? new ResizeObserver(() => {
-            queueScrollTriggerRefresh();
-          })
-          : null;
-
-      resizeObserver?.observe(viewport);
-      resizeObserver?.observe(track);
-      resizeObserver?.observe(stage);
-      window.addEventListener('load', refreshScrollTrigger, { once: true });
-      settleLayoutThenCreateTrigger();
-    };
-
-    const beginSetup = () => {
-      setupObserver?.disconnect();
-      setupPinnedJournal();
-    };
-
-    if (typeof IntersectionObserver === 'function') {
-      setupObserver = new IntersectionObserver(
-        (entries) => {
-          if (!entries.some((entry) => entry.isIntersecting)) return;
-          beginSetup();
-        },
-        {
-          rootMargin: '1200px 0px',
-          threshold: 0,
-        }
-      );
-      setupObserver.observe(pinWrapper);
-    } else {
-      beginSetup();
-    }
-
-    return () => {
-      isCancelled = true;
-      setupObserver?.disconnect();
-      if (refreshFrameId !== null) {
-        window.cancelAnimationFrame(refreshFrameId);
-      }
-      layoutSettleFrameIds.forEach((frameId) => {
-        window.cancelAnimationFrame(frameId);
-      });
-      window.removeEventListener('load', refreshScrollTrigger);
-      mediaElements.forEach((mediaElement) => {
-        mediaElement.removeEventListener('load', refreshScrollTrigger);
-        mediaElement.removeEventListener('error', refreshScrollTrigger);
-      });
-      resizeObserver?.disconnect();
-      journalScrollTriggerRef.current = null;
-      titleTween?.kill();
-      stopThumbnailCarousel();
-      setJournalTitle(false, true);
-      pinWrapper.style.removeProperty('--landing-journal-pin-distance');
-      animationContext?.revert();
-      clearTrackTransform();
-    };
-  }, [isCompactHomeViewport, prefersReducedMotion]);
-
-  useEffect(() => {
-    const stage = journalDesktopStageRef.current;
-    const viewport = journalDesktopViewportRef.current;
-    if (!stage || !viewport || typeof window === 'undefined') return undefined;
-
-    const videos = Array.from(stage.querySelectorAll('.landing-oog-card-video'));
-    if (videos.length === 0) return undefined;
-
-    const pauseVideo = (video) => {
-      video.pause();
-    };
-
-    const playVideo = (video) => {
-      const playAttempt = video.play();
-      if (playAttempt && typeof playAttempt.catch === 'function') {
-        playAttempt.catch(() => undefined);
-      }
-    };
-
-    videos.forEach(pauseVideo);
-
-    if (isCompactHomeViewport || prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
-      return () => {
-        videos.forEach(pauseVideo);
-      };
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const video = entry.target;
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
-            playVideo(video);
-            return;
-          }
-
-          pauseVideo(video);
-        });
-      },
-      {
-        root: viewport,
-        threshold: [0, 0.45, 0.75],
-      }
-    );
-
-    videos.forEach((video) => {
-      observer.observe(video);
-    });
-
-    return () => {
-      observer.disconnect();
-      videos.forEach(pauseVideo);
-    };
-  }, [isCompactHomeViewport, prefersReducedMotion]);
-
-  useEffect(() => {
-    const node = closeSectionRef.current;
-    if (!node) return undefined;
-
-    if (prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
-      setIsCloseVisible(true);
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        setIsCloseVisible(true);
-        observer.disconnect();
-      },
-      isMobileViewport
-        ? {
-          threshold: 0.06,
-          rootMargin: '0px 0px -6% 0px',
-        }
-        : {
-          threshold: 0.18,
-          rootMargin: '0px 0px -16% 0px',
-        }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [isMobileViewport, prefersReducedMotion]);
-
-  useEffect(() => {
-    const node = closeSectionRef.current;
-    if (!node) return undefined;
-
-    const closeCards = Array.from(node.querySelectorAll('.landing-close-feature'));
-    if (closeCards.length === 0) return undefined;
-    let animationContext = null;
-    let isCancelled = false;
-    let loadedGsap = null;
-
-    if (prefersReducedMotion) {
-      closeCards.forEach((card) => {
-        card.style.opacity = '1';
-        card.style.visibility = 'visible';
-        card.style.transform = 'none';
-        card.style.clipPath = 'inset(0% 0% 0% 0%)';
-      });
-      return () => {
-        clearInlineMotionStyles(closeCards, [
-          'opacity',
-          'visibility',
-          'transform',
-          'clip-path',
-        ]);
-      };
-    }
-
-    closeCards.forEach((card) => {
-      card.style.opacity = '0';
-      card.style.visibility = 'hidden';
-      card.style.transform = 'translate3d(-42px, 0, 0)';
-      card.style.clipPath = 'inset(0% 100% 0% 0%)';
-    });
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        observer.disconnect();
-
-        loadGsap().then((gsap) => {
-          if (isCancelled) return;
-          loadedGsap = gsap;
-          animationContext = gsap.context(() => {
-            const timeline = gsap.timeline({
-              defaults: {
-                ease: 'power3.out',
-                overwrite: 'auto',
-              },
-            });
-
-            closeCards.forEach((card, index) => {
-              timeline.to(
-                card,
-                {
-                  autoAlpha: 1,
-                  x: 0,
-                  clipPath: 'inset(0% 0% 0% 0%)',
-                  duration: index === 0 ? 0.38 : 0.42,
-                },
-                index === 0 ? 0 : '>-0.16'
-              );
-            });
-          }, node);
-        });
-      },
-      {
-        threshold: 0.2,
-        rootMargin: '0px 0px -12% 0px',
-      }
-    );
-
-    observer.observe(node);
-
-    return () => {
-      isCancelled = true;
-      observer.disconnect();
-      animationContext?.revert();
-      if (loadedGsap) {
-        loadedGsap.set(closeCards, {
-          clearProps: 'opacity,visibility,transform,clipPath',
-        });
-      } else {
-        clearInlineMotionStyles(closeCards, [
-          'opacity',
-          'visibility',
-          'transform',
-          'clip-path',
-        ]);
-      }
-    };
-  }, [prefersReducedMotion]);
-
   return (
     <>
+      <HomePreloader />
       <div className="hero hero--why-choose">
         <WhyChooseFelmex variant="home-hero" />
       </div>
@@ -2050,7 +1287,7 @@ export function HomePage() {
       <section
         id="about"
         ref={overviewRef}
-        className="landing-overview landing-overview--split"
+        className="landing-overview landing-overview--split scroll-section"
         aria-label="Company overview"
       >
         <div className="split-scroll-container">
@@ -2112,7 +1349,7 @@ export function HomePage() {
           <aside className="right-panel" aria-label="Company overview headline">
             <div className="right-panel-inner">
               <span className="landing-overview-rule" aria-hidden="true" />
-              <h2 className="landing-overview-title">
+              <ScrollSectionTitle className="landing-overview-title">
                 <span className="landing-overview-title-line">
                   <span>Moving Your</span>
                 </span>
@@ -2124,21 +1361,21 @@ export function HomePage() {
                     <strong>Together.</strong>
                   </span>
                 </span>
-              </h2>
+              </ScrollSectionTitle>
             </div>
           </aside>
         </div>
 
         <header className="landing-overview-mobile-header">
           <span className="landing-overview-mobile-header-rule" aria-hidden="true" />
-          <h2 className="landing-section-title landing-overview-mobile-heading">
+          <ScrollSectionTitle className="landing-section-title landing-overview-mobile-heading">
             <span className="landing-title-line">
               <span>Moving Your Business Forward,</span>
             </span>
             <span className="landing-title-line landing-title-line--accent">
               <span>Together.</span>
             </span>
-          </h2>
+          </ScrollSectionTitle>
         </header>
 
         <div
@@ -2213,11 +1450,15 @@ export function HomePage() {
 
       <section id="services" className="landing-services" aria-label="Services overview">
         <div className="container landing-services-shell" id="services-catalog">
-          <aside className="landing-services-aside" aria-label="Services section introduction">
+          <aside
+            className="landing-services-aside scroll-section"
+            data-scroll-reveal="early"
+            aria-label="Services section introduction"
+          >
             <div className="landing-services-sticky">
               <p className="landing-section-label">Our services</p>
               <div className="landing-services-heading-row">
-                <h2 className="landing-section-title landing-services-title">
+                <ScrollSectionTitle className="landing-section-title landing-services-title">
                   <span className="landing-title-line">
                     <span>Moving Cargo</span>
                   </span>
@@ -2227,7 +1468,7 @@ export function HomePage() {
                   <span className="landing-title-line landing-title-line--accent">
                     <span>Compromise.</span>
                   </span>
-                </h2>
+                </ScrollSectionTitle>
                 <span className="landing-services-rule" aria-hidden="true" />
               </div>
               <p className="landing-section-text landing-services-intro">
@@ -2288,14 +1529,13 @@ export function HomePage() {
 
       <section
         id="clients"
-        ref={testimonialsSectionRef}
-        className={`landing-testimonials${isTestimonialsTitleDropped ? ' is-title-dropped' : ''}`}
+        className="landing-testimonials scroll-section"
         aria-label="Client testimonials"
       >
         <div className="container landing-testimonials-shell">
           <header className="landing-testimonials-header">
             <p className="landing-section-label">Client testimonials</p>
-            <h2 className="landing-section-title landing-testimonials-title">
+            <ScrollSectionTitle className="landing-section-title landing-testimonials-title">
               <span className="landing-title-line landing-testimonials-title-line">
                 <span>Driving Operations Across Africa</span>
               </span>
@@ -2304,7 +1544,7 @@ export function HomePage() {
                   and <span className="landing-testimonials-title-accent">International markets.</span>
                 </span>
               </span>
-            </h2>
+            </ScrollSectionTitle>
             <p className="landing-section-text landing-testimonials-text">
               Teams rely on Felmex for calm communication, disciplined execution, and fast
               response when plans change.
@@ -2363,12 +1603,11 @@ export function HomePage() {
       <div className="scroll-wrapper landing-final-curtain">
         <section
           id="blog"
-          ref={journalSectionRef}
-          className="feature-section landing-journal"
+          className="feature-section landing-journal scroll-section"
           aria-label="Project previews"
         >
-          <div ref={journalPinWrapperRef} className="landing-journal-pin-wrap">
-            <div ref={journalDesktopStageRef} className="landing-journal-shell">
+          <div className="landing-journal-pin-wrap">
+            <div className="landing-journal-shell">
               <div className="landing-project-preview-stage">
                 <span
                   className="landing-project-preview-ornament landing-project-preview-ornament--left"
@@ -2388,7 +1627,7 @@ export function HomePage() {
                 </span>
                 <header className="landing-project-preview-intro">
                   <p className="landing-project-preview-label">Projects Preview</p>
-                  <h2 className="landing-project-preview-title">
+                  <ScrollSectionTitle className="landing-project-preview-title">
                     <span className="landing-project-preview-title-line">Ongoing logistics</span>
                     <span>
                       in{' '}
@@ -2396,7 +1635,7 @@ export function HomePage() {
                         motion<span className="landing-project-preview-dot">.</span>
                       </span>
                     </span>
-                  </h2>
+                  </ScrollSectionTitle>
                   <p className="landing-project-preview-brief">
                     Written takes from our active projects, alongside practical logistics news
                     from the routes and handoffs shaping global trade.
@@ -2580,8 +1819,7 @@ export function HomePage() {
 
         <section
           id="final-conviction"
-          ref={closeSectionRef}
-          className={`rising-group landing-close${isCloseVisible ? ' is-visible' : ''}`}
+          className="rising-group landing-close"
           aria-label="Final logistics flow"
         >
           <div className="final-section-canvas landing-close-canvas">
@@ -2723,16 +1961,16 @@ export function HomePage() {
               </div>
             </div>
 
-            <div className="landing-final-cta">
+            <div className="landing-final-cta scroll-section">
               <div className="landing-final-cta-desktop">
                 <div className="landing-final-cta-heading">
-                  <h2 id="landing-final-cta-title">
+                  <ScrollSectionTitle id="landing-final-cta-title">
                     <span>Let&rsquo;s Move Your</span>
                     <span>Business</span>
                     <span>
                       Forward, <strong>Together.</strong>
                     </span>
-                  </h2>
+                  </ScrollSectionTitle>
                   <span className="landing-final-cta-rule" aria-hidden="true" />
                 </div>
                 <div className="landing-final-cta-copy">
@@ -2757,13 +1995,13 @@ export function HomePage() {
                   </a>
                 </div>
               </div>
-              <h2>
+              <ScrollSectionTitle>
                 <span className="landing-final-cta-title-line">Let&rsquo;s Move Your</span>{' '}
                 <span className="landing-final-cta-title-line">Business</span>{' '}
                 <span className="landing-final-cta-title-line">
                   Forward, <strong>Together.</strong>
                 </span>
-              </h2>
+              </ScrollSectionTitle>
               <p>
                 Partner with FELMEX Global Logistics for seamless, reliable, and scalable
                 logistics solutions that drive growth and open new opportunities.

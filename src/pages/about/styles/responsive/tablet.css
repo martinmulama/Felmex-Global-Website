@@ -624,17 +624,18 @@
   }
 
   .abt-partners-section {
+    --abt-tablet-partners-submerge-depth: clamp(15rem, 30vw, 20rem);
     position: relative;
     z-index: 1;
     margin-top: 0;
-    padding: clamp(2.5rem, 4vw, 4rem) 0 clamp(5.5rem, 9vw, 7.5rem);
+    padding: clamp(2.5rem, 4vw, 4rem) 0 clamp(6.75rem, 11vw, 8.5rem);
     overflow: hidden;
     background:
       linear-gradient(
         180deg,
         #ffffff 0,
-        #ffffff calc(100% - clamp(7rem, 12vw, 8.5rem)),
-        var(--abt-blue-deep) calc(100% - clamp(7rem, 12vw, 8.5rem)),
+        #ffffff calc(100% - var(--abt-tablet-partners-submerge-depth)),
+        var(--abt-blue-deep) calc(100% - var(--abt-tablet-partners-submerge-depth)),
         var(--abt-blue-deep) 100%
       );
     color: var(--abt-ink);
@@ -646,7 +647,7 @@
     position: absolute;
     inset: auto 0 0;
     z-index: 0;
-    height: clamp(7rem, 12vw, 8.5rem);
+    height: var(--abt-tablet-partners-submerge-depth);
     background: linear-gradient(180deg, rgba(8, 26, 45, 0), rgba(8, 26, 45, 0.1));
     pointer-events: none;
   }
@@ -711,10 +712,10 @@
   }
 
   .abt-partner-logo {
-    width: min(var(--abt-partner-logo-width, 68%), 10rem);
+    width: min(var(--abt-partner-logo-width, 78%), 11.5rem);
     height: auto;
     max-width: 100%;
-    max-height: clamp(2.7rem, 4.8vw, 3.75rem);
+    max-height: clamp(3.15rem, 5.6vw, 4.5rem);
     filter: brightness(0) invert(1);
   }
 
