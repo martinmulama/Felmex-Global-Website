@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { SplitPanelPreloader } from '../components/preloader/SplitPanelPreloader';
+import { ScrollSectionTitle } from '../components/scroll-reveal/ScrollSectionTitle';
 import './ServicePage.css';
 
 const SERVICE_COMPACT_FAQ_QUERY =
@@ -682,6 +684,7 @@ function ProcessIcon({ kind }) {
 }
 
 export function ServicePage() {
+  const [isAppLoaded, setIsAppLoaded] = useState(false);
   const [activeCategoryId, setActiveCategoryId] = useState(SERVICE_CATEGORIES[0].id);
   const [isCompactFaqViewport, setIsCompactFaqViewport] = useState(() =>
     isServiceCompactFaqViewport()
@@ -765,25 +768,59 @@ export function ServicePage() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleWindowLoad = () => setIsAppLoaded(true);
+
+    window.addEventListener('load', handleWindowLoad);
+
+    if (document.readyState === 'complete') {
+      handleWindowLoad();
+    }
+
+    return () => {
+      window.removeEventListener('load', handleWindowLoad);
+    };
+  }, []);
+
   return (
-    <section className="svc-page" id="services-top" aria-label="Felmex services">
+    <section
+      className={`svc-page${isAppLoaded ? ' is-loaded' : ''}`}
+      id="services-top"
+      aria-label="Felmex services"
+    >
+      <SplitPanelPreloader isAppLoaded={isAppLoaded} />
+
       <section className="svc-hero" aria-label="Services introduction">
         <div className="svc-hero-copy">
-          <p className="svc-hero-kicker">Our Services</p>
-          <h1 className="svc-hero-title">
-            All Services<span>.</span>
-          </h1>
+          <div className="clip-mask svc-hero-kicker-mask">
+            <p className="svc-hero-kicker svc-hero-reveal">Our Services</p>
+          </div>
+          <div className="clip-mask svc-hero-title-mask">
+            <h1 className="svc-hero-title svc-hero-reveal">
+              All Services<span>.</span>
+            </h1>
+          </div>
           <span className="svc-hero-rule" aria-hidden="true" />
           <p className="svc-hero-subtitle">
-            <span>End-to-end logistics solutions designed to move your business forward.</span>
-            <span>Explore services built for efficiency, reliability, and growth.</span>
-          </p>
-          <a className="svc-hero-link" href="#svc-services-canvas">
-            <span className="svc-hero-link-icon" aria-hidden="true">
-              <ArrowIcon />
+            <span className="clip-mask svc-hero-subtitle-line-mask">
+              <span className="svc-hero-reveal">
+                End-to-end logistics solutions designed to move your business forward.
+              </span>
             </span>
-            <span>View all services</span>
-          </a>
+            <span className="clip-mask svc-hero-subtitle-line-mask">
+              <span className="svc-hero-reveal">
+                Explore services built for efficiency, reliability, and growth.
+              </span>
+            </span>
+          </p>
+          <div className="clip-mask svc-hero-link-mask">
+            <a className="svc-hero-link svc-hero-reveal" href="#svc-services-canvas">
+              <span className="svc-hero-link-icon" aria-hidden="true">
+                <ArrowIcon />
+              </span>
+              <span>View all services</span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -793,7 +830,8 @@ export function ServicePage() {
             <h1 className="svc-mobile-services-title">Our Services</h1>
 
             <section
-              className="svc-reference-scene"
+              className="svc-reference-scene scroll-section"
+              data-scroll-reveal="early"
               id="svc-services-shot"
               role="tabpanel"
               aria-labelledby={`svc-category-tab-${activeCategory.id}`}
@@ -804,11 +842,11 @@ export function ServicePage() {
                 <p className="svc-reference-kicker">
                   {String(activeCategoryIndex + 1).padStart(2, '0')}
                 </p>
-                <h2 className="svc-reference-scene-title">
+                <ScrollSectionTitle className="svc-reference-scene-title">
                   {activeCategory.titleLines.map((line) => (
                     <span key={line}>{line}</span>
                   ))}
-                </h2>
+                </ScrollSectionTitle>
                 <span className="svc-reference-title-rule" aria-hidden="true" />
                 <p className="svc-reference-scene-copy">
                   <HighlightedQuote
@@ -885,16 +923,16 @@ export function ServicePage() {
                 </div>
               </nav>
 
-              <section className="svc-service-detail-section" aria-label={`${activeCategory.label} capabilities`}>
+              <section className="svc-service-detail-section scroll-section" aria-label={`${activeCategory.label} capabilities`}>
                 <div className="svc-service-detail-white-field" aria-hidden="true" />
 
                 <div className="svc-service-detail-copy">
                   <p className="svc-service-detail-kicker">{activeCategory.kicker}</p>
-                  <h2 className="svc-service-detail-title">
+                  <ScrollSectionTitle className="svc-service-detail-title">
                     {activeCategory.titleLines.map((line) => (
                       <span key={line}>{line}</span>
                     ))}
-                  </h2>
+                  </ScrollSectionTitle>
                   <span className="svc-service-detail-title-rule" aria-hidden="true" />
                   <p className="svc-service-detail-description">{activeCategory.description}</p>
                 </div>
@@ -917,9 +955,9 @@ export function ServicePage() {
               </section>
             </div>
 
-            <section className="svc-process-section" aria-label="How Felmex works">
+            <section className="svc-process-section scroll-section" aria-label="How Felmex works">
               <div className="svc-process-heading">
-                <h2>How we work</h2>
+                <ScrollSectionTitle>How we work</ScrollSectionTitle>
                 <span className="svc-process-heading-rule" aria-hidden="true" />
                 <p>
                   Our streamlined process ensures your cargo is handled with care, delivered on time,
@@ -974,23 +1012,23 @@ export function ServicePage() {
                 aria-hidden="true"
               />
 
-              <div className="svc-solution-brief">
-                <h2>
+              <div className="svc-solution-brief scroll-section">
+                <ScrollSectionTitle>
                   <span>Integrated</span>
                   <span className="svc-solution-title-accent">Logistics</span>
                   <span>Solutions</span>
-                </h2>
+                </ScrollSectionTitle>
                 <p>
                   Our integrated logistics solutions are built to drive efficiency, reduce costs and
                   create lasting value across your supply chain<span className="svc-red-punctuation">.</span>
                 </p>
               </div>
 
-              <div className="svc-solution-statement">
-                <h2>
+              <div className="svc-solution-statement scroll-section">
+                <ScrollSectionTitle>
                   <span>Reliable</span>
                   <span className="svc-solution-title-accent">Delivery</span>
-                </h2>
+                </ScrollSectionTitle>
                 <p>
                   We go beyond logistics to deliver reliability, efficiency and peace of mind at
                   every step of the journey<span className="svc-red-punctuation">.</span>
@@ -998,12 +1036,12 @@ export function ServicePage() {
               </div>
             </section>
 
-            <section className="svc-faq-section" aria-labelledby="svc-faq-title">
+            <section className="svc-faq-section scroll-section" aria-labelledby="svc-faq-title">
               <div className="svc-faq-heading">
                 <span className="svc-faq-heading-rule" aria-hidden="true" />
-                <h2 id="svc-faq-title">
+                <ScrollSectionTitle id="svc-faq-title">
                   Frequently Asked Questions<span>.</span>
-                </h2>
+                </ScrollSectionTitle>
                 <p>
                   Find answers to common questions about our services, processes and how we can
                   help your business<span>.</span>
@@ -1053,16 +1091,16 @@ export function ServicePage() {
               </div>
             </section>
 
-            <section className="svc-final-cta" aria-label="Start a logistics conversation">
+            <section className="svc-final-cta scroll-section" aria-label="Start a logistics conversation">
               <div className="svc-final-cta-panel">
                 <div className="svc-final-cta-heading">
-                  <h2>
+                  <ScrollSectionTitle>
                     <span>Let&rsquo;s Move Your </span>
                     <span>Business </span>
                     <span>
                       Forward, <strong>Together.</strong>
                     </span>
-                  </h2>
+                  </ScrollSectionTitle>
                   <span className="svc-final-cta-rule" aria-hidden="true" />
                 </div>
                 <div className="svc-final-cta-copy">

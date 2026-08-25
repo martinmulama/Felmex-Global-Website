@@ -478,6 +478,14 @@
     gap: clamp(0.95rem, 1.5vw, 1.45rem);
   }
 
+  /* The title is now wrapped by the scroll-reveal clip mask. Keep that
+     wrapper in the title's original flex position, after the accent rule. */
+  .landing-services-heading-row > .section-title-clip {
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   .landing-services-title {
     order: 1;
     flex: 1 1 auto;

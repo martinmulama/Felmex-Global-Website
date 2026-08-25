@@ -1,5 +1,8 @@
 import { useMemo, useState } from 'react';
+import { SplitPanelPreloader } from '../components/preloader/SplitPanelPreloader';
 import { CONTACT_OFFICES } from './contact/data';
+import { ScrollSectionTitle } from '../components/scroll-reveal/ScrollSectionTitle';
+import { useSplitPanelPreloader } from '../hooks/useSplitPanelPreloader';
 import './ContactPage.css';
 
 const ACTIVE_OFFICE_STORAGE_KEY = 'felmex-active-office';
@@ -53,6 +56,7 @@ function makePhoneHref(phone) {
 }
 
 export function ContactPage() {
+  const isAppLoaded = useSplitPanelPreloader();
   const [activeOfficeId, setActiveOfficeId] = useState(getInitialOfficeId);
   const [formStatus, setFormStatus] = useState('');
   const activeOffice = useMemo(
@@ -100,7 +104,8 @@ export function ContactPage() {
   if (!activeOffice) return null;
 
   return (
-    <section className="cnt-page" id="contact-top" aria-label="Contact Felmex Global Logistics">
+    <section className="cnt-page scroll-section" id="contact-top" aria-label="Contact Felmex Global Logistics">
+      <SplitPanelPreloader isAppLoaded={isAppLoaded} />
       <div className="cnt-contact-layout">
         <aside className="cnt-office-panel" aria-labelledby="cnt-office-title">
           <div className="cnt-office-intro">
@@ -151,11 +156,11 @@ export function ContactPage() {
         <div className="cnt-form-panel">
           <div className="cnt-form-heading">
             <p>Contact Us</p>
-            <h2>
+            <ScrollSectionTitle>
               Let’s Move Your Business
               <br />
               Forward, <span>Together.</span>
-            </h2>
+            </ScrollSectionTitle>
             <div>
               Partner with FELMEX Global Logistics for seamless, reliable, and scalable logistics solutions that
               drive growth and open new opportunities.

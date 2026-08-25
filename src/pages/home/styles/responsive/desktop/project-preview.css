@@ -78,6 +78,13 @@
     text-align: center;
   }
 
+  .landing-project-preview-intro > .section-title-clip {
+    width: 100%;
+    max-width: none;
+    margin-inline: auto;
+    text-align: center;
+  }
+
   .landing-project-preview-title {
     display: block;
     width: 100%;

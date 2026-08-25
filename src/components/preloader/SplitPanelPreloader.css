@@ -1,0 +1,40 @@
+#split-preloader {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  overflow: hidden;
+}
+
+#split-preloader .panel-left,
+#split-preloader .panel-right {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  width: 50%;
+  height: 100vh;
+  transform: translateX(0);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+#split-preloader .panel-left {
+  left: 0;
+  background: #0b2240;
+}
+
+#split-preloader .panel-right {
+  right: 0;
+  background: #e31e24;
+}
+
+#split-preloader.is-loaded {
+  pointer-events: none;
+}
+
+#split-preloader.is-loaded .panel-left {
+  transform: translateX(-100%);
+}
+
+#split-preloader.is-loaded .panel-right {
+  transform: translateX(100%);
+}

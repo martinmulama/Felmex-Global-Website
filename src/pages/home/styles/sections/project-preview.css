@@ -12,9 +12,6 @@
   --final-section-banner-overlap: clamp(2rem,
       calc(100vh - var(--project-preview-board-bottom) - var(--project-preview-banner-gap)),
       13rem);
-  --project-preview-stage-width: min(100vw - clamp(2rem, 6.4vw, 6.4rem), 1500px);
-  --project-preview-blue-offset: clamp(25rem, 47vw, 44rem);
-  --project-preview-blue-start: calc(((100vw - var(--project-preview-stage-width)) / 2) + var(--project-preview-blue-offset));
   --project-preview-curtain-runway: clamp(4.5rem, 8svh, 6.6rem);
   position: relative;
   z-index: 1;
@@ -58,9 +55,7 @@
 
 .landing-project-preview-stage {
   --project-preview-navy: var(--site-footer-blue);
-  --project-preview-navy-deep: var(--site-footer-blue);
   --project-preview-red: #ff120b;
-  --project-preview-border: rgba(139, 181, 221, 0.2);
   position: relative;
   display: grid;
   grid-template-columns: minmax(18rem, 0.34fr) minmax(0, 1fr);
@@ -135,6 +130,10 @@
 
 .landing-project-preview-title>span {
   display: block;
+}
+
+.landing-project-preview-intro > .section-title-clip {
+  min-width: 0;
 }
 
 .landing-project-preview-dot {
@@ -1536,6 +1535,13 @@
     margin: 0;
   }
 
+  .landing-project-preview-intro > .section-title-clip {
+    order: 1;
+    flex: 0 1 9.8ch;
+    min-width: 0;
+    max-width: 9.8ch;
+  }
+
   .landing-project-preview-title {
     order: 1;
     flex: 0 1 9.8ch;
@@ -1957,7 +1963,6 @@
 @media (max-width: 1024px) {
   .landing-overview--split {
     --overview-mobile-navy: var(--site-footer-blue);
-    --overview-mobile-navy-deep: var(--site-footer-blue);
     --overview-mobile-red: var(--site-brand-red);
     --overview-mobile-active-bg: #121b24;
     --overview-mobile-panel-bg: #121b24;
@@ -2537,6 +2542,12 @@
     margin-inline: auto;
     padding:
       0 var(--home-mobile-edge);
+  }
+
+  .landing-project-preview-intro > .section-title-clip {
+    width: 100%;
+    max-width: 100%;
+    flex: none;
   }
 
   .landing-services-heading-row,

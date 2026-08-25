@@ -623,19 +623,20 @@
   }
 
   .abt-mobile-partners {
+    --abt-mobile-partners-submerge-depth: clamp(15.5rem, 62vw, 20rem);
     position: relative;
     display: block;
     padding:
       calc(var(--abt-mobile-section-space) + clamp(0.75rem, 3vw, 1.25rem))
       0
-      clamp(4.5rem, 18vw, 6.25rem);
+      clamp(5.75rem, 22vw, 7.5rem);
     overflow: hidden;
     background:
       linear-gradient(
         180deg,
         #ffffff 0,
-        #ffffff calc(100% - clamp(5.75rem, 24vw, 7rem)),
-        var(--abt-mobile-navy-deep) calc(100% - clamp(5.75rem, 24vw, 7rem)),
+        #ffffff calc(100% - var(--abt-mobile-partners-submerge-depth)),
+        var(--abt-mobile-navy-deep) calc(100% - var(--abt-mobile-partners-submerge-depth)),
         var(--abt-mobile-navy-deep) 100%
       );
     color: var(--abt-mobile-ink);
@@ -647,7 +648,7 @@
     position: absolute;
     inset: auto 0 0;
     z-index: 0;
-    height: clamp(5.75rem, 24vw, 7rem);
+    height: var(--abt-mobile-partners-submerge-depth);
     background: linear-gradient(180deg, rgba(8, 26, 45, 0), rgba(8, 26, 45, 0.1));
     pointer-events: none;
   }
@@ -718,9 +719,9 @@
 
   .abt-mobile-partner-logo {
     display: block;
-    width: min(var(--abt-partner-logo-width, 78%), 6.5rem);
+    width: min(var(--abt-partner-logo-width, 84%), 7.5rem);
     max-width: 100%;
-    max-height: clamp(2rem, 10vw, 3rem);
+    max-height: clamp(2.35rem, 11.5vw, 3.5rem);
     object-fit: contain;
     filter: brightness(0) invert(1);
   }
@@ -862,4 +863,3 @@
     transition: none;
   }
 }
-

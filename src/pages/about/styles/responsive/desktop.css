@@ -240,22 +240,8 @@
     color: #ffffff;
   }
 
-  .abt-values-kicker {
-    order: 1;
-    display: block;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.94);
-    font-family: var(--site-font-display);
-    font-size: var(--site-fs-kicker);
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-  }
-
   .abt-values-title {
     display: block;
-    order: 2;
     max-width: none;
     margin-top: clamp(1.15rem, 1.45vw, 1.55rem);
     color: #ffffff;
@@ -271,7 +257,6 @@
   }
 
   .abt-values-rule {
-    order: 3;
     width: clamp(5rem, 6.1vw, 6.75rem);
     height: 3px;
     margin-top: clamp(1.7rem, 2.1vw, 2.3rem);
@@ -279,7 +264,6 @@
   }
 
   .abt-values-block-list {
-    order: 4;
     width: min(100%, 40.75rem);
     margin-top: clamp(1rem, 1.5vw, 1.45rem);
   }
@@ -610,4 +594,3 @@
     stroke-width: 2.5;
   }
 }
-

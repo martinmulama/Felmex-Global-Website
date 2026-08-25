@@ -1,4 +1,5 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
+import { SplitPanelPreloader } from './components/preloader/SplitPanelPreloader';
 import { MainLayout } from './layouts/MainLayout';
 import { DEFAULT_REPORT_SLUG, findReportBySlug } from './data/reports';
 import { HomePage } from './pages/HomePage';
@@ -131,17 +132,6 @@ function preloadRouteForPath(pathname) {
   }
 
   return Promise.resolve();
-}
-
-function PageFallback({ label }) {
-  return (
-    <section className="page-loading-state" aria-live="polite" aria-busy="true">
-      <div className="container page-loading-state-shell">
-        <p className="page-loading-state-kicker">Loading</p>
-        <p className="page-loading-state-copy">Preparing the {label.toLowerCase()}.</p>
-      </div>
-    </section>
-  );
 }
 
 function App() {
@@ -357,7 +347,7 @@ function App() {
       {isHomePage ? (
         activePage
       ) : (
-        <Suspense fallback={<PageFallback label={previewLabel} />}>{activePage}</Suspense>
+        <Suspense fallback={<SplitPanelPreloader isAppLoaded={false} />}>{activePage}</Suspense>
       )}
     </MainLayout>
   );

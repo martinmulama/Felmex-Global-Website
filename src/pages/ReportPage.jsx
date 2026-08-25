@@ -1,12 +1,17 @@
 import { DEFAULT_REPORT_SLUG, findReportBySlug } from '../data/reports';
+import { SplitPanelPreloader } from '../components/preloader/SplitPanelPreloader';
+import { ScrollSectionTitle } from '../components/scroll-reveal/ScrollSectionTitle';
+import { useSplitPanelPreloader } from '../hooks/useSplitPanelPreloader';
 import './ReportPage.css';
 
 export function ReportPage({ slug = DEFAULT_REPORT_SLUG }) {
+  const isAppLoaded = useSplitPanelPreloader();
   const report = findReportBySlug(slug);
 
   if (!report) {
     return (
       <section className="report-page" aria-label="Report not found">
+        <SplitPanelPreloader isAppLoaded={isAppLoaded} />
         <div className="container report-not-found">
           <p className="report-not-found-kicker">Report unavailable</p>
           <h1 className="report-not-found-title">We could not find that report.</h1>
@@ -21,6 +26,7 @@ export function ReportPage({ slug = DEFAULT_REPORT_SLUG }) {
 
   return (
     <section className="report-page" id="report-top" aria-label="Full report">
+      <SplitPanelPreloader isAppLoaded={isAppLoaded} />
       <header className="container report-hero" aria-label="Report header">
         <a className="report-back-link" href="/blog#blog-top">
           ← Back to journal
@@ -88,16 +94,16 @@ export function ReportPage({ slug = DEFAULT_REPORT_SLUG }) {
 
         <article className="report-article" aria-label="Report article content">
           {report.sections.map((section) => (
-            <section className="report-article-section" key={section.id} id={section.id}>
-              <h2>{section.heading}</h2>
+            <section className="report-article-section scroll-section" key={section.id} id={section.id}>
+              <ScrollSectionTitle>{section.heading}</ScrollSectionTitle>
               {section.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </section>
           ))}
 
-          <section className="report-sources" aria-label="Sources">
-            <h2>Sources and references</h2>
+          <section className="report-sources scroll-section" aria-label="Sources">
+            <ScrollSectionTitle>Sources and references</ScrollSectionTitle>
             <ul>
               {report.sources.map((source) => (
                 <li key={source.href}>

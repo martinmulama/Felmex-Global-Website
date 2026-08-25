@@ -70,34 +70,41 @@ const WHY_CHOOSE_SPLIT_PANELS = TRAIN_SEGMENTS.filter(
 function HomeHeroDesktopActions() {
   return (
     <div className="why-choose-felmex__desktop-actions" aria-label="Hero quick actions">
-      <a className="why-choose-felmex__desktop-action" href={CONTACT_CHANNELS.phoneHref}>
-        <span className="why-choose-felmex__desktop-action-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" focusable="false">
-            <path d="M6.6 10.8a15.6 15.6 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24c1.1.36 2.3.56 3.6.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.8 21 3 13.2 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.3.2 2.5.56 3.6a1 1 0 0 1-.25 1l-2.2 2.2Z" />
-          </svg>
-        </span>
-        <span className="why-choose-felmex__desktop-action-copy">
-          <span className="why-choose-felmex__desktop-action-label">Call us</span>
-          <span className="why-choose-felmex__desktop-action-value">
-            {CONTACT_CHANNELS.phoneDisplay}
+      <div className="why-choose-felmex__hero-reveal-mask why-choose-felmex__hero-reveal-mask--phone">
+        <a
+          className="why-choose-felmex__desktop-action why-choose-felmex__hero-reveal-item"
+          href={CONTACT_CHANNELS.phoneHref}
+        >
+          <span className="why-choose-felmex__desktop-action-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M6.6 10.8a15.6 15.6 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24c1.1.36 2.3.56 3.6.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.8 21 3 13.2 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.3.2 2.5.56 3.6a1 1 0 0 1-.25 1l-2.2 2.2Z" />
+            </svg>
           </span>
-        </span>
-      </a>
-      <a
-        className="why-choose-felmex__desktop-action why-choose-felmex__desktop-action--services"
-        href="/services"
-      >
-        <span className="why-choose-felmex__desktop-action-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" focusable="false">
-            <path d="M4 12h14.4M13.2 5.8 19.4 12l-6.2 6.2" />
-          </svg>
-        </span>
-        <span className="why-choose-felmex__desktop-action-copy">
-          <span className="why-choose-felmex__desktop-action-link-text">
-            Explore Our Services
+          <span className="why-choose-felmex__desktop-action-copy">
+            <span className="why-choose-felmex__desktop-action-label">Call us</span>
+            <span className="why-choose-felmex__desktop-action-value">
+              {CONTACT_CHANNELS.phoneDisplay}
+            </span>
           </span>
-        </span>
-      </a>
+        </a>
+      </div>
+      <div className="why-choose-felmex__hero-reveal-mask why-choose-felmex__hero-reveal-mask--services">
+        <a
+          className="why-choose-felmex__desktop-action why-choose-felmex__desktop-action--services why-choose-felmex__hero-reveal-item"
+          href="/services"
+        >
+          <span className="why-choose-felmex__desktop-action-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M4 12h14.4M13.2 5.8 19.4 12l-6.2 6.2" />
+            </svg>
+          </span>
+          <span className="why-choose-felmex__desktop-action-copy">
+            <span className="why-choose-felmex__desktop-action-link-text">
+              Explore Our Services
+            </span>
+          </span>
+        </a>
+      </div>
     </div>
   );
 }
@@ -107,13 +114,21 @@ function HomeHeroCopy({ titleId, mobile = false }) {
     return (
       <div className="why-choose-felmex__headline why-choose-felmex__headline--home-hero why-choose-felmex__headline--mobile-home-hero">
         <h1 id={titleId} aria-label="Delivering tomorrow’s trade today.">
-          <span className="why-choose-felmex__title-line">Delivering tomorrow’s</span>
           <span className="why-choose-felmex__title-line">
-            trade <span className="why-choose-felmex__title-impact">today</span>.
+            <span className="why-choose-felmex__title-line-content">Delivering tomorrow’s</span>
+          </span>
+          <span className="why-choose-felmex__title-line">
+            <span className="why-choose-felmex__title-line-content">
+              trade <span className="why-choose-felmex__title-impact">today</span>.
+            </span>
           </span>
         </h1>
         <span className="why-choose-felmex__mobile-rule" aria-hidden="true" />
-        <p className="why-choose-felmex__hero-subtext">{HOME_HERO_SUBTEXT}</p>
+        <div className="why-choose-felmex__hero-reveal-mask why-choose-felmex__hero-reveal-mask--subtext">
+          <p className="why-choose-felmex__hero-subtext why-choose-felmex__hero-reveal-item">
+            {HOME_HERO_SUBTEXT}
+          </p>
+        </div>
         <a className="why-choose-felmex__hero-cta" href="/contact">
           <span>Get a Quote</span>
           <span className="why-choose-felmex__hero-cta-arrow" aria-hidden="true">
@@ -127,12 +142,20 @@ function HomeHeroCopy({ titleId, mobile = false }) {
   return (
     <div className="why-choose-felmex__headline why-choose-felmex__headline--home-hero">
       <h2 id={titleId} aria-label="Delivering Tomorrow’s Trade Today.">
-        <span className="why-choose-felmex__title-line">Delivering Tomorrow’s</span>
         <span className="why-choose-felmex__title-line">
-          <span className="why-choose-felmex__title-impact">Trade</span> Today.
+          <span className="why-choose-felmex__title-line-content">Delivering Tomorrow’s</span>
+        </span>
+        <span className="why-choose-felmex__title-line">
+          <span className="why-choose-felmex__title-line-content">
+            Trade <span className="why-choose-felmex__title-impact">Today</span>.
+          </span>
         </span>
       </h2>
-      <p className="why-choose-felmex__hero-subtext">{HOME_HERO_SUBTEXT}</p>
+      <div className="why-choose-felmex__hero-reveal-mask why-choose-felmex__hero-reveal-mask--subtext">
+        <p className="why-choose-felmex__hero-subtext why-choose-felmex__hero-reveal-item">
+          {HOME_HERO_SUBTEXT}
+        </p>
+      </div>
       <HomeHeroDesktopActions />
     </div>
   );
@@ -401,15 +424,18 @@ export function WhyChooseFelmex({
                     key={segment.key}
                   >
                     <div className="why-choose-felmex__train-visual-wrapper train-visual-wrapper">
-                      <img
-                        className="why-choose-felmex__image why-choose-felmex__train-image"
-                        src={segment.image}
-                        alt=""
-                        width={segment.width}
-                        height={segment.height}
-                        decoding="async"
-                        fetchpriority="low"
-                      />
+                      <div className="why-choose-felmex__train-visual-reveal">
+                        <img
+                          className="why-choose-felmex__image why-choose-felmex__train-image"
+                          src={segment.image}
+                          alt=""
+                          width={segment.width}
+                          height={segment.height}
+                          decoding="async"
+                          fetchpriority="high"
+                          data-preloader-critical
+                        />
+                      </div>
                     </div>
                     <div className="why-choose-felmex__train-content-wrapper train-content-wrapper">
                       <HomeHeroCopy titleId="why-choose-felmex-title" />

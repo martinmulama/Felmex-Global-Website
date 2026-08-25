@@ -597,9 +597,10 @@
     margin-bottom: 0;
   }
 
-  .svc-solution-brief h2 {
+  .svc-solution-brief > .section-title-clip {
     grid-column: 1;
     grid-row: 2;
+    min-width: 0;
   }
 
   .svc-solution-brief p {
@@ -623,9 +624,10 @@
     margin-bottom: 0;
   }
 
-  .svc-solution-statement h2 {
+  .svc-solution-statement > .section-title-clip {
     grid-column: 2;
     grid-row: 2;
+    min-width: 0;
   }
 
   .svc-solution-statement p {
@@ -773,4 +775,3 @@
     width: 3.1rem;
   }
 }
-
