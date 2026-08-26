@@ -1492,26 +1492,28 @@ export function HomePage() {
             {HOME_SERVICE_FEATURES.map((service, index) => (
               <article
                 id={`home-service-${service.number}`}
-                className={`landing-service-entry landing-service-entry--${service.mediaTone}${activeServiceIndex === index ? ' is-active' : ''
+                className={`landing-service-entry scroll-section landing-service-entry--${service.mediaTone}${activeServiceIndex === index ? ' is-active' : ''
                   }`}
                 key={service.label}
                 style={{ '--landing-service-mobile-order': service.mobileOrder }}
               >
                 <ServiceMobileIconStack icons={service.mobileIcons ?? [service.icon]} />
-                <figure className="landing-service-figure">
-                  <img
-                    className="landing-service-image"
-                    src={service.image}
-                    srcSet={getServiceCatalogSrcSet(service)}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    fetchpriority={index < 2 ? 'auto' : 'low'}
-                    sizes={SERVICE_CATALOG_IMAGE_SIZES}
-                    width={service.imageWidth}
-                    height={service.imageHeight}
-                  />
-                </figure>
+                {!isCompactHomeViewport && (
+                  <figure className="landing-service-figure">
+                    <img
+                      className="landing-service-image"
+                      src={service.image}
+                      srcSet={getServiceCatalogSrcSet(service)}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      fetchpriority={index < 2 ? 'auto' : 'low'}
+                      sizes={SERVICE_CATALOG_IMAGE_SIZES}
+                      width={service.imageWidth}
+                      height={service.imageHeight}
+                    />
+                  </figure>
+                )}
                 <div className="landing-service-copy">
                   <p className="landing-service-index">{service.number}</p>
                   <span className="landing-service-rule" aria-hidden="true" />

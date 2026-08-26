@@ -139,7 +139,7 @@
     display: grid;
     place-items: center;
     color: var(--site-footer-blue);
-    filter: drop-shadow(0 0.62rem 0.78rem rgba(7, 27, 53, 0.08));
+    filter: none;
   }
 
   .landing-service-mobile-icon--1 {
@@ -234,5 +234,21 @@
   .landing-service-entry::after {
     animation: none;
     transition: none;
+  }
+
+  .landing-service-entry .landing-service-mobile-icon {
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .landing-service-entry .landing-service-mobile-icon--1 {
+    transform: translateY(-2.75rem);
+  }
+
+  .landing-service-entry .landing-service-mobile-icon--2 {
+    transform: translateY(2.75rem);
+  }
+
+  .landing-service-entry.scroll-section.in-view .landing-service-mobile-icon {
+    transform: translateY(0);
   }
 }
