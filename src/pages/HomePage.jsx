@@ -10,8 +10,8 @@ const HOME_MOBILE_PROJECT_TELEPROMPTER_CYCLE_REPETITIONS = 3;
 
 const HOME_DESKTOP_PROJECT_PREVIEW =
   ONGOING_PROJECTS.find((project) => project.id === 'cold-chain-release') ?? ONGOING_PROJECTS[0];
-const HOME_DESKTOP_PROJECT_CLIENTS = ['Apple', 'NFL', 'BMW', 'Stella', 'State Farm'];
-const HOME_MOBILE_PROJECT_CLIENTS = ['Siginon Group', 'Mitchell Cotts', 'CEVA Logistics'];
+const HOME_DESKTOP_PROJECT_CLIENTS = ['Quantum sea', 'Air Uk'];
+const HOME_MOBILE_PROJECT_CLIENTS = ['Quantum sea', 'Air Uk'];
 const HOME_DESKTOP_PROJECT_PREVIEW_PARAGRAPHS = [
   HOME_DESKTOP_PROJECT_PREVIEW.lead,
   ...(HOME_DESKTOP_PROJECT_PREVIEW.bodyParagraphs ?? [HOME_DESKTOP_PROJECT_PREVIEW.body]),
@@ -22,26 +22,32 @@ const SERVICE_CATALOG_IMAGE_SIZES =
 const TABLET_HOME_QUERY = '(max-width: 1024px)';
 const HOME_MOBILE_PROJECTS = [
   {
-    projectId: 'port-drayage-window',
-    title: 'Port Operations',
+    projectId: 'port-to-plant',
+    title: 'Port-to-Plant Heavy Lift',
     meta: 'Mombasa, Kenya',
-    brief: 'Port release and truck slots stay synced with inland receiving.',
+    brief: 'Oversized cargo routing stays controlled from berth release to inland installation.',
   },
   {
-    projectId: 'brokerage-preclearance',
-    title: 'Customs Handoffs',
+    projectId: 'cold-chain-release',
+    title: 'Cold Chain Dispatch',
     meta: 'Mombasa, Kenya',
-    brief: 'Pre-arrival checks clear document gaps before cargo release.',
+    brief: 'Sensitive inventory staging stays aligned with timed delivery releases.',
   },
   {
-    projectId: 'regional-delivery-pulse',
-    title: 'Inland Transport',
+    projectId: 'border-continuity',
+    title: 'Border Release Continuity',
     meta: 'East Africa',
-    brief: 'Route updates keep regional deliveries moving in one controlled rhythm.',
+    brief: 'Customs and inland handoffs are managed as one continuous flow.',
+  },
+  {
+    projectId: 'airbridge-spares',
+    title: 'Airbridge Spares Response',
+    meta: 'East Africa',
+    brief: 'Urgent engineering spares are routed through site-critical delivery windows.',
   },
   {
     projectId: 'rail-linked-program',
-    title: 'Rail Programs',
+    title: 'Rail-Linked Repositioning',
     meta: 'East Africa',
     brief: 'Rail and road handoffs stay aligned across long-haul inland moves.',
   },
@@ -1037,6 +1043,7 @@ function loadScrollTrigger() {
 export function HomePage() {
   const overviewRef = useRef(null);
   const servicesListRef = useRef(null);
+  const projectPreviewTitleRef = useRef(null);
   const serviceImagePreloadersRef = useRef([]);
   const hasPreloadedServiceImagesRef = useRef(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
@@ -1186,6 +1193,74 @@ export function HomePage() {
       ScrollTriggerInstance?.refresh();
     };
   }, [isCompactHomeViewport, prefersReducedMotion]);
+
+  useLayoutEffect(() => {
+    const title = projectPreviewTitleRef.current;
+    if (!title || typeof window === 'undefined' || prefersReducedMotion) return undefined;
+
+    const phrases = Array.from(title.querySelectorAll('.landing-project-preview-title-phrase'));
+    const track = title.querySelector('.landing-project-preview-title-track');
+    if (!track || phrases.length < 3) return undefined;
+
+    let isCancelled = false;
+    let animationContext = null;
+    let ScrollTriggerInstance = null;
+
+    loadScrollTrigger().then(({ gsap, ScrollTrigger }) => {
+      if (isCancelled) return;
+
+      ScrollTriggerInstance = ScrollTrigger;
+      animationContext = gsap.context(() => {
+        const firstHoldDuration = 0.9;
+        const middleHoldDuration = 1.35;
+        const transitionDuration = 0.32;
+        const phraseHeight = phrases[0].offsetHeight;
+        let hasPlayed = false;
+
+        title.classList.remove('is-title-sequence-complete');
+        gsap.set(track, { y: 0 });
+
+        const timeline = gsap.timeline({ paused: true });
+
+        timeline
+          .to(
+            track,
+            {
+              y: -phraseHeight,
+              duration: transitionDuration,
+              ease: 'expo.out',
+            },
+            firstHoldDuration
+          )
+          .to(track, {
+            y: -phraseHeight * 2,
+            duration: transitionDuration,
+            ease: 'expo.out',
+            onComplete: () => title.classList.add('is-title-sequence-complete'),
+          }, `+=${middleHoldDuration}`);
+
+        ScrollTrigger.create({
+          trigger: title,
+          start: 'top 80%',
+          onEnter: () => {
+            if (hasPlayed) return;
+
+            hasPlayed = true;
+            timeline.play(0);
+          },
+        });
+      }, title);
+
+      ScrollTrigger.refresh();
+    });
+
+    return () => {
+      isCancelled = true;
+      title.classList.remove('is-title-sequence-complete');
+      animationContext?.revert();
+      ScrollTriggerInstance?.refresh();
+    };
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     const list = servicesListRef.current;
@@ -1532,18 +1607,18 @@ export function HomePage() {
       <section
         id="clients"
         className="landing-testimonials scroll-section"
-        aria-label="Client testimonials"
+        aria-label="Client feedback"
       >
         <div className="container landing-testimonials-shell">
           <header className="landing-testimonials-header">
-            <p className="landing-section-label">Client testimonials</p>
+            <p className="landing-section-label">Client Feedback</p>
             <ScrollSectionTitle className="landing-section-title landing-testimonials-title">
               <span className="landing-title-line landing-testimonials-title-line">
-                <span>Driving Operations Across Africa</span>
+                <span>Don't just take</span>
               </span>
               <span className="landing-title-line landing-testimonials-title-line">
                 <span>
-                  and <span className="landing-testimonials-title-accent">International markets.</span>
+                  <span className="landing-testimonials-title-accent">our word</span> for it
                 </span>
               </span>
             </ScrollSectionTitle>
@@ -1629,18 +1704,19 @@ export function HomePage() {
                 </span>
                 <header className="landing-project-preview-intro">
                   <p className="landing-project-preview-label">Projects Preview</p>
-                  <ScrollSectionTitle className="landing-project-preview-title">
-                    <span className="landing-project-preview-title-line">Ongoing logistics</span>
-                    <span>
-                      in{' '}
-                      <span className="landing-project-preview-title-accent">
-                        motion<span className="landing-project-preview-dot">.</span>
+                  <h2 ref={projectPreviewTitleRef} className="landing-project-preview-title">
+                    <span className="landing-project-preview-title-static">Our</span>
+                    <span className="landing-project-preview-title-mask" aria-live="polite">
+                      <span className="landing-project-preview-title-track">
+                        <span className="landing-project-preview-title-phrase">Current Work</span>
+                        <span className="landing-project-preview-title-phrase">Track Record</span>
+                        <span className="landing-project-preview-title-phrase">Future Plans</span>
                       </span>
                     </span>
-                  </ScrollSectionTitle>
+                  </h2>
                   <p className="landing-project-preview-brief">
-                    Written takes from our active projects, alongside practical logistics news
-                    from the routes and handoffs shaping global trade.
+                    Live updates from our active operations, proven track records from past projects,
+                    and a strategic look at where we are heading next in global trade.
                   </p>
                   <span className="landing-project-preview-swipe-hint" aria-hidden="true">
                     <span>Swipe left to read</span>
@@ -1732,7 +1808,7 @@ export function HomePage() {
 
                       <aside className="landing-project-mobile-facts" aria-label="Project metadata">
                         <div className="landing-project-mobile-clients">
-                          <p>Clients</p>
+                          <p>clients</p>
                           <ul>
                             {project.clients.map((client) => (
                               <li key={client}>{client}</li>
@@ -1874,7 +1950,7 @@ export function HomePage() {
 
               <aside className="landing-project-preview-desktop-facts" aria-label="Project details">
                 <div className="landing-project-preview-desktop-clients">
-                  <p>Clients</p>
+                  <p>clients</p>
                   <ul>
                     {HOME_DESKTOP_PROJECT_CLIENTS.map((client) => (
                       <li key={client}>{client}</li>

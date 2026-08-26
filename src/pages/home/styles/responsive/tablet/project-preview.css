@@ -97,19 +97,9 @@
     margin: 0;
   }
 
-  .landing-project-preview-title,
-  .landing-project-preview-title > span {
+  .landing-project-preview-title {
     display: block;
     max-width: 100%;
-    white-space: normal;
-  }
-
-  .landing-project-preview-intro > .section-title-clip {
-    order: 1;
-    width: 100%;
-    min-width: 0;
-    max-width: none;
-    flex: none;
   }
 
   .landing-project-preview-title {
@@ -123,16 +113,6 @@
     line-height: 1.03;
     letter-spacing: 0;
     text-align: left;
-  }
-
-  .landing-project-preview-title-line {
-    white-space: nowrap;
-  }
-
-  .landing-project-preview-title-accent,
-  .landing-project-preview-dot {
-    display: inline;
-    color: var(--site-brand-red);
   }
 
   .landing-project-preview-brief {

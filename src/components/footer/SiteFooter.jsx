@@ -1,4 +1,4 @@
-import { CONTACT_CHANNELS, MAIN_OFFICE_ADDRESS_LINES } from '../../data/contact';
+import { CONTACT_CHANNELS, FOOTER_BRANCH_LINKS, MAIN_OFFICE_ADDRESS_LINES } from '../../data/contact';
 import './SiteFooter.css';
 
 function FooterIcon({ kind }) {
@@ -120,11 +120,18 @@ export function SiteFooter({ id = 'contact' }) {
             <ul>
               <li>
                 <FooterIcon kind="pin" />
-                <span>
+                <div className="site-footer-address-details">
                   {MAIN_OFFICE_ADDRESS_LINES.map((line) => (
                     <span key={line}>{line}</span>
                   ))}
-                </span>
+                  <nav className="site-footer-branch-links" aria-label="Felmex branches">
+                    {FOOTER_BRANCH_LINKS.map((branch) => (
+                      <a key={branch.label} href={branch.href} target="_blank" rel="noreferrer">
+                        {branch.label}
+                      </a>
+                    ))}
+                  </nav>
+                </div>
               </li>
               <li>
                 <FooterIcon kind="phone" />

@@ -15,7 +15,6 @@ const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 const TOUCH_DEVICE_QUERY = '(any-pointer: coarse)';
 const DESKTOP_VISIBLE_PROJECTS = 3;
 const PROJECT_IMAGE_POOL = [
-  '/project-hero-1536.webp',
   '/sea-freight.webp',
   '/road-freight.webp',
   '/air-freight.webp',
@@ -24,7 +23,7 @@ const PROJECT_IMAGE_POOL = [
   '/customs-clearance-brokerage.webp',
   '/ship-service-catalog.webp',
 ];
-const PROJECT_CLIENT_NAMES = ['Apple', 'NFL', 'BMW', 'Stella', 'State Farm'];
+const PROJECT_CLIENT_NAMES = ['Quantum sea', 'Air Uk'];
 
 gsap.registerPlugin(ScrollTrigger);
 

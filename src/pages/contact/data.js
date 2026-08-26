@@ -4,7 +4,7 @@ export const CONTACT_HIGHLIGHTS = [
   {
     icon: 'pin',
     label: 'Head office',
-    value: 'Nairobi, Kenya',
+    value: 'Mombasa, Kenya',
   },
   {
     icon: 'office',
@@ -25,7 +25,7 @@ export const CONTACT_OFFICES = [
     country: 'Kenya',
     countryCodes: ['KE'],
     timeZones: ['Africa/Nairobi'],
-    city: 'Nairobi',
+    city: 'Mombasa',
     label: 'Head Office',
     note: 'Primary commercial and coordination desk.',
     addressLines: MAIN_OFFICE_ADDRESS_LINES,

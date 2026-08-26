@@ -15,6 +15,14 @@
 }
 
 @media (min-width: 961px) {
+  .landing-final-step-button .landing-final-step-dot {
+    display: none;
+  }
+
+  .landing-final-step-button.is-active .landing-final-step-dot {
+    display: block;
+  }
+
   .landing-final-curtain {
     --landing-journal-pin-boundary: clamp(3rem, 6.3svh, 3.75rem);
   }
@@ -78,15 +86,10 @@
     text-align: center;
   }
 
-  .landing-project-preview-intro > .section-title-clip {
-    width: 100%;
-    max-width: none;
-    margin-inline: auto;
-    text-align: center;
-  }
-
   .landing-project-preview-title {
-    display: block;
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: center;
     width: 100%;
     max-width: none;
     margin: 0;
@@ -95,15 +98,6 @@
     font-weight: 800;
     line-height: 1.16;
     text-align: center;
-  }
-
-  .landing-project-preview-title>span {
-    display: block;
-  }
-
-  .landing-project-preview-title-accent,
-  .landing-project-preview-dot {
-    color: var(--site-brand-red);
   }
 
   .landing-project-preview-brief {

@@ -804,3 +804,13 @@
     height: 12rem;
   }
 }
+
+@media (min-width: 1281px) {
+  .landing-testimonials .landing-testimonials-shell.container {
+    width: min(100% - 2rem, var(--max-width));
+  }
+
+  .landing-testimonials-header {
+    margin-left: calc(-1 * clamp(3rem, 5vw, 5.25rem));
+  }
+}
