@@ -52,10 +52,8 @@
     width: 2.25rem;
   }
 
-  .landing-project-preview-title,
-  .landing-project-preview-title > span {
+  .landing-project-preview-title {
     max-width: 100%;
-    white-space: normal;
   }
 
   .landing-project-preview-title {
@@ -64,8 +62,22 @@
     line-height: 1.02;
   }
 
-  .landing-project-preview-title-accent {
-    display: inline;
+  .landing-project-preview-title {
+    display: grid;
+    align-items: start;
+    gap: 0.08em;
+  }
+
+  .landing-project-preview-title-mask {
+    --landing-project-preview-title-rail-height: 2.12em;
+    width: 100%;
+    min-width: 0;
+    height: var(--landing-project-preview-title-rail-height);
+  }
+
+  .landing-project-preview-title-phrase {
+    white-space: normal;
+    line-height: 1.02;
   }
 
   .landing-project-mobile-feed {
@@ -285,9 +297,20 @@
 
   .landing-project-preview-title {
     order: 1;
-    max-width: 9ch;
+    width: 100%;
+    max-width: none;
+    grid-template-columns: minmax(0, 1fr);
     font-size: var(--home-mobile-title-size, clamp(1.95rem, 2.24vw, 2.72rem));
     line-height: 1.06;
+  }
+
+  .landing-project-preview-title-mask {
+    --landing-project-preview-title-rail-height: 2.12em;
+    width: 100%;
+  }
+
+  .landing-project-preview-title-phrase {
+    height: var(--landing-project-preview-title-rail-height);
   }
 
   .landing-project-preview-brief {
@@ -447,4 +470,3 @@
     line-height: 1.1;
   }
 }
-

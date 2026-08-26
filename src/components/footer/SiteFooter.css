@@ -173,9 +173,20 @@
   gap: 0.78rem;
 }
 
-.site-footer-contact li > span {
+.site-footer-address-details {
   display: grid;
   gap: 0.18rem;
+}
+
+.site-footer-branch-links {
+  display: grid;
+  justify-items: start;
+  gap: 0.3rem;
+  margin-top: 0.6rem;
+}
+
+.site-footer-branch-links a {
+  width: fit-content;
 }
 
 .site-footer-contact svg {
