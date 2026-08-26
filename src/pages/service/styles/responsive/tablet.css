@@ -160,8 +160,9 @@
   .svc-page {
     --svc-tablet-catalog-gap: clamp(3.75rem, 6.5vw, 5.25rem);
     --svc-tablet-menu-width: clamp(8.75rem, 17vw, 11rem);
-    --svc-tablet-tab-height: clamp(6.4rem, 11vw, 7.75rem);
+    --svc-tablet-tab-height: clamp(5.25rem, 9vw, 6.25rem);
     --svc-tablet-feature-height: clamp(12rem, 21vw, 14.5rem);
+    --svc-tablet-bottom-safe-area: clamp(0.75rem, 1.5vw, 1rem);
   }
 
   .svc-mobile-service-shell {
@@ -181,9 +182,15 @@
     z-index: 2;
     display: block;
     width: 100%;
-    height: calc(100svh - var(--site-header-clearance, 0px));
-    min-height: calc(100svh - var(--site-header-clearance, 0px));
-    max-height: calc(100svh - var(--site-header-clearance, 0px));
+    height: calc(
+      100svh - var(--site-header-clearance, 0px) - var(--svc-tablet-bottom-safe-area)
+    );
+    min-height: calc(
+      100svh - var(--site-header-clearance, 0px) - var(--svc-tablet-bottom-safe-area)
+    );
+    max-height: calc(
+      100svh - var(--site-header-clearance, 0px) - var(--svc-tablet-bottom-safe-area)
+    );
     margin: 0;
     overflow: hidden;
     border: 0;
@@ -221,7 +228,7 @@
     background: transparent;
     color: rgba(255, 255, 255, 0.93);
     font-family: var(--site-font-display);
-    font-size: clamp(0.8rem, 1.35vw, 0.98rem);
+    font-size: clamp(0.72rem, 1.15vw, 0.88rem);
     font-weight: 800;
     line-height: 1.28;
     letter-spacing: 0;
@@ -290,8 +297,12 @@
     display: block;
     width: 100%;
     min-width: 0;
-    height: calc(100svh - var(--site-header-clearance, 0px));
-    min-height: calc(100svh - var(--site-header-clearance, 0px));
+    height: calc(
+      100svh - var(--site-header-clearance, 0px) - var(--svc-tablet-bottom-safe-area)
+    );
+    min-height: calc(
+      100svh - var(--site-header-clearance, 0px) - var(--svc-tablet-bottom-safe-area)
+    );
     margin: 0;
     overflow: visible;
     background: #ffffff;
@@ -314,8 +325,7 @@
     box-sizing: border-box;
     grid-template-rows: repeat(5, minmax(0, 1fr));
     gap: 0;
-    padding: clamp(1.35rem, 2.7vw, 2rem) clamp(2rem, 4vw, 3.5rem)
-      clamp(1.35rem, 2.7vw, 2rem) clamp(2.4rem, 4.75vw, 3.75rem);
+    padding: clamp(1rem, 2vw, 1.45rem) clamp(2rem, 3.6vw, 3rem);
     background: #ffffff;
     counter-reset: svc-tablet-service;
     pointer-events: auto;
@@ -330,11 +340,11 @@
     width: 100%;
     height: auto;
     min-height: 0;
-    grid-template-columns: minmax(0, 1fr) clamp(5.2rem, 9vw, 6.5rem);
+    grid-template-columns: minmax(0, 1fr) clamp(3.75rem, 6vw, 4.75rem);
     align-items: center;
-    column-gap: clamp(1.5rem, 3vw, 2.35rem);
+    column-gap: clamp(1.15rem, 2.25vw, 1.75rem);
     margin: 0;
-    padding: clamp(1.2rem, 2.6vw, 1.75rem) 0;
+    padding: clamp(0.9rem, 1.8vw, 1.25rem) 0;
     border: 0;
     border-bottom: 1px solid rgba(7, 27, 53, 0.14);
     color: var(--svc-ink);
@@ -349,7 +359,7 @@
   .svc-service-detail-feature-copy {
     order: 1;
     display: grid;
-    gap: clamp(0.72rem, 1.4vw, 1rem);
+    gap: clamp(0.45rem, 0.9vw, 0.65rem);
     min-width: 0;
     align-content: center;
   }
@@ -371,8 +381,8 @@
   .svc-service-detail-feature-icon {
     order: 2;
     display: grid;
-    width: clamp(4.6rem, 8vw, 5.8rem);
-    height: clamp(4.6rem, 8vw, 5.8rem);
+    width: clamp(3.75rem, 6vw, 4.75rem);
+    height: clamp(3.75rem, 6vw, 4.75rem);
     place-items: center;
     justify-self: center;
     color: var(--site-brand-navy);
@@ -404,7 +414,7 @@
   .svc-service-detail-feature h3 {
     color: var(--svc-ink);
     font-family: var(--home-font-sans, var(--site-font-sans));
-    font-size: clamp(1.08rem, 1.78vw, 1.3rem);
+    font-size: clamp(0.96rem, 1.45vw, 1.1rem);
     font-weight: 850;
     line-height: 1.18;
     letter-spacing: 0;
@@ -414,7 +424,7 @@
 
   .svc-service-detail-feature p {
     color: rgba(7, 27, 53, 0.9);
-    font-size: clamp(0.94rem, 1.45vw, 1.1rem);
+    font-size: clamp(0.86rem, 1.2vw, 0.98rem);
     font-weight: 500;
     line-height: 1.55;
     letter-spacing: 0;
@@ -422,12 +432,12 @@
 
   .svc-reference-canvas[data-category='customs'] .svc-service-detail-feature h3,
   .svc-reference-canvas[data-category='supply-chain'] .svc-service-detail-feature h3 {
-    font-size: clamp(1.08rem, 1.78vw, 1.3rem);
+    font-size: clamp(0.96rem, 1.45vw, 1.1rem);
   }
 
   .svc-reference-canvas[data-category='customs'] .svc-service-detail-feature p,
   .svc-reference-canvas[data-category='supply-chain'] .svc-service-detail-feature p {
-    font-size: clamp(0.94rem, 1.45vw, 1.1rem);
+    font-size: clamp(0.86rem, 1.2vw, 0.98rem);
     line-height: 1.55;
   }
 

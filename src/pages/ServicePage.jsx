@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { SplitPanelPreloader } from '../components/preloader/SplitPanelPreloader';
 import { ScrollSectionTitle } from '../components/scroll-reveal/ScrollSectionTitle';
+import { useSplitPanelPreloader } from '../hooks/useSplitPanelPreloader';
 import './ServicePage.css';
 
 const SERVICE_COMPACT_FAQ_QUERY =
@@ -684,7 +685,7 @@ function ProcessIcon({ kind }) {
 }
 
 export function ServicePage() {
-  const [isAppLoaded, setIsAppLoaded] = useState(false);
+  const isAppLoaded = useSplitPanelPreloader();
   const [activeCategoryId, setActiveCategoryId] = useState(SERVICE_CATEGORIES[0].id);
   const [isCompactFaqViewport, setIsCompactFaqViewport] = useState(() =>
     isServiceCompactFaqViewport()
@@ -765,20 +766,6 @@ export function ServicePage() {
 
     return () => {
       mediaQuery.removeEventListener('change', syncFaqState);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleWindowLoad = () => setIsAppLoaded(true);
-
-    window.addEventListener('load', handleWindowLoad);
-
-    if (document.readyState === 'complete') {
-      handleWindowLoad();
-    }
-
-    return () => {
-      window.removeEventListener('load', handleWindowLoad);
     };
   }, []);
 
