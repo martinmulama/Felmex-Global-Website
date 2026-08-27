@@ -1716,71 +1716,7 @@
   }
 }
 
-.landing-mobile-solutions {
-  display: none;
-}
-
 @media (max-width: 768px) {
-  .landing-mobile-solutions {
-    --mobile-solution-navy: var(--site-footer-blue);
-    --mobile-solution-red: var(--site-brand-red);
-    --mobile-solution-menu-width: clamp(5.75rem, 27.5vw, 7.6rem);
-    --mobile-solution-panel-height: clamp(31rem, 132vw, 41rem);
-    display: block;
-    position: relative;
-    z-index: 3;
-    margin-top: clamp(-1.4rem, -4vw, -0.6rem);
-    padding: clamp(0.4rem, 2.8vw, 1rem) 0 0;
-    overflow: hidden;
-    background: #ffffff;
-    color: var(--mobile-solution-navy);
-    font-family: var(--home-font-sans);
-  }
-
-  .landing-mobile-solutions > .landing-mobile-solutions-switcher {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) var(--mobile-solution-menu-width);
-    align-items: stretch;
-    width: 100%;
-    min-height: var(--mobile-solution-panel-height);
-  }
-
-  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-solution-panel {
-    min-width: 0;
-    min-height: var(--mobile-solution-panel-height);
-    display: grid;
-    align-items: center;
-    align-content: center;
-    justify-items: start;
-    padding:
-      2rem clamp(0.95rem, 4vw, 1.35rem) 2rem clamp(1.18rem, 5.2vw, 1.95rem);
-    overflow: hidden;
-    border-radius: 0 1.55rem 1.55rem 0;
-    background: var(--mobile-solution-navy);
-    color: #ffffff;
-    box-shadow: 0 1.3rem 2.4rem rgba(3, 26, 57, 0.16);
-  }
-
-  .landing-mobile-solution-copy {
-    width: min(100%, 17ch);
-    margin: 0;
-    color: #ffffff;
-    font-family: var(--site-font-sans);
-    font-size: 1.12rem;
-    font-weight: 800;
-    line-height: 1.62;
-    letter-spacing: 0;
-    text-align: left;
-  }
-
-  .landing-mobile-solution-copy span {
-    color: inherit;
-  }
-
-  .landing-mobile-solution-copy-accent {
-    color: var(--mobile-solution-red) !important;
-  }
-
   .landing-mobile-solutions-nav {
     min-width: 0;
     display: grid;
@@ -1801,7 +1737,7 @@
     padding: 0.52rem 0.5rem;
     border: 0;
     background: transparent;
-    color: var(--mobile-solution-navy);
+    color: var(--site-footer-blue);
     font: inherit;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
@@ -1820,7 +1756,7 @@
 
   .landing-mobile-solution-button.is-active,
   .landing-mobile-solution-button:focus-visible {
-    color: var(--mobile-solution-red);
+    color: var(--site-brand-red);
   }
 
   .landing-mobile-solution-button.is-active::before {
@@ -1832,7 +1768,7 @@
     height: 0;
     border-top: 0.42rem solid transparent;
     border-bottom: 0.42rem solid transparent;
-    border-right: 0.62rem solid var(--mobile-solution-red);
+    border-right: 0.62rem solid var(--site-brand-red);
     transform: translateY(-50%);
   }
 
@@ -1873,54 +1809,6 @@
     white-space: nowrap;
   }
 
-  .landing-mobile-industries {
-    padding: clamp(0.5rem, 2vw, 0.85rem) 0 clamp(3rem, 9vw, 4rem);
-    overflow: hidden;
-    background: #ffffff;
-    color: var(--mobile-solution-navy);
-  }
-
-  .landing-mobile-industries-kicker {
-    margin: 0;
-    padding-inline: 1.25rem;
-    color: var(--mobile-solution-red);
-    font-family: var(--site-font-display);
-    font-size: 0.86rem;
-    font-weight: 900;
-    line-height: 1.15;
-    letter-spacing: 0;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  .landing-mobile-industry-rail {
-    width: 100vw;
-    margin: 1.65rem calc(50% - 50vw) 0;
-    overflow: hidden;
-  }
-
-  .landing-mobile-industries .landing-final-partner-track {
-    animation-duration: 68s;
-  }
-
-  .landing-mobile-industries .landing-final-partner-item {
-    min-width: 10.8rem;
-    height: 4.9rem;
-    padding-inline: 1.1rem;
-    border-left: 1px solid rgba(3, 26, 57, 0.14);
-    background: #ffffff;
-  }
-
-  .landing-mobile-industries .landing-final-partner-set:last-child .landing-final-partner-item:last-child {
-    border-right: 1px solid rgba(3, 26, 57, 0.14);
-  }
-
-  .landing-mobile-industries .landing-final-partner-name.landing-final-industry-name {
-    color: var(--mobile-solution-navy);
-    font-size: 0.92rem;
-    font-weight: 900;
-  }
-
   .landing-close {
     min-height: 0;
     background: #ffffff;
@@ -1943,25 +1831,6 @@
 }
 
 @media (max-width: 420px) {
-  .landing-mobile-solutions {
-    --mobile-solution-menu-width: clamp(5.2rem, 26vw, 5.8rem);
-    --mobile-solution-panel-height: clamp(30rem, 137vw, 36rem);
-    margin-top: clamp(-1rem, -3.4vw, -0.45rem);
-    padding-top: clamp(0.35rem, 2.4vw, 0.8rem);
-  }
-
-  .landing-mobile-solution-panel {
-    padding:
-      1.7rem 0.95rem 1.7rem 1.08rem;
-    border-radius: 0 1.25rem 1.25rem 0;
-  }
-
-  .landing-mobile-solution-copy {
-    width: min(100%, 17.5ch);
-    font-size: 1.02rem;
-    line-height: 1.58;
-  }
-
   .landing-mobile-solution-icon {
     width: 2.35rem;
   }
@@ -1975,21 +1844,6 @@
     padding-inline: 0.35rem;
   }
 
-  .landing-mobile-solution-button.is-active::before {
-    left: -0.68rem;
-    border-top-width: 0.36rem;
-    border-bottom-width: 0.36rem;
-    border-right-width: 0.54rem;
-  }
-
-  .landing-mobile-industries {
-    padding: 0.5rem 0 3.2rem;
-  }
-
-  .landing-mobile-industries .landing-final-partner-item {
-    min-width: 9.8rem;
-    height: 4.55rem;
-  }
 }
 
 .landing-overview-mobile-switcher {
@@ -2404,24 +2258,6 @@
     margin-top: clamp(2.2rem, 9vw, 3.25rem);
   }
 
-  .landing-mobile-solutions {
-    display: flex;
-    flex-direction: column;
-    margin-top: 0;
-    padding: 0;
-    overflow: visible;
-  }
-
-  .landing-mobile-industries {
-    order: 1;
-    padding: clamp(0.5rem, 2vw, 0.85rem) 0 clamp(3rem, 9vw, 4rem);
-  }
-
-  .landing-mobile-solutions-switcher {
-    order: 2;
-    margin-top: clamp(2.8rem, 10vw, 4.8rem);
-  }
-
   .landing-final-cta {
     --landing-final-cta-step: 0rem;
     display: grid;
@@ -2492,7 +2328,6 @@
   .landing-services,
   .landing-testimonials,
   .landing-final-curtain .landing-journal,
-  .landing-mobile-industries,
   .landing-close {
     padding-block: var(--home-mobile-section-y);
   }
@@ -2712,53 +2547,6 @@
     max-width: min(100%, 32ch);
     font-size: clamp(0.72rem, 3.1vw, 0.84rem);
     line-height: 1.38;
-  }
-
-  .landing-mobile-industries {
-    padding: clamp(0.5rem, 2vw, 0.85rem) 0 var(--home-mobile-section-y);
-  }
-
-  .landing-mobile-solutions {
-    --mobile-solution-panel-height: clamp(27rem, 116vw, 32.5rem);
-    --mobile-solution-red: var(--mobile-solution-navy);
-    color: var(--mobile-solution-navy);
-  }
-
-  .landing-mobile-solutions-switcher {
-    margin-top: var(--home-mobile-section-y);
-  }
-
-  .landing-mobile-solution-panel {
-    align-items: center;
-    align-content: center;
-    padding:
-      clamp(2.2rem, 8vw, 2.9rem) clamp(1rem, 4.8vw, 1.55rem) clamp(2.2rem, 8vw, 2.9rem) clamp(1.18rem, 5.8vw, 1.85rem);
-  }
-
-  .landing-mobile-solutions > .landing-mobile-solutions-switcher .landing-mobile-solution-copy {
-    width: min(100%, 32ch);
-    color: rgba(255, 255, 255, 0.94);
-    font-family: var(--site-font-sans);
-    font-size: var(--home-mobile-body-size);
-    font-weight: 400;
-    line-height: var(--home-mobile-body-line);
-  }
-
-  .landing-mobile-solution-copy-accent {
-    color: inherit !important;
-  }
-
-  .landing-mobile-solution-button.is-active,
-  .landing-mobile-solution-button:focus-visible {
-    color: var(--mobile-solution-navy);
-  }
-
-  .landing-mobile-solution-button.is-active::before {
-    border-right-color: var(--mobile-solution-navy);
-  }
-
-  .landing-mobile-industries-kicker {
-    color: var(--site-brand-red);
   }
 
   .landing-close,

@@ -1,0 +1,440 @@
+/* Compact-only Source spotlight, followed by a native snap rail for the remaining steps. */
+.landing-mobile-solutions {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .landing-mobile-solutions {
+    display: block;
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #ffffff;
+    color: var(--site-footer-blue);
+  }
+
+  .landing-compact-solutions-stage {
+    --landing-compact-solutions-preview-width: 13.5vw;
+    --landing-compact-solutions-image-width: 45vw;
+    --landing-compact-solutions-image-total-width: calc(
+      var(--landing-compact-solutions-preview-width) +
+        var(--landing-compact-solutions-image-width)
+    );
+    --landing-compact-solutions-image-top: 12.5%;
+    --landing-compact-solutions-image-height: 75%;
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: max(40rem, 100svh);
+    min-height: max(40rem, 100svh);
+    overflow: hidden;
+    isolation: isolate;
+    background: #ffffff;
+    touch-action: pan-y;
+  }
+
+  .landing-compact-solutions-stage.is-handoff-ready {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y;
+  }
+
+  .landing-compact-solutions-stage.is-handoff-ready::-webkit-scrollbar {
+    display: none;
+  }
+
+  .landing-compact-solutions-source,
+  .landing-compact-solutions-handoff {
+    position: relative;
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+    min-height: 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .landing-compact-solutions-source {
+    overflow: hidden;
+    background: #ffffff;
+  }
+
+  .landing-compact-solutions-handoff {
+    display: grid;
+    grid-template-columns: var(--landing-compact-solutions-image-width) minmax(0, 1fr);
+    align-items: stretch;
+    overflow: visible;
+    background: #ffffff;
+  }
+
+  .landing-compact-solutions-primary {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    aspect-ratio: 0.846;
+    margin: 0;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0) scale(1);
+    transform-origin: top left;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  .landing-compact-solutions-primary img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: translateZ(0);
+  }
+
+  .landing-compact-solutions-copy {
+    position: absolute;
+    z-index: 1;
+    top: calc(47.3vw + 28svh + 2rem);
+    left: 28%;
+    right: 25%;
+    margin: 0;
+    overflow: hidden;
+    color: var(--site-footer-blue);
+  }
+
+  .landing-compact-solutions-copy-title-clip,
+  .landing-compact-solutions-copy-body-clip {
+    display: block;
+    overflow: hidden;
+  }
+
+  .landing-compact-solutions-copy h2 {
+    margin: 0;
+    color: currentColor;
+    font-family: var(--site-font-display);
+    font-size: clamp(2.5rem, 5.45vw, 3rem);
+    font-weight: 800;
+    line-height: 0.82;
+    letter-spacing: -0.045em;
+  }
+
+  .landing-compact-solutions-copy-body-clip {
+    max-width: 33ch;
+    margin: clamp(1.35rem, 2.8vw, 1.8rem) 0 0;
+  }
+
+  .landing-compact-solutions-copy p {
+    margin: 0;
+    color: rgba(var(--site-footer-blue-rgb), 0.9);
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.9rem, 1.8vw, 1.04rem);
+    font-weight: 500;
+    line-height: 1.62;
+  }
+
+  .landing-compact-solutions-copy h2,
+  .landing-compact-solutions-copy p {
+    will-change: transform;
+  }
+
+  .landing-compact-solutions-handoff-hint {
+    position: absolute;
+    z-index: 3;
+    bottom: clamp(1.5rem, 5svh, 3.5rem);
+    left: 28%;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    max-width: 42%;
+    margin: 0;
+    color: var(--site-footer-blue);
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.58rem, 1.2vw, 0.72rem);
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    opacity: 0;
+    text-transform: uppercase;
+    transform: translate3d(-0.5rem, 0, 0);
+    transition: opacity 160ms ease-out, transform 160ms ease-out;
+  }
+
+  .landing-compact-solutions-handoff-hint span:last-child {
+    color: var(--site-brand-red);
+    font-size: 1.1rem;
+    line-height: 0.7;
+  }
+
+  .landing-compact-solutions-stage.is-handoff-ready .landing-compact-solutions-handoff-hint {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .landing-compact-solutions-peek {
+    position: absolute;
+    z-index: 0;
+    top: var(--landing-compact-solutions-image-top);
+    left: calc(-1 * var(--landing-compact-solutions-preview-width));
+    width: var(--landing-compact-solutions-image-total-width);
+    height: var(--landing-compact-solutions-image-height);
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .landing-compact-solutions-peek img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 72% center;
+  }
+
+  .landing-compact-solutions-followup {
+    position: relative;
+    z-index: 1;
+    grid-column: 2;
+    grid-row: 1;
+    display: grid;
+    align-items: center;
+    min-width: 0;
+    padding:
+      clamp(4rem, 9svh, 6rem)
+      6.5vw
+      clamp(4rem, 9svh, 6rem)
+      clamp(0.85rem, 2.5vw, 1.5rem);
+  }
+
+  .landing-compact-solutions-followup-list {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .landing-compact-solutions-followup-item {
+    padding: clamp(0.65rem, 1.55svh, 0.95rem) 0;
+    border-bottom: 1px solid rgba(var(--site-footer-blue-rgb), 0.18);
+  }
+
+  .landing-compact-solutions-followup-item:first-child {
+    padding-top: 0;
+  }
+
+  .landing-compact-solutions-followup-item:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .landing-compact-solutions-followup-item h3,
+  .landing-compact-solutions-followup-item p {
+    margin: 0;
+  }
+
+  .landing-compact-solutions-followup-item h3 {
+    color: var(--site-footer-blue);
+    font-family: var(--site-font-display);
+    font-size: clamp(1.25rem, 2.55vw, 1.75rem);
+    font-weight: 900;
+    line-height: 1.18;
+  }
+
+  .landing-compact-solutions-followup-item p {
+    margin-top: clamp(0.26rem, 0.7vw, 0.45rem);
+    color: rgba(var(--site-footer-blue-rgb), 0.88);
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.78rem, 1.5vw, 0.96rem);
+    font-weight: 500;
+    line-height: 1.48;
+  }
+
+  .landing-compact-solutions-stage.is-settled .landing-compact-solutions-primary {
+    transform: translate3d(6.5vw, 28svh, 0) scale(0.382);
+  }
+
+  .landing-compact-solutions-industries {
+    display: grid;
+    gap: clamp(1rem, 2.5vw, 1.4rem);
+    width: 100%;
+    margin: 0;
+    padding: clamp(2.25rem, 5svh, 3.5rem) 0;
+    overflow: hidden;
+    background: #ffffff;
+    color: var(--site-footer-blue);
+  }
+
+  .landing-compact-solutions-industries-kicker {
+    margin: 0;
+    padding: 0 6.5vw;
+    color: var(--site-brand-red);
+    font-family: var(--site-font-display);
+    font-size: clamp(0.74rem, 1.35vw, 0.9rem);
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .landing-compact-solutions-industries-rail {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    overflow: hidden;
+  }
+
+  .landing-compact-solutions-industries-track,
+  .landing-compact-solutions-industries-set {
+    display: flex;
+    width: max-content;
+  }
+
+  .landing-compact-solutions-industries-track {
+    animation: landingFinalPartnerMarquee 48s linear infinite;
+    backface-visibility: hidden;
+    will-change: transform;
+  }
+
+  .landing-compact-solutions-industries-set {
+    flex: 0 0 auto;
+  }
+
+  .landing-compact-solutions-industries-item {
+    display: grid;
+    min-width: clamp(10.25rem, 21vw, 13.75rem);
+    height: clamp(3.4rem, 6.8vw, 4.3rem);
+    padding: 0 clamp(1rem, 2.4vw, 1.65rem);
+    place-items: center;
+    border-left: 1px solid rgba(var(--site-footer-blue-rgb), 0.18);
+    color: var(--site-footer-blue);
+    font-family: var(--site-font-display);
+    font-size: clamp(0.76rem, 1.25vw, 0.95rem);
+    font-weight: 850;
+    line-height: 1.1;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .landing-compact-solutions-industries-set:last-child
+    .landing-compact-solutions-industries-item:last-child {
+    border-right: 1px solid rgba(var(--site-footer-blue-rgb), 0.18);
+  }
+}
+
+@media (max-width: 767px) {
+  .landing-compact-solutions-stage {
+    --landing-compact-solutions-image-top: 6%;
+    --landing-compact-solutions-image-height: 88%;
+    height: max(38rem, 100svh);
+    min-height: max(38rem, 100svh);
+  }
+
+  .landing-compact-solutions-copy {
+    top: calc(47.3vw + 32svh + 1.2rem);
+  }
+
+  .landing-compact-solutions-copy h2 {
+    font-size: clamp(1rem, 4.5vw, 1.14rem);
+    line-height: 1.18;
+  }
+
+  .landing-compact-solutions-copy-body-clip {
+    margin-top: clamp(0.9rem, 3.5vw, 1rem);
+  }
+
+  .landing-compact-solutions-copy p {
+    font-size: clamp(0.76rem, 2.95vw, 0.84rem);
+    line-height: 1.58;
+  }
+
+  .landing-compact-solutions-followup {
+    align-items: stretch;
+    padding:
+      calc(var(--site-header-clearance, 0px) + clamp(0.75rem, 3vw, 1rem))
+      4.5vw
+      clamp(2rem, 5svh, 3rem)
+      clamp(0.7rem, 2.6vw, 0.95rem);
+  }
+
+  .landing-compact-solutions-followup-list {
+    display: grid;
+    align-content: space-between;
+    height: 100%;
+    padding-left: 0;
+  }
+
+  .landing-compact-solutions-followup-item {
+    padding: 0 0 clamp(0.5rem, 1.35svh, 0.8rem);
+  }
+
+  .landing-compact-solutions-followup-item h3 {
+    font-size: clamp(1rem, 4.5vw, 1.14rem);
+  }
+
+  .landing-compact-solutions-followup-item p {
+    font-size: clamp(0.62rem, 2.4vw, 0.72rem);
+    line-height: 1.48;
+  }
+
+  .landing-compact-solutions-stage.is-settled .landing-compact-solutions-primary {
+    transform: translate3d(6.5vw, 32.5svh, 0) scale(0.382);
+  }
+
+  .landing-compact-solutions-industries {
+    gap: 0.9rem;
+    padding-block: clamp(2rem, 7vw, 2.6rem);
+  }
+
+  .landing-compact-solutions-industries-kicker {
+    padding-inline: var(--home-mobile-edge, clamp(1.5rem, 7vw, 2rem));
+    font-size: clamp(0.7rem, 2.85vw, 0.78rem);
+  }
+
+  .landing-compact-solutions-industries-item {
+    min-width: clamp(9.6rem, 42vw, 11.5rem);
+    height: clamp(3.15rem, 14vw, 3.65rem);
+    font-size: clamp(0.7rem, 2.8vw, 0.78rem);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .landing-compact-solutions-stage {
+    height: max(44rem, 100svh);
+    min-height: max(44rem, 100svh);
+  }
+
+  .landing-compact-solutions-copy {
+    top: calc(47.3vw + 28svh + 2rem);
+  }
+
+  .landing-compact-solutions-copy h2 {
+    font-size: clamp(1.25rem, 2.55vw, 1.75rem);
+    line-height: 1.18;
+  }
+
+  .landing-compact-solutions-copy-body-clip {
+    margin-top: clamp(1.1rem, 2.1vw, 1.35rem);
+  }
+
+  .landing-compact-solutions-copy p {
+    font-size: clamp(0.94rem, 1.85vw, 1.06rem);
+    line-height: 1.62;
+  }
+
+  .landing-compact-solutions-followup {
+    padding-right: clamp(2.5rem, 6.5vw, 4.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-compact-solutions-industries-track {
+    animation: none;
+  }
+}

@@ -8,13 +8,13 @@
 @import './sections/project-preview.css';
 @import './responsive/desktop/project-preview.css';
 @import './responsive/desktop/overview.css';
-@import './responsive/mobile/solutions.css';
+@import './responsive/mobile/overview.css';
 @import './responsive/mobile/project-preview.css';
 @import './responsive/mobile/final-cta.css';
 @import './responsive/tablet/overview.css';
 @import './responsive/tablet/services.css';
 @import './responsive/tablet/testimonials.css';
 @import './responsive/tablet/project-preview.css';
-@import './responsive/tablet/solutions.css';
 @import './responsive/tablet/final-cta.css';
 @import './responsive/mobile/testimonials.css';
+@import './responsive/mobile/solutions-spotlight.css';

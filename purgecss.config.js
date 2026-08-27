@@ -7,15 +7,15 @@ export const HOME_CSS_FILES = [
   'src/pages/home/styles/sections/project-preview.css',
   'src/pages/home/styles/responsive/desktop/project-preview.css',
   'src/pages/home/styles/responsive/desktop/overview.css',
-  'src/pages/home/styles/responsive/mobile/solutions.css',
+  'src/pages/home/styles/responsive/mobile/overview.css',
   'src/pages/home/styles/responsive/mobile/project-preview.css',
   'src/pages/home/styles/responsive/mobile/final-cta.css',
   'src/pages/home/styles/responsive/mobile/testimonials.css',
+  'src/pages/home/styles/responsive/mobile/solutions-spotlight.css',
   'src/pages/home/styles/responsive/tablet/overview.css',
   'src/pages/home/styles/responsive/tablet/services.css',
   'src/pages/home/styles/responsive/tablet/testimonials.css',
   'src/pages/home/styles/responsive/tablet/project-preview.css',
-  'src/pages/home/styles/responsive/tablet/solutions.css',
   'src/pages/home/styles/responsive/tablet/final-cta.css',
 ];
 export const PURGECSS_CONTENT = ['index.html', 'src/**/*.{js,jsx,ts,tsx}'];
