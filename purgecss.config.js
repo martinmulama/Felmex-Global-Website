@@ -10,6 +10,7 @@ export const HOME_CSS_FILES = [
   'src/pages/home/styles/responsive/mobile/solutions.css',
   'src/pages/home/styles/responsive/mobile/project-preview.css',
   'src/pages/home/styles/responsive/mobile/final-cta.css',
+  'src/pages/home/styles/responsive/mobile/testimonials.css',
   'src/pages/home/styles/responsive/tablet/overview.css',
   'src/pages/home/styles/responsive/tablet/services.css',
   'src/pages/home/styles/responsive/tablet/testimonials.css',
