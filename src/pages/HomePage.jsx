@@ -1205,6 +1205,7 @@ export function HomePage() {
     let isCancelled = false;
     let animationContext = null;
     let ScrollTriggerInstance = null;
+    let disposeTitleRailLayoutSync = () => {};
 
     loadScrollTrigger().then(({ gsap, ScrollTrigger }) => {
       if (isCancelled) return;
@@ -1214,30 +1215,82 @@ export function HomePage() {
         const firstHoldDuration = 0.9;
         const middleHoldDuration = 1.35;
         const transitionDuration = 0.32;
-        const phraseHeight = phrases[0].offsetHeight;
         let hasPlayed = false;
+        let timeline = null;
+        let layoutFrameId = null;
+
+        const getPhraseHeight = () =>
+          phrases[0].getBoundingClientRect().height || phrases[0].offsetHeight || 0;
+
+        const rebuildTitleRail = ({ progress = 0, shouldResume = false } = {}) => {
+          const phraseHeight = getPhraseHeight();
+
+          if (!phraseHeight) return;
+
+          timeline?.kill();
+          timeline = gsap.timeline({ paused: true });
+
+          timeline
+            .to(
+              track,
+              {
+                y: -phraseHeight,
+                duration: transitionDuration,
+                ease: 'expo.out',
+              },
+              firstHoldDuration
+            )
+            .to(
+              track,
+              {
+                y: -phraseHeight * 2,
+                duration: transitionDuration,
+                ease: 'expo.out',
+                onComplete: () => title.classList.add('is-title-sequence-complete'),
+              },
+              `+=${middleHoldDuration}`
+            );
+
+          if (!hasPlayed) {
+            gsap.set(track, { y: 0 });
+            return;
+          }
+
+          const safeProgress = Math.min(Math.max(progress, 0), 1);
+          title.classList.toggle('is-title-sequence-complete', safeProgress === 1);
+          timeline.progress(safeProgress, true);
+
+          if (shouldResume && safeProgress < 1) {
+            timeline.play();
+          }
+        };
+
+        const scheduleTitleRailLayoutSync = () => {
+          if (layoutFrameId !== null) return;
+
+          layoutFrameId = window.requestAnimationFrame(() => {
+            layoutFrameId = null;
+            rebuildTitleRail({
+              progress: timeline?.progress() ?? 0,
+              shouldResume: timeline?.isActive() ?? false,
+            });
+            ScrollTrigger.refresh();
+          });
+        };
+
+        const titleRailResizeObserver =
+          typeof window.ResizeObserver === 'function'
+            ? new window.ResizeObserver(scheduleTitleRailLayoutSync)
+            : null;
+        const visualViewport = window.visualViewport;
+
+        titleRailResizeObserver?.observe(title);
+        window.addEventListener('resize', scheduleTitleRailLayoutSync);
+        window.addEventListener('orientationchange', scheduleTitleRailLayoutSync);
+        visualViewport?.addEventListener('resize', scheduleTitleRailLayoutSync);
 
         title.classList.remove('is-title-sequence-complete');
-        gsap.set(track, { y: 0 });
-
-        const timeline = gsap.timeline({ paused: true });
-
-        timeline
-          .to(
-            track,
-            {
-              y: -phraseHeight,
-              duration: transitionDuration,
-              ease: 'expo.out',
-            },
-            firstHoldDuration
-          )
-          .to(track, {
-            y: -phraseHeight * 2,
-            duration: transitionDuration,
-            ease: 'expo.out',
-            onComplete: () => title.classList.add('is-title-sequence-complete'),
-          }, `+=${middleHoldDuration}`);
+        rebuildTitleRail();
 
         ScrollTrigger.create({
           trigger: title,
@@ -1249,6 +1302,17 @@ export function HomePage() {
             timeline.play(0);
           },
         });
+
+        disposeTitleRailLayoutSync = () => {
+          if (layoutFrameId !== null) {
+            window.cancelAnimationFrame(layoutFrameId);
+          }
+
+          titleRailResizeObserver?.disconnect();
+          window.removeEventListener('resize', scheduleTitleRailLayoutSync);
+          window.removeEventListener('orientationchange', scheduleTitleRailLayoutSync);
+          visualViewport?.removeEventListener('resize', scheduleTitleRailLayoutSync);
+        };
       }, title);
 
       ScrollTrigger.refresh();
@@ -1256,6 +1320,7 @@ export function HomePage() {
 
     return () => {
       isCancelled = true;
+      disposeTitleRailLayoutSync();
       title.classList.remove('is-title-sequence-complete');
       animationContext?.revert();
       ScrollTriggerInstance?.refresh();
