@@ -335,6 +335,7 @@
     display: block;
     max-width: min(100%, clamp(21.5rem, 58vw, 38.5rem));
     margin-top: clamp(1.75rem, 3.2vw, 2.45rem);
+    margin-inline: auto;
     font-size: var(--why-body-size);
     line-height: 1.62;
   }
@@ -493,6 +494,13 @@
 
   .hero--why-choose .why-choose-felmex__copy-rule {
     margin-block: 0.46rem 0.56rem;
+  }
+}
+
+/* Keep zoomed portrait-tablet container copy comfortably inside the artwork. */
+@media (min-width: 521px) and (max-width: 767px) and (min-height: 700px) {
+  .hero--why-choose .why-choose-felmex {
+    --why-container-copy-edge-gutter: clamp(2.5rem, 8vw, 3rem);
   }
 }
 
@@ -728,7 +736,7 @@
   }
 }
 
-/* Tall portrait tablets keep the compact hero composition without an empty lower viewport. */
+/* Tall portrait tablets need a full viewport for the locomotive to clear the lower edge. */
 @media (min-width: 768px) and (max-width: 1024px) and (min-height: 960px) {
   .hero--why-choose .why-choose-felmex {
     --why-mobile-track-height: clamp(17.25rem, 33vw, 19rem);
@@ -739,6 +747,6 @@
   .hero--why-choose,
   .hero--why-choose .why-choose-felmex,
   .hero--why-choose .why-choose-felmex__viewport {
-    min-height: clamp(52rem, calc(24rem + 58vw), 59rem);
+    min-height: 100svh;
   }
 }
