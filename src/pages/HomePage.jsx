@@ -1,4 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './HomePage.css';
 import { WhyChooseFelmex } from '../components/why-choose/WhyChooseFelmex';
 import { HomePreloader } from '../components/preloader/HomePreloader';
@@ -20,6 +22,7 @@ const SERVICE_CATALOG_IMAGE_WIDTHS = [640, 960, 1280];
 const SERVICE_CATALOG_IMAGE_SIZES =
   '(min-width: 1081px) min(60rem, 68vw), (max-width: 640px) 92vw, 100vw';
 const TABLET_HOME_QUERY = '(max-width: 1024px)';
+const PROJECT_PREVIEW_TITLE_PHRASES = ['Current Work', 'Track Record', 'Future Plans'];
 const HOME_MOBILE_PROJECTS = [
   {
     projectId: 'port-to-plant',
@@ -1015,35 +1018,13 @@ function OverviewStatementIcon({ kind, className = 'landing-overview-icon' }) {
   );
 }
 
-let gsapLoadPromise = null;
-let scrollTriggerLoadPromise = null;
-
-function loadGsap() {
-  if (!gsapLoadPromise) {
-    gsapLoadPromise = import('gsap').then((module) => module.gsap);
-  }
-
-  return gsapLoadPromise;
-}
-
-function loadScrollTrigger() {
-  if (!scrollTriggerLoadPromise) {
-    scrollTriggerLoadPromise = Promise.all([loadGsap(), import('gsap/ScrollTrigger')]).then(
-      ([gsap, scrollTriggerModule]) => {
-        const { ScrollTrigger } = scrollTriggerModule;
-        gsap.registerPlugin(ScrollTrigger);
-        return { gsap, ScrollTrigger };
-      }
-    );
-  }
-
-  return scrollTriggerLoadPromise;
-}
+gsap.registerPlugin(ScrollTrigger);
 
 export function HomePage() {
   const overviewRef = useRef(null);
   const servicesListRef = useRef(null);
   const projectPreviewTitleRef = useRef(null);
+  const projectPreviewStageRef = useRef(null);
   const serviceImagePreloadersRef = useRef([]);
   const hasPreloadedServiceImagesRef = useRef(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
@@ -1124,208 +1105,286 @@ export function HomePage() {
       return undefined;
     }
 
-    let isCancelled = false;
-    let animationContext = null;
-    let ScrollTriggerInstance = null;
+    const animationContext = gsap.context(() => {
+      const transitionDuration = 0.72;
 
-    loadScrollTrigger().then(({ gsap, ScrollTrigger }) => {
-      if (isCancelled) return;
+      gsap.set(statements, {
+        opacity: 1,
+        visibility: 'visible',
+        y: 0,
+        yPercent: (index) => (index === 0 ? 0 : 110),
+      });
 
-      ScrollTriggerInstance = ScrollTrigger;
-      animationContext = gsap.context(() => {
-        const transitionDuration = 0.72;
+      const timeline = gsap.timeline({
+        defaults: {
+          ease: 'power3.inOut',
+          overwrite: 'auto',
+        },
+        scrollTrigger: {
+          trigger: splitContainer,
+          start: 'top top',
+          end: () => `+=${window.innerHeight * (statements.length - 1)}`,
+          pin: true,
+          pinSpacing: true,
+          scrub: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
 
-        gsap.set(statements, {
-          opacity: 1,
-          visibility: 'visible',
-          y: 0,
-          yPercent: (index) => (index === 0 ? 0 : 110),
-        });
+      statements.slice(1).forEach((statement, index) => {
+        const stateIndex = index + 1;
+        const transitionStart = index;
+        const outgoingStatement = statements[stateIndex - 1];
 
-        const timeline = gsap.timeline({
-          defaults: {
-            ease: 'power3.inOut',
-            overwrite: 'auto',
-          },
-          scrollTrigger: {
-            trigger: splitContainer,
-            start: 'top top',
-            end: () => `+=${window.innerHeight * (statements.length - 1)}`,
-            pin: true,
-            pinSpacing: true,
-            scrub: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        });
+        timeline
+          .to(
+            outgoingStatement,
+            {
+              yPercent: -110,
+              duration: transitionDuration,
+            },
+            transitionStart
+          )
+          .to(
+            statement,
+            {
+              yPercent: 0,
+              duration: transitionDuration,
+            },
+            transitionStart
+          );
+      });
+    }, node);
 
-        statements.slice(1).forEach((statement, index) => {
-          const stateIndex = index + 1;
-          const transitionStart = index;
-          const outgoingStatement = statements[stateIndex - 1];
-
-          timeline
-            .to(
-              outgoingStatement,
-              {
-                yPercent: -110,
-                duration: transitionDuration,
-              },
-              transitionStart
-            )
-            .to(
-              statement,
-              {
-                yPercent: 0,
-                duration: transitionDuration,
-              },
-              transitionStart
-            );
-        });
-      }, node);
-
-      ScrollTrigger.refresh();
-    });
+    ScrollTrigger.refresh();
 
     return () => {
-      isCancelled = true;
-      animationContext?.revert();
-      ScrollTriggerInstance?.refresh();
+      animationContext.revert();
+      ScrollTrigger.refresh();
     };
   }, [isCompactHomeViewport, prefersReducedMotion]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const title = projectPreviewTitleRef.current;
-    if (!title || typeof window === 'undefined' || prefersReducedMotion) return undefined;
+    const typedPhrase = title?.querySelector('.landing-project-preview-title-typed');
+    if (!typedPhrase || typeof window === 'undefined') return undefined;
 
-    const phrases = Array.from(title.querySelectorAll('.landing-project-preview-title-phrase'));
-    const track = title.querySelector('.landing-project-preview-title-track');
-    if (!track || phrases.length < 3) return undefined;
+    let timeoutId = null;
+    let phraseIndex = 0;
+    let hasStarted = false;
 
-    let isCancelled = false;
-    let animationContext = null;
-    let ScrollTriggerInstance = null;
-    let disposeTitleRailLayoutSync = () => {};
+    const schedule = (callback, delay) => {
+      timeoutId = window.setTimeout(callback, delay);
+    };
 
-    loadScrollTrigger().then(({ gsap, ScrollTrigger }) => {
-      if (isCancelled) return;
+    const renderPhrase = (phrase, shouldAnimate) => {
+      const [firstWord, ...remainingWords] = phrase.split(' ');
+      const finalWord = remainingWords.join(' ');
+      const fragment = document.createDocumentFragment();
+      const firstWordElement = document.createElement('span');
 
-      ScrollTriggerInstance = ScrollTrigger;
-      animationContext = gsap.context(() => {
-        const firstHoldDuration = 0.9;
-        const middleHoldDuration = 1.35;
-        const transitionDuration = 0.32;
-        let hasPlayed = false;
-        let timeline = null;
-        let layoutFrameId = null;
+      firstWordElement.className = 'landing-project-preview-title-first-word';
 
-        const getPhraseHeight = () =>
-          phrases[0].getBoundingClientRect().height || phrases[0].offsetHeight || 0;
+      Array.from(firstWord).forEach((letter, index) => {
+        const letterMask = document.createElement('span');
+        const letterGlyph = document.createElement('span');
 
-        const rebuildTitleRail = ({ progress = 0, shouldResume = false } = {}) => {
-          const phraseHeight = getPhraseHeight();
+        letterMask.className = 'landing-project-preview-title-letter-mask';
+        letterGlyph.className = 'landing-project-preview-title-letter';
+        letterGlyph.textContent = letter;
+        letterGlyph.style.setProperty('--landing-project-preview-letter-delay', `${index * 0.09}s`);
+        letterMask.append(letterGlyph);
+        firstWordElement.append(letterMask);
+      });
 
-          if (!phraseHeight) return;
+      const finalWordMask = document.createElement('span');
+      const finalWordElement = document.createElement('span');
 
-          timeline?.kill();
-          timeline = gsap.timeline({ paused: true });
+      finalWordMask.className = 'landing-project-preview-title-final-word-mask';
+      finalWordElement.className = 'landing-project-preview-title-final-word';
+      finalWordElement.textContent = finalWord;
+      finalWordElement.style.setProperty(
+        '--landing-project-preview-final-word-delay',
+        `${firstWord.length * 0.09 + 0.14}s`
+      );
+      finalWordMask.append(finalWordElement);
 
-          timeline
-            .to(
-              track,
-              {
-                y: -phraseHeight,
-                duration: transitionDuration,
-                ease: 'expo.out',
-              },
-              firstHoldDuration
-            )
-            .to(
-              track,
-              {
-                y: -phraseHeight * 2,
-                duration: transitionDuration,
-                ease: 'expo.out',
-                onComplete: () => title.classList.add('is-title-sequence-complete'),
-              },
-              `+=${middleHoldDuration}`
-            );
+      fragment.append(firstWordElement, document.createTextNode(' '), finalWordMask);
+      typedPhrase.replaceChildren(fragment);
+      typedPhrase.setAttribute('aria-label', phrase);
+      typedPhrase.classList.remove('is-formed', 'is-sliding-out');
 
-          if (!hasPlayed) {
-            gsap.set(track, { y: 0 });
-            return;
-          }
-
-          const safeProgress = Math.min(Math.max(progress, 0), 1);
-          title.classList.toggle('is-title-sequence-complete', safeProgress === 1);
-          timeline.progress(safeProgress, true);
-
-          if (shouldResume && safeProgress < 1) {
-            timeline.play();
-          }
-        };
-
-        const scheduleTitleRailLayoutSync = () => {
-          if (layoutFrameId !== null) return;
-
-          layoutFrameId = window.requestAnimationFrame(() => {
-            layoutFrameId = null;
-            rebuildTitleRail({
-              progress: timeline?.progress() ?? 0,
-              shouldResume: timeline?.isActive() ?? false,
-            });
-            ScrollTrigger.refresh();
+      if (shouldAnimate) {
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            typedPhrase.classList.add('is-formed');
           });
-        };
-
-        const titleRailResizeObserver =
-          typeof window.ResizeObserver === 'function'
-            ? new window.ResizeObserver(scheduleTitleRailLayoutSync)
-            : null;
-        const visualViewport = window.visualViewport;
-
-        titleRailResizeObserver?.observe(title);
-        window.addEventListener('resize', scheduleTitleRailLayoutSync);
-        window.addEventListener('orientationchange', scheduleTitleRailLayoutSync);
-        visualViewport?.addEventListener('resize', scheduleTitleRailLayoutSync);
-
-        title.classList.remove('is-title-sequence-complete');
-        rebuildTitleRail();
-
-        ScrollTrigger.create({
-          trigger: title,
-          start: 'top 80%',
-          onEnter: () => {
-            if (hasPlayed) return;
-
-            hasPlayed = true;
-            timeline.play(0);
-          },
         });
+      } else {
+        typedPhrase.classList.add('is-formed');
+      }
+    };
 
-        disposeTitleRailLayoutSync = () => {
-          if (layoutFrameId !== null) {
-            window.cancelAnimationFrame(layoutFrameId);
-          }
+    renderPhrase(PROJECT_PREVIEW_TITLE_PHRASES[0], false);
+    if (prefersReducedMotion) return undefined;
 
-          titleRailResizeObserver?.disconnect();
-          window.removeEventListener('resize', scheduleTitleRailLayoutSync);
-          window.removeEventListener('orientationchange', scheduleTitleRailLayoutSync);
-          visualViewport?.removeEventListener('resize', scheduleTitleRailLayoutSync);
-        };
-      }, title);
+    const cyclePhrase = () => {
+      schedule(() => {
+        typedPhrase.classList.remove('is-formed');
+        typedPhrase.classList.add('is-sliding-out');
 
-      ScrollTrigger.refresh();
-    });
+        schedule(() => {
+          phraseIndex = (phraseIndex + 1) % PROJECT_PREVIEW_TITLE_PHRASES.length;
+          renderPhrase(PROJECT_PREVIEW_TITLE_PHRASES[phraseIndex], true);
+          cyclePhrase();
+        }, 620);
+      }, 2400);
+    };
+
+    const startTypingCycle = () => {
+      if (hasStarted) return;
+
+      hasStarted = true;
+      renderPhrase(PROJECT_PREVIEW_TITLE_PHRASES[phraseIndex], true);
+      cyclePhrase();
+    };
+
+    if (typeof window.IntersectionObserver === 'undefined') {
+      startTypingCycle();
+      return () => window.clearTimeout(timeoutId);
+    }
+
+    const observer = new window.IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+
+        observer.disconnect();
+        startTypingCycle();
+      },
+      { threshold: 0, rootMargin: '0px 0px -20% 0px' }
+    );
+
+    observer.observe(title);
 
     return () => {
-      isCancelled = true;
-      disposeTitleRailLayoutSync();
-      title.classList.remove('is-title-sequence-complete');
-      animationContext?.revert();
-      ScrollTriggerInstance?.refresh();
+      observer.disconnect();
+      window.clearTimeout(timeoutId);
     };
   }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    const stage = projectPreviewStageRef.current;
+    const titlePane = stage?.querySelector('.landing-project-preview-intro');
+    if (!stage || !titlePane || !isCompactHomeViewport || typeof window === 'undefined') {
+      return undefined;
+    }
+
+    let animationFrameId = null;
+    let initialPositionFrameId = null;
+    let revealDelayId = null;
+    let observer = null;
+    let shouldHoldArticlePosition = true;
+    let isAutoSliding = false;
+
+    const placeArticleInView = () => {
+      if (!shouldHoldArticlePosition) return;
+
+      stage.scrollLeft = stage.scrollWidth - stage.clientWidth;
+    };
+
+    const revealTitlePane = () => {
+      if (prefersReducedMotion || isAutoSliding || !shouldHoldArticlePosition) return;
+
+      shouldHoldArticlePosition = false;
+      isAutoSliding = true;
+      stage.classList.add('is-auto-revealing');
+
+      const startingScrollLeft = stage.scrollLeft;
+      if (startingScrollLeft <= 0) {
+        stage.classList.remove('is-auto-revealing');
+        isAutoSliding = false;
+        return;
+      }
+
+      const startedAt = window.performance.now();
+      const duration = 920;
+
+      const slide = (now) => {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+        stage.scrollLeft = startingScrollLeft * (1 - easedProgress);
+
+        if (progress < 1) {
+          animationFrameId = window.requestAnimationFrame(slide);
+          return;
+        }
+
+        isAutoSliding = false;
+        stage.classList.remove('is-auto-revealing');
+      };
+
+      animationFrameId = window.requestAnimationFrame(slide);
+    };
+
+    const scheduleTitleReveal = () => {
+      if (prefersReducedMotion || revealDelayId !== null) return;
+
+      revealDelayId = window.setTimeout(revealTitlePane, 140);
+    };
+
+    const positionArticleThenObserve = () => {
+      placeArticleInView();
+
+      if (prefersReducedMotion) {
+        shouldHoldArticlePosition = false;
+        stage.scrollLeft = 0;
+        return;
+      }
+
+      if (typeof window.IntersectionObserver === 'undefined') {
+        scheduleTitleReveal();
+        return;
+      }
+
+      observer = new window.IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+
+          observer?.disconnect();
+          scheduleTitleReveal();
+        },
+        { threshold: 0, rootMargin: '0px 0px -8% 0px' }
+      );
+      observer.observe(stage);
+    };
+
+    const resizeObserver =
+      typeof window.ResizeObserver === 'function' ? new window.ResizeObserver(placeArticleInView) : null;
+
+    resizeObserver?.observe(stage);
+    resizeObserver?.observe(titlePane);
+    initialPositionFrameId = window.requestAnimationFrame(positionArticleThenObserve);
+
+    return () => {
+      if (initialPositionFrameId !== null) {
+        window.cancelAnimationFrame(initialPositionFrameId);
+      }
+
+      if (animationFrameId !== null) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+
+      if (revealDelayId !== null) {
+        window.clearTimeout(revealDelayId);
+      }
+
+      observer?.disconnect();
+      resizeObserver?.disconnect();
+      stage.classList.remove('is-auto-revealing');
+    };
+  }, [isCompactHomeViewport, prefersReducedMotion]);
 
   useEffect(() => {
     const list = servicesListRef.current;
@@ -1704,7 +1763,7 @@ export function HomePage() {
               {CLIENT_QUOTES.map((quote, index) => (
                 <article
                   key={quote.company}
-                  className={`landing-testimonial-panel ${quote.tone}`}
+                  className={`landing-testimonial-panel scroll-section ${quote.tone}`}
                   role="listitem"
                 >
                   <span className="landing-testimonial-index" aria-hidden="true">
@@ -1716,7 +1775,9 @@ export function HomePage() {
                       &ldquo;
                     </span>
                     <blockquote className="landing-testimonial-quote">
-                      &ldquo;{quote.quote}&rdquo;
+                      <span className="landing-testimonial-quote-punctuation">&ldquo;</span>
+                      {quote.quote}
+                      <span className="landing-testimonial-quote-punctuation">&rdquo;</span>
                     </blockquote>
                     <span className="landing-testimonial-rule" aria-hidden="true" />
                     <div className="landing-testimonial-meta">
@@ -1750,7 +1811,7 @@ export function HomePage() {
         >
           <div className="landing-journal-pin-wrap">
             <div className="landing-journal-shell">
-              <div className="landing-project-preview-stage">
+              <div ref={projectPreviewStageRef} className="landing-project-preview-stage">
                 <span
                   className="landing-project-preview-ornament landing-project-preview-ornament--left"
                   aria-hidden="true"
@@ -1771,12 +1832,8 @@ export function HomePage() {
                   <p className="landing-project-preview-label">Projects Preview</p>
                   <h2 ref={projectPreviewTitleRef} className="landing-project-preview-title">
                     <span className="landing-project-preview-title-static">Our</span>
-                    <span className="landing-project-preview-title-mask" aria-live="polite">
-                      <span className="landing-project-preview-title-track">
-                        <span className="landing-project-preview-title-phrase">Current Work</span>
-                        <span className="landing-project-preview-title-phrase">Track Record</span>
-                        <span className="landing-project-preview-title-phrase">Future Plans</span>
-                      </span>
+                    <span className="landing-project-preview-title-mask" aria-live="off">
+                      <span className="landing-project-preview-title-typed">Current Work</span>
                     </span>
                   </h2>
                   <p className="landing-project-preview-brief">

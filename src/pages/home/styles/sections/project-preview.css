@@ -136,28 +136,71 @@
 }
 
 .landing-project-preview-title-mask {
-  --landing-project-preview-title-rail-height: 1lh;
   position: relative;
   display: block;
   flex: 0 0 13.25ch;
   width: 13.25ch;
-  height: var(--landing-project-preview-title-rail-height);
-  overflow: hidden;
+  min-height: 1lh;
   color: var(--project-preview-red);
   text-align: left;
 }
 
-.landing-project-preview-title-track {
-  position: absolute;
-  inset: 0;
-  will-change: transform;
+.landing-project-preview-title-typed {
+  display: inline-flex;
+  align-items: baseline;
+  width: max-content;
+  max-width: 100%;
+  white-space: nowrap;
 }
 
-.landing-project-preview-title-phrase {
+.landing-project-preview-title-first-word {
+  display: inline-flex;
+}
+
+.landing-project-preview-title-letter-mask,
+.landing-project-preview-title-final-word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: baseline;
+}
+
+.landing-project-preview-title-final-word-mask {
+  margin-inline-start: 0.24em;
+}
+
+.landing-project-preview-title-letter,
+.landing-project-preview-title-final-word {
   display: block;
-  width: 100%;
-  height: var(--landing-project-preview-title-rail-height);
-  white-space: nowrap;
+  will-change: transform;
+  transition: transform 0.56s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.landing-project-preview-title-letter {
+  transform: translateX(-110%);
+  transition-delay: var(--landing-project-preview-letter-delay, 0s);
+}
+
+.landing-project-preview-title-final-word {
+  transform: translateX(-110%);
+  transition-duration: 0.62s;
+  transition-delay: var(--landing-project-preview-final-word-delay, 0s);
+}
+
+.landing-project-preview-title-typed.is-formed .landing-project-preview-title-letter,
+.landing-project-preview-title-typed.is-formed .landing-project-preview-title-final-word {
+  transform: translateX(0);
+}
+
+.landing-project-preview-title-typed.is-sliding-out .landing-project-preview-title-letter,
+.landing-project-preview-title-typed.is-sliding-out .landing-project-preview-title-final-word {
+  transform: translateX(-110%);
+  transition-delay: 0s;
+}
+
+@media (max-width: 1024px) {
+  .landing-project-preview-stage.is-auto-revealing {
+    scroll-snap-type: none;
+  }
 }
 
 .landing-project-preview-rule {
