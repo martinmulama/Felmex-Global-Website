@@ -193,9 +193,6 @@ const FINAL_OPERATION_STEPS = [
   },
 ];
 
-const MOBILE_SOLUTION_NAV_ORDER = ['source', 'ship', 'store', 'process', 'scale'];
-const MOBILE_SOLUTION_INITIAL_KEY = 'source';
-
 const OVERVIEW_MOBILE_STATEMENTS = [
   {
     key: 'about',
@@ -854,77 +851,6 @@ function ServiceMobileIconStack({ icons }) {
   );
 }
 
-function escapeRegExp(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
-}
-
-function renderHighlightedSolutionText(text, highlightWords = []) {
-  const terms = highlightWords.filter(Boolean).sort((first, second) => second.length - first.length);
-
-  if (terms.length === 0) return text;
-
-  const matcher = new RegExp(`(${terms.map(escapeRegExp).join('|')})`, 'giu');
-  const normalizedTerms = terms.map((term) => term.toLocaleLowerCase());
-
-  return text.split(matcher).filter(Boolean).map((part, index) => {
-    const isHighlighted = normalizedTerms.includes(part.toLocaleLowerCase());
-
-    return isHighlighted ? (
-      <span className="landing-mobile-solution-copy-accent" key={`${part}-${index}`}>
-        {part}
-      </span>
-    ) : (
-      <span key={`${part}-${index}`}>{part}</span>
-    );
-  });
-}
-
-function SolutionStageIcon({ kind }) {
-  const icons = {
-    source: (
-      <>
-        <circle cx="27" cy="27" r="16" />
-        <path d="M11 27h32M27 11c-5.2 5-7.8 10.3-7.8 16s2.6 11 7.8 16M27 11c5.2 5 7.8 10.3 7.8 16s-2.6 11-7.8 16" />
-        <path d="m39.2 39.2 13.6 13.6" />
-      </>
-    ),
-    ship: (
-      <>
-        <path d="M16 34h32l-4.2 10H20.2L16 34Z" />
-        <path d="M21.5 34V23.5h21V34M27 23.5v-7h10v7" />
-        <path d="M12 49c3.2 0 3.2-2.2 6.4-2.2s3.2 2.2 6.4 2.2 3.2-2.2 6.4-2.2 3.2 2.2 6.4 2.2 3.2-2.2 6.4-2.2 3.2 2.2 6.4 2.2" />
-      </>
-    ),
-    store: (
-      <>
-        <path d="M13 26 32 15l19 11v24H13V26Z" />
-        <path d="M17 26h30M24 50V38h16v12M24 34h7M37 34h7M24 43h4M36 43h4" />
-      </>
-    ),
-    process: (
-      <>
-        <circle cx="32" cy="32" r="9" />
-        <path d="M32 10v8M32 46v8M10 32h8M46 32h8M16.5 16.5l5.7 5.7M41.8 41.8l5.7 5.7M47.5 16.5l-5.7 5.7M22.2 41.8l-5.7 5.7" />
-        <path d="M32 18c7.7 0 14 6.3 14 14s-6.3 14-14 14-14-6.3-14-14 6.3-14 14-14Z" />
-      </>
-    ),
-    scale: (
-      <>
-        <path d="M14 49h8V37h-8v12ZM28 49h8V29h-8v20ZM42 49h8V20h-8v29Z" />
-        <path d="m12 31 12-10 9 8 17-18M43 11h7v7" />
-      </>
-    ),
-  };
-
-  return (
-    <span className="landing-mobile-solution-icon" aria-hidden="true">
-      <svg viewBox="0 0 64 64" focusable="false">
-        {icons[kind] ?? icons.source}
-      </svg>
-    </span>
-  );
-}
-
 function OverviewStatementIcon({ kind, className = 'landing-overview-icon' }) {
   const icons = {
     about: (
@@ -1025,6 +951,7 @@ export function HomePage() {
   const servicesListRef = useRef(null);
   const projectPreviewTitleRef = useRef(null);
   const projectPreviewStageRef = useRef(null);
+  const compactSolutionsStageRef = useRef(null);
   const serviceImagePreloadersRef = useRef([]);
   const hasPreloadedServiceImagesRef = useRef(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
@@ -1032,7 +959,6 @@ export function HomePage() {
   const [activeOverviewStatement, setActiveOverviewStatement] = useState(
     OVERVIEW_MOBILE_STATEMENTS[0].key
   );
-  const [activeMobileSolution, setActiveMobileSolution] = useState(MOBILE_SOLUTION_INITIAL_KEY);
   const [isCompactHomeViewport, setIsCompactHomeViewport] = useState(
     () =>
       typeof window !== 'undefined' &&
@@ -1046,13 +972,6 @@ export function HomePage() {
   const activeFinalOperationStep =
     FINAL_OPERATION_STEPS.find((step) => step.key === activeFinalOperation) ??
     FINAL_OPERATION_STEPS[0];
-  const mobileSolutionSteps = MOBILE_SOLUTION_NAV_ORDER.map((key) =>
-    FINAL_OPERATION_STEPS.find((step) => step.key === key)
-  ).filter(Boolean);
-  const activeMobileSolutionStep =
-    FINAL_OPERATION_STEPS.find((step) => step.key === activeMobileSolution) ??
-    FINAL_OPERATION_STEPS[0];
-  const mobileSolutionPanelCopy = activeMobileSolutionStep;
   const activeOverviewStatementData =
     OVERVIEW_MOBILE_STATEMENTS.find((statement) => statement.key === activeOverviewStatement) ??
     OVERVIEW_MOBILE_STATEMENTS[0];
@@ -1161,6 +1080,163 @@ export function HomePage() {
 
     return () => {
       animationContext.revert();
+      ScrollTrigger.refresh();
+    };
+  }, [isCompactHomeViewport, prefersReducedMotion]);
+
+  useLayoutEffect(() => {
+    const stage = compactSolutionsStageRef.current;
+    if (!stage || !isCompactHomeViewport || typeof window === 'undefined') return undefined;
+
+    const primary = stage.querySelector('.landing-compact-solutions-primary');
+    const copy = stage.querySelector('.landing-compact-solutions-copy');
+    const copyTitle = copy?.querySelector('h2');
+    const copyBody = copy?.querySelector('p');
+    const peek = stage.querySelector('.landing-compact-solutions-peek');
+    if (!primary || !copyTitle || !copyBody || !peek) return undefined;
+
+    const primaryFinalY = () =>
+      stage.clientHeight * (window.innerWidth < 768 ? 0.325 : 0.28);
+
+    if (prefersReducedMotion) {
+      stage.classList.add('is-settled', 'is-handoff-ready');
+      return () => stage.classList.remove('is-settled', 'is-handoff-ready');
+    }
+
+    let removeHandoffScrollListener = () => {};
+
+    const animationContext = gsap.context(() => {
+      let sourceProgress = 0;
+      let handoffOpen = false;
+      let sourceFinalLocked = false;
+      let sourceTimeline;
+
+      const lockSourceFinalState = () => {
+        gsap.set(primary, {
+          scale: 0.382,
+          x: stage.clientWidth * 0.065,
+          y: primaryFinalY(),
+          force3D: true,
+        });
+        gsap.set(copyTitle, { yPercent: 0, force3D: true });
+        gsap.set(copyBody, { yPercent: 0, force3D: true });
+        gsap.set(peek, { x: 0, force3D: true });
+      };
+
+      const syncHandoffState = () => {
+        handoffOpen = stage.scrollLeft > 1;
+        if (handoffOpen) sourceFinalLocked = true;
+        stage.classList.toggle('is-handoff-open', handoffOpen);
+        stage.classList.toggle(
+          'is-handoff-ready',
+          sourceFinalLocked || sourceProgress >= 0.775
+        );
+
+        if (sourceFinalLocked) {
+          lockSourceFinalState();
+          return;
+        }
+
+        sourceTimeline?.progress(sourceTimeline.progress());
+      };
+
+      stage.addEventListener('scroll', syncHandoffState, { passive: true });
+      removeHandoffScrollListener = () => stage.removeEventListener('scroll', syncHandoffState);
+
+      gsap.set(copyTitle, { yPercent: 100, force3D: true });
+      gsap.set(copyBody, { yPercent: 104, force3D: true });
+      gsap.set(peek, { x: () => stage.clientWidth * 0.18, force3D: true });
+
+      sourceTimeline = gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: stage,
+            start: 'top top',
+            end: () => `+=${Math.round(stage.clientHeight * 1.5)}`,
+            pin: true,
+            pinSpacing: true,
+            scrub: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              sourceProgress = self.progress;
+              if (sourceFinalLocked && !handoffOpen && self.direction === -1) {
+                sourceFinalLocked = false;
+              }
+              stage.classList.toggle(
+                'is-handoff-ready',
+                sourceFinalLocked || sourceProgress >= 0.775
+              );
+            },
+          },
+        })
+        .to(
+          primary,
+          {
+            scale: 0.382,
+            x: () => stage.clientWidth * 0.065,
+            y: primaryFinalY,
+            force3D: true,
+            ease: 'none',
+            duration: 0.72,
+            modifiers: {
+              scale: (value) => (sourceFinalLocked ? 0.382 : value),
+              x: (value) =>
+                sourceFinalLocked ? `${stage.clientWidth * 0.065}px` : value,
+              y: (value) => (sourceFinalLocked ? `${primaryFinalY()}px` : value),
+            },
+          },
+          0
+        )
+        .to(
+          copyTitle,
+          {
+            yPercent: 0,
+            force3D: true,
+            ease: 'power3.out',
+            duration: 0.24,
+            modifiers: {
+              yPercent: (value) => (sourceFinalLocked ? 0 : value),
+            },
+          },
+          0.72
+        )
+        .to(
+          copyBody,
+          {
+            yPercent: 0,
+            force3D: true,
+            ease: 'power3.out',
+            duration: 0.32,
+            modifiers: {
+              yPercent: (value) => (sourceFinalLocked ? 0 : value),
+            },
+          },
+          0.82
+        )
+        .to(
+          peek,
+          {
+            x: 0,
+            force3D: true,
+            ease: 'power3.out',
+            duration: 0.38,
+            modifiers: {
+              x: (value) => (sourceFinalLocked ? '0px' : value),
+            },
+          },
+          0.76
+        )
+        // Leave a small reading beat before the native handoff rail becomes available.
+        .to({}, { duration: 0.32 });
+    }, stage);
+
+    ScrollTrigger.refresh();
+
+    return () => {
+      removeHandoffScrollListener();
+      animationContext.revert();
+      stage.classList.remove('is-handoff-ready', 'is-handoff-open');
       ScrollTrigger.refresh();
     };
   }, [isCompactHomeViewport, prefersReducedMotion]);
@@ -1950,71 +2026,71 @@ export function HomePage() {
           </div>
         </section>
 
-        <section className="landing-mobile-solutions" aria-label="About our solutions">
-          <div className="landing-mobile-solutions-switcher has-solution-copy">
-            <div
-              id="landing-mobile-solution-panel"
-              className="landing-mobile-solution-panel"
-              role="region"
-              aria-live="polite"
-              aria-label={mobileSolutionPanelCopy.label}
-            >
-              <p className="landing-mobile-solution-copy">
-                {renderHighlightedSolutionText(
-                  mobileSolutionPanelCopy.text,
-                  mobileSolutionPanelCopy.highlightWords
-                )}
-              </p>
+        <section className="landing-mobile-solutions" aria-label="Solutions">
+          <div ref={compactSolutionsStageRef} className="landing-compact-solutions-stage">
+            <div className="landing-compact-solutions-source">
+              <figure className="landing-compact-solutions-primary">
+                <img
+                  src="/solutions-source-container.png"
+                  alt="Felmex container lifted by a crane"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+
+              <article className="landing-compact-solutions-copy">
+                <div className="landing-compact-solutions-copy-title-clip">
+                  <h2>SOURCE</h2>
+                </div>
+                <div className="landing-compact-solutions-copy-body-clip">
+                  <p>{FINAL_OPERATION_STEPS[0].text}</p>
+                </div>
+              </article>
+
+              <span className="landing-compact-solutions-handoff-hint">
+                <span>Swipe to explore the solutions we offer</span>
+                <span aria-hidden="true">→</span>
+              </span>
             </div>
 
-            <nav className="landing-mobile-solutions-nav" aria-label="Solutions menu">
-              {mobileSolutionSteps.map((step) => {
-                const isActive = step.key === activeMobileSolution;
+            <article className="landing-compact-solutions-handoff" aria-label="Remaining solutions">
+              <figure className="landing-compact-solutions-peek" aria-hidden="true">
+                <img src="/sea-freight.webp" alt="" loading="lazy" decoding="async" />
+              </figure>
 
-                return (
-                  <button
-                    className={`landing-mobile-solution-button${isActive ? ' is-active' : ''}`}
-                    key={step.key}
-                    type="button"
-                    aria-controls="landing-mobile-solution-panel"
-                    aria-pressed={isActive}
-                    onClick={() => {
-                      setActiveMobileSolution(step.key);
-                    }}
-                  >
-                    <SolutionStageIcon kind={step.key} />
-                    <span className="landing-mobile-solution-label">{step.label}</span>
-                  </button>
-                );
-              })}
-            </nav>
+              <aside className="landing-compact-solutions-followup">
+                <ul className="landing-compact-solutions-followup-list">
+                  {FINAL_OPERATION_STEPS.slice(1).map((step) => (
+                    <li className="landing-compact-solutions-followup-item" key={step.key}>
+                      <h3>{step.label}</h3>
+                      <p>{step.text}</p>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+            </article>
+          </div>
 
-            <div className="landing-mobile-industries" aria-label="Industries we serve">
-            <p className="landing-mobile-industries-kicker">Industries We Serve</p>
-            <div className="landing-mobile-industry-rail">
-              <div className="landing-final-partner-track landing-mobile-industry-track">
-                {[0, 1, 2, 3].map((setIndex) => (
+          <aside className="landing-compact-solutions-industries" aria-label="Industries we serve">
+            <p className="landing-compact-solutions-industries-kicker">Industries We Serve</p>
+            <div className="landing-compact-solutions-industries-rail">
+              <div className="landing-compact-solutions-industries-track">
+                {[0, 1].map((setIndex) => (
                   <div
-                    className="landing-final-partner-set landing-mobile-industry-set"
+                    className="landing-compact-solutions-industries-set"
                     key={setIndex}
-                    aria-hidden={setIndex !== 0}
+                    aria-hidden={setIndex === 1}
                   >
                     {FINAL_INDUSTRIES.map((industry) => (
-                      <div
-                        className="landing-final-partner-item landing-mobile-industry-item"
-                        key={`${setIndex}-${industry}`}
-                      >
-                        <span className="landing-final-partner-name landing-final-industry-name landing-mobile-industry-name">
-                          {industry}
-                        </span>
-                      </div>
+                      <span className="landing-compact-solutions-industries-item" key={industry}>
+                        {industry}
+                      </span>
                     ))}
                   </div>
                 ))}
               </div>
             </div>
-          </div>
-          </div>
+          </aside>
         </section>
 
         <section
