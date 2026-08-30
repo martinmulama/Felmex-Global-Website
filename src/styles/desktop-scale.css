@@ -1,0 +1,13 @@
+/* Shared desktop baseline matching the established Chrome 80% composition. */
+@media (min-width: 1025px) {
+  html:has(.hero--why-choose),
+  html:has(.svc-page),
+  html:has(.abt-page),
+  html:has(.prj-page),
+  html:has(.cnt-page) {
+    font-size: 80%;
+    --site-content-max-width: 896px;
+    --site-wide-max-width: 992px;
+    --max-width: var(--site-content-max-width);
+  }
+}

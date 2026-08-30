@@ -750,3 +750,65 @@
     min-height: 100svh;
   }
 }
+
+/* Home-specific desktop normalization; the shared scale baseline lives in desktop-scale.css. */
+@media (min-width: 1025px) {
+  .hero--why-choose .why-choose-felmex {
+    /* Share one artwork scale so browser zoom cannot split the head from the cars. */
+    --why-train-image-height: calc(var(--why-container-image-height) * 1.524);
+    /* Container artwork shares the head's wheel/rail scale. */
+    --why-container-image-height: calc(var(--why-train-height) * 0.617);
+    --why-container-image-top: calc(var(--why-train-height) * 0.255);
+    --why-train-rail-lift: calc(var(--why-train-height) * -0.05);
+    /* Keep the action baseline on the rail while allowing copy to rise above the train. */
+    --why-hero-copy-frame-top: var(--why-train-copy-top);
+    --why-hero-copy-frame-bottom: calc(var(--why-train-height) * 0.83);
+    --why-hero-copy-frame-height: calc(
+      var(--why-hero-copy-frame-bottom) - var(--why-hero-copy-frame-top)
+    );
+  }
+
+  /* Keep the wide desktop composition through the original 1120px breakpoint. */
+  .hero--why-choose .why-choose-felmex__segment--head {
+    grid-template-columns:
+      minmax(0, calc(50vw + var(--home-hero-wide-inline))) minmax(0, calc(50vw - var(--home-hero-wide-inline)));
+  }
+
+  .hero--why-choose .why-choose-felmex__segment {
+    margin-right: -0.8px;
+  }
+
+  .hero--why-choose .why-choose-felmex__train-visual-reveal {
+    transform: translateX(-80px);
+  }
+
+  body.is-loaded
+    .hero--why-choose
+    .why-choose-felmex--home-hero
+    .why-choose-felmex__train-visual-reveal {
+    transform: translateX(0);
+  }
+
+  .hero--why-choose .why-choose-felmex__train-content-wrapper {
+    padding:
+      var(--why-hero-copy-frame-top) var(--why-train-copy-right) 0
+      var(--why-train-copy-left);
+  }
+
+  .hero--why-choose .why-choose-felmex__headline--home-hero {
+    height: var(--why-hero-copy-frame-height);
+    justify-content: space-between;
+  }
+
+  .hero--why-choose .why-choose-felmex__desktop-action-icon {
+    border-width: 0.8px;
+  }
+
+  .hero--why-choose .why-choose-felmex__desktop-action-link-text {
+    border-bottom-width: 1.6px;
+  }
+
+  .hero--why-choose .why-choose-felmex__copy-rule {
+    height: 2.4px;
+  }
+}
