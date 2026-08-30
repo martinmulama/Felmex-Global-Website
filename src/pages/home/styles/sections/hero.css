@@ -772,6 +772,12 @@
     --why-container-image-height: calc(var(--why-train-height) * 0.617);
     --why-container-image-top: calc(var(--why-train-height) * 0.255);
     --why-train-rail-lift: calc(var(--why-train-height) * -0.05);
+    /* Keep the action baseline on the rail while allowing copy to rise above the train. */
+    --why-hero-copy-frame-top: var(--why-train-copy-top);
+    --why-hero-copy-frame-bottom: calc(var(--why-train-height) * 0.83);
+    --why-hero-copy-frame-height: calc(
+      var(--why-hero-copy-frame-bottom) - var(--why-hero-copy-frame-top)
+    );
   }
 
   /* Keep the wide desktop composition through the original 1120px breakpoint. */
@@ -793,6 +799,17 @@
     .why-choose-felmex--home-hero
     .why-choose-felmex__train-visual-reveal {
     transform: translateX(0);
+  }
+
+  .hero--why-choose .why-choose-felmex__train-content-wrapper {
+    padding:
+      var(--why-hero-copy-frame-top) var(--why-train-copy-right) 0
+      var(--why-train-copy-left);
+  }
+
+  .hero--why-choose .why-choose-felmex__headline--home-hero {
+    height: var(--why-hero-copy-frame-height);
+    justify-content: space-between;
   }
 
   .hero--why-choose .why-choose-felmex__desktop-action-icon {
