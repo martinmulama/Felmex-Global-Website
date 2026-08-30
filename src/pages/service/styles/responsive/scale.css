@@ -1,0 +1,15 @@
+/*
+ * Desktop 80% baseline
+ *
+ * Match the established Chrome 80% desktop composition at normal browser
+ * zoom. The service page is scoped independently so other routes retain
+ * their existing desktop scale until they receive the same treatment.
+ */
+@media (min-width: 1025px) {
+  html:has(.svc-page) {
+    font-size: 80%;
+    --site-content-max-width: 896px;
+    --site-wide-max-width: 992px;
+    --max-width: var(--site-content-max-width);
+  }
+}
