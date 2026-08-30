@@ -751,20 +751,8 @@
   }
 }
 
-/*
- * Desktop 80% baseline
- *
- * These values reproduce the current composition at Chrome's 80% zoom while
- * the browser remains at 100%. Viewport-relative terms stay unchanged because
- * their visible size is already preserved by the wider/taller CSS viewport at
- * 80% zoom; only fixed values are reduced to 80%.
- */
+/* Home-specific desktop normalization; the shared scale baseline lives in desktop-scale.css. */
 @media (min-width: 1025px) {
-  .hero--why-choose {
-    --home-hero-inline: max(1rem, calc((100vw - 896px) / 2));
-    --home-hero-wide-inline: max(1rem, calc((100vw - 992px) / 2));
-  }
-
   .hero--why-choose .why-choose-felmex {
     /* Share one artwork scale so browser zoom cannot split the head from the cars. */
     --why-train-image-height: calc(var(--why-container-image-height) * 1.524);

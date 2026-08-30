@@ -1,10 +1,9 @@
-/*
- * Desktop 80% baseline
- *
- * Reproduces the existing Chrome 80% desktop composition at normal browser
- * zoom. Scoped to Contact so tablet and mobile layouts retain their sizing.
- */
+/* Shared desktop baseline matching the established Chrome 80% composition. */
 @media (min-width: 1025px) {
+  html:has(.hero--why-choose),
+  html:has(.svc-page),
+  html:has(.abt-page),
+  html:has(.prj-page),
   html:has(.cnt-page) {
     font-size: 80%;
     --site-content-max-width: 896px;

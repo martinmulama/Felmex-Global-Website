@@ -12,17 +12,3 @@
   --theme-ink-600: var(--light-ink-600);
   color-scheme: light;
 }
-
-/*
- * The Home desktop reference is the existing 80% Chrome composition.
- * `rem` values therefore need an 80% root basis; viewport units already keep
- * their visual proportion at browser zoom and are intentionally unchanged.
- */
-@media (min-width: 1025px) {
-  html:has(.hero--why-choose) {
-    font-size: 80%;
-    --site-content-max-width: 896px;
-    --site-wide-max-width: 992px;
-    --max-width: var(--site-content-max-width);
-  }
-}
