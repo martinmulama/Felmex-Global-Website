@@ -226,6 +226,38 @@
 }
 
 @media (min-width: 1025px) {
+  /* Decorative layers only: the hero content keeps its existing grid and placement. */
+  .hero--why-choose .why-choose-felmex__segment--head::before,
+  .hero--why-choose .why-choose-felmex__segment--head::after {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    content: '';
+    pointer-events: none;
+  }
+
+  .hero--why-choose .why-choose-felmex__segment--head::before {
+    background: var(--site-footer-blue);
+    clip-path: polygon(64% 0, 100% 0, 100% 100%, 58.4% 100%);
+  }
+
+  .hero--why-choose .why-choose-felmex__segment--head::after {
+    background: var(--site-brand-red);
+    clip-path: polygon(59.7% 0, 64.05% 0, 59.5% 79%, 59.2% 86%, 55.35% 79.8%);
+  }
+
+  .hero--why-choose .why-choose-felmex__train-content-wrapper {
+    z-index: 3;
+  }
+
+  /* Match the reference's light-on-navy copy without moving its existing layout. */
+  .hero--why-choose .why-choose-felmex__segment--head .why-choose-felmex__headline h2,
+  .hero--why-choose .why-choose-felmex__segment--head .why-choose-felmex__hero-subtext,
+  .hero--why-choose .why-choose-felmex__segment--head .why-choose-felmex__desktop-action-label,
+  .hero--why-choose .why-choose-felmex__segment--head .why-choose-felmex__desktop-action-link-text {
+    color: var(--site-on-navy-strong);
+  }
+
   .hero--why-choose .why-choose-felmex {
     --why-red-head-coupler-trim: calc(var(--why-container-image-height) * 0.045);
   }
