@@ -1,6 +1,7 @@
 @import './contact/styles/page.css';
 @import './contact/styles/sections/offices.css';
 @import './contact/styles/sections/contact-form.css';
+@import './contact/styles/sections/operations-note.css';
 @import './contact/styles/responsive/desktop.css';
 @import './contact/styles/responsive/mobile.css';
 @import './contact/styles/responsive/reduced-motion.css';

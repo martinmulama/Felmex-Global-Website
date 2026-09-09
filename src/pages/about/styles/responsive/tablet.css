@@ -10,7 +10,7 @@
   }
 
   .abt-mobile-reference
-    > :not(.abt-mobile-hero):not(.abt-mobile-brand-story):not(.abt-mobile-tabs):not(.abt-mobile-why-choose) {
+    > :not(.abt-mobile-hero):not(.abt-mobile-hero-collage):not(.abt-mobile-stats-strip):not(.abt-mobile-brand-story):not(.abt-mobile-tabs):not(.abt-mobile-why-choose) {
     display: none;
   }
 

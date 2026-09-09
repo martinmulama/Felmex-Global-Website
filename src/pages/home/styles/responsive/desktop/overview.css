@@ -200,10 +200,6 @@
     border-top: 1px solid rgba(var(--site-footer-blue-rgb), 0.24);
   }
 
-  .landing-overview--split .split-scroll-statement .landing-overview-icon {
-    display: none;
-  }
-
   .landing-overview--split .split-scroll-statement h3 {
     order: 2;
     max-width: none;
