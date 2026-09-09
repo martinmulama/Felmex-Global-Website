@@ -1,3 +1,11 @@
+.abt-desktop-hero-collage {
+  display: none;
+}
+
+.abt-desktop-stats-strip {
+  display: none;
+}
+
 @media (min-width: 1025px) and (max-width: 1120px) {
   .abt-page {
     --abt-ref-nav-height: 5.25rem;
@@ -115,6 +123,366 @@
 }
 
 @media (min-width: 1025px) {
+  /* The About canvas keeps its own navy and type treatment; this is only the
+     overlapping scrapbook collage shared with the Services composition. */
+  .abt-page {
+    --abt-ref-nav-height: clamp(10rem, 10.25vw, 10.65rem);
+    --abt-hero-card-height: clamp(18.4rem, 30.7svh, 19.65rem);
+    --abt-desktop-hero-collage-height: clamp(29rem, 33vw, 33rem);
+    --abt-desktop-hero-collage-offset: 17.7rem;
+    --abt-desktop-canvas-white-start: calc(
+      var(--abt-hero-card-height) - (var(--abt-desktop-hero-collage-height) / 2) - 2rem
+    );
+    --abt-desktop-hero-height: max(
+      calc(100svh - var(--site-header-clearance, 0px)),
+      calc(
+        var(--abt-desktop-hero-collage-offset) +
+        var(--abt-desktop-hero-collage-height) +
+        2rem +
+        var(--abt-ref-nav-height)
+      )
+    );
+  }
+
+  .abt-hero {
+    min-height: var(--abt-desktop-hero-height);
+    padding-top: clamp(3.8rem, 6.2svh, 4rem);
+  }
+
+  .abt-hero-title {
+    margin-top: clamp(1.9rem, 2.2vw, 2rem);
+  }
+
+  .abt-hero-rule,
+  .abt-hero-subtitle,
+  .abt-hero-link-mask,
+  .abt-hero-link {
+    display: none;
+  }
+
+  .abt-curtain-section::before {
+    content: '';
+    position: absolute;
+    top: -2.05rem;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    background: linear-gradient(
+      to bottom,
+      var(--abt-blue) 0,
+      var(--abt-blue) var(--abt-desktop-canvas-white-start),
+      #ffffff var(--abt-desktop-canvas-white-start),
+      #ffffff 100%
+    );
+  }
+
+  .abt-curtain-board,
+  .abt-curtain-stage,
+  .abt-curtain-canvas {
+    background: transparent;
+  }
+
+  .abt-curtain-scene {
+    width: 100%;
+    background: transparent;
+  }
+
+  .abt-curtain-scene::before,
+  .abt-curtain-hero-copy {
+    display: none;
+  }
+
+  .abt-curtain-nav {
+    display: none;
+  }
+
+  .abt-desktop-stats-strip {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    padding: clamp(3.35rem, 4.35vw, 4.65rem) clamp(2rem, 4.4vw, 4.8rem);
+    margin-top: clamp(2.75rem, 4vw, 4.25rem);
+    box-sizing: border-box;
+    overflow: hidden;
+    background: var(--abt-blue);
+  }
+
+  .abt-desktop-stats-strip-inner {
+    display: grid;
+    width: min(100%, 88rem);
+    min-height: clamp(10rem, 12vw, 12.4rem);
+    margin-inline: auto;
+    grid-template-columns: minmax(17rem, 1.35fr) repeat(3, minmax(11.5rem, 0.86fr));
+    align-items: center;
+    column-gap: clamp(3.45rem, 5vw, 5.8rem);
+  }
+
+  .abt-desktop-stats-intro,
+  .abt-desktop-stat-card {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .abt-desktop-stats-intro {
+    display: grid;
+    min-height: clamp(9.25rem, 11.2vw, 11.75rem);
+    align-items: center;
+    padding: clamp(1.5rem, 2.1vw, 2.25rem) clamp(2rem, 2.8vw, 3rem);
+    transform: rotate(-2.4deg);
+  }
+
+  .abt-desktop-stats-intro::before,
+  .abt-desktop-stats-intro::after,
+  .abt-desktop-stat-card::before,
+  .abt-desktop-stat-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 78%, 93.5% 100%, 0 100%);
+  }
+
+  .abt-desktop-stats-intro::before,
+  .abt-desktop-stat-card::before {
+    z-index: 0;
+    background: var(--abt-red);
+    transform: translate(clamp(0.65rem, 1vw, 0.95rem), clamp(0.55rem, 0.85vw, 0.8rem));
+  }
+
+  .abt-desktop-stats-intro::after,
+  .abt-desktop-stat-card::after {
+    z-index: 1;
+    background: #ffffff;
+    box-shadow: 0 1rem 1.65rem rgba(1, 18, 37, 0.24);
+  }
+
+  .abt-desktop-stats-intro h2,
+  .abt-desktop-stat-card > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  .abt-desktop-stats-intro h2 {
+    display: grid;
+    gap: 0.15em;
+    margin: 0;
+    color: var(--abt-ink);
+    font-family: var(--site-font-display);
+    font-size: clamp(2.05rem, 2.75vw, 3.15rem);
+    font-weight: 850;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+
+  .abt-desktop-stats-intro h2 span,
+  .abt-desktop-stats-intro h2 strong {
+    display: block;
+  }
+
+  .abt-desktop-stats-intro h2 strong {
+    color: var(--abt-red);
+    font: inherit;
+  }
+
+  .abt-desktop-stat-group {
+    position: relative;
+    min-width: 0;
+  }
+
+  .abt-desktop-stat-card {
+    display: grid;
+    min-height: clamp(8.25rem, 9.75vw, 10.65rem);
+    align-content: center;
+    justify-items: center;
+    padding: clamp(1.15rem, 1.75vw, 1.7rem) clamp(0.8rem, 1.35vw, 1.3rem);
+    text-align: center;
+    transform: rotate(-1.1deg);
+  }
+
+  .abt-desktop-stat-group:nth-of-type(2) .abt-desktop-stat-card {
+    transform: rotate(0.85deg);
+  }
+
+  .abt-desktop-stat-group:nth-of-type(3) .abt-desktop-stat-card {
+    transform: rotate(-0.7deg);
+  }
+
+  .abt-desktop-stat-value,
+  .abt-desktop-stat-label {
+    margin: 0;
+    color: var(--abt-ink);
+    font-family: var(--site-font-display);
+  }
+
+  .abt-desktop-stat-value {
+    font-size: clamp(2.65rem, 4.15vw, 4.5rem);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -0.065em;
+  }
+
+  .abt-desktop-stat-label {
+    margin-top: clamp(0.48rem, 0.75vw, 0.72rem);
+    font-size: clamp(0.9rem, 1.17vw, 1.3rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  .abt-desktop-hero-collage {
+    position: absolute;
+    top: calc(
+      var(--abt-desktop-hero-collage-offset) +
+      var(--abt-hero-card-height) +
+      var(--abt-ref-nav-height) -
+      var(--abt-desktop-hero-height)
+    );
+    left: 50%;
+    z-index: 5;
+    display: block;
+    width: min(68rem, 69vw);
+    height: var(--abt-desktop-hero-collage-height);
+    pointer-events: none;
+    transform: translateX(-50%);
+  }
+
+  .abt-desktop-hero-card-back,
+  .abt-desktop-hero-photo,
+  .abt-desktop-hero-note {
+    position: absolute;
+    margin: 0;
+  }
+
+  .abt-desktop-hero-card-back {
+    z-index: 0;
+    display: block;
+    background: var(--abt-red);
+    box-shadow: 0 1.1rem 2rem rgba(6, 25, 45, 0.22);
+  }
+
+  .abt-desktop-hero-card-back--team {
+    top: 0;
+    left: 4.8%;
+    width: 43%;
+    aspect-ratio: 1.62;
+    transform: rotate(-5deg);
+  }
+
+  .abt-desktop-hero-card-back--warehouse {
+    top: 9.8rem;
+    right: 0.8%;
+    width: 42%;
+    aspect-ratio: 1.62;
+    transform: rotate(5.3deg);
+  }
+
+  .abt-desktop-hero-photo {
+    z-index: 1;
+    overflow: hidden;
+    border: clamp(0.55rem, 0.7vw, 0.75rem) solid #ffffff;
+    background: #ffffff;
+    box-shadow: 0 1.15rem 2.1rem rgba(6, 25, 45, 0.28);
+  }
+
+  .abt-desktop-hero-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .abt-desktop-hero-photo--team {
+    top: clamp(1.95rem, 2.6vw, 2.55rem);
+    left: 0;
+    width: 54.5%;
+    aspect-ratio: 1.56;
+    transform: rotate(-6.9deg);
+  }
+
+  .abt-desktop-hero-photo--team img {
+    object-position: center 26%;
+  }
+
+  .abt-desktop-hero-photo--warehouse {
+    top: clamp(11.4rem, 14.8vw, 13.3rem);
+    right: 0;
+    width: 46.5%;
+    aspect-ratio: 1.54;
+    transform: rotate(6.1deg);
+  }
+
+  .abt-desktop-hero-photo--warehouse img {
+    object-position: center 56%;
+  }
+
+  .abt-desktop-hero-note {
+    top: clamp(1.05rem, 1.45vw, 1.65rem);
+    left: 57.5%;
+    z-index: 3;
+    width: 29.5%;
+    min-height: clamp(10.7rem, 13.4vw, 13rem);
+    box-sizing: border-box;
+    padding: clamp(2.5rem, 3.25vw, 3.1rem) clamp(1.65rem, 2.15vw, 2.1rem)
+      clamp(1.7rem, 2.1vw, 2rem);
+    background: #fbfaf7;
+    box-shadow: 0 1.25rem 2.15rem rgba(6, 25, 45, 0.2);
+    color: var(--abt-ink);
+    transform: rotate(5.3deg);
+  }
+
+  .abt-desktop-hero-note::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.55;
+    background-image: radial-gradient(rgba(15, 40, 66, 0.18) 0.45px, transparent 0.55px);
+    background-size: 4px 4px;
+    pointer-events: none;
+  }
+
+  .abt-desktop-hero-note p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-family: var(--site-font-display);
+    font-size: clamp(0.86rem, 1vw, 1.05rem);
+    font-weight: 600;
+    line-height: 1.36;
+  }
+
+  .abt-desktop-hero-note p > span {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--abt-red);
+    font-size: 0.78em;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .abt-desktop-hero-note > span {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: clamp(2.5rem, 2.9vw, 3rem);
+    height: 3px;
+    margin-top: clamp(0.95rem, 1.35vw, 1.3rem);
+    background: var(--abt-red);
+  }
+
+  .abt-desktop-hero-paperclip {
+    position: absolute;
+    top: clamp(-2rem, -2.3vw, -1.45rem);
+    left: 50%;
+    z-index: 2;
+    width: clamp(3.25rem, 3.8vw, 3.85rem);
+    height: auto;
+    filter: drop-shadow(0.12rem 0.22rem 0.12rem rgba(6, 25, 45, 0.32));
+    transform: translateX(-50%) rotate(-8deg);
+  }
+
   .abt-story-section {
     display: block;
     min-height: var(--abt-split-section-min-height);
@@ -195,11 +563,13 @@
   }
 
   .abt-values-section {
-    display: block;
+    display: flex;
     min-height: var(--abt-split-section-min-height);
+    align-items: flex-start;
+    justify-content: flex-end;
     margin-top: 0;
-    padding: 0;
-    overflow: hidden;
+    padding: clamp(4rem, 5.36vw, 5.95rem) clamp(12.5rem, 19.56vw, 21.7rem) 0 0;
+    overflow: visible;
     background: #ffffff;
     color: #ffffff;
   }
@@ -220,12 +590,12 @@
   }
 
   .abt-values-copy {
-    position: absolute;
-    inset: clamp(4rem, 5.36vw, 5.95rem)
-      clamp(12.5rem, 19.56vw, 21.7rem) 0 auto;
+    position: relative;
+    inset: auto;
     z-index: 2;
     display: flex;
-    width: clamp(45rem, 60vw, 66rem);
+    width: min(66rem, 100%);
+    box-sizing: border-box;
     flex-direction: column;
     padding: clamp(4.75rem, 4.95vw, 5.5rem) clamp(8rem, 13.48vw, 14.95rem)
       clamp(3rem, 4vw, 4.4rem) clamp(2.5rem, 3.3vw, 3.6rem);
@@ -248,8 +618,8 @@
     font-size: var(--abt-home-section-title-size);
     line-height: var(--abt-home-section-title-line-height);
     letter-spacing: var(--abt-home-section-title-tracking);
-    text-wrap: nowrap;
-    white-space: nowrap;
+    text-wrap: balance;
+    white-space: normal;
   }
 
   .abt-values-title > span {

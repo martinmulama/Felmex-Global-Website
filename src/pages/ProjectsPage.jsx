@@ -194,15 +194,17 @@ function ProjectColumn({ project, projectIndex, onOpen }) {
           decoding="async"
         />
       </figure>
-      <p className="prj-column-brief" id={briefId}>
-        {getProjectBrief(project)}
-      </p>
-      <div className="prj-column-meta">
-        <h2 className="prj-column-title" id={titleId}>
-          {project.title}
-        </h2>
-        <p className="prj-column-category">{getProjectCategory(project)}</p>
-        <p className="prj-column-year">{getProjectYear(project)}</p>
+      <div className="prj-column-body">
+        <p className="prj-column-brief" id={briefId}>
+          {getProjectBrief(project)}
+        </p>
+        <div className="prj-column-meta">
+          <h2 className="prj-column-title" id={titleId}>
+            {project.title}
+          </h2>
+          <p className="prj-column-category">{getProjectCategory(project)}</p>
+          <p className="prj-column-year">{getProjectYear(project)}</p>
+        </div>
       </div>
     </article>
   );
@@ -214,25 +216,11 @@ export function ProjectsPage() {
   const pinRef = useRef(null);
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
-  const progressRef = useRef(null);
-  const scrollTriggerRef = useRef(null);
   const lenisRef = useRef(null);
   const [openProjectId, setOpenProjectId] = useState(null);
   const [usesNativeProjectScroll, setUsesNativeProjectScroll] = useState(false);
 
   const projectList = useMemo(() => ONGOING_PROJECTS, []);
-  const timelineMarkers = useMemo(() => {
-    if (projectList.length === 0) return [];
-
-    const middleIndex = Math.floor((projectList.length - 1) / 2);
-
-    return [
-      {
-        project: projectList[middleIndex],
-        projectIndex: middleIndex,
-      },
-    ];
-  }, [projectList]);
   const openProjectIndex = projectList.findIndex((project) => project.id === openProjectId);
   const openProject = openProjectIndex >= 0 ? projectList[openProjectIndex] : null;
 
@@ -244,39 +232,6 @@ export function ProjectsPage() {
 
     return Math.max(0, track.scrollWidth - viewport.clientWidth);
   }, []);
-
-  const scrollToPagePosition = useCallback((targetY) => {
-    const lenis = lenisRef.current;
-
-    if (lenis) {
-      lenis.scrollTo(targetY, {
-        duration: 1.05,
-        easing: (time) => Math.min(1, 1.001 - 2 ** (-10 * time)),
-      });
-      return;
-    }
-
-    window.scrollTo({
-      top: targetY,
-      behavior: 'smooth',
-    });
-  }, []);
-
-  const scrollToProjectIndex = useCallback(
-    (projectIndex) => {
-      const trigger = scrollTriggerRef.current;
-
-      if (!trigger) return;
-
-      const maxSteps = Math.max(1, projectList.length - DESKTOP_VISIBLE_PROJECTS);
-      const stepIndex = Math.min(projectIndex, maxSteps);
-      const progress = stepIndex / maxSteps;
-      const targetY = trigger.start + (trigger.end - trigger.start) * progress;
-
-      scrollToPagePosition(targetY);
-    },
-    [projectList.length, scrollToPagePosition]
-  );
 
   useLayoutEffect(() => {
     if (typeof window === 'undefined' || typeof document === 'undefined') return undefined;
@@ -310,7 +265,6 @@ export function ProjectsPage() {
     const teardown = () => {
       animationContext?.revert();
       animationContext = null;
-      scrollTriggerRef.current = null;
 
       if (lenisTicker) {
         gsap.ticker.remove(lenisTicker);
@@ -323,7 +277,6 @@ export function ProjectsPage() {
       lenisRef.current = null;
 
       gsap.set(track, { clearProps: 'transform' });
-      progressRef.current && gsap.set(progressRef.current, { clearProps: 'transform' });
     };
 
     const refreshScrollTrigger = () => {
@@ -363,7 +316,6 @@ export function ProjectsPage() {
 
       animationContext = gsap.context(() => {
         gsap.set(track, { x: 0 });
-        progressRef.current && gsap.set(progressRef.current, { scaleX: 0, transformOrigin: 'left center' });
 
         const timeline = gsap.timeline({
           defaults: { ease: 'none' },
@@ -387,18 +339,6 @@ export function ProjectsPage() {
           0
         );
 
-        if (progressRef.current) {
-          timeline.to(
-            progressRef.current,
-            {
-              scaleX: 1,
-              duration: 1,
-            },
-            0
-          );
-        }
-
-        scrollTriggerRef.current = timeline.scrollTrigger;
       }, root);
 
       refreshScrollTrigger();
@@ -503,31 +443,6 @@ export function ProjectsPage() {
               />
             ))}
           </div>
-        </div>
-
-        <div className="prj-timeline" aria-label="Project chronology">
-          <span className="prj-timeline-edge prj-timeline-edge--newest">Newest</span>
-          <div className="prj-timeline-rail">
-            <span className="prj-timeline-fill" ref={progressRef} />
-            <div
-              className="prj-timeline-nodes"
-              style={{ '--prj-node-count': timelineMarkers.length }}
-            >
-              {timelineMarkers.map(({ project, projectIndex }) => (
-                <button
-                  className="prj-timeline-node"
-                  key={project.id}
-                  type="button"
-                  aria-label={`Scroll to ${project.title}`}
-                  onClick={() => scrollToProjectIndex(projectIndex)}
-                >
-                  <span />
-                  <strong>{getProjectYear(project)}</strong>
-                </button>
-              ))}
-            </div>
-          </div>
-          <span className="prj-timeline-edge prj-timeline-edge--oldest">Oldest</span>
         </div>
 
         <div className="prj-page-cta" aria-label="Project contact">

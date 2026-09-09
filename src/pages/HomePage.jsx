@@ -95,6 +95,7 @@ const HOME_SERVICE_FEATURES = [
     image: '/ship-service-catalog.webp',
     imageWidth: 1280,
     imageHeight: 853,
+    imageWidths: [1280],
     href: '/services#svc-deep-dive-sea-freight',
     summary: 'End-to-end cargo movement across global trade routes, carrier options, and port handoffs.',
     mediaTone: 'ship',
@@ -150,7 +151,7 @@ const HOME_SERVICE_FEATURES = [
     image: '/parcel-courier-service-catalog.webp',
     imageWidth: 1536,
     imageHeight: 1024,
-    imageWidths: [640, 960, 1536],
+    imageWidths: [1536],
     href: '/services',
     summary:
       'Dependable local and international movement for documents, parcels, e-commerce, medical, and commercial cargo.',
@@ -1013,72 +1014,57 @@ export function HomePage() {
     if (!node || typeof window === 'undefined') return undefined;
 
     const splitContainer = node.querySelector('.split-scroll-container');
-    const statements = Array.from(node.querySelectorAll('.split-scroll-statement'));
+    const viewport = node.querySelector('.split-scroll-statement-frame');
+    const article = node.querySelector('.landing-overview-article');
 
-    if (
-      !splitContainer ||
-      isCompactHomeViewport ||
-      prefersReducedMotion ||
-      statements.length < 2
-    ) {
+    if (!splitContainer || !viewport || !article || isCompactHomeViewport || prefersReducedMotion) {
       return undefined;
     }
 
+    // The page travels exactly as far as the article overflows its paper viewport.
+    // A single linear tween keeps all four blocks in normal document flow.
+    const scrollDistance = () => Math.max(0, article.scrollHeight - viewport.clientHeight);
+    const headerHeight = () =>
+      Math.ceil(document.querySelector('.site-header')?.getBoundingClientRect().height ?? 0);
     const animationContext = gsap.context(() => {
-      const transitionDuration = 0.72;
-
-      gsap.set(statements, {
-        opacity: 1,
-        visibility: 'visible',
-        y: 0,
-        yPercent: (index) => (index === 0 ? 0 : 110),
-      });
-
-      const timeline = gsap.timeline({
-        defaults: {
-          ease: 'power3.inOut',
-          overwrite: 'auto',
-        },
+      gsap.fromTo(article, { y: 0 }, {
+        y: () => -scrollDistance(),
+        ease: 'none',
         scrollTrigger: {
+          id: 'home-overview-article',
           trigger: splitContainer,
-          start: 'top top',
-          end: () => `+=${window.innerHeight * (statements.length - 1)}`,
+          start: () => `top top+=${headerHeight()}`,
+          end: () => `+=${Math.max(1, scrollDistance())}`,
           pin: true,
+          pinType: 'fixed',
           pinSpacing: true,
           scrub: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },
       });
-
-      statements.slice(1).forEach((statement, index) => {
-        const stateIndex = index + 1;
-        const transitionStart = index;
-        const outgoingStatement = statements[stateIndex - 1];
-
-        timeline
-          .to(
-            outgoingStatement,
-            {
-              yPercent: -110,
-              duration: transitionDuration,
-            },
-            transitionStart
-          )
-          .to(
-            statement,
-            {
-              yPercent: 0,
-              duration: transitionDuration,
-            },
-            transitionStart
-          );
-      });
     }, node);
 
+    // Refresh only after assets that can change the article's measured height settle.
+    // Observing the pinned viewport itself creates a refresh loop as ScrollTrigger
+    // swaps it between normal flow and its pin spacer at the section boundaries.
+    let refreshFrame;
+    let isEffectActive = true;
+    const refreshAfterAssetsSettle = () => {
+      if (!isEffectActive) return;
+      cancelAnimationFrame(refreshFrame);
+      refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    };
+    const fontReady = document.fonts?.ready;
+
+    fontReady?.then(refreshAfterAssetsSettle);
+    window.addEventListener('load', refreshAfterAssetsSettle, { once: true });
     ScrollTrigger.refresh();
 
     return () => {
+      isEffectActive = false;
+      window.removeEventListener('load', refreshAfterAssetsSettle);
+      cancelAnimationFrame(refreshFrame);
       animationContext.revert();
       ScrollTrigger.refresh();
     };
@@ -1567,58 +1553,66 @@ export function HomePage() {
       >
         <div className="split-scroll-container">
           <div className="left-panel">
-            <div
-              className="split-scroll-statement-frame"
-              aria-label="Felmex mission, vision, and company overview"
-            >
-              <article
-                className="landing-overview-statement landing-overview-statement--mission split-scroll-statement"
-              >
-                <OverviewStatementIcon kind="mission" />
-                <h3>Mission</h3>
-                <span className="landing-overview-statement-rule" aria-hidden="true" />
-                <p>
-                  FELMEX Global Logistics exists to simplify complexity in international trade. We
-                  integrate air, sea, road, and rail services into one cohesive network, ensuring
-                  reliable, transparent, and future-ready supply chain solutions for our partners
-                  worldwide.
-                </p>
-              </article>
-              <article className="landing-overview-statement landing-overview-statement--vision split-scroll-statement">
-                <OverviewStatementIcon kind="vision" />
-                <h3>Vision</h3>
-                <span className="landing-overview-statement-rule" aria-hidden="true" />
-                <p>
-                  Redefine global logistics by delivering seamless, multimodal solutions that connect
-                  businesses, markets, and communities with efficiency &amp; integrity.
-                </p>
-              </article>
-              <article
-                className="landing-overview-statement landing-overview-statement--about split-scroll-statement"
-              >
-                <OverviewStatementIcon kind="about" />
-                <h3>About Us</h3>
-                <span className="landing-overview-statement-rule" aria-hidden="true" />
-                <p>
-                  FELMEX Global Logistics is an envisioned global multimodal service provider,
-                  delivering integrated solutions across air, sea, road, and rail. We simplify complex
-                  supply chains, connect businesses to international markets, and ensure efficiency,
-                  transparency, and reliability at every step.
-                </p>
-              </article>
-              <article
-                className="landing-overview-statement landing-overview-statement--idd split-scroll-statement"
-              >
-                <OverviewStatementIcon kind="idd" />
-                <h3>IDD Statement</h3>
-                <span className="landing-overview-statement-rule" aria-hidden="true" />
-                <p>
-                  Integrity Due Diligence keeps every partner, supplier, and agent aligned to clear
-                  ethical, compliance, and operating standards so client cargo moves through a
-                  responsible logistics network with confidence.
-                </p>
-              </article>
+            <div className="landing-overview-collage" aria-hidden="true">
+              <div className="landing-overview-photo-backing" />
+              <div className="landing-overview-photo landing-overview-photo--port">
+                <img src="/overview/harbor.png" alt="" width="1328" height="1184" />
+              </div>
+              <div className="landing-overview-photo landing-overview-photo--team">
+                <div className="landing-overview-photo-crop">
+                  <img src="/overview/felmex-container-lift.png" alt="" width="1314" height="1197" />
+                </div>
+              </div>
             </div>
+            <div className="landing-overview-paper">
+              <div
+                className="split-scroll-statement-frame"
+                role="region"
+                aria-label="About Felmex, our mission, integrity due diligence, and our vision"
+                tabIndex={prefersReducedMotion ? 0 : undefined}
+              >
+                <div className="landing-overview-article">
+                  <article className="landing-overview-statement landing-overview-statement--about split-scroll-statement">
+                    <span className="landing-overview-statement-rule" aria-hidden="true" />
+                    <h3>About Us</h3>
+                    <p>
+                      FELMEX Global Logistics is an envisioned global multimodal service provider,
+                      delivering integrated solutions across air, sea, road, and rail. We simplify complex
+                      supply chains, connect businesses to international markets, and ensure efficiency,
+                      transparency, and reliability at every step.
+                    </p>
+                  </article>
+                  <article className="landing-overview-statement landing-overview-statement--mission split-scroll-statement">
+                    <span className="landing-overview-statement-rule" aria-hidden="true" />
+                    <h3>Our Mission</h3>
+                    <p>
+                      FELMEX Global Logistics exists to simplify complexity in international trade. We
+                      integrate air, sea, road, and rail services into one cohesive network, ensuring
+                      reliable, transparent, and future-ready supply chain solutions for our partners
+                      worldwide.
+                    </p>
+                  </article>
+                  <article className="landing-overview-statement landing-overview-statement--idd split-scroll-statement">
+                    <span className="landing-overview-statement-rule" aria-hidden="true" />
+                    <h3>IDD Statement</h3>
+                    <p>
+                      Integrity Due Diligence keeps every partner, supplier, and agent aligned to clear
+                      ethical, compliance, and operating standards so client cargo moves through a
+                      responsible logistics network with confidence.
+                    </p>
+                  </article>
+                  <article className="landing-overview-statement landing-overview-statement--vision split-scroll-statement">
+                    <span className="landing-overview-statement-rule" aria-hidden="true" />
+                    <h3>Our Vision</h3>
+                    <p>
+                      Redefine global logistics by delivering seamless, multimodal solutions that connect
+                      businesses, markets, and communities with efficiency &amp; integrity.
+                    </p>
+                  </article>
+                </div>
+              </div>
+            </div>
+            <img className="landing-overview-paperclip" src="/service-catalog-paperclip.png" alt="" aria-hidden="true" width="1280" height="1280" />
           </div>
 
           <aside className="right-panel" aria-label="Company overview headline">
@@ -1809,34 +1803,43 @@ export function HomePage() {
         className="landing-testimonials scroll-section"
         aria-label="Client feedback"
       >
-        <div className="container landing-testimonials-shell">
-          <header className="landing-testimonials-header">
-            <p className="landing-section-label">Client Feedback</p>
-            <ScrollSectionTitle className="landing-section-title landing-testimonials-title">
-              <span className="landing-title-line landing-testimonials-title-line">
-                <span>Don't just take</span>
-              </span>
-              <span className="landing-title-line landing-testimonials-title-line">
-                <span>
-                  <span className="landing-testimonials-title-accent">our word</span> for it
-                </span>
-              </span>
-            </ScrollSectionTitle>
-            <p className="landing-section-text landing-testimonials-text">
-              Teams rely on Felmex for calm communication, disciplined execution, and fast
-              response when plans change.
-            </p>
-          </header>
-        </div>
+        <div className="landing-testimonials-desktop">
+          <aside className="landing-testimonials-desktop-visual" aria-label="Felmex team">
+            <figure className="landing-testimonials-desktop-photo">
+              <img
+                src="/testimonials/team-forward.png"
+                alt="Felmex logistics team at work"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          </aside>
 
-        <div className="landing-testimonials-bleed">
-          <div className="landing-testimonials-content">
+          <div className="landing-testimonials-desktop-main">
+            <header className="landing-testimonials-header">
+              <p className="landing-section-label">Client Feedback</p>
+              <ScrollSectionTitle className="landing-section-title landing-testimonials-title">
+                <span className="landing-title-line landing-testimonials-title-line">
+                  <span>Don't just take</span>
+                </span>
+                <span className="landing-title-line landing-testimonials-title-line">
+                  <span>
+                    <span className="landing-testimonials-title-accent">our word</span> for it
+                  </span>
+                </span>
+              </ScrollSectionTitle>
+              <p className="landing-section-text landing-testimonials-text">
+                Teams rely on Felmex for calm communication, disciplined execution, and fast
+                response when plans change.
+              </p>
+            </header>
+
             <div
-              className="landing-testimonials-accordion"
+              className="landing-testimonials-desktop-quotes"
               role="list"
               aria-label="Client testimonials"
             >
-              {CLIENT_QUOTES.map((quote, index) => (
+              {CLIENT_QUOTES.slice(0, 2).map((quote, index) => (
                 <article
                   key={quote.company}
                   className={`landing-testimonial-panel scroll-section ${quote.tone}`}
@@ -1861,19 +1864,90 @@ export function HomePage() {
                       <p className="landing-testimonial-company">{quote.company}</p>
                     </div>
                   </div>
-
-                  <figure className="landing-testimonial-visual">
-                    <img
-                      className="landing-testimonial-photo"
-                      src={quote.image}
-                      alt=""
-                      aria-hidden="true"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </figure>
                 </article>
               ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="landing-testimonials-compact">
+          <div className="container landing-testimonials-shell">
+            <header className="landing-testimonials-header">
+              <p className="landing-section-label">Client Feedback</p>
+              <ScrollSectionTitle className="landing-section-title landing-testimonials-title">
+                <span className="landing-title-line landing-testimonials-title-line">
+                  <span>Don't just take</span>
+                </span>
+                <span className="landing-title-line landing-testimonials-title-line">
+                  <span>
+                    <span className="landing-testimonials-title-accent">our word</span> for it
+                  </span>
+                </span>
+              </ScrollSectionTitle>
+              <p className="landing-section-text landing-testimonials-text">
+                Teams rely on Felmex for calm communication, disciplined execution, and fast
+                response when plans change.
+              </p>
+            </header>
+            <figure className="landing-testimonials-mobile-photo" aria-label="Felmex team">
+              <img
+                src="/testimonials/team-forward.png"
+                alt="Felmex logistics team at work"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          </div>
+
+          <div className="landing-testimonials-bleed">
+            <div className="landing-testimonials-content">
+              <div
+                className="landing-testimonials-accordion"
+                role="list"
+                aria-label="Client testimonials"
+              >
+                {CLIENT_QUOTES.slice(0, 2).map((quote, index) => (
+                  <article
+                    key={quote.company}
+                    className={`landing-testimonial-panel scroll-section ${quote.tone}`}
+                    role="listitem"
+                  >
+                    <span className="landing-testimonial-index" aria-hidden="true">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+
+                    <div className="landing-testimonial-detail">
+                      <span className="landing-testimonial-mark" aria-hidden="true">
+                        &ldquo;
+                      </span>
+                      <blockquote className="landing-testimonial-quote">
+                        <span className="landing-testimonial-quote-punctuation">&ldquo;</span>
+                        {quote.quote}
+                        <span className="landing-testimonial-quote-punctuation">&rdquo;</span>
+                      </blockquote>
+                      <span className="landing-testimonial-rule" aria-hidden="true" />
+                      <div className="landing-testimonial-meta">
+                        <p className="landing-testimonial-source">{quote.role}</p>
+                        <p className="landing-testimonial-company">{quote.company}</p>
+                      </div>
+                    </div>
+
+                    <figure className="landing-testimonial-visual">
+                      <img
+                        className="landing-testimonial-photo"
+                        src={quote.image}
+                        alt=""
+                        aria-hidden="true"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </figure>
+                  </article>
+                ))}
+              </div>
+              <p className="landing-testimonials-mobile-signoff">
+                Further together <span aria-hidden="true" />
+              </p>
             </div>
           </div>
         </div>

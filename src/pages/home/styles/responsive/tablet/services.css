@@ -125,11 +125,40 @@
     position: relative;
     grid-column: 1;
     grid-row: 1;
+    z-index: 1;
     display: block;
     width: var(--catalog-mobile-icon-block);
     height: calc(var(--catalog-mobile-icon-size) + var(--catalog-mobile-icon-step));
     margin-top: var(--catalog-mobile-icon-top);
+    isolation: isolate;
+    overflow: visible;
     pointer-events: none;
+  }
+
+  .landing-service-mobile-icons::before {
+    content: '';
+    position: absolute;
+    top: clamp(0.4rem, 1vw, 0.65rem);
+    right: clamp(0.2rem, 0.7vw, 0.45rem);
+    bottom: clamp(0.25rem, 0.7vw, 0.45rem);
+    left: clamp(0.25rem, 0.7vw, 0.45rem);
+    z-index: 0;
+    background: var(--catalog-red);
+    box-shadow: 0 0.85rem 1.35rem rgba(7, 27, 53, 0.16);
+    transform: rotate(-3.5deg);
+  }
+
+  .landing-service-mobile-icons::after {
+    content: '';
+    position: absolute;
+    top: clamp(-1.45rem, -3vw, -1rem);
+    left: 45%;
+    z-index: 3;
+    width: clamp(2.5rem, 5.5vw, 3.4rem);
+    aspect-ratio: 1;
+    background: url('/service-catalog-paperclip.png') center / contain no-repeat;
+    filter: drop-shadow(0.08rem 0.12rem 0.08rem rgba(7, 27, 53, 0.28));
+    transform: rotate(-28deg);
   }
 
   .landing-service-mobile-icon {
@@ -138,7 +167,11 @@
     aspect-ratio: 1;
     display: grid;
     place-items: center;
+    padding: clamp(0.5rem, 1vw, 0.75rem);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    background: #ffffff;
     color: var(--site-footer-blue);
+    box-shadow: 0 0.65rem 1.15rem rgba(7, 27, 53, 0.2);
     filter: none;
   }
 
@@ -146,12 +179,14 @@
     top: 0;
     left: 0;
     z-index: 1;
+    transform: translateY(-2.75rem) rotate(-4deg);
   }
 
   .landing-service-mobile-icon--2 {
     top: var(--catalog-mobile-icon-step);
     left: calc(var(--catalog-mobile-icon-size) + var(--catalog-mobile-icon-gap));
     z-index: 2;
+    transform: translateY(2.75rem) rotate(4deg);
   }
 
   .landing-service-mobile-icon .landing-service-icon {
@@ -241,14 +276,18 @@
   }
 
   .landing-service-entry .landing-service-mobile-icon--1 {
-    transform: translateY(-2.75rem);
+    transform: translateY(-2.75rem) rotate(-4deg);
   }
 
   .landing-service-entry .landing-service-mobile-icon--2 {
-    transform: translateY(2.75rem);
+    transform: translateY(2.75rem) rotate(4deg);
   }
 
-  .landing-service-entry.scroll-section.in-view .landing-service-mobile-icon {
-    transform: translateY(0);
+  .landing-service-entry.scroll-section.in-view .landing-service-mobile-icon--1 {
+    transform: translateY(0) rotate(-4deg);
+  }
+
+  .landing-service-entry.scroll-section.in-view .landing-service-mobile-icon--2 {
+    transform: translateY(0) rotate(4deg);
   }
 }

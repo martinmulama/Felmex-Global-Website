@@ -1,0 +1,221 @@
+/* The catalog's existing compact layouts end at 1024px. Keep every
+   folder/photo override here so mobile and tablet retain their own layout. */
+@media (min-width: 1025px) {
+  .landing-services {
+    --catalog-folder-height: clamp(30rem, 38vw, 40rem);
+    --catalog-section-pad-top: clamp(4.2rem, 7.5vw, 7.2rem);
+    --catalog-shell-left: max(
+      var(--page-gutter-wide),
+      calc((100vw - var(--site-content-max-width)) / 2)
+    );
+    --catalog-shell-right: var(--catalog-shell-left);
+    --catalog-title-inline-start: max(
+      var(--page-gutter-wide),
+      /* 100vw includes the vertical scrollbar; account for it so this shares
+         the centered testimonial frame's actual content edge. */
+      calc((100vw - 92rem - 15px) / 2)
+    );
+    --catalog-title-shift: calc(
+      var(--catalog-shell-left) - var(--catalog-title-inline-start)
+    );
+    background:
+      radial-gradient(circle at 62% 42%, rgba(28, 72, 111, 0.38), transparent 38rem),
+      linear-gradient(145deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)),
+      var(--catalog-navy);
+  }
+
+  .landing-services .landing-services-shell.container {
+    width: calc(100% - var(--catalog-shell-left) - var(--catalog-shell-right));
+    margin-left: var(--catalog-shell-left);
+    margin-right: var(--catalog-shell-right);
+  }
+
+  .landing-services::before {
+    content: none;
+  }
+
+  .landing-services-sticky {
+    /* Its box begins at the section boundary, so it pins as that boundary meets
+       the header while the title retains the section's normal top inset. */
+    width: calc(100% + var(--catalog-title-shift));
+    margin-left: calc(-1 * var(--catalog-title-shift));
+    top: var(--site-header-clearance);
+    min-height: 0;
+    padding-top: calc(
+      var(--catalog-section-pad-top) + clamp(0.4rem, 1vw, 0.85rem)
+    );
+  }
+
+  .landing-services-aside {
+    margin-top: calc(-1 * var(--catalog-section-pad-top));
+  }
+
+  /* Match the heading, paragraph, and divider treatment on the overview's blue panel. */
+  .landing-services-title {
+    color: #ffffff;
+    font-family: var(--site-font-display);
+    font-size: clamp(1.95rem, 2.24vw, 2.72rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .landing-services-title .landing-title-line--accent {
+    color: var(--catalog-red);
+  }
+
+  .landing-services-intro {
+    color: rgba(255, 255, 255, 0.94);
+    font-size: clamp(1.02rem, 1.18vw, 1.24rem);
+    font-weight: 500;
+    line-height: 1.62;
+    letter-spacing: 0;
+  }
+
+  .landing-services-rule {
+    width: clamp(4.25rem, 5.2vw, 5.6rem);
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  .landing-services .landing-section-label,
+  .landing-services-link {
+    color: #ffffff;
+  }
+
+  .landing-services-link-icon {
+    border-color: currentColor;
+    color: inherit;
+  }
+
+  .landing-services-list {
+    gap: clamp(2.8rem, 4.5vw, 4.5rem);
+    padding-top: clamp(1.6rem, 2.5vw, 2.5rem);
+  }
+
+  .landing-service-entry,
+  .landing-service-entry:nth-child(n),
+  .landing-service-entry.is-active {
+    width: 100%;
+    min-height: var(--catalog-folder-height);
+    margin: 0;
+    padding: calc(var(--catalog-folder-height) * 0.6) 0 3rem;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+
+  /* The shaped folder stays behind its photo and note and scrolls with them. */
+  .landing-service-entry::before {
+    inset: 1.5rem 0 0;
+    z-index: 0;
+    border-radius: 0.9rem;
+    background: var(--catalog-red);
+    clip-path: polygon(
+      6% 0, 100% 0, 100% 100%, 6% 100%,
+      6% 53%, 0 46%, 0 19%, 6% 12%
+    );
+    transform: rotate(3deg);
+  }
+
+  .landing-service-entry::after {
+    content: none;
+  }
+
+  .landing-service-figure {
+    inset: 0 auto auto 12%;
+    z-index: 1;
+    width: 55%;
+    height: calc(var(--catalog-folder-height) * 0.78);
+    padding: clamp(0.65rem, 0.95vw, 0.95rem);
+    padding-bottom: clamp(0.9rem, 1.3vw, 1.25rem);
+    overflow: visible;
+    background: #ffffff;
+    box-shadow: 0 1.4rem 2rem rgba(0, 0, 0, 0.24);
+    transform: rotate(4deg);
+  }
+
+  .landing-service-entry:nth-child(even) .landing-service-figure {
+    transform: rotate(-3deg);
+  }
+
+  .landing-service-figure::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    top: -2.8rem;
+    left: 5%;
+    width: clamp(6rem, 8vw, 8rem);
+    aspect-ratio: 1;
+    background: url('/service-catalog-paperclip.png') center / contain no-repeat;
+    filter: drop-shadow(0.1rem 0.16rem 0.1rem rgba(0, 0, 0, 0.28));
+    transform: rotate(-32deg);
+    pointer-events: none;
+  }
+
+  .landing-service-image,
+  .landing-service-entry.is-active .landing-service-image {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+
+  /* Keep the existing copy and reading order. The number sits on
+     the folder, while the body becomes the separate overlapping note. */
+  .landing-service-copy {
+    display: contents;
+    color: var(--catalog-navy);
+  }
+
+  .landing-service-index {
+    position: absolute;
+    z-index: 1;
+    top: 4rem;
+    right: 7%;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .landing-service-copy > .landing-service-icon {
+    display: none;
+  }
+
+  .landing-service-copy > .landing-service-rule {
+    display: none;
+  }
+
+  .landing-service-body {
+    position: relative;
+    z-index: 2;
+    width: 64%;
+    margin: 0 4% 0 auto;
+    padding: clamp(1.85rem, 2.75vw, 2.65rem) clamp(1.45rem, 2.15vw, 2rem);
+    background: #ffffff;
+    box-shadow: 0 1rem 1.6rem rgba(0, 0, 0, 0.2);
+  }
+
+  .landing-service-body::before {
+    content: '';
+    width: 2.2rem;
+    height: 2px;
+    margin-bottom: 0.4rem;
+    background: var(--catalog-red);
+  }
+
+  .landing-service-name,
+  .landing-service-summary {
+    max-width: none;
+    color: var(--catalog-navy);
+  }
+}
+
+@media (min-width: 1281px) {
+  .landing-services {
+    --catalog-shell-right: calc(var(--catalog-shell-left) - var(--catalog-aside-shift));
+  }
+}

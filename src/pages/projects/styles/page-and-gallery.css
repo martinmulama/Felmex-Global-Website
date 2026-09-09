@@ -31,9 +31,9 @@
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr) auto auto;
+  grid-template-rows: minmax(0, 1fr) auto;
   align-content: start;
-  gap: clamp(1.55rem, 3svh, 2.3rem);
+  gap: clamp(2.2rem, 4.2svh, 3.25rem);
   width: 100%;
   min-height: var(--prj-page-height);
   padding: var(--prj-shell-top) var(--prj-shell-x) var(--prj-shell-bottom);
@@ -348,4 +348,3 @@
   font-weight: 800;
   letter-spacing: 0;
 }
-

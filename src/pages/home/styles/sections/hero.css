@@ -270,11 +270,24 @@
 @media (min-width: 1025px) and (max-width: 1280px) {
   .hero--why-choose .why-choose-felmex {
     --why-tablet-train-shift: clamp(0px, calc((1280px - 100vw) * 1.5), 7rem);
+    /* At browser zoom levels this is still the desktop hero, but the red
+       coupler moves proportionally closer to the copy column. Keep a stable
+       text clearance from that accent instead of allowing the title to drift
+       into it. */
+    --why-train-copy-left: clamp(8rem, 13.75vw, 11rem);
+    --why-train-copy-right: clamp(1.5rem, 2.5vw, 3rem);
   }
 
   .hero--why-choose .why-choose-felmex__segment--head
     .why-choose-felmex__train-visual-wrapper {
     transform: translateX(calc(-1 * var(--why-tablet-train-shift)));
+  }
+
+}
+
+@media (min-width: 1025px) and (max-width: 1180px) {
+  .hero--why-choose .why-choose-felmex__segment--head .why-choose-felmex__hero-subtext {
+    display: none;
   }
 }
 
