@@ -1,12 +1,9 @@
 @media (max-width: 960px) {
-  .prj-page,
-  .prj-page.is-native-project-scroll {
+  .prj-page {
     --prj-shell-x: clamp(1.45rem, 6.6vw, 3rem);
     --prj-shell-top: clamp(1.7rem, 5.4vw, 2.65rem);
     --prj-shell-bottom: clamp(2rem, 8vw, 3.8rem);
     --prj-mobile-row-gap: clamp(2.75rem, 10vw, 4.2rem);
-    --prj-mobile-card-gap: clamp(1.28rem, 5.4vw, 2.1rem);
-    --prj-mobile-image-width: minmax(8.7rem, 39%);
     min-height: auto;
     overflow: visible;
     overscroll-behavior: auto;
@@ -14,23 +11,20 @@
     font-style: normal;
   }
 
-  .prj-horizontal-pin,
-  .prj-page.is-native-project-scroll .prj-horizontal-pin {
+  .prj-horizontal-pin {
     display: block;
     min-height: auto;
     padding: var(--prj-shell-top) var(--prj-shell-x) var(--prj-shell-bottom);
     overflow: visible;
   }
 
-  .prj-gallery-viewport,
-  .prj-page.is-native-project-scroll .prj-gallery-viewport {
+  .prj-gallery-viewport {
     width: 100%;
     margin-inline: 0;
     overflow: visible;
   }
 
-  .prj-track,
-  .prj-page.is-native-project-scroll .prj-track {
+  .prj-track {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: var(--prj-mobile-row-gap);
@@ -39,124 +33,11 @@
     will-change: auto;
   }
 
-  .prj-column,
-  .prj-page.is-native-project-scroll .prj-column {
-    display: grid;
-    grid-template-columns: var(--prj-mobile-image-width) minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr) auto;
-    align-items: stretch;
-    justify-self: stretch;
-    column-gap: var(--prj-mobile-card-gap);
-    row-gap: 0;
-    width: 100%;
-    min-width: 0;
-    min-height: clamp(14.7rem, 47vw, 19.4rem);
-    height: auto;
-    color: var(--prj-ink);
-  }
-
-  .prj-column-media,
-  .prj-page.is-native-project-scroll .prj-column-media {
-    grid-column: 1;
-    grid-row: 1 / 3;
-    align-self: stretch;
-    width: 100%;
-    height: 100%;
-    min-height: inherit;
-    aspect-ratio: auto;
-    border-radius: 0.22rem;
-    background: #dfe5ee;
-  }
-
-  .prj-column-media img,
-  .prj-page.is-native-project-scroll .prj-column-media img {
-    object-fit: cover;
-    object-position: center;
-  }
-
-  .prj-column-brief,
-  .prj-page.is-native-project-scroll .prj-column-brief {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: start;
-    max-width: none;
-    padding-top: 0;
-    color: rgba(var(--site-brand-navy-rgb, 18, 39, 59), 0.9);
-    font-family: inherit;
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: 1.52;
-  }
-
-  .prj-column-meta,
-  .prj-page.is-native-project-scroll .prj-column-meta {
-    grid-column: 2;
-    grid-row: 2;
-    align-self: end;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas:
-      'title title'
-      'category year';
-    gap: 0.5rem 0.95rem;
-    padding-bottom: clamp(0.1rem, 0.8vw, 0.32rem);
-  }
-
-  .prj-column-meta::before,
-  .prj-page.is-native-project-scroll .prj-column-meta::before {
+  .prj-timeline {
     display: none;
   }
 
-  .prj-column-title,
-  .prj-page.is-native-project-scroll .prj-column-title {
-    grid-area: title;
-    max-width: 17ch;
-    color: var(--prj-blue-deep);
-    font-family: var(--site-font-display);
-    font-size: 0.82rem;
-    font-style: normal;
-    font-weight: 900;
-    letter-spacing: 0;
-    line-height: 1.08;
-    text-transform: uppercase;
-  }
-
-  .prj-column-category,
-  .prj-page.is-native-project-scroll .prj-column-category,
-  .prj-column-year,
-  .prj-page.is-native-project-scroll .prj-column-year {
-    color: rgba(var(--site-brand-navy-rgb, 18, 39, 59), 0.68);
-    font-family: inherit;
-    font-size: 0.9rem;
-    font-style: normal;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: 1.25;
-  }
-
-  .prj-column-category,
-  .prj-page.is-native-project-scroll .prj-column-category {
-    grid-area: category;
-    max-width: none;
-  }
-
-  .prj-column-year,
-  .prj-page.is-native-project-scroll .prj-column-year {
-    grid-area: year;
-    justify-self: end;
-    align-self: end;
-    margin-top: 0;
-  }
-
-  .prj-timeline,
-  .prj-page.is-native-project-scroll .prj-timeline {
-    display: none;
-  }
-
-  .prj-page-cta,
-  .prj-page.is-native-project-scroll .prj-page-cta {
+  .prj-page-cta {
     margin-top: clamp(2.4rem, 10vw, 4rem);
   }
 
@@ -260,37 +141,219 @@
 }
 
 @media (max-width: 640px) {
-  .prj-page,
-  .prj-page.is-native-project-scroll {
+  .prj-page {
     --prj-shell-x: clamp(1.3rem, 6.1vw, 1.9rem);
     --prj-shell-top: clamp(1.45rem, 5.2vw, 2rem);
     --prj-mobile-row-gap: clamp(2.45rem, 9.2vw, 3.3rem);
-    --prj-mobile-card-gap: clamp(1.05rem, 5vw, 1.35rem);
-    --prj-mobile-image-width: minmax(7.85rem, 39.5%);
-  }
-
-  .prj-column,
-  .prj-page.is-native-project-scroll .prj-column {
-    min-height: clamp(13.6rem, 61vw, 16.2rem);
-  }
-
-  .prj-column-brief,
-  .prj-page.is-native-project-scroll .prj-column-brief {
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-
-  .prj-column-title,
-  .prj-page.is-native-project-scroll .prj-column-title {
-    font-size: 0.76rem;
-    line-height: 1.1;
-  }
-
-  .prj-column-category,
-  .prj-page.is-native-project-scroll .prj-column-category,
-  .prj-column-year,
-  .prj-page.is-native-project-scroll .prj-column-year {
-    font-size: 0.82rem;
   }
 }
 
+/* Carry the desktop project's pinned-paper card language into the compact
+   reading layout without changing its vertical scroll behaviour. */
+@media (max-width: 960px) {
+  .prj-column {
+    position: relative;
+    isolation: isolate;
+    display: block;
+    justify-self: center;
+    width: min(100%, 38rem);
+    min-height: 0;
+    height: clamp(24rem, 68vw, 32rem);
+    color: var(--prj-ink);
+  }
+
+  .prj-column::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    inset: clamp(1.25rem, 3vw, 2rem) 0 0;
+    background: var(--prj-red);
+    clip-path: polygon(6% 0, 100% 0, 100% 100%, 6% 100%, 6% 53%, 0 46%, 0 19%, 6% 12%);
+    box-shadow: 0 1.25rem 2rem rgba(0, 0, 0, 0.22);
+    transform: rotate(2deg);
+  }
+
+  .prj-column:nth-child(even)::before {
+    transform: rotate(-2deg);
+  }
+
+  .prj-column-media {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 10%;
+    display: block;
+    width: 55%;
+    height: 56%;
+    min-height: 0;
+    margin: 0;
+    padding: clamp(0.45rem, 1.65vw, 0.8rem) clamp(0.45rem, 1.65vw, 0.8rem)
+      clamp(0.65rem, 2vw, 1rem);
+    overflow: visible;
+    border-radius: 0;
+    background: #ffffff;
+    box-shadow: 0 1.35rem 2.25rem rgba(0, 0, 0, 0.28);
+    transform: rotate(4deg);
+  }
+
+  .prj-column:nth-child(even) .prj-column-media {
+    transform: rotate(-3deg);
+  }
+
+  .prj-column-media::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    top: clamp(-2rem, -7vw, -1.25rem);
+    left: 5%;
+    width: clamp(4.2rem, 18vw, 6.5rem);
+    aspect-ratio: 1;
+    background: url('/service-catalog-paperclip.png') center / contain no-repeat;
+    filter: drop-shadow(0.1rem 0.16rem 0.1rem rgba(0, 0, 0, 0.28));
+    transform: rotate(-32deg);
+    pointer-events: none;
+  }
+
+  .prj-column-media img,
+  .prj-column:hover .prj-column-media img,
+  .prj-column:focus-within .prj-column-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: none;
+    transform: none;
+  }
+
+  .prj-column-body {
+    position: absolute;
+    z-index: 2;
+    right: 4%;
+    bottom: clamp(1.1rem, 3vw, 2.25rem);
+    display: block;
+    width: 67%;
+    padding: clamp(1rem, 3.2vw, 1.65rem);
+    background: #ffffff;
+    box-shadow: 0 1rem 1.65rem rgba(0, 0, 0, 0.24);
+  }
+
+  .prj-column-brief {
+    max-width: none;
+    padding: 0;
+    color: rgba(var(--site-brand-navy-rgb, 18, 39, 59), 0.84);
+    font-size: clamp(0.78rem, 2.6vw, 0.92rem);
+    font-weight: 500;
+    line-height: 1.58;
+  }
+
+  .prj-column-meta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: none;
+    gap: 0.32rem;
+    padding: clamp(0.9rem, 3vw, 1.35rem) 0 0;
+  }
+
+  .prj-column-title,
+  .prj-column-category,
+  .prj-column-year {
+    grid-area: auto;
+    justify-self: auto;
+    align-self: auto;
+  }
+
+  .prj-column-meta::before {
+    display: block;
+    width: 2rem;
+    height: 2px;
+    margin-bottom: 0.15rem;
+    background: var(--prj-red);
+  }
+
+  .prj-column-title {
+    max-width: none;
+    color: var(--prj-blue-deep);
+    font-size: clamp(0.82rem, 2.85vw, 1rem);
+    line-height: 1.1;
+  }
+
+  .prj-column-category {
+    max-width: none;
+    color: rgba(var(--site-brand-navy-rgb, 18, 39, 59), 0.72);
+    font-size: clamp(0.68rem, 2.45vw, 0.8rem);
+  }
+
+  .prj-column-year {
+    margin-top: 0.22rem;
+    color: var(--prj-red);
+    font-size: clamp(0.84rem, 2.75vw, 1.02rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .prj-column {
+    height: clamp(22.5rem, 112vw, 27rem);
+  }
+
+  .prj-column-body {
+    right: 3.5%;
+    width: 69%;
+    padding: 0.9rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 960px) {
+  .prj-page {
+    --prj-shell-x: clamp(1.75rem, 5.5vw, 3.25rem);
+    --prj-mobile-row-gap: clamp(3.4rem, 8vw, 5.25rem);
+  }
+
+  .prj-column {
+    width: min(100%, 48rem);
+    height: clamp(31rem, 73vw, 39rem);
+  }
+
+  .prj-column::before {
+    inset: clamp(1.7rem, 3.2vw, 2.35rem) 0 0;
+  }
+
+  .prj-column-media {
+    left: 11%;
+    width: 54%;
+    height: 57%;
+    padding: clamp(0.7rem, 1.5vw, 1.05rem) clamp(0.7rem, 1.5vw, 1.05rem)
+      clamp(0.9rem, 1.8vw, 1.25rem);
+  }
+
+  .prj-column-media::after {
+    top: clamp(-2.3rem, -5vw, -1.7rem);
+    width: clamp(5.25rem, 12vw, 7.25rem);
+  }
+
+  .prj-column-body {
+    right: 5%;
+    bottom: clamp(1.6rem, 3.6vw, 2.55rem);
+    width: 64%;
+    padding: clamp(1.25rem, 2.8vw, 1.8rem);
+  }
+
+  .prj-column-brief {
+    font-size: clamp(0.9rem, 1.8vw, 1.04rem);
+  }
+
+  .prj-column-meta {
+    padding-top: clamp(1.1rem, 2.5vw, 1.6rem);
+  }
+
+  .prj-column-title {
+    font-size: clamp(0.98rem, 2vw, 1.16rem);
+  }
+
+  .prj-column-category {
+    font-size: clamp(0.78rem, 1.55vw, 0.9rem);
+  }
+
+  .prj-column-year {
+    font-size: clamp(0.96rem, 1.9vw, 1.12rem);
+  }
+}

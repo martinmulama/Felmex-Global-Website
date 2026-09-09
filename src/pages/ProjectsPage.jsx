@@ -12,7 +12,6 @@ import './ProjectsPage.css';
 
 const DESKTOP_SCROLL_QUERY = MQ.nonMobile;
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-const TOUCH_DEVICE_QUERY = '(any-pointer: coarse)';
 const DESKTOP_VISIBLE_PROJECTS = 3;
 const PROJECT_IMAGE_POOL = [
   '/sea-freight.webp',
@@ -87,12 +86,6 @@ function getHeaderClearance() {
 
   const headerElement = document.querySelector('.site-header');
   return headerElement ? Math.ceil(headerElement.getBoundingClientRect().height) : 0;
-}
-
-function getIsTouchLikeDevice() {
-  if (typeof window === 'undefined') return false;
-
-  return (navigator.maxTouchPoints ?? 0) > 0 || window.matchMedia(TOUCH_DEVICE_QUERY).matches;
 }
 
 function canScrollInsideProjectDrawer(target, deltaY) {
@@ -218,7 +211,6 @@ export function ProjectsPage() {
   const trackRef = useRef(null);
   const lenisRef = useRef(null);
   const [openProjectId, setOpenProjectId] = useState(null);
-  const [usesNativeProjectScroll, setUsesNativeProjectScroll] = useState(false);
 
   const projectList = useMemo(() => ONGOING_PROJECTS, []);
   const openProjectIndex = projectList.findIndex((project) => project.id === openProjectId);
@@ -245,7 +237,6 @@ export function ProjectsPage() {
 
     const desktopQuery = window.matchMedia(DESKTOP_SCROLL_QUERY);
     const reducedMotionQuery = window.matchMedia(REDUCED_MOTION_QUERY);
-    const touchDeviceQuery = window.matchMedia(TOUCH_DEVICE_QUERY);
     const listeners = [];
     let animationContext = null;
     let lenisUnsubscribe = null;
@@ -287,32 +278,31 @@ export function ProjectsPage() {
     const setup = () => {
       teardown();
 
-      const shouldUseNativeScroll =
-        !desktopQuery.matches || reducedMotionQuery.matches || getIsTouchLikeDevice();
-
-      setUsesNativeProjectScroll(shouldUseNativeScroll);
-
-      if (shouldUseNativeScroll) {
-        ScrollTrigger.refresh();
+      if (!desktopQuery.matches) {
+        refreshScrollTrigger();
         return;
       }
 
-      const lenis = new Lenis({
-        autoRaf: false,
-        duration: 1.05,
-        lerp: 0.08,
-        smoothWheel: true,
-        syncTouch: false,
-        touchMultiplier: 0,
-        wheelMultiplier: 0.86,
-        prevent: (node) => Boolean(node.closest('.prj-detail-overlay')),
-        respectReducedMotion: true,
-      });
+      const usesReducedMotion = reducedMotionQuery.matches;
 
-      lenisRef.current = lenis;
-      lenisUnsubscribe = lenis.on('scroll', ScrollTrigger.update);
-      lenisTicker = (time) => lenis.raf(time * 1000);
-      gsap.ticker.add(lenisTicker);
+      if (!usesReducedMotion) {
+        const lenis = new Lenis({
+          autoRaf: false,
+          duration: 1.05,
+          lerp: 0.08,
+          smoothWheel: true,
+          syncTouch: false,
+          touchMultiplier: 0,
+          wheelMultiplier: 0.86,
+          prevent: (node) => Boolean(node.closest('.prj-detail-overlay')),
+          respectReducedMotion: true,
+        });
+
+        lenisRef.current = lenis;
+        lenisUnsubscribe = lenis.on('scroll', ScrollTrigger.update);
+        lenisTicker = (time) => lenis.raf(time * 1000);
+        gsap.ticker.add(lenisTicker);
+      }
 
       animationContext = gsap.context(() => {
         gsap.set(track, { x: 0 });
@@ -322,7 +312,8 @@ export function ProjectsPage() {
           scrollTrigger: {
             trigger: root,
             pin,
-            scrub: 0.85,
+            // Reduced-motion users keep the same layout without interpolation.
+            scrub: usesReducedMotion ? true : 0.55,
             anticipatePin: 1,
             invalidateOnRefresh: true,
             start: () => `top top+=${getHeaderClearance()}`,
@@ -355,7 +346,6 @@ export function ProjectsPage() {
     setup();
     addMediaListener(desktopQuery, setup);
     addMediaListener(reducedMotionQuery, setup);
-    addMediaListener(touchDeviceQuery, setup);
     window.addEventListener('resize', refreshScrollTrigger);
     window.addEventListener('load', refreshScrollTrigger, { once: true });
 
@@ -422,9 +412,7 @@ export function ProjectsPage() {
 
   return (
     <section
-      className={`prj-page${openProject ? ' is-detail-open' : ''}${
-        usesNativeProjectScroll ? ' is-native-project-scroll' : ''
-      }`}
+      className={`prj-page${openProject ? ' is-detail-open' : ''}`}
       id="projects-top"
       aria-label="Projects"
       ref={pageRef}
