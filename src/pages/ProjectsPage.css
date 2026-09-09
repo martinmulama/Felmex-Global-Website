@@ -1,4 +1,5 @@
 @import './projects/styles/page-and-gallery.css';
+@import './projects/styles/sections/catalog-cards.css';
 @import './projects/styles/sections/project-detail.css';
 @import './projects/styles/responsive/compact.css';
 @import './projects/styles/responsive/mobile.css';

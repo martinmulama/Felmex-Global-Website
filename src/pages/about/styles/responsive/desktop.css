@@ -195,11 +195,13 @@
   }
 
   .abt-values-section {
-    display: block;
+    display: flex;
     min-height: var(--abt-split-section-min-height);
+    align-items: flex-start;
+    justify-content: flex-end;
     margin-top: 0;
-    padding: 0;
-    overflow: hidden;
+    padding: clamp(4rem, 5.36vw, 5.95rem) clamp(12.5rem, 19.56vw, 21.7rem) 0 0;
+    overflow: visible;
     background: #ffffff;
     color: #ffffff;
   }
@@ -220,12 +222,12 @@
   }
 
   .abt-values-copy {
-    position: absolute;
-    inset: clamp(4rem, 5.36vw, 5.95rem)
-      clamp(12.5rem, 19.56vw, 21.7rem) 0 auto;
+    position: relative;
+    inset: auto;
     z-index: 2;
     display: flex;
-    width: clamp(45rem, 60vw, 66rem);
+    width: min(66rem, 100%);
+    box-sizing: border-box;
     flex-direction: column;
     padding: clamp(4.75rem, 4.95vw, 5.5rem) clamp(8rem, 13.48vw, 14.95rem)
       clamp(3rem, 4vw, 4.4rem) clamp(2.5rem, 3.3vw, 3.6rem);
@@ -248,8 +250,8 @@
     font-size: var(--abt-home-section-title-size);
     line-height: var(--abt-home-section-title-line-height);
     letter-spacing: var(--abt-home-section-title-tracking);
-    text-wrap: nowrap;
-    white-space: nowrap;
+    text-wrap: balance;
+    white-space: normal;
   }
 
   .abt-values-title > span {

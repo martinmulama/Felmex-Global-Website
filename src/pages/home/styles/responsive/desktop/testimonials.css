@@ -1,0 +1,192 @@
+.landing-testimonials-desktop {
+  display: none;
+}
+
+@media (min-width: 1025px) {
+  .landing-testimonials {
+    --testimonial-desktop-header-height: clamp(22rem, 28vw, 28rem);
+    --testimonial-desktop-tile-offset: clamp(4rem, 5vw, 5.75rem);
+    --testimonial-desktop-title-top: calc(
+      clamp(3rem, 4.8vw, 5.5rem) + 2px + clamp(1.35rem, 2vw, 1.85rem) +
+        clamp(1rem, 1.3vw, 1.2rem)
+    );
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(
+      to bottom,
+      #ffffff 0 var(--testimonial-desktop-header-height),
+      var(--testimonial-navy) var(--testimonial-desktop-header-height) 100%
+    );
+  }
+
+  .landing-testimonials-compact {
+    display: none;
+  }
+
+  .landing-testimonials-desktop {
+    width: min(100% - calc(var(--page-gutter-wide) * 2), 92rem);
+    min-height: clamp(58rem, 64vw, 72rem);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: minmax(21rem, 0.7fr) minmax(0, 1fr);
+    background: transparent;
+  }
+
+  .landing-testimonials-desktop-visual {
+    min-width: 0;
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    padding: var(--testimonial-desktop-title-top) 0 0;
+    background: transparent;
+  }
+
+  .landing-testimonials-desktop-photo {
+    width: min(100%, 29rem);
+    aspect-ratio: 0.66;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: var(--testimonial-red);
+    box-shadow: none;
+    transform: none;
+  }
+
+  .landing-testimonials-desktop-photo img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .landing-testimonials-desktop-main {
+    min-width: 0;
+    display: grid;
+    grid-template-rows: minmax(clamp(22rem, 28vw, 28rem), auto) 1fr;
+    background: transparent;
+  }
+
+  .landing-testimonials-desktop .landing-testimonials-header {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: clamp(3rem, 4.8vw, 5.5rem) clamp(3rem, 6vw, 7rem) clamp(2.75rem, 4.4vw, 4.75rem);
+    display: grid;
+    align-content: center;
+    justify-items: start;
+    gap: 0;
+    background: #ffffff;
+    text-align: left;
+  }
+
+  .landing-testimonials-desktop .landing-testimonials-header::before {
+    content: '';
+    width: 3.65rem;
+    height: 2px;
+    margin-bottom: clamp(1.35rem, 2vw, 1.85rem);
+    background: var(--testimonial-red);
+  }
+
+  .landing-testimonials-desktop .landing-section-label {
+    margin-bottom: clamp(0.9rem, 1.35vw, 1.25rem);
+  }
+
+  .landing-testimonials-desktop .landing-section-title,
+  .landing-testimonials-desktop .landing-testimonials-title {
+    width: min(100%, 35.25rem);
+    margin: 0;
+    text-align: left;
+  }
+
+  .landing-testimonials-desktop .landing-testimonials-title::after {
+    display: none;
+  }
+
+  .landing-testimonials-desktop .landing-section-text,
+  .landing-testimonials-desktop .landing-testimonials-text {
+    width: min(100%, 38rem);
+    margin: clamp(1.25rem, 1.8vw, 1.7rem) 0 0;
+    text-align: left;
+  }
+
+  .landing-testimonials-desktop-quotes {
+    --testimonial-desktop-quote-gutter: clamp(1.8rem, 3.5vw, 3.75rem);
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: var(--testimonial-desktop-tile-offset) clamp(2rem, 3vw, 3rem) clamp(2.5rem, 3vw, 3.75rem);
+    background: transparent;
+  }
+
+  .landing-testimonials-desktop .landing-testimonial-panel,
+  .landing-testimonials-desktop .landing-testimonial-panel.is-active,
+  .landing-testimonials-desktop .landing-testimonial-panel:nth-child(n) {
+    --testimonial-card-top: 0rem;
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0 var(--testimonial-desktop-quote-gutter);
+    display: grid;
+    grid-column: auto;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: 0;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .landing-testimonials-desktop .landing-testimonial-panel:first-child {
+    padding-left: 0;
+  }
+
+  .landing-testimonials-desktop .landing-testimonial-panel:last-child {
+    padding-right: 0;
+  }
+
+  .landing-testimonials-desktop .landing-testimonial-panel:not(:last-child) {
+    border-right: 0;
+  }
+
+  /* Anchor the separator midway between the two quote blocks, rather than at
+     the edge of the first grid track. */
+  .landing-testimonials-desktop .landing-testimonial-panel:first-child::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: var(--testimonial-desktop-quote-gutter);
+    bottom: 0;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.24);
+  }
+
+  .landing-testimonials-desktop .landing-testimonial-index {
+    position: static;
+    justify-self: start;
+    margin: 0 0 clamp(1.7rem, 2.8vw, 2.8rem);
+  }
+
+  .landing-testimonials-desktop .landing-testimonial-detail {
+    order: initial;
+    height: auto;
+    min-height: 0;
+    align-content: start;
+    gap: 0.98rem;
+    padding: 0;
+  }
+
+  .landing-testimonials-desktop .landing-testimonial-quote,
+  .landing-testimonials-desktop .landing-testimonial-panel:not(.is-active) .landing-testimonial-quote {
+    max-width: 17ch;
+  }
+
+  .landing-testimonials-desktop .landing-testimonial-rule {
+    margin-top: 0.35rem;
+  }
+}

@@ -54,12 +54,13 @@
     z-index: 2;
     display: grid;
     width: 38.6vw;
-    height: 18.55vw;
-    min-height: 0;
+    height: auto;
+    min-height: max(18.55vw, calc(1.92em + 0.8rem));
     max-height: none;
     align-content: center;
     margin: 0;
-    padding: 0 0 0 var(--abt-mobile-edge);
+    box-sizing: border-box;
+    padding: 0.4rem 0 0.4rem var(--abt-mobile-edge);
     background: linear-gradient(105deg, #d9070e 0%, var(--abt-mobile-red) 88%);
     color: #ffffff;
     font-family: var(--site-font-display);
@@ -69,6 +70,7 @@
     letter-spacing: 0;
     text-align: left;
     text-wrap: wrap;
+    overflow-wrap: anywhere;
   }
 
   .abt-mobile-title span {

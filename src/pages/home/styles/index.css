@@ -8,6 +8,8 @@
 @import './sections/project-preview.css';
 @import './responsive/desktop/project-preview.css';
 @import './responsive/desktop/overview.css';
+@import './responsive/desktop/services.css';
+@import './responsive/desktop/testimonials.css';
 @import './responsive/mobile/overview.css';
 @import './responsive/mobile/project-preview.css';
 @import './responsive/mobile/final-cta.css';
