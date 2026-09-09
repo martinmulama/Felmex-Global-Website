@@ -816,6 +816,44 @@ export function ServicePage() {
           <div className="svc-reference-canvas" data-category={activeCategory.id}>
             <h1 className="svc-mobile-services-title">Our Services</h1>
 
+            <div className="svc-desktop-hero-collage" aria-hidden="true">
+              <span className="svc-desktop-hero-card-back svc-desktop-hero-card-back--port" />
+              <figure className="svc-desktop-hero-photo svc-desktop-hero-photo--port">
+                <img
+                  src="/overview/harbor.png"
+                  alt=""
+                  width="1327"
+                  height="1185"
+                  decoding="async"
+                />
+              </figure>
+              <span className="svc-desktop-hero-card-back svc-desktop-hero-card-back--road" />
+              <figure className="svc-desktop-hero-photo svc-desktop-hero-photo--road">
+                <img
+                  src="/road-freight.webp"
+                  alt=""
+                  width="1440"
+                  height="1080"
+                  decoding="async"
+                />
+              </figure>
+              <aside className="svc-desktop-hero-note">
+                <img
+                  className="svc-desktop-hero-paperclip"
+                  src="/service-catalog-paperclip.png"
+                  alt=""
+                  width="1254"
+                  height="1254"
+                  decoding="async"
+                />
+                <p>
+                  Integrated logistics solutions across sea, road, rail, warehousing, customs,
+                  and last-mile delivery — built for visibility, reliability, and efficient execution.
+                </p>
+                <span aria-hidden="true" />
+              </aside>
+            </div>
+
             <section
               className="svc-reference-scene scroll-section"
               data-scroll-reveal="early"

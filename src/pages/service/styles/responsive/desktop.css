@@ -4,7 +4,217 @@
   display: none;
 }
 
+/* The desktop-specific collage is inert at tablet and mobile widths. */
+.svc-desktop-hero-collage {
+  display: none;
+}
+
 @media (min-width: 1025px) {
+  /* Keep the existing rising canvas, but turn its exposed desktop face into the reference collage. */
+  .svc-page {
+    --svc-ref-nav-height: clamp(10rem, 10.25vw, 10.65rem);
+    --svc-hero-card-height: clamp(18.4rem, 30.7svh, 19.65rem);
+    --svc-desktop-hero-collage-height: clamp(29rem, 33vw, 33rem);
+    --svc-desktop-hero-collage-offset: 17.7rem;
+    --svc-desktop-hero-height: max(
+      calc(100svh - var(--site-header-clearance, 0px)),
+      calc(
+        var(--svc-desktop-hero-collage-offset) +
+        var(--svc-desktop-hero-collage-height) +
+        2rem +
+        var(--svc-ref-nav-height)
+      )
+    );
+  }
+
+  .svc-hero {
+    min-height: var(--svc-desktop-hero-height);
+    padding-top: clamp(3.8rem, 6.2svh, 4rem);
+  }
+
+  .svc-hero-title {
+    margin-top: clamp(1.9rem, 2.2vw, 2rem);
+  }
+
+  .svc-hero-rule,
+  .svc-hero-subtitle,
+  .svc-hero-link {
+    display: none;
+  }
+
+  .svc-reference-section::before {
+    content: '';
+    position: absolute;
+    top: -2.05rem;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    display: block;
+    height: auto;
+    background: var(--svc-blue);
+    clip-path: none;
+  }
+
+  .svc-reference-board,
+  .svc-reference-canvas {
+    background: transparent;
+  }
+
+  .svc-reference-scene {
+    width: 100%;
+    background: transparent;
+  }
+
+  .svc-reference-scene::before {
+    background: transparent;
+  }
+
+  .svc-reference-hero-copy {
+    display: none;
+  }
+
+  .svc-desktop-hero-collage {
+    position: absolute;
+    top: calc(
+      var(--svc-desktop-hero-collage-offset) +
+      var(--svc-hero-card-height) +
+      var(--svc-ref-nav-height) -
+      var(--svc-desktop-hero-height)
+    );
+    left: 50%;
+    z-index: 5;
+    display: block;
+    width: min(68rem, 69vw);
+    height: var(--svc-desktop-hero-collage-height);
+    pointer-events: none;
+    transform: translateX(-50%);
+  }
+
+  .svc-desktop-hero-card-back,
+  .svc-desktop-hero-photo,
+  .svc-desktop-hero-note {
+    position: absolute;
+    margin: 0;
+  }
+
+  .svc-desktop-hero-card-back {
+    z-index: 0;
+    display: block;
+    background: var(--svc-red);
+    box-shadow: 0 1.1rem 2rem rgba(6, 25, 45, 0.22);
+  }
+
+  .svc-desktop-hero-card-back--port {
+    top: 0;
+    left: 4.8%;
+    width: 43%;
+    aspect-ratio: 1.62;
+    transform: rotate(-5deg);
+  }
+
+  .svc-desktop-hero-card-back--road {
+    top: 9.8rem;
+    right: 0.8%;
+    width: 42%;
+    aspect-ratio: 1.62;
+    transform: rotate(5.3deg);
+  }
+
+  .svc-desktop-hero-photo {
+    z-index: 1;
+    overflow: hidden;
+    border: clamp(0.55rem, 0.7vw, 0.75rem) solid #ffffff;
+    background: #ffffff;
+    box-shadow: 0 1.15rem 2.1rem rgba(6, 25, 45, 0.28);
+  }
+
+  .svc-desktop-hero-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .svc-desktop-hero-photo--port {
+    top: clamp(1.95rem, 2.6vw, 2.55rem);
+    left: 0;
+    width: 54.5%;
+    aspect-ratio: 1.56;
+    transform: rotate(-6.9deg);
+  }
+
+  .svc-desktop-hero-photo--port img {
+    object-position: center 54%;
+  }
+
+  .svc-desktop-hero-photo--road {
+    top: clamp(11.4rem, 14.8vw, 13.3rem);
+    right: 0;
+    width: 46.5%;
+    aspect-ratio: 1.54;
+    transform: rotate(6.1deg);
+  }
+
+  .svc-desktop-hero-photo--road img {
+    object-position: center 56%;
+  }
+
+  .svc-desktop-hero-note {
+    top: clamp(1.05rem, 1.45vw, 1.65rem);
+    left: 57.5%;
+    z-index: 3;
+    width: 29.5%;
+    min-height: clamp(10.7rem, 13.4vw, 13rem);
+    box-sizing: border-box;
+    padding: clamp(2.5rem, 3.25vw, 3.1rem) clamp(1.65rem, 2.15vw, 2.1rem) clamp(1.7rem, 2.1vw, 2rem);
+    background: #fbfaf7;
+    box-shadow: 0 1.25rem 2.15rem rgba(6, 25, 45, 0.2);
+    color: var(--svc-ink);
+    transform: rotate(5.3deg);
+  }
+
+  .svc-desktop-hero-note::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.55;
+    background-image: radial-gradient(rgba(15, 40, 66, 0.18) 0.45px, transparent 0.55px);
+    background-size: 4px 4px;
+    pointer-events: none;
+  }
+
+  .svc-desktop-hero-note p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-family: var(--site-font-display);
+    font-size: clamp(0.86rem, 1vw, 1.05rem);
+    font-weight: 600;
+    line-height: 1.36;
+  }
+
+  .svc-desktop-hero-note > span {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: clamp(2.5rem, 2.9vw, 3rem);
+    height: 3px;
+    margin-top: clamp(0.95rem, 1.35vw, 1.3rem);
+    background: var(--svc-red);
+  }
+
+  .svc-desktop-hero-paperclip {
+    position: absolute;
+    top: clamp(-2rem, -2.3vw, -1.45rem);
+    left: 50%;
+    z-index: 2;
+    width: clamp(3.25rem, 3.8vw, 3.85rem);
+    height: auto;
+    filter: drop-shadow(0.12rem 0.22rem 0.12rem rgba(6, 25, 45, 0.32));
+    transform: translateX(-50%) rotate(-8deg);
+  }
+
   .svc-process-section {
     padding-block: clamp(4rem, 6vw, 5.5rem);
   }
@@ -292,4 +502,3 @@
     stroke-linejoin: round;
   }
 }
-

@@ -1024,6 +1024,8 @@ export function HomePage() {
     // The page travels exactly as far as the article overflows its paper viewport.
     // A single linear tween keeps all four blocks in normal document flow.
     const scrollDistance = () => Math.max(0, article.scrollHeight - viewport.clientHeight);
+    const headerHeight = () =>
+      Math.ceil(document.querySelector('.site-header')?.getBoundingClientRect().height ?? 0);
     const animationContext = gsap.context(() => {
       gsap.fromTo(article, { y: 0 }, {
         y: () => -scrollDistance(),
@@ -1031,9 +1033,10 @@ export function HomePage() {
         scrollTrigger: {
           id: 'home-overview-article',
           trigger: splitContainer,
-          start: 'top top',
+          start: () => `top top+=${headerHeight()}`,
           end: () => `+=${Math.max(1, scrollDistance())}`,
           pin: true,
+          pinType: 'fixed',
           pinSpacing: true,
           scrub: true,
           anticipatePin: 1,

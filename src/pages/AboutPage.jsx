@@ -106,6 +106,11 @@ const MOBILE_ABOUT_TABS = [
 ];
 
 const CORE_VALUES = ['Integrity', 'Reliability', 'Excellence', 'Collaboration'];
+const ABOUT_STATS = [
+  { value: '12+', label: 'Years Operating' },
+  { value: '150+', label: 'Satisfied Clients' },
+  { value: '1,500+', label: 'Shipments Delivered' },
+];
 const PARTNER_REVEAL_PATTERNS = [
   'vertical-up',
   'horizontal-left',
@@ -624,6 +629,43 @@ export function AboutPage() {
         <div className="abt-curtain-board">
           <div className="abt-curtain-stage">
             <div className="abt-curtain-canvas" key={activeBrief.id} data-brief={activeBrief.id}>
+              <div className="abt-desktop-hero-collage" aria-hidden="true">
+                <span className="abt-desktop-hero-card-back abt-desktop-hero-card-back--team" />
+                <figure className="abt-desktop-hero-photo abt-desktop-hero-photo--team">
+                  <img
+                    src="/overview/team.png"
+                    alt=""
+                    width="1190"
+                    height="1322"
+                    decoding="async"
+                  />
+                </figure>
+                <span className="abt-desktop-hero-card-back abt-desktop-hero-card-back--warehouse" />
+                <figure className="abt-desktop-hero-photo abt-desktop-hero-photo--warehouse">
+                  <img
+                    src="/overview/felmex-container-lift.png"
+                    alt=""
+                    width="1314"
+                    height="1197"
+                    decoding="async"
+                  />
+                </figure>
+                <aside className="abt-desktop-hero-note" key={activeBrief.id}>
+                  <img
+                    className="abt-desktop-hero-paperclip"
+                    src="/service-catalog-paperclip.png"
+                    alt=""
+                    width="1254"
+                    height="1254"
+                    decoding="async"
+                  />
+                  <p>
+                    <span>{activeBrief.label}</span>
+                    {activeBrief.copy}
+                  </p>
+                  <span aria-hidden="true" />
+                </aside>
+              </div>
               <section
                 className="abt-curtain-scene scroll-section"
                 id="abt-brief-panel"
@@ -661,6 +703,25 @@ export function AboutPage() {
                 </div>
               </section>
             </div>
+            <section className="abt-desktop-stats-strip" aria-labelledby="abt-stats-title">
+              <div className="abt-desktop-stats-strip-inner">
+                <header className="abt-desktop-stats-intro">
+                  <h2 id="abt-stats-title">
+                    <span>Our Company In</span>
+                    <strong>Numbers</strong>
+                  </h2>
+                </header>
+
+                {ABOUT_STATS.map((stat) => (
+                  <div className="abt-desktop-stat-group" key={stat.label}>
+                    <article className="abt-desktop-stat-card">
+                      <p className="abt-desktop-stat-value">{stat.value}</p>
+                      <p className="abt-desktop-stat-label">{stat.label}</p>
+                    </article>
+                  </div>
+                ))}
+              </div>
+            </section>
             <nav className="abt-curtain-nav" aria-label="About sections">
               <div className="abt-curtain-nav-track" role="tablist" aria-label="About sections">
                 {ABOUT_BRIEFS.map((brief) => {

@@ -1,23 +1,5 @@
 import { CONTACT_CHANNELS, MAIN_OFFICE_ADDRESS_LINES } from '../../data/contact';
 
-export const CONTACT_HIGHLIGHTS = [
-  {
-    icon: 'pin',
-    label: 'Head office',
-    value: 'Mombasa, Kenya',
-  },
-  {
-    icon: 'office',
-    label: 'Coverage',
-    value: 'Africa, Europe, Asia, the Middle East, the Americas, and Oceania',
-  },
-  {
-    icon: 'clock',
-    label: 'Response time',
-    value: '< 24 Hours',
-  },
-];
-
 export const CONTACT_OFFICES = [
   {
     id: 'kenya-hq',

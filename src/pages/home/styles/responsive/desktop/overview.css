@@ -1,7 +1,8 @@
 /* Desktop post-hero overview — pinned article and photo collage */
 @media (min-width: 1025px) {
   .landing-overview--split {
-    --overview-stage-gap: clamp(1.5rem, 4svh, 2.75rem);
+    --overview-stage-gap: clamp(2.75rem, 6.25svh, 4rem);
+    --overview-stage-height: calc(100svh - var(--site-header-clearance, 0px));
     /* Match the site's desktop scaling: the composition grows fluidly through
        normal desktop widths, then caps and recentres on larger displays. */
     --overview-composition-max: calc(128rem + 15rem);
@@ -11,11 +12,13 @@
     );
     --overview-board-width: min(85.2vw, 128rem);
     --overview-board-navy: var(--site-footer-blue);
-    --overview-paper-top: 6.5%;
-    --overview-paper-left: 33%;
+    --overview-paper-top: 5%;
+    --overview-paper-bottom: 4.5%;
+    --overview-paper-left: 34%;
+    --overview-paper-width: 25.2%;
     --overview-red-panel-left: calc(
       var(--overview-board-left) +
-      (var(--overview-board-width) * 0.603) +
+      (var(--overview-board-width) * 0.635) +
       clamp(2rem, 3.25vw, 3.75rem)
     );
     --overview-red-panel-right: min(
@@ -23,10 +26,9 @@
       calc(var(--overview-board-left) + var(--overview-board-width) + 15rem)
     );
     --overview-red-panel-width: calc(var(--overview-red-panel-right) - var(--overview-red-panel-left));
-    --overview-red-panel-height: clamp(18rem, 35.1svh, 20.75rem);
-    --overview-header-half: calc(var(--site-header-clearance, 3.55rem) / 2);
+    --overview-red-panel-height: clamp(15rem, 30svh, 17.75rem);
     position: relative;
-    min-height: 100svh;
+    min-height: var(--overview-stage-height);
     padding: 0;
     overflow: visible;
     background: #ffffff;
@@ -36,20 +38,22 @@
     position: relative;
     display: block;
     width: 100%;
-    height: 100svh;
-    min-height: 100svh;
+    height: var(--overview-stage-height);
+    min-height: var(--overview-stage-height);
     overflow: clip;
     background: #ffffff;
   }
 
   .landing-overview--split .left-panel {
     position: absolute;
-    inset: var(--overview-stage-gap) auto var(--overview-stage-gap) var(--overview-board-left);
-    top: calc(var(--overview-stage-gap) + var(--overview-header-half));
-    bottom: calc(var(--overview-stage-gap) - var(--overview-header-half));
+    top: var(--overview-stage-gap);
+    bottom: auto;
+    left: var(--overview-board-left);
     z-index: 1;
     width: var(--overview-board-width);
-    height: auto;
+    height: calc(
+      var(--overview-stage-height) - var(--overview-stage-gap) - var(--overview-stage-gap)
+    );
     min-height: 0;
     display: block;
     overflow: hidden;
@@ -88,10 +92,10 @@
   .landing-overview-photo--port {
     z-index: 2;
     /* Tuck the harbor print beneath the lead image instead of stacking it after. */
-    top: 42%;
-    left: 6.75%;
-    width: 17.2%;
-    height: 26.4%;
+    top: 43%;
+    left: 7.5%;
+    width: 16.5%;
+    height: 25.4%;
     transform-origin: top left;
     transform: rotate(8deg);
   }
@@ -100,9 +104,9 @@
     z-index: 4;
     top: var(--overview-paper-top);
     /* Keep the photo's upper-right corner beneath the paperclip after scaling. */
-    left: calc(var(--overview-paper-left) - 22.9%);
-    width: 22%;
-    height: 43.2%;
+    left: calc(var(--overview-paper-left) - 21.65%);
+    width: 20.75%;
+    height: 44%;
     transform-origin: top right;
     transform: rotate(-8.5deg);
   }
@@ -111,9 +115,9 @@
     position: absolute;
     z-index: 1;
     top: calc(var(--overview-paper-top) - 1.8%);
-    left: 10.8%;
-    width: 20.4%;
-    height: 48%;
+    left: calc(var(--overview-paper-left) - 22%);
+    width: 19.3%;
+    height: 48.5%;
     background: var(--site-brand-red);
     clip-path: polygon(0 11%, 96% 0, 100% 99%, 12% 100%);
   }
@@ -127,10 +131,10 @@
   .landing-overview-paper {
     position: absolute;
     top: var(--overview-paper-top);
-    bottom: 6.5%;
+    bottom: var(--overview-paper-bottom);
     left: var(--overview-paper-left);
     z-index: 3;
-    width: 27.3%;
+    width: var(--overview-paper-width);
     background: #faf9f6;
     box-shadow: 0 0.8rem 1.8rem rgba(0, 0, 0, 0.18);
   }
@@ -235,7 +239,7 @@
 
   .landing-overview--split .right-panel {
     position: absolute;
-    top: calc(50% + var(--overview-header-half));
+    top: 50%;
     left: var(--overview-red-panel-left);
     z-index: 3;
     width: var(--overview-red-panel-width);
