@@ -395,6 +395,7 @@ export function AboutPage() {
       <SplitPanelPreloader isAppLoaded={isAppLoaded} />
       <section className="abt-mobile-reference" aria-label="About Felmex mobile overview">
         <section className="abt-mobile-hero" aria-label="About introduction">
+          <p className="abt-mobile-hero-kicker">About Felmex</p>
           <h1 className="abt-mobile-title">
             <span>About</span>
             <span>Us</span>
@@ -411,6 +412,56 @@ export function AboutPage() {
               &rdquo;
             </span>
           </blockquote>
+        </section>
+
+        <section className="abt-mobile-hero-collage" aria-label="Felmex team and operations">
+          <span className="abt-mobile-hero-card-back abt-mobile-hero-card-back--team" aria-hidden="true" />
+          <figure className="abt-mobile-hero-photo abt-mobile-hero-photo--team">
+            <img src="/overview/team.png" alt="Felmex logistics team" width="1190" height="1322" decoding="async" />
+          </figure>
+          <span className="abt-mobile-hero-card-back abt-mobile-hero-card-back--warehouse" aria-hidden="true" />
+          <figure className="abt-mobile-hero-photo abt-mobile-hero-photo--warehouse">
+            <img
+              src="/overview/felmex-container-lift.png"
+              alt="Felmex container operations"
+              width="1314"
+              height="1197"
+              decoding="async"
+            />
+          </figure>
+          <aside className="abt-mobile-hero-note">
+            <img
+              className="abt-mobile-hero-paperclip"
+              src="/service-catalog-paperclip.png"
+              alt=""
+              aria-hidden="true"
+              width="1254"
+              height="1254"
+              decoding="async"
+            />
+            <p>
+              Built around reliable logistics, clear accountability, and practical execution.
+            </p>
+            <span aria-hidden="true" />
+          </aside>
+        </section>
+
+        <section className="abt-mobile-stats-strip" aria-labelledby="abt-mobile-stats-title">
+          <div className="abt-mobile-stats-strip-inner">
+            <header className="abt-mobile-stats-intro">
+              <h2 id="abt-mobile-stats-title">
+                <span>Our Company In</span>
+                <strong>Numbers</strong>
+              </h2>
+            </header>
+
+            {ABOUT_STATS.map((stat) => (
+              <article className="abt-mobile-stat-card" key={stat.label}>
+                <p className="abt-mobile-stat-value">{stat.value}</p>
+                <p className="abt-mobile-stat-label">{stat.label}</p>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className="abt-mobile-brand-story" aria-label="Our story">
@@ -510,6 +561,14 @@ export function AboutPage() {
                       >
                         {panelNextTab.tagLabel}
                       </button>
+
+                      {slot === 'current' && activeMobileTab.id === 'who-we-are' && (
+                        <p className="abt-mobile-swipe-hint">
+                          <span aria-hidden="true">&larr;</span>
+                          Swipe to explore
+                          <span aria-hidden="true">&rarr;</span>
+                        </p>
+                      )}
                     </section>
                   </section>
                 );

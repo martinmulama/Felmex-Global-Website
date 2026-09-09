@@ -143,17 +143,7 @@
   }
 
   .landing-service-figure::after {
-    content: '';
-    position: absolute;
-    z-index: 2;
-    top: -2.8rem;
-    left: 5%;
-    width: clamp(6rem, 8vw, 8rem);
-    aspect-ratio: 1;
-    background: url('/service-catalog-paperclip.png') center / contain no-repeat;
-    filter: drop-shadow(0.1rem 0.16rem 0.1rem rgba(0, 0, 0, 0.28));
-    transform: rotate(-32deg);
-    pointer-events: none;
+    content: none;
   }
 
   .landing-service-image,
@@ -205,6 +195,23 @@
     height: 2px;
     margin-bottom: 0.4rem;
     background: var(--catalog-red);
+  }
+
+  /* The clip fastens the overlapping note to its red folder rather than
+     floating over the photo. Its lower edge rests in the note's top padding,
+     leaving the service title and description unobstructed. */
+  .landing-service-body::after {
+    content: '';
+    position: absolute;
+    z-index: 3;
+    top: clamp(-3.2rem, -4.2vw, -2.55rem);
+    left: clamp(2.4rem, 7vw, 5.2rem);
+    width: clamp(4.6rem, 6.2vw, 6.6rem);
+    aspect-ratio: 1;
+    background: url('/service-catalog-paperclip.png') center / contain no-repeat;
+    filter: drop-shadow(0.1rem 0.18rem 0.12rem rgba(0, 0, 0, 0.3));
+    transform: rotate(-23deg);
+    pointer-events: none;
   }
 
   .landing-service-name,

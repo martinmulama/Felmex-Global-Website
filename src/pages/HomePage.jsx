@@ -194,55 +194,6 @@ const FINAL_OPERATION_STEPS = [
   },
 ];
 
-const OVERVIEW_MOBILE_STATEMENTS = [
-  {
-    key: 'about',
-    label: 'About Us',
-    navLabel: 'About',
-    icon: 'about',
-    panelTone: 'about',
-    titleLines: ['About', 'Us.'],
-    paragraphs: [
-      'FELMEX Global Logistics is an envisioned global multimodal service provider, delivering integrated solutions across air, sea, road, and rail.',
-      'We simplify complex supply chains, connect businesses to international markets, and keep efficiency, transparency, and reliability visible at every step.',
-    ],
-  },
-  {
-    key: 'mission',
-    label: 'Mission Statement',
-    navLabel: 'Mission',
-    icon: 'mission',
-    panelTone: 'mission',
-    titleLines: ['Mission', 'Statement.'],
-    paragraphs: [
-      'Our mission is to simplify complexity in international trade by integrating air, sea, road, and rail into one reliable, transparent, future-ready network.',
-    ],
-  },
-  {
-    key: 'vision',
-    label: 'Vision',
-    navLabel: 'Vision',
-    icon: 'vision',
-    panelTone: 'vision',
-    titleLines: ['Vision.'],
-    paragraphs: [
-      'Our vision is to redefine global logistics through seamless multimodal solutions that connect businesses, markets, and communities with efficiency and integrity.',
-    ],
-  },
-  {
-    key: 'idd',
-    label: 'Identity Statement (IDD)',
-    navLabel: 'IDD',
-    icon: 'idd',
-    panelTone: 'idd',
-    titleLines: ['Identity Statement', '(IDD).'],
-    paragraphs: [
-      'Integrity Due Diligence keeps every partner, supplier, and agent aligned to clear ethical, compliance, and operating standards.',
-      'That discipline gives client cargo the confidence of moving through a responsible logistics network from planning through final handoff.',
-    ],
-  },
-];
-
 const FINAL_INDUSTRIES = [
   'FMCG & Retail',
   'E-Commerce',
@@ -852,99 +803,6 @@ function ServiceMobileIconStack({ icons }) {
   );
 }
 
-function OverviewStatementIcon({ kind, className = 'landing-overview-icon' }) {
-  const icons = {
-    about: (
-      <>
-        <path
-          d="M8.4 11.1a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7.4.2a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M3.8 19.2c.6-3.4 2.2-5 4.8-5s4.2 1.6 4.8 5m-1.1-3.8c.8-.7 1.9-1.1 3.3-1.1 2.4 0 3.9 1.4 4.5 4.3"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    vision: (
-      <>
-        <path
-          d="M3.5 12s3.2-5.1 8.5-5.1 8.5 5.1 8.5 5.1-3.2 5.1-8.5 5.1S3.5 12 3.5 12Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M12 14.8a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6Zm0-10.8v1.4m0 13.2V20m-6.1-3.6-1 1m14.2-1 1 1M5.9 7.6l-1-1m14.2 1 1-1"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    mission: (
-      <>
-        <path
-          d="M19.6 12a7.6 7.6 0 1 1-4.1-6.8M16.3 12a4.3 4.3 0 1 1-4.3-4.3"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M12 12 18.7 5.3m-2.2.1h2.2v2.2m-4.7.2 2.5.6.6 2.5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-    idd: (
-      <>
-        <path
-          d="M12 4.1 5.2 6.8v5.5c0 3.7 2.7 6.6 6.8 7.6 4.1-1 6.8-3.9 6.8-7.6V6.8L12 4.1Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="m8.9 12.1 2.1 2.1 4.4-4.6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.65"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </>
-    ),
-  };
-
-  return (
-    <span className={className} aria-hidden="true">
-      <svg viewBox="0 0 24 24" focusable="false">
-        {icons[kind] ?? icons.about}
-      </svg>
-    </span>
-  );
-}
-
 gsap.registerPlugin(ScrollTrigger);
 
 export function HomePage() {
@@ -957,9 +815,6 @@ export function HomePage() {
   const hasPreloadedServiceImagesRef = useRef(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
   const [activeFinalOperation, setActiveFinalOperation] = useState(FINAL_OPERATION_STEPS[0].key);
-  const [activeOverviewStatement, setActiveOverviewStatement] = useState(
-    OVERVIEW_MOBILE_STATEMENTS[0].key
-  );
   const [isCompactHomeViewport, setIsCompactHomeViewport] = useState(
     () =>
       typeof window !== 'undefined' &&
@@ -973,9 +828,6 @@ export function HomePage() {
   const activeFinalOperationStep =
     FINAL_OPERATION_STEPS.find((step) => step.key === activeFinalOperation) ??
     FINAL_OPERATION_STEPS[0];
-  const activeOverviewStatementData =
-    OVERVIEW_MOBILE_STATEMENTS.find((statement) => statement.key === activeOverviewStatement) ??
-    OVERVIEW_MOBILE_STATEMENTS[0];
 
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
@@ -1066,6 +918,86 @@ export function HomePage() {
       window.removeEventListener('load', refreshAfterAssetsSettle);
       cancelAnimationFrame(refreshFrame);
       animationContext.revert();
+      ScrollTrigger.refresh();
+    };
+  }, [isCompactHomeViewport, prefersReducedMotion]);
+
+  useLayoutEffect(() => {
+    const node = overviewRef.current;
+    if (!node || !isCompactHomeViewport || prefersReducedMotion || typeof window === 'undefined') {
+      return undefined;
+    }
+
+    const leftPanel = node.querySelector('.left-panel');
+    const paper = node.querySelector('.landing-overview-paper');
+    const viewport = node.querySelector('.split-scroll-statement-frame');
+    const article = node.querySelector('.landing-overview-article');
+    const mission = node.querySelector('.landing-overview-statement--mission');
+
+    if (!leftPanel || !paper || !viewport || !article || !mission) return undefined;
+
+    node.classList.add('is-compact-overview-pinned');
+
+    // Keep the first sheet intentionally short: its folded edge lands immediately
+    // after the mission. Vision and IDD are revealed by the pinned article scroll.
+    const setFoldHeight = () => {
+      const rootFontSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+      const foldBreathingRoom = rootFontSize * (window.innerWidth <= 768 ? 1.6 : 2.2);
+      const missionBottom = mission.offsetTop - article.offsetTop + mission.offsetHeight;
+
+      paper.style.height = `${Math.ceil(missionBottom + foldBreathingRoom)}px`;
+    };
+    const scrollDistance = () => Math.max(0, article.scrollHeight - viewport.clientHeight);
+    const headerHeight = () =>
+      Math.ceil(document.querySelector('.site-header')?.getBoundingClientRect().height ?? 0);
+
+    setFoldHeight();
+
+    const animationContext = gsap.context(() => {
+      gsap.fromTo(article, { y: 0 }, {
+        y: () => -scrollDistance(),
+        ease: 'none',
+        scrollTrigger: {
+          id: 'home-overview-compact-article',
+          trigger: leftPanel,
+          start: () => `top top+=${headerHeight()}`,
+          end: () => `+=${Math.max(1, scrollDistance())}`,
+          pin: true,
+          pinType: 'fixed',
+          pinSpacing: true,
+          scrub: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onRefreshInit: setFoldHeight,
+        },
+      });
+    }, node);
+
+    let refreshFrame;
+    let isEffectActive = true;
+    const refreshAfterLayoutChange = () => {
+      if (!isEffectActive) return;
+      cancelAnimationFrame(refreshFrame);
+      refreshFrame = requestAnimationFrame(() => {
+        setFoldHeight();
+        ScrollTrigger.refresh();
+      });
+    };
+    const fontReady = document.fonts?.ready;
+
+    fontReady?.then(refreshAfterLayoutChange);
+    window.addEventListener('load', refreshAfterLayoutChange, { once: true });
+    window.addEventListener('resize', refreshAfterLayoutChange);
+    ScrollTrigger.refresh();
+
+    return () => {
+      isEffectActive = false;
+      window.removeEventListener('load', refreshAfterLayoutChange);
+      window.removeEventListener('resize', refreshAfterLayoutChange);
+      cancelAnimationFrame(refreshFrame);
+      animationContext.revert();
+      paper.style.removeProperty('height');
+      node.classList.remove('is-compact-overview-pinned');
       ScrollTrigger.refresh();
     };
   }, [isCompactHomeViewport, prefersReducedMotion]);
@@ -1551,6 +1483,18 @@ export function HomePage() {
         className="landing-overview landing-overview--split scroll-section"
         aria-label="Company overview"
       >
+        <header className="landing-overview-mobile-header">
+          <span className="landing-overview-mobile-header-rule" aria-hidden="true" />
+          <ScrollSectionTitle className="landing-section-title landing-overview-mobile-heading">
+            <span className="landing-title-line">
+              <span>Moving Your Business Forward,</span>
+            </span>
+            <span className="landing-title-line landing-title-line--accent">
+              <span>Together.</span>
+            </span>
+          </ScrollSectionTitle>
+        </header>
+
         <div className="split-scroll-container">
           <div className="left-panel">
             <div className="landing-overview-collage" aria-hidden="true">
@@ -1560,7 +1504,10 @@ export function HomePage() {
               </div>
               <div className="landing-overview-photo landing-overview-photo--team">
                 <div className="landing-overview-photo-crop">
-                  <img src="/overview/felmex-container-lift.png" alt="" width="1314" height="1197" />
+                  <picture>
+                    <source media="(max-width: 1024px)" srcSet="/overview/team.png" />
+                    <img src="/overview/felmex-container-lift.png" alt="" width="1314" height="1197" />
+                  </picture>
                 </div>
               </div>
             </div>
@@ -1574,7 +1521,9 @@ export function HomePage() {
                 <div className="landing-overview-article">
                   <article className="landing-overview-statement landing-overview-statement--about split-scroll-statement">
                     <span className="landing-overview-statement-rule" aria-hidden="true" />
-                    <h3>About Us</h3>
+                    <h3>
+                      About <strong>Us</strong>
+                    </h3>
                     <p>
                       FELMEX Global Logistics is an envisioned global multimodal service provider,
                       delivering integrated solutions across air, sea, road, and rail. We simplify complex
@@ -1584,7 +1533,9 @@ export function HomePage() {
                   </article>
                   <article className="landing-overview-statement landing-overview-statement--mission split-scroll-statement">
                     <span className="landing-overview-statement-rule" aria-hidden="true" />
-                    <h3>Our Mission</h3>
+                    <h3>
+                      Our <strong>Mission</strong>
+                    </h3>
                     <p>
                       FELMEX Global Logistics exists to simplify complexity in international trade. We
                       integrate air, sea, road, and rail services into one cohesive network, ensuring
@@ -1603,7 +1554,9 @@ export function HomePage() {
                   </article>
                   <article className="landing-overview-statement landing-overview-statement--vision split-scroll-statement">
                     <span className="landing-overview-statement-rule" aria-hidden="true" />
-                    <h3>Our Vision</h3>
+                    <h3>
+                      Our <strong>Vision</strong>
+                    </h3>
                     <p>
                       Redefine global logistics by delivering seamless, multimodal solutions that connect
                       businesses, markets, and communities with efficiency &amp; integrity.
@@ -1633,86 +1586,6 @@ export function HomePage() {
               </ScrollSectionTitle>
             </div>
           </aside>
-        </div>
-
-        <header className="landing-overview-mobile-header">
-          <span className="landing-overview-mobile-header-rule" aria-hidden="true" />
-          <ScrollSectionTitle className="landing-section-title landing-overview-mobile-heading">
-            <span className="landing-title-line">
-              <span>Moving Your Business Forward,</span>
-            </span>
-            <span className="landing-title-line landing-title-line--accent">
-              <span>Together.</span>
-            </span>
-          </ScrollSectionTitle>
-        </header>
-
-        <div
-          className={`landing-mobile-solutions-switcher landing-overview-mobile-switcher landing-overview-mobile-switcher--${activeOverviewStatementData.key} landing-overview-mobile-switcher--${activeOverviewStatementData.panelTone}`}
-          aria-label="Company statements"
-        >
-          <nav
-            className="landing-mobile-solutions-nav landing-overview-mobile-nav"
-            aria-label="Company statement menu"
-            role="tablist"
-          >
-            {OVERVIEW_MOBILE_STATEMENTS.map((statement) => {
-              const isActive = statement.key === activeOverviewStatementData.key;
-
-              return (
-                <button
-                  id={`landing-overview-mobile-tab-${statement.key}`}
-                  className={`landing-mobile-solution-button landing-overview-mobile-button landing-overview-mobile-button--${statement.panelTone}${isActive ? ' is-active' : ''
-                    }`}
-                  key={statement.key}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  aria-controls="landing-overview-mobile-panel"
-                  aria-label={statement.label}
-                  onClick={() => {
-                    setActiveOverviewStatement(statement.key);
-                  }}
-                >
-                  <OverviewStatementIcon
-                    kind={statement.icon}
-                    className="landing-mobile-solution-icon landing-overview-mobile-button-icon"
-                  />
-                  <span className="landing-mobile-solution-label landing-overview-mobile-label">
-                    {statement.navLabel}
-                  </span>
-                </button>
-              );
-            })}
-          </nav>
-
-          <article
-            id="landing-overview-mobile-panel"
-            className="landing-mobile-solution-panel landing-overview-mobile-panel"
-            role="tabpanel"
-            aria-live="polite"
-            aria-labelledby={`landing-overview-mobile-tab-${activeOverviewStatementData.key}`}
-          >
-            <span className="landing-overview-rule landing-overview-mobile-rule" aria-hidden="true" />
-            <h2 className="landing-overview-title landing-overview-mobile-title">
-              {activeOverviewStatementData.titleLines.map((line, index) => (
-                <span className="landing-overview-title-line" key={line}>
-                  <span>
-                    {index === activeOverviewStatementData.titleLines.length - 1 ? (
-                      <strong>{line}</strong>
-                    ) : (
-                      line
-                    )}
-                  </span>
-                </span>
-              ))}
-            </h2>
-            <div className="landing-overview-mobile-copy">
-              {activeOverviewStatementData.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
-          </article>
         </div>
 
       </section>
@@ -1812,6 +1685,17 @@ export function HomePage() {
                 loading="lazy"
                 decoding="async"
               />
+              <figcaption className="landing-testimonials-desktop-note">
+                <img
+                  className="landing-testimonials-desktop-note-clip"
+                  src="/service-catalog-paperclip.png"
+                  alt=""
+                  aria-hidden="true"
+                  width="1280"
+                  height="1280"
+                />
+                <p>Over 150 Satisfied Clients.</p>
+              </figcaption>
             </figure>
           </aside>
 
@@ -1896,6 +1780,20 @@ export function HomePage() {
                 loading="lazy"
                 decoding="async"
               />
+              <figcaption className="landing-testimonials-mobile-note">
+                <img
+                  className="landing-testimonials-mobile-note-clip"
+                  src="/service-catalog-paperclip.png"
+                  alt=""
+                  aria-hidden="true"
+                  width="1280"
+                  height="1280"
+                />
+                <p>
+                  Teams rely on Felmex for calm communication, disciplined execution, and fast
+                  response when plans change.
+                </p>
+              </figcaption>
             </figure>
           </div>
 
@@ -1945,9 +1843,6 @@ export function HomePage() {
                   </article>
                 ))}
               </div>
-              <p className="landing-testimonials-mobile-signoff">
-                Further together <span aria-hidden="true" />
-              </p>
             </div>
           </div>
         </div>

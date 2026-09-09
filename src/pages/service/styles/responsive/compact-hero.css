@@ -1,0 +1,273 @@
+/* Compact service hero: the reference collage replaces the compact quote
+   canvas, while the existing category navigation remains the next section. */
+@media (max-width: 1024px) {
+  .svc-page {
+    --svc-compact-hero-edge: clamp(1.25rem, 6vw, 4.25rem);
+    --svc-compact-collage-height: clamp(25rem, 75vw, 43rem);
+    background: #ffffff;
+  }
+
+  .svc-hero {
+    position: relative;
+    top: auto;
+    z-index: 1;
+    display: grid;
+    min-height: 0;
+    padding: clamp(3.65rem, 8.5vw, 5.7rem) var(--svc-compact-hero-edge)
+      clamp(2.9rem, 7vw, 4.5rem);
+    place-items: center;
+    background: #ffffff;
+  }
+
+  .svc-hero-copy {
+    width: min(100%, 42rem);
+    align-items: center;
+    text-align: center;
+  }
+
+  .svc-hero-kicker {
+    font-size: clamp(0.7rem, 1.35vw, 0.95rem);
+    font-weight: 900;
+    letter-spacing: 0.28em;
+  }
+
+  .svc-hero-title {
+    margin-top: clamp(1.25rem, 3vw, 1.75rem);
+    font-size: clamp(3rem, 7.9vw, 5rem);
+    line-height: 0.98;
+  }
+
+  .svc-hero-rule,
+  .svc-hero-subtitle,
+  .svc-hero-link {
+    display: none;
+  }
+
+  .svc-reference-section {
+    margin-top: 0;
+    overflow: visible;
+    background: #ffffff;
+    color: var(--svc-ink);
+  }
+
+  .svc-reference-section::before {
+    content: none;
+  }
+
+  .svc-reference-board,
+  .svc-reference-canvas {
+    display: block;
+    width: 100%;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  .svc-mobile-services-title,
+  .svc-reference-scene {
+    display: none;
+  }
+
+  .svc-desktop-hero-collage {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: min(100%, 58rem);
+    height: var(--svc-compact-collage-height);
+    margin: 0 auto;
+    pointer-events: none;
+    isolation: isolate;
+  }
+
+  .svc-desktop-hero-card-back,
+  .svc-desktop-hero-photo,
+  .svc-desktop-hero-note {
+    position: absolute;
+    margin: 0;
+  }
+
+  .svc-desktop-hero-card-back {
+    z-index: 0;
+    display: block;
+    background: linear-gradient(145deg, #fb252d 0%, var(--svc-red) 86%);
+    box-shadow: 0 0.9rem 1.7rem rgba(6, 25, 45, 0.16);
+  }
+
+  .svc-desktop-hero-card-back--port {
+    top: 32%;
+    left: 5%;
+    width: 47%;
+    aspect-ratio: 1.56;
+    transform: rotate(-5.4deg);
+  }
+
+  .svc-desktop-hero-card-back--road {
+    top: 29%;
+    right: 7%;
+    width: 46%;
+    aspect-ratio: 1.56;
+    transform: rotate(5.5deg);
+  }
+
+  .svc-desktop-hero-photo {
+    z-index: 1;
+    overflow: hidden;
+    border: clamp(0.32rem, 0.75vw, 0.6rem) solid #ffffff;
+    background: #ffffff;
+    box-shadow: 0 0.9rem 1.7rem rgba(6, 25, 45, 0.22);
+  }
+
+  .svc-desktop-hero-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .svc-desktop-hero-photo--port {
+    top: 35%;
+    left: 3%;
+    width: 55%;
+    aspect-ratio: 1.54;
+    transform: rotate(-6.5deg);
+  }
+
+  .svc-desktop-hero-photo--port img {
+    object-position: center 54%;
+  }
+
+  .svc-desktop-hero-photo--road {
+    top: 47%;
+    right: 2%;
+    width: 54%;
+    aspect-ratio: 1.54;
+    transform: rotate(6.1deg);
+  }
+
+  .svc-desktop-hero-photo--road img {
+    object-position: center 56%;
+  }
+
+  .svc-desktop-hero-note {
+    top: 4%;
+    left: 50%;
+    z-index: 3;
+    width: min(46%, 25rem);
+    box-sizing: border-box;
+    padding: clamp(2.15rem, 4.3vw, 3.2rem) clamp(1rem, 2.45vw, 1.85rem)
+      clamp(1.1rem, 2.8vw, 1.65rem);
+    background: #fbfaf7;
+    box-shadow: 0 1rem 2rem rgba(6, 25, 45, 0.2);
+    color: var(--svc-ink);
+    transform: translateX(-50%) rotate(2.2deg);
+  }
+
+  .svc-desktop-hero-note::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.42;
+    background-image: radial-gradient(rgba(15, 40, 66, 0.16) 0.45px, transparent 0.55px);
+    background-size: 4px 4px;
+    pointer-events: none;
+  }
+
+  .svc-desktop-hero-note p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-family: var(--site-font-display);
+    font-size: clamp(0.8rem, 1.65vw, 1.1rem);
+    font-weight: 650;
+    line-height: 1.42;
+  }
+
+  .svc-desktop-hero-note > span {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: clamp(2.25rem, 4.8vw, 3.25rem);
+    height: 3px;
+    margin-top: clamp(0.85rem, 1.8vw, 1.35rem);
+    background: var(--svc-red);
+  }
+
+  .svc-desktop-hero-paperclip {
+    position: absolute;
+    top: clamp(-2rem, -3vw, -1.35rem);
+    left: 52%;
+    z-index: 2;
+    width: clamp(3rem, 6.2vw, 4.35rem);
+    height: auto;
+    filter: drop-shadow(0.12rem 0.2rem 0.12rem rgba(6, 25, 45, 0.3));
+    transform: translateX(-50%) rotate(-23deg);
+  }
+
+  /* This is the established category navigation, now immediately below the
+     collage; no second, image-level navigation is rendered. */
+  .svc-mobile-service-shell {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .svc-page {
+    --svc-compact-hero-edge: clamp(1.25rem, 7vw, 2rem);
+    --svc-compact-collage-height: clamp(25rem, 108vw, 31rem);
+  }
+
+  .svc-hero {
+    padding-top: clamp(3.25rem, 13vw, 4.35rem);
+    padding-bottom: clamp(2.3rem, 9vw, 3.35rem);
+  }
+
+  .svc-hero-kicker {
+    font-size: clamp(0.65rem, 3vw, 0.78rem);
+    letter-spacing: 0.24em;
+  }
+
+  .svc-hero-title {
+    margin-top: clamp(0.95rem, 4vw, 1.25rem);
+    font-size: clamp(2.7rem, 11.2vw, 3.75rem);
+  }
+
+  .svc-desktop-hero-card-back--port {
+    top: 33%;
+    left: 5%;
+    width: 50%;
+  }
+
+  .svc-desktop-hero-card-back--road {
+    top: 31%;
+    right: 5%;
+    width: 48%;
+  }
+
+  .svc-desktop-hero-photo--port {
+    top: 36%;
+    left: 2%;
+    width: 58%;
+  }
+
+  .svc-desktop-hero-photo--road {
+    top: 49%;
+    right: 1%;
+    width: 57%;
+  }
+
+  .svc-desktop-hero-note {
+    top: 4%;
+    width: 54%;
+    padding: clamp(1.85rem, 8vw, 2.4rem) clamp(0.8rem, 3.7vw, 1.1rem)
+      clamp(0.9rem, 4vw, 1.2rem);
+  }
+
+  .svc-desktop-hero-note p {
+    font-size: clamp(0.76rem, 3.15vw, 0.92rem);
+    line-height: 1.38;
+  }
+
+  .svc-desktop-hero-paperclip {
+    top: clamp(-1.75rem, -7vw, -1.3rem);
+    width: clamp(2.8rem, 12vw, 3.65rem);
+  }
+}

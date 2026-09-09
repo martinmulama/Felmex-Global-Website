@@ -1,0 +1,243 @@
+.cnt-form-panel {
+  position: relative;
+  isolation: isolate;
+}
+
+.cnt-operations-note-wrap {
+  position: absolute;
+  top: clamp(2.5rem, 5.4svh, 4.5rem);
+  right: clamp(1.5rem, 4.2vw, 5.3rem);
+  z-index: 2;
+  width: clamp(13.5rem, 16.2vw, 16.5rem);
+}
+
+.cnt-operations-note-wrap--compact {
+  display: none;
+}
+
+.cnt-operations-note-backing {
+  position: absolute;
+  z-index: 0;
+  top: 0.95rem;
+  right: -0.9rem;
+  bottom: -0.75rem;
+  left: 0.8rem;
+  display: block;
+  background: linear-gradient(135deg, #d00918, var(--cnt-red));
+  box-shadow: 0 0.9rem 1.7rem rgba(103, 0, 10, 0.18);
+  transform: rotate(3.5deg);
+}
+
+.cnt-operations-note {
+  position: relative;
+  z-index: 1;
+  min-height: 11.35rem;
+  margin: 0;
+  padding: clamp(2.3rem, 3.2vw, 2.75rem) clamp(1.3rem, 1.7vw, 1.65rem) 1.55rem;
+  overflow: visible;
+  background: linear-gradient(135deg, #ffffff 0%, #f4f5f5 100%);
+  box-shadow: 0 1rem 1.85rem rgba(2, 19, 40, 0.22);
+  color: var(--cnt-blue);
+  transform: rotate(1.3deg);
+}
+
+.cnt-operations-note::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: clamp(1.65rem, 2.8vw, 2.3rem);
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, transparent 49%, rgba(7, 27, 53, 0.14) 50%);
+  clip-path: polygon(0 100%, 100% 0, 100% 100%);
+  filter: drop-shadow(-0.08rem -0.08rem 0.1rem rgba(7, 27, 53, 0.08));
+}
+
+.cnt-operations-note-clip {
+  position: absolute;
+  top: clamp(-2.25rem, -3.2vw, -1.6rem);
+  right: clamp(0.7rem, 1.25vw, 1.25rem);
+  z-index: 2;
+  display: block;
+  width: clamp(4.25rem, 5.7vw, 5.6rem);
+  height: auto;
+  filter: drop-shadow(0 0.18rem 0.14rem rgba(7, 27, 53, 0.28));
+  transform: rotate(-26deg);
+}
+
+.cnt-operations-note p {
+  margin: 0;
+}
+
+.cnt-operations-note-label {
+  color: var(--cnt-red);
+  font-size: clamp(0.62rem, 0.8vw, 0.72rem);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.cnt-operations-note-label + p {
+  margin-top: 0.7rem;
+  font-family: var(--site-font-display);
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.cnt-operations-note-rule {
+  display: block;
+  width: 3.45rem;
+  height: 0.2rem;
+  margin-top: 1rem;
+  background: var(--cnt-red);
+}
+
+@media (min-width: 1181px) {
+  .cnt-form-heading {
+    width: min(calc(100% - clamp(15.5rem, 20vw, 19.25rem)), 32rem);
+  }
+}
+
+@media (max-width: 1180px) {
+  .cnt-operations-note-wrap {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: clamp(13.25rem, 24vw, 16rem);
+    margin: clamp(1.65rem, 3.6svh, 2.4rem) 0 0 auto;
+  }
+
+  .cnt-form {
+    margin-top: clamp(2.6rem, 4.8svh, 3.6rem);
+  }
+}
+
+@media (max-width: 900px) {
+  .cnt-operations-note-wrap--form {
+    display: none;
+  }
+
+  .cnt-office-description {
+    display: none;
+  }
+
+  .cnt-office-intro {
+    padding-right: clamp(11rem, 27vw, 15rem);
+    text-align: left;
+  }
+
+  .cnt-office-intro .cnt-office-rule {
+    margin-inline: 0;
+  }
+
+  .cnt-operations-note-wrap--compact {
+    position: absolute;
+    top: clamp(1.35rem, 3.2vw, 2rem);
+    right: clamp(0.3rem, 2.2vw, 1.35rem);
+    z-index: 3;
+    display: block;
+    width: clamp(11.25rem, 24vw, 14.5rem);
+    margin: 0;
+  }
+
+  .cnt-operations-note-wrap--compact .cnt-operations-note-backing {
+    top: 0.65rem;
+    right: -0.5rem;
+    bottom: -0.5rem;
+    left: 0.5rem;
+    background: linear-gradient(135deg, #b6000f, #c70716);
+  }
+
+  .cnt-operations-note-wrap--compact .cnt-operations-note {
+    min-height: 0;
+    padding: clamp(1.9rem, 4vw, 2.25rem) clamp(0.95rem, 1.8vw, 1.25rem) 1rem;
+  }
+
+  .cnt-operations-note-wrap--compact .cnt-operations-note-clip {
+    top: clamp(-1.8rem, -3vw, -1.35rem);
+    right: clamp(0.4rem, 1.25vw, 0.9rem);
+    width: clamp(3.5rem, 5.4vw, 4.3rem);
+  }
+
+  .cnt-operations-note-wrap--compact .cnt-operations-note-label {
+    font-size: clamp(0.52rem, 0.8vw, 0.66rem);
+  }
+
+  .cnt-operations-note-wrap--compact .cnt-operations-note-label + p {
+    margin-top: 0.5rem;
+    font-size: clamp(0.78rem, 1.45vw, 0.98rem);
+    line-height: 1.32;
+  }
+
+  .cnt-operations-note-wrap--compact .cnt-operations-note-rule {
+    width: 2.75rem;
+    height: 0.16rem;
+    margin-top: 0.7rem;
+  }
+
+  .cnt-office-panel .cnt-office-details {
+    margin-top: clamp(3.4rem, 7vw, 4.25rem);
+  }
+}
+
+@media (max-width: 430px) {
+  .cnt-office-intro {
+    padding-right: 10.25rem;
+  }
+
+  .cnt-operations-note-wrap--compact {
+    top: 1.25rem;
+    right: -0.2rem;
+    width: 10.25rem;
+  }
+
+  .cnt-operations-note-wrap--compact .cnt-operations-note {
+    padding: 1.55rem 0.8rem 0.78rem;
+  }
+
+  .cnt-operations-note-wrap--compact .cnt-operations-note-clip {
+    top: -1.32rem;
+    right: 0.25rem;
+    width: 3.15rem;
+  }
+
+  .cnt-operations-note-wrap--compact .cnt-operations-note-label {
+    font-size: 0.47rem;
+  }
+
+  .cnt-operations-note-wrap--compact .cnt-operations-note-label + p {
+    margin-top: 0.42rem;
+    font-size: 0.72rem;
+    line-height: 1.3;
+  }
+
+  .cnt-operations-note-wrap--compact .cnt-operations-note-rule {
+    width: 2.15rem;
+    height: 0.12rem;
+    margin-top: 0.52rem;
+  }
+
+  .cnt-office-panel .cnt-office-details {
+    margin-top: 5.3rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cnt-operations-note-wrap {
+    transform-origin: center bottom;
+    backface-visibility: hidden;
+    opacity: 0;
+    transform: perspective(46rem) translateY(0.45rem) rotate(1.3deg) rotateX(-78deg);
+    transition:
+      transform 780ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 360ms ease-out;
+    will-change: transform, opacity;
+  }
+
+  .cnt-page.scroll-section.in-view .cnt-operations-note-wrap {
+    opacity: 1;
+    transform: perspective(46rem) translateY(0) rotate(0) rotateX(0);
+  }
+}

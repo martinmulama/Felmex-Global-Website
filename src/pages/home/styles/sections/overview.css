@@ -119,27 +119,11 @@
   content: '03';
 }
 
-.landing-overview-icon,
+
 .landing-overview-statement h3,
 .landing-overview-statement p {
   position: relative;
   z-index: 1;
-}
-
-.landing-overview-icon {
-  order: 3;
-  width: clamp(2.9rem, 3.65vw, 3.75rem);
-  aspect-ratio: 1;
-  display: grid;
-  place-items: center;
-  color: #ffffff;
-  margin: clamp(1.4rem, 2vw, 2rem) 0 clamp(1rem, 1.45vw, 1.28rem);
-}
-
-.landing-overview-icon svg {
-  width: 100%;
-  height: 100%;
-  display: block;
 }
 
 .landing-overview-statement h3 {
@@ -223,11 +207,6 @@
     font-size: clamp(2.8rem, 4.6vw, 3.65rem);
   }
 
-  .landing-overview-icon {
-    width: clamp(2.45rem, 3.7vw, 3.1rem);
-    margin-block: clamp(1rem, 1.7vw, 1.35rem) clamp(0.75rem, 1.2vw, 1rem);
-  }
-
   /* Keep integrity icon in sync with other cards at this breakpoint */
 
   .landing-overview-statement h3 {
@@ -301,11 +280,6 @@
   .landing-overview-statement::before {
     font-size: clamp(2.7rem, 13vw, 3.7rem);
     margin-bottom: 0.68rem;
-  }
-
-  .landing-overview-icon {
-    width: clamp(2.45rem, 10vw, 3.1rem);
-    margin: clamp(0.95rem, 3.6vw, 1.3rem) 0 clamp(0.72rem, 2.6vw, 1rem);
   }
 
   .landing-overview-statement h3 {
@@ -621,9 +595,6 @@
 }
 
 /* Mobile statement cards */
-.landing-overview--split .split-scroll-statement .landing-overview-icon {
-  display: none;
-}
 
 @media (max-width: 960px) {
   .landing-overview--split .split-scroll-statement-frame {
@@ -644,39 +615,6 @@
     align-items: center;
     border-radius: 0.9rem;
     box-shadow: 0 18px 38px rgba(7, 27, 53, 0.16);
-  }
-
-  .landing-overview--split .split-scroll-statement .landing-overview-icon {
-    position: relative;
-    width: clamp(3.7rem, 15.5vw, 5.05rem);
-    aspect-ratio: 1;
-    margin: 0;
-    display: grid;
-    grid-column: 1;
-    grid-row: 1 / span 2;
-    place-items: center;
-    justify-self: center;
-    align-self: center;
-    border-radius: 50%;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .landing-overview--split .split-scroll-statement .landing-overview-icon::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: calc(var(--overview-mobile-card-gap) * -0.5);
-    width: 1px;
-    height: clamp(5rem, 21vw, 7.15rem);
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.22);
-  }
-
-  .landing-overview--split .split-scroll-statement .landing-overview-icon svg {
-    width: 58%;
-    height: 58%;
-    display: block;
   }
 
   .landing-overview--split .split-scroll-statement h3 {
@@ -732,13 +670,8 @@
     border-radius: 0.78rem;
   }
 
-  .landing-overview--split .split-scroll-statement .landing-overview-icon {
-    width: clamp(3rem, 13vw, 3.55rem);
-  }
-
   .landing-overview--split .split-scroll-statement p {
     font-size: clamp(0.8rem, 3.45vw, 0.88rem);
     line-height: 1.55;
   }
 }
-

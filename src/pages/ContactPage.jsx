@@ -55,6 +55,27 @@ function makePhoneHref(phone) {
   return digits ? `tel:+${digits}` : undefined;
 }
 
+function OperationsNote({ compact = false }) {
+  return (
+    <div className={`cnt-operations-note-wrap${compact ? ' cnt-operations-note-wrap--compact' : ' cnt-operations-note-wrap--form'}`}>
+      <span className="cnt-operations-note-backing" aria-hidden="true" />
+      <aside className="cnt-operations-note" aria-label="What to include in your enquiry">
+        <img
+          className="cnt-operations-note-clip"
+          src="/service-catalog-paperclip.png"
+          alt=""
+          aria-hidden="true"
+          width="1280"
+          height="1280"
+        />
+        <p className="cnt-operations-note-label">Operations Note</p>
+        <p>Tell us the route, timing, and cargo. We’ll connect you with the right FELMEX team.</p>
+        <span className="cnt-operations-note-rule" aria-hidden="true" />
+      </aside>
+    </div>
+  );
+}
+
 export function ContactPage() {
   const isAppLoaded = useSplitPanelPreloader();
   const [activeOfficeId, setActiveOfficeId] = useState(getInitialOfficeId);
@@ -115,6 +136,7 @@ export function ContactPage() {
               We’re here to help you move forward. Reach out to our team and let’s build something great together.
             </p>
           </div>
+          <OperationsNote compact />
 
           <div className="cnt-office-details" aria-live="polite">
             <div className="cnt-office-detail">
@@ -166,6 +188,8 @@ export function ContactPage() {
               drive growth and open new opportunities.
             </div>
           </div>
+
+          <OperationsNote />
 
           <form className="cnt-form" id="cnt-contact-form" onSubmit={handleSubmit}>
             <div className="cnt-form-fields">

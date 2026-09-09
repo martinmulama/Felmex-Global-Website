@@ -1,132 +1,359 @@
-/* Mobile layout for the company-overview statement rail. */
-@media (max-width: 768px) {
-  .landing-overview-mobile-switcher {
-    --overview-mobile-card-edge: clamp(1.25rem, 5vw, 1.75rem);
-    --overview-mobile-strip-width: clamp(3.85rem, 15vw, 4.25rem);
-    --overview-mobile-strip-height: clamp(32rem, 138vw, 37.5rem);
-    --overview-mobile-rail-inset: clamp(6.5rem, 27vw, 7.5rem);
-    --overview-mobile-title-accent: var(--site-brand-red);
+.landing-overview-mobile-header {
+  display: none;
+}
+
+/* Compact overview: retain the desktop collage instead of replacing it with icon tabs. */
+@media (max-width: 1024px) {
+  .landing-overview--split {
+    --overview-compact-navy: #062d52;
+    --overview-compact-paper-width: min(72vw, 29.5rem);
+    --overview-compact-paper-left: 50%;
+    --overview-compact-paper-top: clamp(3.5rem, 8vw, 5.4rem);
     position: relative;
-    display: block;
-    width: calc(100% - var(--overview-mobile-card-edge));
-    min-height: var(--overview-mobile-strip-height);
-    margin: var(--home-mobile-title-gap) 0 0 var(--overview-mobile-card-edge);
+    min-height: 0;
+    padding: 0;
     overflow: visible;
-    border-radius: 0;
-    background: var(--site-footer-blue);
-    box-shadow: none;
+    background: #ffffff;
   }
 
-  .landing-overview-mobile-nav {
-    position: absolute;
-    top: var(--overview-mobile-rail-inset);
-    bottom: var(--overview-mobile-rail-inset);
-    left: calc(-1 * var(--overview-mobile-card-edge));
-    z-index: 1;
-    width: calc(var(--overview-mobile-strip-width) + var(--overview-mobile-card-edge));
-    min-width: 0;
-    display: grid;
-    grid-template-rows: repeat(4, minmax(0, 1fr));
-    padding: clamp(0.25rem, 1.4vw, 0.5rem) 0;
-    border-radius: 0;
-    background: var(--site-brand-red);
+  .landing-overview--split .split-scroll-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+    overflow: visible;
+    background: #ffffff;
   }
 
-  .landing-overview-mobile-nav .landing-overview-mobile-button,
-  .landing-overview-mobile-nav .landing-overview-mobile-button.is-active,
-  .landing-overview-mobile-nav .landing-overview-mobile-button:focus-visible {
-    color: #ffffff;
-  }
-
-  .landing-overview-mobile-nav .landing-overview-mobile-button {
-    gap: clamp(0.12rem, 0.8vw, 0.25rem);
-    padding-block: 0.2rem;
-  }
-
-  .landing-overview-mobile-nav .landing-overview-mobile-button + .landing-overview-mobile-button::after {
-    left: 20%;
-    right: 20%;
-    background: rgba(255, 255, 255, 0.46);
-  }
-
-  .landing-overview-mobile-nav .landing-overview-mobile-button.is-active::before {
-    content: none;
-  }
-
-  .landing-overview-mobile-nav .landing-overview-mobile-button:focus-visible {
-    outline-color: rgba(255, 255, 255, 0.88);
-  }
-
-  .landing-overview-mobile-panel {
-    grid-column: auto;
-    min-height: var(--overview-mobile-strip-height);
-    display: grid;
-    grid-template-rows: minmax(3rem, auto) minmax(0, 1fr);
-    align-content: start;
-    align-items: start;
-    gap: 0;
-    padding:
-      var(--overview-mobile-rail-inset)
-      clamp(1.4rem, 6vw, 2rem)
-      clamp(2rem, 8vw, 3rem)
-      calc(var(--overview-mobile-strip-width) + clamp(1.75rem, 7vw, 2.5rem));
-    border-radius: inherit;
-    background: transparent;
-    box-shadow: none;
-  }
-
-  .landing-overview-mobile-panel::before,
-  .landing-overview-mobile-panel::after {
-    content: none;
-  }
-
-  .landing-overview-mobile-rule {
+  .landing-overview--split .right-panel {
     display: none;
   }
 
-  .landing-overview--split .landing-overview-mobile-title {
-    min-height: clamp(3rem, 12vw, 3.75rem);
-    margin: 0;
-    font-size: clamp(1.08rem, 4.7vw, 1.34rem);
-    line-height: 1.12;
-    justify-self: stretch;
+  .landing-overview-mobile-header {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.95rem, 1.5vw, 1.45rem);
+    width: 100%;
+    max-width: 38rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 7vw, 3.8rem);
+    padding-block: clamp(2.2rem, 7vw, 3.2rem);
+    color: var(--site-footer-blue);
     text-align: left;
   }
 
-  .landing-overview-mobile-title .landing-overview-title-line,
-  .landing-overview-mobile-title .landing-overview-title-line > span {
-    display: inline;
+  .landing-overview-mobile-header-rule {
+    flex: 0 0 auto;
+    width: 2.6rem;
+    height: 2px;
+    margin-top: 0.78rem;
+    background: var(--site-brand-red);
+  }
+
+  .landing-overview-mobile-heading {
+    min-width: 0;
+    margin: 0;
+    color: var(--site-footer-blue);
+    font-family: var(--site-font-display);
+    font-size: clamp(1.95rem, 2.24vw, 2.72rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .landing-overview-mobile-heading .landing-title-line {
+    display: block;
+  }
+
+  .landing-overview-mobile-heading .landing-title-line--accent {
+    color: var(--site-brand-red);
+  }
+
+  .landing-overview--split .left-panel {
+    position: relative;
+    top: auto;
+    left: auto;
+    order: 1;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    display: flow-root;
+    overflow: hidden;
+    isolation: isolate;
+    background:
+      radial-gradient(circle at 76% 34%, rgba(21, 98, 151, 0.5), transparent 42%),
+      linear-gradient(145deg, #043761 0%, var(--overview-compact-navy) 56%, #031d38 100%);
+  }
+
+  .landing-overview--split .split-scroll-bg-stack,
+  .landing-overview--split .landing-overview-photo--port {
+    display: none;
+  }
+
+  .landing-overview-collage {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    pointer-events: none;
+  }
+
+  .landing-overview-photo-backing {
+    position: absolute;
+    z-index: 1;
+    top: clamp(5.3rem, 12vw, 8.1rem);
+    left: 67%;
+    width: 32%;
+    height: min(54%, 34rem);
+    display: block;
+    background: linear-gradient(145deg, #ff2630 0%, #df0009 100%);
+    clip-path: polygon(3% 0, 100% 8%, 92% 100%, 0 94%);
+    transform: rotate(7deg);
+    transform-origin: center;
+  }
+
+  .landing-overview-photo--team {
+    position: absolute;
+    z-index: 2;
+    top: clamp(5.8rem, 13vw, 8.75rem);
+    left: clamp(-0.5rem, 2vw, 1.4rem);
+    width: 34%;
+    height: min(49%, 30rem);
+    margin: 0;
+    display: block;
+    overflow: hidden;
+    border: clamp(0.32rem, 1vw, 0.62rem) solid #ffffff;
+    background: #ffffff;
+    box-shadow: 0 0.8rem 1.45rem rgba(0, 0, 0, 0.26);
+    transform: rotate(-8.5deg);
+    transform-origin: top right;
+  }
+
+  .landing-overview-photo-crop,
+  .landing-overview-photo--team picture,
+  .landing-overview-photo--team img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .landing-overview-photo--team picture {
+    display: block;
+  }
+
+  .landing-overview-photo--team img {
+    display: block;
+    object-fit: cover;
+    object-position: 52% center;
+  }
+
+  .landing-overview-paper {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: var(--overview-compact-paper-left);
+    z-index: 3;
+    width: var(--overview-compact-paper-width);
+    height: auto;
+    min-height: 0;
+    margin: var(--overview-compact-paper-top) 0 clamp(3.8rem, 9vw, 6.5rem);
+    overflow: hidden;
+    background: #fcfcfb;
+    box-shadow: 0 0.85rem 1.9rem rgba(0, 0, 0, 0.26);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - clamp(2.7rem, 8vw, 4.25rem)), calc(100% - clamp(2.7rem, 8vw, 4.25rem)) 100%, 0 100%);
+    transform: translateX(-50%);
+  }
+
+  .landing-overview-paper::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: clamp(2.7rem, 8vw, 4.25rem);
+    height: clamp(2.7rem, 8vw, 4.25rem);
+    pointer-events: none;
+    background: linear-gradient(135deg, #e2e2df 0 49%, #fcfcfb 50% 100%);
+  }
+
+  .landing-overview-paperclip {
+    position: absolute;
+    z-index: 5;
+    /* Bridge the white sheet and its red backing at the top-right seam. */
+    top: calc(var(--overview-compact-paper-top) - clamp(1.6rem, 5vw, 2.4rem));
+    left: 82.5%;
+    width: clamp(4.4rem, 13vw, 5.75rem);
+    height: auto;
+    display: block;
+    aspect-ratio: 1;
+    object-fit: contain;
+    filter: drop-shadow(0.12rem 0.2rem 0.18rem rgba(0, 0, 0, 0.3));
+    transform: translateX(-50%) rotate(-38deg);
+  }
+
+  .landing-overview--split .split-scroll-statement-frame {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    display: block;
+    margin: 0;
+    padding: 0;
     overflow: visible;
   }
 
-  .landing-overview-mobile-title .landing-overview-title-line + .landing-overview-title-line::before {
-    content: ' ';
+  .landing-overview--split.is-compact-overview-pinned .split-scroll-statement-frame {
+    height: 100%;
+    overflow: hidden;
   }
 
-  .landing-overview-mobile-copy {
-    align-self: start;
+  .landing-overview-article {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(2.15rem, 5.6vw, 3.1rem) 10.5% clamp(2.85rem, 7.5vw, 4rem);
+    transform: none;
+    will-change: auto;
+  }
+
+  .landing-overview--split.is-compact-overview-pinned .landing-overview-article {
+    will-change: transform;
+  }
+
+  .landing-overview--split .split-scroll-statement,
+  .landing-overview--split .split-scroll-statement:first-child {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    min-height: 0;
     margin: 0;
-    padding-top: clamp(1.1rem, 4.8vw, 1.55rem);
-    border-top: 1px solid rgba(255, 255, 255, 0.24);
+    padding: 0;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+    color: var(--site-footer-blue);
+    opacity: 1;
+    text-align: left;
+    transform: none;
+    visibility: visible;
+    will-change: auto;
+  }
+
+  .landing-overview--split .split-scroll-statement + .split-scroll-statement {
+    margin-top: clamp(1.35rem, 3.4vw, 2rem);
+    padding-top: clamp(1.35rem, 3.4vw, 2rem);
+    border-top: 1px solid rgba(var(--site-footer-blue-rgb), 0.2);
+  }
+
+  .landing-overview--split .landing-overview-statement--idd {
+    display: flex;
+    order: 4;
+  }
+
+  .landing-overview--split .landing-overview-statement--vision {
+    order: 3;
+  }
+
+  .landing-overview--split .split-scroll-statement h3 {
+    order: 1;
+    max-width: none;
+    margin: 0;
+    color: var(--site-footer-blue);
+    font-family: var(--site-font-display);
+    font-size: clamp(1.55rem, 3.65vw, 2.3rem);
+    font-weight: 800;
+    line-height: 1.06;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .landing-overview--split .split-scroll-statement h3 strong {
+    color: var(--site-brand-red);
+    font: inherit;
+  }
+
+  .landing-overview--split .split-scroll-statement h3 strong::after {
+    content: '.';
+  }
+
+  .landing-overview--split .landing-overview-statement-rule {
+    order: 2;
+    width: clamp(2.4rem, 5.5vw, 3.1rem);
+    height: 3px;
+    margin: clamp(0.8rem, 2.3vw, 1.1rem) 0 0;
+    display: block;
+    flex: 0 0 auto;
+    background: var(--site-brand-red);
+  }
+
+  .landing-overview--split .split-scroll-statement p {
+    order: 3;
+    max-width: 100%;
+    margin: clamp(0.85rem, 2.15vw, 1.2rem) 0 0;
+    color: var(--site-footer-blue);
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.92rem, 1.7vw, 1.1rem);
+    font-weight: 500;
+    line-height: 1.48;
+    letter-spacing: 0;
   }
 }
 
-@media (max-width: 420px) {
-  .landing-overview-mobile-switcher {
-    --overview-mobile-card-edge: clamp(1.15rem, 5vw, 1.35rem);
-    --overview-mobile-strip-width: clamp(3.45rem, 15vw, 3.8rem);
-    --overview-mobile-strip-height: clamp(30rem, 140vw, 34rem);
-    --overview-mobile-rail-inset: clamp(5.25rem, 27vw, 6.5rem);
+@media (max-width: 768px) {
+  .landing-overview--split {
+    --overview-compact-paper-width: 68vw;
+    --overview-compact-paper-left: 50%;
+    --overview-compact-paper-top: clamp(3rem, 14vw, 4.25rem);
   }
 
-  .landing-overview-mobile-nav {
-    top: var(--overview-mobile-rail-inset);
-    bottom: var(--overview-mobile-rail-inset);
+  .landing-overview-photo-backing {
+    top: clamp(4.2rem, 18vw, 5.9rem);
+    left: 72%;
+    width: 26%;
+    height: min(43%, 20rem);
   }
 
-  .landing-overview-mobile-switcher--idd .landing-overview-mobile-title {
-    width: 100%;
-    font-size: clamp(1.08rem, 4.7vw, 1.34rem);
-    line-height: 1.12;
+  .landing-overview-photo--team {
+    top: clamp(4.55rem, 19vw, 6.4rem);
+    left: clamp(-1rem, -1.5vw, -0.45rem);
+    width: 26%;
+    height: min(39%, 17rem);
+    transform: rotate(-8deg);
+  }
+
+  .landing-overview-paperclip {
+    top: calc(var(--overview-compact-paper-top) - clamp(1.4rem, 5vw, 2rem));
+    left: 82.5%;
+    width: clamp(4rem, 16vw, 5rem);
+  }
+
+  .landing-overview-article {
+    padding: clamp(1.8rem, 8vw, 2.35rem) 10% clamp(2.55rem, 10vw, 3.25rem);
+  }
+
+  .landing-overview--split .split-scroll-statement + .split-scroll-statement {
+    margin-top: clamp(1.2rem, 5vw, 1.65rem);
+    padding-top: clamp(1.2rem, 5vw, 1.65rem);
+  }
+
+  .landing-overview--split .split-scroll-statement h3 {
+    font-size: clamp(1.4rem, 6vw, 1.8rem);
+  }
+
+  .landing-overview--split .landing-overview-statement-rule {
+    width: clamp(2.1rem, 10vw, 2.7rem);
+    height: 2px;
+    margin-top: clamp(0.62rem, 3vw, 0.82rem);
+  }
+
+  .landing-overview--split .split-scroll-statement p {
+    margin-top: clamp(0.78rem, 3.2vw, 1rem);
+    font-size: clamp(0.83rem, 3.25vw, 0.91rem);
+    font-weight: 500;
+    line-height: 1.48;
   }
 }
