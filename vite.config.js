@@ -27,10 +27,4 @@ function purgeHomeCss() {
 
 export default defineConfig({
   plugins: [react(), purgeHomeCss()],
-  preview: {
-    allowedHosts: [
-      'hurtless-carleen-bionomically.ngrok-free.dev',
-      '.ngrok-free.dev',
-    ],
-  },
 });
