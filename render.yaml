@@ -19,6 +19,15 @@ services:
       - path: "/*"
         name: Referrer-Policy
         value: strict-origin-when-cross-origin
+      - path: "/*"
+        name: Content-Security-Policy
+        value: "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+      - path: "/*"
+        name: X-Frame-Options
+        value: DENY
+      - path: "/*"
+        name: Permissions-Policy
+        value: "camera=(), geolocation=(), microphone=()"
     routes:
       - type: rewrite
         source: "/*"

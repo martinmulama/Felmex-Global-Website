@@ -25,7 +25,7 @@ const ServicePage = lazy(() =>
 const SITE_NAME = 'Felmex Global Logistics';
 const DEFAULT_DESCRIPTION =
   'Reliable freight forwarding, customs, warehousing, and project logistics solutions.';
-const DEFAULT_SOCIAL_IMAGE = '/hero-1600.webp';
+const DEFAULT_SOCIAL_IMAGE = '/hero-air-panel.webp';
 
 function getRouteMetadata(pathname, reportSlug) {
   if (pathname === '/services' || pathname.startsWith('/services/')) {
@@ -33,7 +33,7 @@ function getRouteMetadata(pathname, reportSlug) {
       title: `Services | ${SITE_NAME}`,
       description:
         'Explore Felmex freight forwarding, customs clearance, warehousing, and project logistics services.',
-      image: '/service-network-hero-v2-1440.webp',
+      image: '/air-freight.webp',
     };
   }
 
@@ -42,7 +42,7 @@ function getRouteMetadata(pathname, reportSlug) {
       title: `About | ${SITE_NAME}`,
       description:
         'Learn about the Felmex logistics team, operating standards, and regional freight network.',
-      image: '/about-network-hero-1440.webp',
+      image: '/about-our-story-people.png',
     };
   }
 
@@ -69,7 +69,7 @@ function getRouteMetadata(pathname, reportSlug) {
       title: `Projects | ${SITE_NAME}`,
       description:
         'Review Felmex project logistics, warehousing, customs, and freight coordination work.',
-      image: '/projects-network-hero-1440.webp',
+      image: '/road-freight.webp',
     };
   }
 
@@ -317,7 +317,14 @@ function App() {
 
     const scrollToHashTarget = () => {
       attempts += 1;
-      const targetId = decodeURIComponent(hash.replace(/^#/, ''));
+      let targetId;
+
+      try {
+        targetId = decodeURIComponent(hash.replace(/^#/, ''));
+      } catch {
+        return;
+      }
+
       const target = document.getElementById(targetId);
       if (target) {
         scrollToTarget(target, { immediate: true });

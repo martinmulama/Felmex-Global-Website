@@ -28,6 +28,11 @@ if ! curl -s "http://127.0.0.1:${PORT}" >/dev/null 2>&1; then
   exit 1
 fi
 
+if ! command -v ngrok >/dev/null 2>&1; then
+  echo "ngrok is required to share a preview. Install a current ngrok release, then run this command again."
+  exit 1
+fi
+
 echo "Starting ngrok tunnel..."
 echo "Use Ctrl+C to stop both ngrok and preview."
-npx ngrok http "${PORT}"
+ngrok http --host-header=rewrite "${PORT}"
