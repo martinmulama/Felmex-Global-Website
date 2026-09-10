@@ -10,3 +10,6 @@
 @import './service/styles/responsive/desktop.css';
 @import './service/styles/responsive/tablet.css';
 @import './service/styles/responsive/compact-hero.css';
+@import './service/styles/sections/desktop-catalog.css';
+@import './service/styles/sections/compact-catalog.css';
+@import './service/styles/sections/catalog-detail-overlay.css';

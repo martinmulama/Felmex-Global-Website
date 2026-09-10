@@ -1,0 +1,589 @@
+/* Desktop-only service catalog. Compact layouts continue to use the existing responsive catalog. */
+.svc-desktop-service-catalog {
+  display: none;
+}
+
+.svc-desktop-solution-statements {
+  display: none;
+}
+
+@media (min-width: 1025px) {
+  .svc-reference-scene,
+  .svc-service-detail-section {
+    display: none;
+  }
+
+  .svc-reference-canvas {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .svc-mobile-service-shell {
+    display: contents;
+  }
+
+  .svc-reference-nav {
+    display: none;
+  }
+
+  .svc-desktop-solution-statements {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    width: min(calc(100% - 4rem), var(--svc-ref-artboard-max));
+    min-height: var(--svc-ref-nav-height);
+    margin: calc(var(--svc-hero-card-height) + clamp(3rem, 4vw, 4rem)) auto 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(6rem, 9vw, 10rem);
+    align-items: center;
+    padding: clamp(2.25rem, 3vw, 2.8rem) 0;
+    box-sizing: border-box;
+    order: 1;
+  }
+
+  .svc-desktop-solution-statement {
+    display: grid;
+    min-width: 0;
+    align-content: center;
+    gap: clamp(0.55rem, 0.8vw, 0.75rem);
+  }
+
+  .svc-desktop-solution-statement h2,
+  .svc-desktop-solution-statement p {
+    margin: 0;
+  }
+
+  .svc-desktop-solution-statement h2 {
+    color: rgba(255, 255, 255, 0.58);
+    font-family: var(--site-font-sans);
+    font-size: var(--site-fs-kicker);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .svc-desktop-solution-statement p {
+    max-width: 23rem;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: var(--site-fs-body);
+    font-weight: 500;
+    line-height: var(--site-lh-body);
+  }
+
+  .svc-desktop-service-catalog {
+    --svc-desktop-catalog-optical-shift: clamp(3.2rem, 3.75vw, 3.75rem);
+
+    position: relative;
+    z-index: 2;
+    display: grid;
+    width: min(calc(100% - 4rem), var(--svc-ref-artboard-max));
+    height: clamp(42rem, 46vw, 50rem);
+    min-height: 0;
+    order: 2;
+    margin: clamp(1.3rem, 2vw, 2rem) auto 0;
+    grid-template-columns: minmax(0, 39%) minmax(0, 1fr);
+    gap: clamp(5rem, 6.25vw, 6.5rem);
+    align-items: stretch;
+    padding: 0;
+  }
+
+  .svc-process-section,
+  .svc-solution-section,
+  .svc-faq-section,
+  .svc-final-cta {
+    order: 3;
+  }
+
+  .svc-process-section {
+    width: min(calc(100% - 4rem), var(--svc-ref-artboard-max));
+    margin: 0 auto;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(3.5rem, 5vw, 4.75rem);
+    padding: clamp(5.5rem, 7vw, 6.5rem) 0 clamp(3.25rem, 4.25vw, 4rem);
+    background: transparent;
+  }
+
+  .svc-process-section::before {
+    content: none;
+  }
+
+  .svc-final-cta {
+    align-items: start;
+    padding-top: clamp(5.5rem, 7vw, 6.5rem);
+  }
+
+  .svc-process-heading {
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(18rem, 0.76fr) minmax(0, 1.24fr);
+    gap: clamp(3rem, 5.5vw, 5.5rem);
+    align-items: end;
+  }
+
+  .svc-process-heading h2 {
+    max-width: none;
+    color: #ffffff;
+    font-family: var(--site-font-display);
+    font-size: clamp(2.48rem, 3.2vw, 3.4rem);
+    font-weight: 800;
+    line-height: var(--site-section-title-line-height);
+    letter-spacing: 0;
+  }
+
+  .svc-process-heading-rule {
+    display: none;
+  }
+
+  .svc-process-heading .svc-process-heading-copy {
+    width: min(100%, 32rem);
+    margin: 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-family: var(--site-font-sans);
+    font-size: var(--site-fs-body);
+    font-weight: 500;
+    line-height: var(--site-lh-body);
+    letter-spacing: 0;
+    justify-self: start;
+  }
+
+  .svc-process-grid {
+    display: grid;
+    width: 100%;
+    min-height: 0;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(1.8rem, 2.65vw, 2.75rem);
+    overflow: visible;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .svc-process-card {
+    min-height: 0;
+    align-content: start;
+    gap: clamp(1.15rem, 1.6vw, 1.55rem);
+    padding: 0;
+    background: transparent;
+    color: #ffffff;
+  }
+
+  .svc-process-card-icon {
+    --svc-process-icon-cutout: var(--svc-ink);
+    width: clamp(3rem, 3.85vw, 3.8rem);
+    height: clamp(3rem, 3.85vw, 3.8rem);
+    color: #ffffff;
+    order: 1;
+  }
+
+  .svc-process-card-copy {
+    gap: clamp(0.55rem, 0.8vw, 0.75rem);
+    padding: 0;
+    order: 2;
+  }
+
+  .svc-process-card h3 {
+    color: rgba(255, 255, 255, 0.62);
+    font-family: var(--site-font-sans);
+    font-size: var(--site-fs-kicker);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .svc-process-card p {
+    color: rgba(255, 255, 255, 0.86);
+    font-size: var(--site-fs-body);
+    font-weight: 500;
+    line-height: var(--site-lh-body);
+  }
+
+  .svc-solution-section {
+    --svc-promise-content-rail: max(
+      2rem,
+      calc((100% - var(--svc-ref-artboard-max)) / 2 + 2rem)
+    );
+    --svc-promise-copy-rail: var(--svc-promise-content-rail);
+    --svc-promise-statement-rail: var(--svc-promise-content-rail);
+  }
+
+  .svc-faq-section {
+    padding-inline: max(
+      2rem,
+      calc((100% - var(--svc-ref-artboard-max)) / 2 + 2rem)
+    );
+  }
+
+  .svc-desktop-catalog-notes {
+    display: grid;
+    position: relative;
+    isolation: isolate;
+    top: clamp(0.75rem, 1.2vw, 1rem);
+    height: calc(100% - 14rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(0, 1fr);
+    gap: clamp(1.15rem, 1.45vw, 1.4rem) clamp(2.1rem, 3vw, 3rem);
+    align-self: center;
+    margin: 0;
+    transform: translateX(var(--svc-desktop-catalog-optical-shift));
+  }
+
+  .svc-desktop-catalog-notes::before {
+    content: '';
+    position: absolute;
+    inset: clamp(0.4rem, 0.8vw, 0.7rem) clamp(-1.6rem, -2vw, -1.3rem)
+      clamp(-1.55rem, -1.9vw, -1.2rem) clamp(1rem, 1.45vw, 1.3rem);
+    z-index: 0;
+    display: block;
+    background: var(--svc-red);
+    box-shadow: 0 1rem 1.8rem rgba(2, 16, 34, 0.25);
+    transform: rotate(-3.15deg);
+  }
+
+  .svc-desktop-catalog-note-wrap {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+  }
+
+  .svc-desktop-catalog-board-paperclip {
+    position: absolute;
+    top: clamp(-3.15rem, -3.6vw, -2.8rem);
+    left: 11%;
+    z-index: 2;
+    display: block;
+    width: clamp(7.5rem, 8.25vw, 8.25rem);
+    height: auto;
+    pointer-events: none;
+    filter: drop-shadow(0.1rem 0.16rem 0.08rem rgba(2, 16, 34, 0.38));
+    transform: translateX(-50%) rotate(-42deg);
+  }
+
+  .svc-desktop-catalog-note {
+    appearance: none;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--svc-ink);
+    cursor: pointer;
+    transform: translateY(0);
+    transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .svc-desktop-catalog-note:hover,
+  .svc-desktop-catalog-note:focus-visible,
+  .svc-desktop-catalog-note.is-active {
+    transform: translateY(-0.35rem);
+  }
+
+  .svc-desktop-catalog-note:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 0.42rem;
+  }
+
+  .svc-desktop-catalog-note-paper {
+    position: absolute;
+    display: block;
+  }
+
+  .svc-desktop-catalog-note-paper {
+    inset: 0;
+    z-index: 1;
+    box-sizing: border-box;
+    overflow: visible;
+    padding: clamp(1.25rem, 1.65vw, 1.55rem) clamp(1.35rem, 1.9vw, 1.85rem);
+    background:
+      radial-gradient(rgba(7, 27, 53, 0.08) 0.45px, transparent 0.55px) 0 0 / 4px 4px,
+      #fffefd;
+    box-shadow: 0 0.9rem 1.65rem rgba(2, 16, 34, 0.25);
+    text-align: left;
+    transform: rotate(-1.9deg);
+  }
+
+  .svc-desktop-catalog-note-wrap:nth-child(even) .svc-desktop-catalog-note-paper {
+    transform: rotate(1.65deg);
+  }
+
+  .svc-desktop-catalog-note-wrap:nth-child(3) .svc-desktop-catalog-note-paper {
+    transform: rotate(1.35deg);
+  }
+
+  .svc-desktop-catalog-note-wrap:nth-child(4) .svc-desktop-catalog-note-paper {
+    transform: rotate(-2.15deg);
+  }
+
+  .svc-desktop-catalog-note-wrap:nth-child(5) .svc-desktop-catalog-note-paper {
+    transform: rotate(-1.1deg);
+  }
+
+  .svc-desktop-catalog-note-wrap:nth-child(6) .svc-desktop-catalog-note-paper {
+    transform: rotate(2.2deg);
+  }
+
+  .svc-desktop-catalog-note.is-active .svc-desktop-catalog-note-paper {
+    box-shadow: 0 1.15rem 1.9rem rgba(2, 16, 34, 0.32);
+  }
+
+  .svc-desktop-catalog-note-rule {
+    position: absolute;
+    top: clamp(3.2rem, 4.1vw, 4rem);
+    left: clamp(1.35rem, 1.9vw, 1.85rem);
+    display: block;
+    width: clamp(1.8rem, 2.15vw, 2.2rem);
+    height: 2px;
+    background: var(--svc-red);
+  }
+
+  .svc-desktop-catalog-note-number {
+    position: absolute;
+    top: clamp(1.3rem, 1.7vw, 1.65rem);
+    left: clamp(1.35rem, 1.9vw, 1.85rem);
+    display: block;
+    color: var(--svc-red);
+    font-family: var(--site-font-sans);
+    font-size: var(--site-fs-caption);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+  }
+
+  .svc-desktop-catalog-note-icon {
+    position: absolute;
+    top: clamp(2.7rem, 3.9vw, 3.7rem);
+    right: clamp(1rem, 1.45vw, 1.4rem);
+    display: grid;
+    width: clamp(3.15rem, 3.9vw, 4.05rem);
+    height: clamp(3.15rem, 3.9vw, 4.05rem);
+    place-items: center;
+    color: rgba(7, 27, 53, 0.11);
+  }
+
+  .svc-desktop-catalog-note-icon .svc-line-icon path,
+  .svc-desktop-catalog-note-icon .svc-line-icon circle {
+    stroke-width: 2;
+  }
+
+  .svc-desktop-catalog-note-label {
+    position: absolute;
+    top: clamp(4.6rem, 5.75vw, 5.45rem);
+    right: clamp(1.35rem, 1.9vw, 1.85rem);
+    left: clamp(1.35rem, 1.9vw, 1.85rem);
+    display: grid;
+    color: var(--svc-ink);
+    font-family: var(--site-font-display);
+    font-size: clamp(0.98rem, 1.08vw, 1.14rem);
+    font-weight: 700;
+    line-height: 1.14;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .svc-desktop-catalog-note-label span {
+    display: block;
+  }
+
+  .svc-desktop-catalog-note-arrow {
+    position: absolute;
+    bottom: clamp(1.15rem, 1.55vw, 1.45rem);
+    left: clamp(1.35rem, 1.9vw, 1.85rem);
+    display: grid;
+    width: clamp(1.35rem, 1.7vw, 1.65rem);
+    height: clamp(0.85rem, 1vw, 1rem);
+    color: var(--svc-red);
+  }
+
+  .svc-desktop-catalog-note-arrow svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .svc-desktop-catalog-detail {
+    position: relative;
+    width: min(calc(100% - clamp(4rem, 5vw, 4.5rem)), 38rem);
+    justify-self: start;
+    margin-left: clamp(4rem, 5vw, 4.5rem);
+    transform: translateX(var(--svc-desktop-catalog-optical-shift));
+    align-self: stretch;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .svc-desktop-catalog-detail-back {
+    position: absolute;
+    top: clamp(2.3rem, 3.4vw, 3rem);
+    right: clamp(-1.15rem, -1.45vw, -0.85rem);
+    bottom: clamp(1rem, 1.6vw, 1.55rem);
+    left: clamp(0.85rem, 1.2vw, 1.15rem);
+    z-index: 0;
+    display: block;
+    background: var(--svc-red);
+    box-shadow: 0 1.1rem 2rem rgba(2, 16, 34, 0.25);
+    transform: rotate(-2.1deg);
+  }
+
+  .svc-desktop-catalog-detail-sheet {
+    position: absolute;
+    top: clamp(3.65rem, 4.8vw, 4rem);
+    right: clamp(0.35rem, 0.7vw, 0.65rem);
+    bottom: clamp(1.55rem, 2vw, 1.9rem);
+    left: 0;
+    z-index: 1;
+    min-height: 0;
+    box-sizing: border-box;
+    display: grid;
+    align-items: center;
+    padding: clamp(3.7rem, 5.1vw, 4.75rem) clamp(2.3rem, 3.6vw, 3.5rem)
+      clamp(2.7rem, 4.2vw, 4rem);
+    overflow: visible;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(251, 250, 247, 0.92)),
+      radial-gradient(rgba(7, 27, 53, 0.06) 0.45px, transparent 0.55px) 0 0 / 4px 4px,
+      #fffefd;
+    box-shadow: 0 1.25rem 2.4rem rgba(2, 16, 34, 0.28);
+    color: var(--svc-ink);
+    transform: rotate(0.7deg);
+    animation: svc-desktop-catalog-detail-slide-in 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .svc-desktop-catalog-detail-paperclip {
+    position: absolute;
+    top: clamp(-2.8rem, -3vw, -2.55rem);
+    left: 85%;
+    z-index: 2;
+    display: block;
+    width: clamp(7.5rem, 8vw, 8rem);
+    height: auto;
+    filter: drop-shadow(0.1rem 0.16rem 0.08rem rgba(2, 16, 34, 0.38));
+    transform: translateX(-50%) rotate(-42deg);
+  }
+
+  .svc-desktop-catalog-detail-feature h3,
+  .svc-desktop-catalog-detail-feature p {
+    margin: 0;
+  }
+
+  .svc-desktop-catalog-detail-features {
+    display: grid;
+    width: min(100%, 34rem);
+    margin: 0 auto;
+    gap: clamp(1.1rem, 1.55vw, 1.45rem);
+  }
+
+  .svc-desktop-catalog-detail-feature {
+    display: flex;
+    gap: clamp(1.55rem, 2vw, 2rem);
+    min-height: 0;
+    align-items: center;
+    padding: 0;
+  }
+
+  .svc-desktop-catalog-detail-feature h3 {
+    flex: 0 0 clamp(9.5rem, 11vw, 10.5rem);
+    max-width: clamp(9.5rem, 11vw, 10.5rem);
+    color: rgba(7, 27, 53, 0.48);
+    font-family: var(--home-font-sans, var(--site-font-sans));
+    font-size: var(--site-fs-kicker);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .svc-desktop-catalog-detail-feature p {
+    flex: 1 1 14rem;
+    min-width: 0;
+    color: rgba(7, 27, 53, 0.84);
+    font-size: var(--site-fs-body);
+    font-weight: 500;
+    line-height: var(--site-lh-body);
+  }
+
+  @keyframes svc-desktop-catalog-detail-slide-in {
+    from {
+      transform: translateX(4.5rem) rotate(0.7deg);
+    }
+
+    to {
+      transform: translateX(0) rotate(0.7deg);
+    }
+  }
+}
+
+@media (min-width: 1025px) and (prefers-reduced-motion: reduce) {
+  .svc-desktop-catalog-detail-sheet {
+    animation-duration: 1ms;
+  }
+
+  .svc-desktop-catalog-note {
+    transition-duration: 1ms;
+  }
+}
+
+/* Compact layouts surface the service value statements immediately after the hero. */
+@media (max-width: 1024px) {
+  .svc-mobile-service-shell {
+    margin-top: 0;
+  }
+
+  .svc-desktop-solution-statements {
+    --svc-compact-statement-gutter: clamp(1rem, 5vw, 2rem);
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    grid-column: 1 / -1;
+    gap: clamp(0.8rem, 3vw, 1.5rem);
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: clamp(2.1rem, 6.5vw, 3.5rem) var(--svc-compact-statement-gutter)
+      clamp(2.3rem, 7vw, 3.75rem);
+    background: var(--svc-blue);
+    color: #ffffff;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: var(--svc-compact-statement-gutter);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .svc-desktop-solution-statements::-webkit-scrollbar {
+    display: none;
+  }
+
+  .svc-desktop-solution-statement {
+    display: grid;
+    flex: 0 0 clamp(19rem, 82vw, 38rem);
+    align-content: start;
+    gap: clamp(0.8rem, 2.6vw, 1.2rem);
+    scroll-snap-align: start;
+  }
+
+  .svc-desktop-solution-statement h2,
+  .svc-desktop-solution-statement p {
+    margin: 0;
+  }
+
+  .svc-desktop-solution-statement h2 {
+    color: #ffffff;
+    font-family: var(--site-font-display);
+    font-size: clamp(1.2rem, 3.8vw, 1.55rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .svc-desktop-solution-statement p {
+    color: rgba(255, 255, 255, 0.92);
+    font-family: var(--site-font-sans);
+    font-size: var(--site-fs-body);
+    font-weight: 500;
+    line-height: var(--site-lh-body);
+  }
+}

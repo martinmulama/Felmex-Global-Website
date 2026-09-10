@@ -351,14 +351,14 @@
 
 .svc-process-solid-icon .svc-process-icon-cutout {
   fill: none;
-  stroke: #ffffff;
+  stroke: var(--svc-process-icon-cutout, #ffffff);
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .svc-process-solid-icon .svc-process-icon-cutout-fill {
-  fill: #ffffff;
+  fill: var(--svc-process-icon-cutout, #ffffff);
   stroke: none;
 }
 
@@ -419,4 +419,3 @@
   font-size: clamp(0.72rem, 0.73vw, 0.86rem);
   line-height: 1.45;
 }
-

@@ -46,6 +46,10 @@
   letter-spacing: 0;
 }
 
+.svc-process-title-accent {
+  color: var(--svc-red);
+}
+
 .svc-process-heading-rule {
   display: block;
   width: 3.28rem;
@@ -143,4 +147,3 @@
 .svc-process-dots {
   display: none;
 }
-
