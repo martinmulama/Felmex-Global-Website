@@ -19,6 +19,7 @@ const SERVICE_CATEGORIES = [
     label: 'Multimodal Transport Solutions',
     navLabelLines: ['Multi-Modal', 'Transport Solutions'],
     navIcon: 'network',
+    catalogIcon: 'globe',
     compactLabel: 'Solutions',
     kicker: 'Seamless. Connected. Reliable.',
     titleLines: ['Multi-Modal', 'Transport Solutions'],
@@ -32,26 +33,32 @@ const SERVICE_CATEGORIES = [
         icon: 'boxPin',
         title: 'Last Mile',
         copy: 'Efficient last mile delivery ensuring your cargo reaches its final destination on time.',
+        catalogCopy:
+          'Reliable last mile delivery that connects global supply chains to local destinations.',
       },
       {
         icon: 'plane',
         title: 'Air',
         copy: 'Fast and secure air freight solutions for urgent and high-value shipments.',
+        catalogCopy: 'Fast, secure, and dependable air freight for time-sensitive cargo.',
       },
       {
         icon: 'ship',
         title: 'Sea',
         copy: 'Global sea freight connections with major ports worldwide for FCL and LCL cargo.',
+        catalogCopy: 'Cost-effective and scalable ocean freight solutions for global trade.',
       },
       {
         icon: 'train',
         title: 'Rail',
         copy: 'Cost-effective rail solutions for long-distance, heavy and time-sensitive cargo.',
+        catalogCopy: 'Sustainable and efficient rail transport for long-haul connections.',
       },
       {
         icon: 'truck',
         title: 'Road',
         copy: 'Extensive road network for flexible and reliable door-to-door delivery.',
+        catalogCopy: 'Flexible and resilient road transport solutions across borders and regions.',
       },
     ],
   },
@@ -60,6 +67,7 @@ const SERVICE_CATEGORIES = [
     label: 'International Freight Forwarding',
     navLabelLines: ['International', 'Freight Forwarding'],
     navIcon: 'plane',
+    catalogIcon: 'ship',
     compactLabel: 'Freight',
     kicker: 'Global Reach. Local Expertise.',
     titleLines: ['International', 'Freight', 'Forwarding'],
@@ -101,6 +109,7 @@ const SERVICE_CATEGORIES = [
     label: 'Customs & Trade Facilitation',
     navLabelLines: ['Customs & Trade', 'Facilitation'],
     navIcon: 'documentCheck',
+    catalogIcon: 'documentCheck',
     compactLabel: 'Customs',
     kicker: 'Clearance. Compliance. Confidence.',
     titleLines: ['Customs &', 'Trade', 'Facilitation'],
@@ -142,6 +151,7 @@ const SERVICE_CATEGORIES = [
     label: 'Supply Chain Management',
     navLabelLines: ['Supply Chain', 'Management'],
     navIcon: 'network',
+    catalogIcon: 'loopBox',
     compactLabel: 'Supply',
     kicker: 'Plan. Optimize. Deliver.',
     titleLines: ['Supply Chain', 'Management'],
@@ -183,6 +193,7 @@ const SERVICE_CATEGORIES = [
     label: 'Warehousing & Distribution',
     navLabelLines: ['Warehousing &', 'Distribution'],
     navIcon: 'warehouse',
+    catalogIcon: 'warehouse',
     compactLabel: 'Storage',
     kicker: 'Store. Control. Dispatch.',
     titleLines: ['Warehousing &', 'Distribution'],
@@ -224,6 +235,7 @@ const SERVICE_CATEGORIES = [
     label: 'Parcel & Courier',
     navLabelLines: ['Parcel &', 'Courier'],
     navIcon: 'truckFast',
+    catalogIcon: 'boxFast',
     compactLabel: 'More',
     kicker: 'Fast. Tracked. Reliable.',
     titleLines: ['Parcel &', 'Courier'],
@@ -259,6 +271,21 @@ const SERVICE_CATEGORIES = [
         copy: 'Proof-of-delivery capture closes the shipment with confidence.',
       },
     ],
+  },
+];
+
+const SOLUTION_VALUE_STATEMENTS = [
+  {
+    title: 'Connected operations',
+    copy: 'Transport, trade support, storage and delivery are coordinated through one accountable logistics partner.',
+  },
+  {
+    title: 'Clearer control',
+    copy: 'Practical visibility, disciplined documentation and responsive updates help businesses make confident decisions.',
+  },
+  {
+    title: 'Momentum that scales',
+    copy: 'Reliable execution and flexible capacity keep cargo moving as requirements, markets and volumes evolve.',
   },
 ];
 
@@ -387,6 +414,12 @@ function ServiceIcon({ kind }) {
         <circle className="svc-icon-accent-fill" cx="48" cy="40" r="2.8" />
       </>
     ),
+    globe: (
+      <>
+        <circle cx="32" cy="32" r="21" />
+        <path d="M11 32h42M32 11c6.3 5.8 9.5 12.8 9.5 21S38.3 47.2 32 53M32 11c-6.3 5.8-9.5 12.8-9.5 21S25.7 47.2 32 53" />
+      </>
+    ),
     plane: (
       <>
         <path d="M30.5 5.5c1-1.8 3-1.8 4 0 1.2 2.2 1.9 6.2 1.9 10.4v8.8l20.1 12.9c1.4.9 2.2 2.5 2.2 4.2v4.4L36.4 39.5v8.6l7.1 5.2v4.1L32.5 54l-11 3.4v-4.1l7.1-5.2v-8.6L6.3 46.2v-4.4c0-1.7.8-3.3 2.2-4.2l20.1-12.9v-8.8c0-4.2.7-8.2 1.9-10.4Z" />
@@ -489,6 +522,13 @@ function ServiceIcon({ kind }) {
         <path d="m22 33 6-9M37 24l7 14M25 40h15" />
       </>
     ),
+    loopBox: (
+      <>
+        <path d="m21 27 11-6 11 6v12l-11 6-11-6V27Z" />
+        <path d="m21 27 11 6 11-6M32 33v12" />
+        <path d="M16 25a20 20 0 0 1 31-4M47 18l1.6 7.5-7.5-1.3M48 39a20 20 0 0 1-31 4M17 46l-1.6-7.5 7.5 1.3" />
+      </>
+    ),
     warehouse: (
       <>
         <path d="M8 25 32 10l24 15v31H8V25Z" />
@@ -516,6 +556,12 @@ function ServiceIcon({ kind }) {
         <circle cx="27" cy="46" r="4" />
         <circle cx="50" cy="46" r="4" />
         <path d="M7 27h8M4 35h11M9 43h6" />
+      </>
+    ),
+    boxFast: (
+      <>
+        <path d="M20 22 34 14l14 8v17l-14 8-14-8V22Z" />
+        <path d="m20 22 14 8 14-8M34 30v17M8 27h10M5 34h13M10 41h8" />
       </>
     ),
   };
@@ -684,9 +730,70 @@ function ProcessIcon({ kind }) {
   );
 }
 
+function ServiceCatalogDetailOverlay({ category, categoryIndex, onClose }) {
+  return (
+    <section
+      className="svc-catalog-detail-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="svc-catalog-overlay-title"
+    >
+      <div className="svc-catalog-detail-panel">
+        <div className="svc-catalog-detail-intro">
+          <p>Our services</p>
+          <span aria-hidden="true" />
+        </div>
+
+        <button
+          className="svc-catalog-detail-close"
+          type="button"
+          aria-label="Close service details"
+          onClick={onClose}
+        >
+          <span aria-hidden="true" />
+        </button>
+
+        <article className="svc-catalog-detail-note">
+          <span className="svc-catalog-detail-note-paper">
+            <span className="svc-catalog-detail-number" aria-hidden="true">
+              {String(categoryIndex + 1).padStart(2, '0')}
+            </span>
+            <span className="svc-catalog-detail-rule" aria-hidden="true" />
+            <h2 id="svc-catalog-overlay-title">
+              {category.titleLines.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </h2>
+          </span>
+        </article>
+
+        <div className="svc-catalog-detail-content">
+          <div
+            className="svc-catalog-detail-features"
+            role="list"
+            aria-label={`${category.label} capabilities`}
+          >
+            {category.features.map((feature) => (
+              <article className="svc-catalog-detail-feature" key={feature.title} role="listitem">
+                <h3>{feature.title}</h3>
+                <p>{feature.copy}</p>
+              </article>
+            ))}
+          </div>
+
+          <p className="svc-catalog-detail-footer">
+            <span aria-hidden="true" /> Moving your business forward, together.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function ServicePage() {
   const isAppLoaded = useSplitPanelPreloader();
   const [activeCategoryId, setActiveCategoryId] = useState(SERVICE_CATEGORIES[0].id);
+  const [isCatalogDetailOpen, setIsCatalogDetailOpen] = useState(false);
   const [isCompactFaqViewport, setIsCompactFaqViewport] = useState(() =>
     isServiceCompactFaqViewport()
   );
@@ -695,6 +802,7 @@ export function ServicePage() {
   );
   const [activeProcessIndex, setActiveProcessIndex] = useState(0);
   const processGridRef = useRef(null);
+  const compactCatalogRef = useRef(null);
   const activeCategoryIndex = Math.max(
     SERVICE_CATEGORIES.findIndex((category) => category.id === activeCategoryId),
     0
@@ -749,6 +857,11 @@ export function ServicePage() {
     });
   };
 
+  const handleCatalogOpen = (categoryId) => {
+    setActiveCategoryId(categoryId);
+    setIsCatalogDetailOpen(true);
+  };
+
   useEffect(() => {
     if (typeof window === 'undefined' || !window.matchMedia) {
       return undefined;
@@ -766,6 +879,47 @@ export function ServicePage() {
 
     return () => {
       mediaQuery.removeEventListener('change', syncFaqState);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof document === 'undefined' || !isCatalogDetailOpen) {
+      return undefined;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setIsCatalogDetailOpen(false);
+      }
+    };
+
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isCatalogDetailOpen]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) {
+      return undefined;
+    }
+
+    const desktopQuery = window.matchMedia('(min-width: 1025px)');
+    const closeCompactCatalogOnDesktop = () => {
+      if (desktopQuery.matches) {
+        setIsCatalogDetailOpen(false);
+      }
+    };
+
+    closeCompactCatalogOnDesktop();
+    desktopQuery.addEventListener('change', closeCompactCatalogOnDesktop);
+
+    return () => {
+      desktopQuery.removeEventListener('change', closeCompactCatalogOnDesktop);
     };
   }, []);
 
@@ -855,6 +1009,89 @@ export function ServicePage() {
             </div>
 
             <section
+              className="svc-desktop-service-catalog"
+              aria-label="Explore Felmex service categories"
+            >
+              <div className="svc-desktop-catalog-notes" role="list">
+                <img
+                  className="svc-desktop-catalog-board-paperclip"
+                  src="/service-catalog-paperclip.png"
+                  alt=""
+                  width="1254"
+                  height="1254"
+                  decoding="async"
+                />
+                {SERVICE_CATEGORIES.map((category, index) => {
+                  const isActive = category.id === activeCategory.id;
+
+                  return (
+                    <div className="svc-desktop-catalog-note-wrap" role="listitem" key={category.id}>
+                      <button
+                        className={`svc-desktop-catalog-note${isActive ? ' is-active' : ''}`}
+                        type="button"
+                        aria-pressed={isActive}
+                        onClick={() => setActiveCategoryId(category.id)}
+                      >
+                        <span className="svc-desktop-catalog-note-paper">
+                          <span className="svc-desktop-catalog-note-rule" aria-hidden="true" />
+                          <span className="svc-desktop-catalog-note-number" aria-hidden="true">
+                            {String(index + 1).padStart(2, '0')}
+                          </span>
+                          <span className="svc-desktop-catalog-note-icon" aria-hidden="true">
+                            <ServiceIcon kind={category.catalogIcon ?? category.navIcon} />
+                          </span>
+                          <span className="svc-desktop-catalog-note-label">
+                            {category.navLabelLines.map((line) => (
+                              <span key={line}>{line}</span>
+                            ))}
+                          </span>
+                          <span className="svc-desktop-catalog-note-arrow" aria-hidden="true">
+                            <ArrowIcon />
+                          </span>
+                        </span>
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <article
+                className="svc-desktop-catalog-detail"
+                id="svc-desktop-catalog-detail"
+                aria-live="polite"
+                aria-label={`${activeCategory.label} details`}
+              >
+                <span className="svc-desktop-catalog-detail-back" aria-hidden="true" />
+                <div className="svc-desktop-catalog-detail-sheet" key={activeCategory.id}>
+                  <img
+                    className="svc-desktop-catalog-detail-paperclip"
+                    src="/service-catalog-paperclip.png"
+                    alt=""
+                    width="1254"
+                    height="1254"
+                    decoding="async"
+                  />
+                  <div
+                    className="svc-desktop-catalog-detail-features"
+                    role="list"
+                    aria-label={`${activeCategory.label} capabilities`}
+                  >
+                    <article className="svc-desktop-catalog-detail-feature" role="listitem">
+                      <h3>{activeCategory.label}</h3>
+                      <p>{activeCategory.panelDescription ?? activeCategory.description}</p>
+                    </article>
+                    {activeCategory.features.map((feature) => (
+                      <article className="svc-desktop-catalog-detail-feature" key={feature.title} role="listitem">
+                        <h3>{feature.title}</h3>
+                        <p>{feature.catalogCopy ?? feature.copy}</p>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            </section>
+
+            <section
               className="svc-reference-scene scroll-section"
               data-scroll-reveal="early"
               id="svc-services-shot"
@@ -914,6 +1151,56 @@ export function ServicePage() {
             </section>
 
             <div className="svc-mobile-service-shell">
+              <section className="svc-desktop-solution-statements" aria-label="Felmex solution value">
+                {SOLUTION_VALUE_STATEMENTS.map((statement) => (
+                  <article className="svc-desktop-solution-statement" key={statement.title}>
+                    <h2>{statement.title}</h2>
+                    <p>{statement.copy}</p>
+                  </article>
+                ))}
+              </section>
+
+              <section
+                className="svc-compact-service-catalog"
+                ref={compactCatalogRef}
+                aria-label="Explore Felmex services"
+              >
+                <p className="svc-compact-catalog-guide">
+                  <span className="svc-compact-catalog-guide-rule" aria-hidden="true" />
+                  <span>Tap a service card to view details</span>
+                  <span
+                    className="svc-compact-catalog-guide-rule svc-compact-catalog-guide-rule--end"
+                    aria-hidden="true"
+                  />
+                </p>
+                <div className="svc-compact-catalog-board" role="list">
+                  {SERVICE_CATEGORIES.map((category, index) => (
+                    <article className="svc-compact-catalog-note" role="listitem" key={category.id}>
+                      <button
+                        type="button"
+                        aria-label={`Explore ${category.label}`}
+                        onClick={() => handleCatalogOpen(category.id)}
+                      >
+                        <span className="svc-compact-catalog-note-paper">
+                          <span className="svc-compact-catalog-note-number" aria-hidden="true">
+                            {String(index + 1).padStart(2, '0')}
+                          </span>
+                          <span className="svc-compact-catalog-note-rule" aria-hidden="true" />
+                          <span className="svc-compact-catalog-note-label">
+                            {category.titleLines.map((line) => (
+                              <span key={line}>{line}</span>
+                            ))}
+                          </span>
+                          <span className="svc-compact-catalog-note-arrow" aria-hidden="true">
+                            <ArrowIcon />
+                          </span>
+                        </span>
+                      </button>
+                    </article>
+                  ))}
+                </div>
+              </section>
+
               <nav className="svc-reference-nav" aria-label="Service categories">
                 <div className="svc-reference-nav-track" role="tablist" aria-label="Service categories">
                   {SERVICE_CATEGORIES.map((category) => {
@@ -982,9 +1269,12 @@ export function ServicePage() {
 
             <section className="svc-process-section scroll-section" aria-label="How Felmex works">
               <div className="svc-process-heading">
-                <ScrollSectionTitle>How we work</ScrollSectionTitle>
+                <ScrollSectionTitle className="svc-process-title">
+                  <span>How we </span>
+                  <span className="svc-process-title-accent">work</span>
+                </ScrollSectionTitle>
                 <span className="svc-process-heading-rule" aria-hidden="true" />
-                <p>
+                <p className="svc-process-heading-copy">
                   Our streamlined process ensures your cargo is handled with care, delivered on time,
                   and backed by full visibility at every stage.
                 </p>
@@ -1148,6 +1438,13 @@ export function ServicePage() {
           </div>
         </div>
       </section>
+      {isCatalogDetailOpen ? (
+        <ServiceCatalogDetailOverlay
+          category={activeCategory}
+          categoryIndex={activeCategoryIndex}
+          onClose={() => setIsCatalogDetailOpen(false)}
+        />
+      ) : null}
     </section>
   );
 }
