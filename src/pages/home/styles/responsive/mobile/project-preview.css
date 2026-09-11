@@ -296,6 +296,10 @@
     min-width: 0;
   }
 
+  .landing-project-preview-title-static {
+    text-transform: none;
+  }
+
   .landing-project-preview-title-typed {
     min-height: 1.06em;
     max-width: none;
