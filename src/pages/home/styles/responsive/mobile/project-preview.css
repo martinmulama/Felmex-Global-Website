@@ -52,27 +52,6 @@
     width: 2.25rem;
   }
 
-  .landing-project-preview-title {
-    max-width: 100%;
-  }
-
-  .landing-project-preview-title {
-    flex: none;
-    font-size: clamp(1.55rem, 6.9vw, 2.2rem);
-    line-height: 1.02;
-  }
-
-  .landing-project-preview-title {
-    display: grid;
-    align-items: start;
-    gap: 0.08em;
-  }
-
-  .landing-project-preview-title-mask {
-    width: 100%;
-    min-width: 0;
-  }
-
   .landing-project-preview-title-typed {
     white-space: nowrap;
     line-height: 1.02;
@@ -265,7 +244,10 @@
 /* The title and article share one native swipe track on small screens. */
 @media (max-width: 768px) {
   .landing-project-preview-stage {
-    --landing-project-preview-title-pane: clamp(12.8rem, 54vw, 14.5rem);
+    /* Keep the preview card as a restrained cue on entry. The title and
+       brief need most of the viewport before the visitor intentionally
+       swipes into the article. */
+    --landing-project-preview-title-pane: clamp(17rem, 70vw, 34rem);
     display: flex;
     gap: 0;
     overflow-x: auto;
@@ -295,31 +277,50 @@
 
   .landing-project-preview-title {
     order: 1;
+    justify-self: stretch;
+    justify-content: flex-start;
     width: 100%;
     max-width: none;
-    grid-template-columns: minmax(0, 1fr);
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.24em;
     font-size: var(--home-mobile-title-size, clamp(1.95rem, 2.24vw, 2.72rem));
     line-height: 1.06;
+    white-space: nowrap;
   }
 
   .landing-project-preview-title-mask {
-    width: 100%;
+    flex: 0 1 auto;
+    width: auto;
+    min-width: 0;
+  }
+
+  .landing-project-preview-title-static {
+    text-transform: none;
   }
 
   .landing-project-preview-title-typed {
     min-height: 1.06em;
+    max-width: none;
   }
 
   .landing-project-preview-brief {
     display: block;
     order: 2;
-    max-width: 20ch;
+    justify-self: stretch;
+    width: 100%;
+    max-width: none;
     margin: 0;
     color: rgba(7, 27, 53, 0.76);
     font-family: var(--site-font-sans);
     font-size: clamp(0.78rem, 3.35vw, 0.86rem);
     font-weight: 500;
     line-height: var(--home-mobile-body-line, 1.58);
+  }
+
+  .landing-project-preview-rule {
+    justify-self: start;
   }
 
   .landing-project-preview-swipe-hint {

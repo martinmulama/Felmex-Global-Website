@@ -1,0 +1,443 @@
+/* Desktop-only solutions collage. Compact viewports use the native mobile rail. */
+.landing-desktop-solutions {
+  display: none;
+}
+
+@media (min-width: 1025px) {
+  /* The closing wrapper is otherwise static. Do not make it a transformed
+     containing block: ScrollTrigger's fixed pin needs the viewport itself. */
+  .scroll-wrapper > .rising-group.landing-close {
+    will-change: auto;
+  }
+
+  .landing-close-canvas {
+    will-change: auto;
+  }
+
+  .landing-desktop-solutions {
+    position: relative;
+    z-index: 4;
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* The Preview and Solutions canvases are one continuous field. Keeping the
+     exact same Felmex Blue on every layer prevents a seam from appearing when
+     the red article and entry image meet at different zoom levels. */
+  .scroll-wrapper > .rising-group.landing-close,
+  .landing-close,
+  .landing-close-canvas,
+  .landing-project-preview-desktop-panel {
+    background: var(--site-footer-blue);
+  }
+
+  .landing-desktop-solutions-stage {
+    --desktop-solutions-red: #ed0b14;
+    --desktop-solutions-paper: #fdfdfb;
+    --desktop-solution-card-width: min(43vw, 45rem);
+    --desktop-solution-rail-inset: clamp(22rem, 24vw, 30rem);
+    --desktop-solution-card-gap: 22.1vw;
+    position: relative;
+    width: 100%;
+    height: max(46rem, 100svh);
+    min-height: max(46rem, 100svh);
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--site-footer-blue);
+    color: #ffffff;
+  }
+
+  .landing-desktop-solutions-rail {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    display: flex;
+    gap: var(--desktop-solution-card-gap);
+    box-sizing: border-box;
+    padding: 0 42vw 0 var(--desktop-solution-rail-inset);
+    overflow: hidden;
+    overscroll-behavior-x: contain;
+    scroll-padding-left: var(--desktop-solution-rail-inset);
+    pointer-events: none;
+    scrollbar-width: none;
+    touch-action: pan-y;
+    visibility: hidden;
+  }
+
+  .landing-desktop-solutions-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .landing-desktop-solutions-rail.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    user-select: none;
+  }
+
+  .landing-desktop-solutions-stage.is-desktop-solutions-settled
+    .landing-desktop-solutions-rail {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    cursor: grab;
+    pointer-events: auto;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .landing-desktop-solution-card {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 var(--desktop-solution-card-width);
+    height: 100%;
+    min-width: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    visibility: inherit;
+  }
+
+  .landing-desktop-solution-card-scene {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .landing-desktop-solution-card-board,
+  .landing-desktop-solutions-transition-board {
+    position: absolute;
+    z-index: 1;
+    display: block;
+    overflow: hidden;
+    background:
+      linear-gradient(118deg, rgba(255, 255, 255, 0.13), transparent 24%),
+      repeating-linear-gradient(12deg, rgba(111, 0, 9, 0.065) 0 1px, transparent 1px 5px),
+      var(--desktop-solutions-red);
+    box-shadow: 0 1.35rem 2.5rem rgba(0, 8, 25, 0.28);
+    transform: rotate(4deg);
+  }
+
+  .landing-desktop-solution-card-board {
+    top: 27.6%;
+    left: 9%;
+    width: 94%;
+    height: 41%;
+  }
+
+  .landing-desktop-solution-card-photo,
+  .landing-desktop-solutions-transition-photo {
+    position: absolute;
+    z-index: 3;
+    box-sizing: border-box;
+    margin: 0;
+    overflow: hidden;
+    background: var(--desktop-solutions-paper);
+    box-shadow: 0 1.3rem 2.25rem rgba(0, 8, 25, 0.36);
+    backface-visibility: hidden;
+    will-change: transform, width, height;
+  }
+
+  .landing-desktop-solution-card-photo {
+    top: 29%;
+    left: 10%;
+    width: 80%;
+    height: 41%;
+    padding: clamp(0.42rem, 0.6vw, 0.62rem);
+    transform: rotate(-5.5deg);
+  }
+
+  .landing-desktop-solution-card-photo img,
+  .landing-desktop-solutions-transition-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .landing-desktop-solution-card-paperclip,
+  .landing-desktop-solutions-transition-paperclip {
+    position: absolute;
+    z-index: 6;
+    display: block;
+    top: 20%;
+    left: 85.3%;
+    width: clamp(8rem, 10.4vw, 11rem);
+    height: auto;
+    filter: drop-shadow(0.18rem 0.3rem 0.24rem rgba(0, 0, 0, 0.48));
+    pointer-events: none;
+    transform: translateX(-50%) scaleX(0.68) scaleY(0.72) rotate(-20deg);
+  }
+
+  .landing-desktop-solution-card-note,
+  .landing-desktop-solutions-transition-note {
+    position: absolute;
+    z-index: 5;
+    box-sizing: border-box;
+    min-height: 38%;
+    overflow: hidden;
+    padding: 3rem clamp(2rem, 2.45vw, 2.7rem) clamp(2rem, 2.45vw, 2.7rem);
+    background-color: var(--desktop-solutions-paper);
+    background-image:
+      radial-gradient(circle at 20% 17%, rgba(17, 42, 64, 0.042) 0 0.045rem, transparent 0.08rem),
+      radial-gradient(circle at 76% 63%, rgba(17, 42, 64, 0.035) 0 0.05rem, transparent 0.09rem),
+      repeating-linear-gradient(8deg, rgba(17, 42, 64, 0.009) 0 1px, transparent 1px 6px);
+    box-shadow: 0 1.5rem 2.35rem rgba(0, 8, 25, 0.31);
+    color: var(--site-footer-blue);
+    transform: rotate(1.35deg);
+  }
+
+  .landing-desktop-solution-card-note {
+    top: 37.6%;
+    left: 89.5%;
+    width: 60%;
+  }
+
+  .landing-desktop-solution-card-note h2,
+  .landing-desktop-solutions-transition-note h2 {
+    margin: 0;
+    color: var(--site-footer-blue);
+    font-family: var(--site-font-display);
+    font-size: 1.9rem;
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+  }
+
+  .landing-desktop-solution-card-note > span,
+  .landing-desktop-solutions-transition-note > span {
+    display: block;
+    width: clamp(2.2rem, 2.9vw, 3rem);
+    height: 0.16rem;
+    margin-top: 0.8rem;
+    background: var(--desktop-solutions-red);
+  }
+
+  .landing-desktop-solution-card-note p,
+  .landing-desktop-solutions-transition-note p {
+    margin: 1.85rem 0 0;
+    color: rgba(var(--site-footer-blue-rgb), 0.94);
+    font-family: var(--site-font-sans);
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: -0.022em;
+    line-height: 1.34;
+  }
+
+  .landing-desktop-solutions-transition {
+    position: absolute;
+    z-index: 4;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .landing-desktop-solutions-transition-board {
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .landing-desktop-solutions-transition-photo {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    /* The entry image must meet the Preview article exactly, without a dark
+       compositing seam on its left edge. The settled static Polaroid owns the
+       final depth shadow. */
+    box-shadow: none;
+    transform-origin: 0 0;
+  }
+
+  .landing-desktop-solutions-transition-paperclip {
+    top: 0;
+    left: 0;
+  }
+
+  .landing-desktop-solutions-transition-note {
+    top: 0;
+    left: 0;
+    width: 1px;
+    transform-origin: center;
+  }
+
+  .landing-desktop-solutions-pagination {
+    position: absolute;
+    z-index: 8;
+    bottom: clamp(7.75rem, 16.4svh, 9.75rem);
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: clamp(0.55rem, 0.74vw, 0.82rem);
+    transform: translateX(-50%);
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .landing-desktop-solutions-stage.is-desktop-solutions-settled
+    .landing-desktop-solutions-pagination {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .landing-desktop-solutions-pagination button {
+    width: clamp(2.2rem, 2.55vw, 2.7rem);
+    height: 0.18rem;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(232, 242, 255, 0.78);
+    cursor: pointer;
+  }
+
+  .landing-desktop-solutions-pagination button.is-active {
+    background: var(--desktop-solutions-red);
+  }
+
+  .landing-desktop-solutions-pagination button:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 0.35rem;
+  }
+
+  .landing-desktop-solutions-arrows {
+    position: absolute;
+    z-index: 8;
+    right: clamp(3.8rem, 5.9vw, 6.5rem);
+    bottom: clamp(7.1rem, 15.5svh, 9.25rem);
+    display: flex;
+    gap: 0.72rem;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .landing-desktop-solutions-stage.is-desktop-solutions-settled
+    .landing-desktop-solutions-arrows {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .landing-desktop-solutions-arrows button {
+    display: grid;
+    width: clamp(2.5rem, 3vw, 3.1rem);
+    aspect-ratio: 1;
+    place-items: center;
+    padding: 0;
+    border: 1px solid rgba(232, 242, 255, 0.74);
+    border-radius: 999px;
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  .landing-desktop-solutions-arrows button:not(:disabled):hover {
+    border-color: var(--desktop-solutions-red);
+    background: var(--desktop-solutions-red);
+  }
+
+  .landing-desktop-solutions-arrows button:disabled {
+    opacity: 0.38;
+    cursor: default;
+  }
+
+  .landing-desktop-solutions-arrows button:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 0.3rem;
+  }
+
+  .landing-desktop-solutions-arrows svg {
+    width: 48%;
+    height: 48%;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.1;
+  }
+
+  .landing-desktop-solutions-footer {
+    position: absolute;
+    right: clamp(3.8rem, 5.9vw, 6.5rem);
+    bottom: clamp(3.35rem, 9.2svh, 5.2rem);
+    left: clamp(3.8rem, 5.9vw, 6.5rem);
+    z-index: 8;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(1.4rem, 2.8vw, 3.25rem);
+    pointer-events: none;
+  }
+
+  .landing-desktop-solutions-footer p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.95);
+    font-family: var(--site-font-sans);
+    font-size: clamp(0.58rem, 0.67vw, 0.72rem);
+    font-weight: 700;
+    letter-spacing: 0.34em;
+    line-height: 1.1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .landing-desktop-solutions-industries {
+    min-width: 0;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  }
+
+  .landing-desktop-solutions-industries-track {
+    display: flex;
+    width: max-content;
+    animation: landingDesktopSolutionsIndustries 42s linear infinite;
+  }
+
+  .landing-desktop-solutions-industries span {
+    display: block;
+    flex: 0 0 auto;
+    padding: 0 clamp(1rem, 1.6vw, 1.75rem);
+    border-left: 1px solid rgba(232, 242, 255, 0.28);
+    color: rgba(232, 242, 255, 0.9);
+    font-family: var(--site-font-display);
+    font-size: clamp(0.62rem, 0.72vw, 0.76rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  @keyframes landingDesktopSolutionsIndustries {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .landing-desktop-solutions-stage.is-motion-reduced .landing-desktop-solutions-transition {
+    display: none;
+  }
+
+  .landing-desktop-solutions-stage.is-motion-reduced .landing-desktop-solutions-rail {
+    visibility: visible;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .landing-desktop-solutions-industries-track {
+      animation: none;
+    }
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1279px) {
+  .landing-desktop-solutions-stage {
+    --desktop-solution-card-width: 60vw;
+    --desktop-solution-rail-inset: 14vw;
+  }
+
+}
