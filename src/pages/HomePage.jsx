@@ -194,6 +194,47 @@ const FINAL_OPERATION_STEPS = [
   },
 ];
 
+// This compact-only rail deliberately uses the operational steps above, but gives every
+// step a visual card of its own. The first image is the supplied sourcing photography;
+// the remaining imagery keeps the same logistics story as the desktop final-flow.
+const COMPACT_SOLUTION_CARDS = [
+  {
+    ...FINAL_OPERATION_STEPS[0],
+    title: 'SOURCING',
+    image: '/solutions-source-container.webp',
+    imageAlt: 'Felmex container lifted by a crane',
+    imagePosition: '52% center',
+  },
+  {
+    ...FINAL_OPERATION_STEPS[1],
+    title: 'STORAGE',
+    image: '/cold-general-warehousing.webp',
+    imageAlt: 'Organized logistics warehousing',
+    imagePosition: 'center',
+  },
+  {
+    ...FINAL_OPERATION_STEPS[2],
+    title: 'PROCESS',
+    image: '/parcel-courier-service-catalog.webp',
+    imageAlt: 'Parcel processing operation',
+    imagePosition: 'center',
+  },
+  {
+    ...FINAL_OPERATION_STEPS[3],
+    title: 'SHIPPING',
+    image: '/sea-freight.webp',
+    imageAlt: 'Container vessel at port',
+    imagePosition: 'center',
+  },
+  {
+    ...FINAL_OPERATION_STEPS[4],
+    title: 'SCALING',
+    image: '/hero-rail-panel.webp',
+    imageAlt: 'Rail-linked freight logistics',
+    imagePosition: 'center',
+  },
+];
+
 const FINAL_INDUSTRIES = [
   'FMCG & Retail',
   'E-Commerce',
@@ -811,10 +852,12 @@ export function HomePage() {
   const projectPreviewTitleRef = useRef(null);
   const projectPreviewStageRef = useRef(null);
   const compactSolutionsStageRef = useRef(null);
+  const compactSolutionsRailRef = useRef(null);
   const serviceImagePreloadersRef = useRef([]);
   const hasPreloadedServiceImagesRef = useRef(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
   const [activeFinalOperation, setActiveFinalOperation] = useState(FINAL_OPERATION_STEPS[0].key);
+  const [activeCompactSolutionIndex, setActiveCompactSolutionIndex] = useState(0);
   const [isCompactHomeViewport, setIsCompactHomeViewport] = useState(
     () =>
       typeof window !== 'undefined' &&
@@ -828,6 +871,8 @@ export function HomePage() {
   const activeFinalOperationStep =
     FINAL_OPERATION_STEPS.find((step) => step.key === activeFinalOperation) ??
     FINAL_OPERATION_STEPS[0];
+  const activeCompactSolution =
+    COMPACT_SOLUTION_CARDS[activeCompactSolutionIndex] ?? COMPACT_SOLUTION_CARDS[0];
 
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
@@ -1004,157 +1049,219 @@ export function HomePage() {
 
   useLayoutEffect(() => {
     const stage = compactSolutionsStageRef.current;
+    const rail = compactSolutionsRailRef.current;
     if (!stage || !isCompactHomeViewport || typeof window === 'undefined') return undefined;
 
-    const primary = stage.querySelector('.landing-compact-solutions-primary');
-    const copy = stage.querySelector('.landing-compact-solutions-copy');
-    const copyTitle = copy?.querySelector('h2');
-    const copyBody = copy?.querySelector('p');
-    const peek = stage.querySelector('.landing-compact-solutions-peek');
-    if (!primary || !copyTitle || !copyBody || !peek) return undefined;
+    const transition = stage.querySelector('.landing-compact-solutions-transition');
+    const transitionPhoto = stage.querySelector('.landing-compact-solutions-transition-photo');
+    const transitionBoard = stage.querySelector('.landing-compact-solutions-transition-board');
+    const transitionPaperclip = stage.querySelector(
+      '.landing-compact-solutions-transition-paperclip'
+    );
+    const transitionNote = stage.querySelector('.landing-compact-solutions-transition-note');
+    const dots = stage.querySelector('.landing-compact-solutions-pagination');
 
-    const primaryFinalY = () =>
-      stage.clientHeight * (window.innerWidth < 768 ? 0.325 : 0.28);
-
-    if (prefersReducedMotion) {
-      stage.classList.add('is-settled', 'is-handoff-ready');
-      return () => stage.classList.remove('is-settled', 'is-handoff-ready');
+    if (
+      !rail ||
+      !transition ||
+      !transitionPhoto ||
+      !transitionBoard ||
+      !transitionPaperclip ||
+      !transitionNote ||
+      !dots
+    ) {
+      return undefined;
     }
 
-    let removeHandoffScrollListener = () => {};
+    if (prefersReducedMotion) {
+      stage.classList.add('is-rail-ready', 'is-motion-reduced');
+      return () => stage.classList.remove('is-rail-ready', 'is-motion-reduced');
+    }
+
+    const cards = Array.from(rail.querySelectorAll('.landing-compact-solution-card'));
+    const transitionImage = transitionPhoto.querySelector('img');
+    let activeSolutionIndex = activeCompactSolutionIndex;
+    let railScrollFrame;
+
+    const getClosestSolutionIndex = () => {
+      if (!cards.length) return 0;
+
+      return cards.reduce((closestIndex, card, index) => {
+        const closestDistance = Math.abs(cards[closestIndex].offsetLeft - rail.scrollLeft);
+        const distance = Math.abs(card.offsetLeft - rail.scrollLeft);
+
+        return distance < closestDistance ? index : closestIndex;
+      }, 0);
+    };
+
+    const setActiveSolution = (index) => {
+      if (activeSolutionIndex === index) return;
+
+      activeSolutionIndex = index;
+      setActiveCompactSolutionIndex(index);
+    };
+
+    const prepareReverseTransition = () => {
+      const index = getClosestSolutionIndex();
+      const card = COMPACT_SOLUTION_CARDS[index];
+
+      cancelAnimationFrame(railScrollFrame);
+      railScrollFrame = undefined;
+
+      gsap.set(transition, { display: 'block' });
+      gsap.set(rail, { visibility: 'hidden' });
+
+      if (transitionImage && card) {
+        transitionImage.src = card.image;
+        transitionImage.style.objectPosition = card.imagePosition;
+      }
+
+      setActiveSolution(index);
+    };
+
+    const syncActiveSolution = () => {
+      if (railScrollFrame !== undefined) return;
+
+      railScrollFrame = requestAnimationFrame(() => {
+        railScrollFrame = undefined;
+        setActiveSolution(getClosestSolutionIndex());
+      });
+    };
+
+    rail.addEventListener('scroll', syncActiveSolution, { passive: true });
 
     const animationContext = gsap.context(() => {
-      let sourceProgress = 0;
-      let handoffOpen = false;
-      let sourceFinalLocked = false;
+      const SETTLE_TIME = 1.08;
+      let hasPreparedReverseTransition = false;
       let sourceTimeline;
+      const finalPhotoWidth = () => stage.clientWidth * 0.7;
+      const finalPhotoHeight = () => stage.clientHeight * 0.5;
+      const finalPhotoX = () => stage.clientWidth * 0.041;
+      const finalPhotoY = () => stage.clientHeight * 0.201;
+      const finalPhotoPadding = () => Math.max(5, stage.clientWidth * 0.018);
 
-      const lockSourceFinalState = () => {
-        gsap.set(primary, {
-          scale: 0.382,
-          x: stage.clientWidth * 0.065,
-          y: primaryFinalY(),
-          force3D: true,
-        });
-        gsap.set(copyTitle, { yPercent: 0, force3D: true });
-        gsap.set(copyBody, { yPercent: 0, force3D: true });
-        gsap.set(peek, { x: 0, force3D: true });
-      };
+      // This runs after GSAP renders each frame. Its time is the single source
+      // of truth for the direct visibility handoff below, so no style reads are
+      // required on the scroll path.
+      const syncTransitionState = () => {
+        if (!sourceTimeline) return;
 
-      const syncHandoffState = () => {
-        handoffOpen = stage.scrollLeft > 1;
-        if (handoffOpen) sourceFinalLocked = true;
-        stage.classList.toggle('is-handoff-open', handoffOpen);
-        stage.classList.toggle(
-          'is-handoff-ready',
-          sourceFinalLocked || sourceProgress >= 0.775
-        );
+        const railIsReady = sourceTimeline.time() >= SETTLE_TIME;
 
-        if (sourceFinalLocked) {
-          lockSourceFinalState();
-          return;
+        if (
+          sourceTimeline.scrollTrigger?.direction === -1 &&
+          !railIsReady &&
+          !hasPreparedReverseTransition
+        ) {
+          prepareReverseTransition();
+          hasPreparedReverseTransition = true;
         }
 
-        sourceTimeline?.progress(sourceTimeline.progress());
+        if (railIsReady && sourceTimeline.scrollTrigger?.direction === 1) {
+          hasPreparedReverseTransition = false;
+        }
+
+        stage.classList.toggle('is-rail-ready', railIsReady);
       };
 
-      stage.addEventListener('scroll', syncHandoffState, { passive: true });
-      removeHandoffScrollListener = () => stage.removeEventListener('scroll', syncHandoffState);
-
-      gsap.set(copyTitle, { yPercent: 100, force3D: true });
-      gsap.set(copyBody, { yPercent: 104, force3D: true });
-      gsap.set(peek, { x: () => stage.clientWidth * 0.18, force3D: true });
+      gsap.set(transition, { display: 'block' });
+      gsap.set(rail, { visibility: 'hidden' });
+      gsap.set(transitionPhoto, {
+        width: () => stage.clientWidth,
+        height: () => stage.clientHeight,
+        x: 0,
+        y: 0,
+        padding: 0,
+        rotation: 0,
+        force3D: true,
+      });
+      gsap.set(transitionBoard, { scale: 1.045, force3D: true });
+      gsap.set(transitionPaperclip, { y: () => -stage.clientHeight * 0.4, force3D: true });
+      gsap.set(transitionNote, {
+        // Use the measured stage height—not the note's changing content height—so
+        // no edge of the card can enter the viewport before its reveal window.
+        y: () => stage.clientHeight,
+        force3D: true,
+      });
+      gsap.set(dots, { y: () => stage.clientHeight * 0.13, force3D: true });
 
       sourceTimeline = gsap
         .timeline({
+          onUpdate: syncTransitionState,
           scrollTrigger: {
             trigger: stage,
             start: 'top top',
-            end: () => `+=${Math.round(stage.clientHeight * 1.5)}`,
+            // Keep a short reading beat after settlement, then return to the
+            // Industries strip directly below the carousel.
+            end: () => `+=${Math.round(stage.clientHeight * 1.35)}`,
             pin: true,
             pinSpacing: true,
-            scrub: true,
+            scrub: 0.2,
             anticipatePin: 1,
             invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              sourceProgress = self.progress;
-              if (sourceFinalLocked && !handoffOpen && self.direction === -1) {
-                sourceFinalLocked = false;
-              }
-              stage.classList.toggle(
-                'is-handoff-ready',
-                sourceFinalLocked || sourceProgress >= 0.775
-              );
-            },
           },
         })
         .to(
-          primary,
+          transitionPhoto,
           {
-            scale: 0.382,
-            x: () => stage.clientWidth * 0.065,
-            y: primaryFinalY,
-            force3D: true,
+            width: finalPhotoWidth,
+            height: finalPhotoHeight,
+            x: finalPhotoX,
+            y: finalPhotoY,
+            padding: finalPhotoPadding,
+            rotation: -5.5,
             ease: 'none',
-            duration: 0.72,
-            modifiers: {
-              scale: (value) => (sourceFinalLocked ? 0.382 : value),
-              x: (value) =>
-                sourceFinalLocked ? `${stage.clientWidth * 0.065}px` : value,
-              y: (value) => (sourceFinalLocked ? `${primaryFinalY()}px` : value),
-            },
+            // Keep the photo under direct scroll control right through the
+            // settle boundary; ending this tween early made the last placement
+            // feel like a separate, snappy transition.
+            duration: SETTLE_TIME,
+            force3D: true,
           },
           0
         )
         .to(
-          copyTitle,
+          transitionBoard,
           {
-            yPercent: 0,
+            scale: 1,
+            ease: 'none',
+            duration: 0.72,
             force3D: true,
-            ease: 'power3.out',
-            duration: 0.24,
-            modifiers: {
-              yPercent: (value) => (sourceFinalLocked ? 0 : value),
-            },
           },
-          0.72
+          0.2
         )
         .to(
-          copyBody,
+          transitionPaperclip,
           {
-            yPercent: 0,
+            y: 0,
+            ease: 'none',
+            duration: 0.28,
             force3D: true,
-            ease: 'power3.out',
-            duration: 0.32,
-            modifiers: {
-              yPercent: (value) => (sourceFinalLocked ? 0 : value),
-            },
           },
-          0.82
+          0.8
         )
         .to(
-          peek,
+          transitionNote,
           {
-            x: 0,
+            y: 0,
+            ease: 'none',
+            duration: 0.56,
             force3D: true,
-            ease: 'power3.out',
-            duration: 0.38,
-            modifiers: {
-              x: (value) => (sourceFinalLocked ? '0px' : value),
-            },
           },
-          0.76
+          0.52
         )
-        // Leave a small reading beat before the native handoff rail becomes available.
-        .to({}, { duration: 0.32 });
+        .to(dots, { y: 0, ease: 'none', duration: 0.16 }, 0.92)
+        .set(transition, { display: 'none' }, SETTLE_TIME)
+        .set(rail, { visibility: 'visible' }, SETTLE_TIME)
+        .to({}, { duration: 0.28 });
     }, stage);
 
     ScrollTrigger.refresh();
 
     return () => {
-      removeHandoffScrollListener();
+      rail.removeEventListener('scroll', syncActiveSolution);
+      cancelAnimationFrame(railScrollFrame);
       animationContext.revert();
-      stage.classList.remove('is-handoff-ready', 'is-handoff-open');
+      stage.classList.remove('is-rail-ready');
       ScrollTrigger.refresh();
     };
   }, [isCompactHomeViewport, prefersReducedMotion]);
@@ -1997,47 +2104,84 @@ export function HomePage() {
 
         <section className="landing-mobile-solutions" aria-label="Solutions">
           <div ref={compactSolutionsStageRef} className="landing-compact-solutions-stage">
-            <div className="landing-compact-solutions-source">
-              <figure className="landing-compact-solutions-primary">
-                <img
-                  src="/solutions-source-container.png"
-                  alt="Felmex container lifted by a crane"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </figure>
-
-              <article className="landing-compact-solutions-copy">
-                <div className="landing-compact-solutions-copy-title-clip">
-                  <h2>SOURCE</h2>
-                </div>
-                <div className="landing-compact-solutions-copy-body-clip">
-                  <p>{FINAL_OPERATION_STEPS[0].text}</p>
-                </div>
-              </article>
-
-              <span className="landing-compact-solutions-handoff-hint">
-                <span>Swipe to explore the solutions we offer</span>
-                <span aria-hidden="true">→</span>
-              </span>
+            <div
+              ref={compactSolutionsRailRef}
+              className="landing-compact-solutions-rail"
+              aria-label="Felmex solutions carousel"
+            >
+              {COMPACT_SOLUTION_CARDS.map((solution, solutionIndex) => (
+                <article
+                  className="landing-compact-solution-card"
+                  key={solution.key}
+                  aria-label={`${solution.title}, solution ${solutionIndex + 1} of ${COMPACT_SOLUTION_CARDS.length}`}
+                >
+                  <div className="landing-compact-solution-card-scene">
+                    <span className="landing-compact-solution-card-board" aria-hidden="true" />
+                    <figure className="landing-compact-solution-card-photo">
+                      <img
+                        src={solution.image}
+                        alt={solution.imageAlt}
+                        loading="lazy"
+                        decoding="async"
+                        style={{ objectPosition: solution.imagePosition }}
+                      />
+                    </figure>
+                    <img
+                      className="landing-compact-solution-card-paperclip"
+                      src="/service-catalog-paperclip.png"
+                      alt=""
+                      aria-hidden="true"
+                      decoding="async"
+                    />
+                    <aside className="landing-compact-solution-card-note">
+                      <h2>{solution.title}</h2>
+                      <p>{solution.text}</p>
+                    </aside>
+                  </div>
+                </article>
+              ))}
             </div>
 
-            <article className="landing-compact-solutions-handoff" aria-label="Remaining solutions">
-              <figure className="landing-compact-solutions-peek" aria-hidden="true">
-                <img src="/sea-freight.webp" alt="" loading="lazy" decoding="async" />
+            <div className="landing-compact-solutions-transition" aria-hidden="true">
+              <span className="landing-compact-solutions-transition-board" />
+              <figure className="landing-compact-solutions-transition-photo">
+                <img
+                  src={activeCompactSolution.image}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  style={{ objectPosition: activeCompactSolution.imagePosition }}
+                />
               </figure>
-
-              <aside className="landing-compact-solutions-followup">
-                <ul className="landing-compact-solutions-followup-list">
-                  {FINAL_OPERATION_STEPS.slice(1).map((step) => (
-                    <li className="landing-compact-solutions-followup-item" key={step.key}>
-                      <h3>{step.label}</h3>
-                      <p>{step.text}</p>
-                    </li>
-                  ))}
-                </ul>
+              <img
+                className="landing-compact-solutions-transition-paperclip"
+                src="/service-catalog-paperclip.png"
+                alt=""
+                decoding="async"
+              />
+              <aside className="landing-compact-solutions-transition-note">
+                <h2>{activeCompactSolution.title}</h2>
+                <p>{activeCompactSolution.text}</p>
               </aside>
-            </article>
+            </div>
+
+            <div className="landing-compact-solutions-pagination" aria-label="Active solution">
+              {COMPACT_SOLUTION_CARDS.map((solution, solutionIndex) => (
+                <span
+                  className={
+                    solutionIndex === activeCompactSolutionIndex
+                      ? 'is-active'
+                      : undefined
+                  }
+                  key={solution.key}
+                  aria-label={
+                    solutionIndex === activeCompactSolutionIndex
+                      ? `${solution.title}, active`
+                      : solution.title
+                  }
+                />
+              ))}
+            </div>
           </div>
 
           <aside className="landing-compact-solutions-industries" aria-label="Industries we serve">

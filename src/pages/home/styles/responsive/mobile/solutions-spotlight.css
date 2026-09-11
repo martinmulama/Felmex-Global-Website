@@ -1,4 +1,4 @@
-/* Compact-only Source spotlight, followed by a native snap rail for the remaining steps. */
+/* Compact-only, scroll-built solutions collage. Desktop keeps the final-flow treatment. */
 .landing-mobile-solutions {
   display: none;
 }
@@ -17,254 +17,240 @@
   }
 
   .landing-compact-solutions-stage {
-    --landing-compact-solutions-preview-width: 13.5vw;
-    --landing-compact-solutions-image-width: 45vw;
-    --landing-compact-solutions-image-total-width: calc(
-      var(--landing-compact-solutions-preview-width) +
-        var(--landing-compact-solutions-image-width)
-    );
-    --landing-compact-solutions-image-top: 12.5%;
-    --landing-compact-solutions-image-height: 75%;
+    --solutions-red: #e30613;
+    --solutions-paper: #fdfdfb;
     position: relative;
-    display: flex;
     width: 100%;
-    height: max(40rem, 100svh);
-    min-height: max(40rem, 100svh);
+    height: max(42rem, 100svh);
+    min-height: max(42rem, 100svh);
     overflow: hidden;
     isolation: isolate;
     background: #ffffff;
+  }
+
+  .landing-compact-solutions-rail {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    display: flex;
+    gap: 3.1vw;
+    box-sizing: border-box;
+    padding: 0 9.5vw 0 3.6vw;
+    overflow: hidden;
+    overscroll-behavior-x: contain;
+    pointer-events: none;
+    /* GSAP owns the one-frame handoff with the morphing card. Keeping the
+       inactive rail hidden by default avoids a blank state caused by CSS
+       classes and inline animation state disagreeing during reverse scroll. */
+    visibility: hidden;
+    scrollbar-width: none;
     touch-action: pan-y;
   }
 
-  .landing-compact-solutions-stage.is-handoff-ready {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    touch-action: pan-x pan-y;
-  }
-
-  .landing-compact-solutions-stage.is-handoff-ready::-webkit-scrollbar {
+  .landing-compact-solutions-rail::-webkit-scrollbar {
     display: none;
   }
 
-  .landing-compact-solutions-source,
-  .landing-compact-solutions-handoff {
+  .landing-compact-solutions-stage.is-rail-ready .landing-compact-solutions-rail {
+    overflow-x: auto;
+    scroll-padding-left: 3.6vw;
+    scroll-snap-type: x mandatory;
+    pointer-events: auto;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .landing-compact-solution-card {
     position: relative;
-    flex: 0 0 100%;
-    width: 100%;
-    min-width: 100%;
+    flex: 0 0 83.8vw;
     height: 100%;
-    min-height: 100%;
+    min-width: 0;
     scroll-snap-align: start;
     scroll-snap-stop: always;
   }
 
-  .landing-compact-solutions-source {
-    overflow: hidden;
-    background: #ffffff;
-  }
-
-  .landing-compact-solutions-handoff {
-    display: grid;
-    grid-template-columns: var(--landing-compact-solutions-image-width) minmax(0, 1fr);
-    align-items: stretch;
-    overflow: visible;
-    background: #ffffff;
-  }
-
-  .landing-compact-solutions-primary {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    width: 100%;
-    aspect-ratio: 0.846;
-    margin: 0;
-    overflow: hidden;
-    transform: translate3d(0, 0, 0) scale(1);
-    transform-origin: top left;
-    will-change: transform;
-    backface-visibility: hidden;
-  }
-
-  .landing-compact-solutions-primary img {
-    display: block;
+  .landing-compact-solution-card-scene {
+    position: relative;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
-    transform: translateZ(0);
+    isolation: isolate;
   }
 
-  .landing-compact-solutions-copy {
+  .landing-compact-solution-card-board,
+  .landing-compact-solutions-transition-board {
     position: absolute;
     z-index: 1;
-    top: calc(47.3vw + 28svh + 2rem);
-    left: 28%;
-    right: 25%;
-    margin: 0;
-    overflow: hidden;
-    color: var(--site-footer-blue);
-  }
-
-  .landing-compact-solutions-copy-title-clip,
-  .landing-compact-solutions-copy-body-clip {
     display: block;
     overflow: hidden;
+    background:
+      linear-gradient(118deg, rgba(255, 255, 255, 0.1), transparent 24%),
+      repeating-linear-gradient(12deg, rgba(111, 0, 9, 0.065) 0 1px, transparent 1px 5px),
+      var(--solutions-red);
+    box-shadow: 0 1.15rem 1.75rem rgba(7, 20, 36, 0.19);
+    transform: rotate(3deg);
   }
 
-  .landing-compact-solutions-copy h2 {
-    margin: 0;
-    color: currentColor;
-    font-family: var(--site-font-display);
-    font-size: clamp(2.5rem, 5.45vw, 3rem);
-    font-weight: 800;
-    line-height: 0.82;
-    letter-spacing: -0.045em;
+  .landing-compact-solution-card-board {
+    top: 18%;
+    left: 13.7%;
+    width: 69%;
+    height: 57%;
   }
 
-  .landing-compact-solutions-copy-body-clip {
-    max-width: 33ch;
-    margin: clamp(1.35rem, 2.8vw, 1.8rem) 0 0;
-  }
-
-  .landing-compact-solutions-copy p {
-    margin: 0;
-    color: rgba(var(--site-footer-blue-rgb), 0.9);
-    font-family: var(--site-font-sans);
-    font-size: clamp(0.9rem, 1.8vw, 1.04rem);
-    font-weight: 500;
-    line-height: 1.62;
-  }
-
-  .landing-compact-solutions-copy h2,
-  .landing-compact-solutions-copy p {
-    will-change: transform;
-  }
-
-  .landing-compact-solutions-handoff-hint {
+  .landing-compact-solution-card-photo,
+  .landing-compact-solutions-transition-photo {
     position: absolute;
     z-index: 3;
-    bottom: clamp(1.5rem, 5svh, 3.5rem);
-    left: 28%;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    max-width: 42%;
-    margin: 0;
-    color: var(--site-footer-blue);
-    font-family: var(--site-font-sans);
-    font-size: clamp(0.58rem, 1.2vw, 0.72rem);
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    line-height: 1;
-    opacity: 0;
-    text-transform: uppercase;
-    transform: translate3d(-0.5rem, 0, 0);
-    transition: opacity 160ms ease-out, transform 160ms ease-out;
-  }
-
-  .landing-compact-solutions-handoff-hint span:last-child {
-    color: var(--site-brand-red);
-    font-size: 1.1rem;
-    line-height: 0.7;
-  }
-
-  .landing-compact-solutions-stage.is-handoff-ready .landing-compact-solutions-handoff-hint {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-
-  .landing-compact-solutions-peek {
-    position: absolute;
-    z-index: 0;
-    top: var(--landing-compact-solutions-image-top);
-    left: calc(-1 * var(--landing-compact-solutions-preview-width));
-    width: var(--landing-compact-solutions-image-total-width);
-    height: var(--landing-compact-solutions-image-height);
+    box-sizing: border-box;
     margin: 0;
     overflow: hidden;
+    background: var(--solutions-paper);
+    box-shadow: 0 1.1rem 1.75rem rgba(7, 20, 36, 0.27);
   }
 
-  .landing-compact-solutions-peek img {
+  .landing-compact-solution-card-photo {
+    top: 20.1%;
+    left: 0.5%;
+    width: 83.5%;
+    height: 50%;
+    padding: clamp(0.28rem, 1vw, 0.62rem);
+    transform: rotate(-5.5deg);
+  }
+
+  .landing-compact-solution-card-photo img,
+  .landing-compact-solutions-transition-photo img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 72% center;
   }
 
-  .landing-compact-solutions-followup {
-    position: relative;
-    z-index: 1;
-    grid-column: 2;
-    grid-row: 1;
-    display: grid;
-    align-items: center;
-    min-width: 0;
-    padding:
-      clamp(4rem, 9svh, 6rem)
-      6.5vw
-      clamp(4rem, 9svh, 6rem)
-      clamp(0.85rem, 2.5vw, 1.5rem);
+  .landing-compact-solution-card-paperclip,
+  .landing-compact-solutions-transition-paperclip {
+    position: absolute;
+    z-index: 6;
+    display: block;
+    top: 12.5%;
+    left: 57.5%;
+    /* The reference uses a tall, narrow clip; tie its scale to viewport height
+       so it retains that physical proportion on phones and tablets. */
+    width: clamp(6.75rem, 15svh, 14.5rem);
+    height: auto;
+    filter: drop-shadow(0.14rem 0.23rem 0.18rem rgba(0, 0, 0, 0.36));
+    pointer-events: none;
+    transform: translateX(-50%) scaleX(0.62) scaleY(0.86) rotate(-47deg);
   }
 
-  .landing-compact-solutions-followup-list {
-    width: 100%;
+  .landing-compact-solution-card-note,
+  .landing-compact-solutions-transition-note {
+    position: absolute;
+    z-index: 5;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: var(--solutions-paper);
+    background-image:
+      radial-gradient(circle at 20% 17%, rgba(17, 42, 64, 0.042) 0 0.045rem, transparent 0.08rem),
+      radial-gradient(circle at 76% 63%, rgba(17, 42, 64, 0.035) 0 0.05rem, transparent 0.09rem),
+      repeating-linear-gradient(8deg, rgba(17, 42, 64, 0.009) 0 1px, transparent 1px 6px);
+    box-shadow: 0 1.25rem 1.65rem rgba(7, 20, 36, 0.22);
+    color: var(--site-footer-blue);
+    transform: rotate(-4.5deg);
+  }
+
+  .landing-compact-solution-card-note {
+    top: 48%;
+    left: 24.5%;
+    width: 73.5%;
+    padding: clamp(1.1rem, 5.8vw, 3.75rem);
+  }
+
+  .landing-compact-solution-card-note h2,
+  .landing-compact-solutions-transition-note h2 {
     margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .landing-compact-solutions-followup-item {
-    padding: clamp(0.65rem, 1.55svh, 0.95rem) 0;
-    border-bottom: 1px solid rgba(var(--site-footer-blue-rgb), 0.18);
-  }
-
-  .landing-compact-solutions-followup-item:first-child {
-    padding-top: 0;
-  }
-
-  .landing-compact-solutions-followup-item:last-child {
-    padding-bottom: 0;
-    border-bottom: 0;
-  }
-
-  .landing-compact-solutions-followup-item h3,
-  .landing-compact-solutions-followup-item p {
-    margin: 0;
-  }
-
-  .landing-compact-solutions-followup-item h3 {
     color: var(--site-footer-blue);
     font-family: var(--site-font-display);
-    font-size: clamp(1.25rem, 2.55vw, 1.75rem);
+    font-size: clamp(1.12rem, 4.45vw, 3rem);
     font-weight: 900;
-    line-height: 1.18;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
   }
 
-  .landing-compact-solutions-followup-item p {
-    margin-top: clamp(0.26rem, 0.7vw, 0.45rem);
-    color: rgba(var(--site-footer-blue-rgb), 0.88);
+  .landing-compact-solution-card-note p,
+  .landing-compact-solutions-transition-note p {
+    margin: clamp(0.9rem, 3.3vw, 2rem) 0 0;
+    color: rgba(var(--site-footer-blue-rgb), 0.94);
     font-family: var(--site-font-sans);
-    font-size: clamp(0.78rem, 1.5vw, 0.96rem);
+    font-size: clamp(0.78rem, 3.2vw, 2.15rem);
     font-weight: 500;
+    letter-spacing: -0.025em;
     line-height: 1.48;
   }
 
-  .landing-compact-solutions-stage.is-settled .landing-compact-solutions-primary {
-    transform: translate3d(6.5vw, 28svh, 0) scale(0.382);
+  .landing-compact-solutions-transition {
+    position: absolute;
+    z-index: 4;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .landing-compact-solutions-transition-board {
+    top: 18%;
+    left: 15.1%;
+    width: 57.8%;
+    height: 57%;
+  }
+
+  .landing-compact-solutions-transition-photo {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    transform-origin: top left;
+  }
+
+  .landing-compact-solutions-transition-note {
+    top: 48%;
+    left: 24.1%;
+    width: 61.6%;
+    padding: clamp(1.1rem, 5.8vw, 3.75rem);
+    transform-origin: center;
+  }
+
+  .landing-compact-solutions-pagination {
+    position: absolute;
+    z-index: 8;
+    /* Leave a clear visual breath before the industries strip below the stage. */
+    bottom: clamp(3.25rem, 10.5svh, 6.5rem);
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: clamp(0.7rem, 2.1vw, 1.25rem);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .landing-compact-solutions-pagination span {
+    display: block;
+    width: clamp(0.58rem, 1.9vw, 1.15rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: rgba(7, 31, 58, 0.2);
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .landing-compact-solutions-pagination span.is-active {
+    background: var(--solutions-red);
+    transform: scale(1.04);
   }
 
   .landing-compact-solutions-industries {
     display: grid;
-    gap: clamp(1rem, 2.5vw, 1.4rem);
+    gap: clamp(1.2rem, 3.5vw, 2rem);
     width: 100%;
     margin: 0;
-    padding: clamp(2.25rem, 5svh, 3.5rem) 0;
+    padding: clamp(1.9rem, 6vw, 3.25rem) 0 clamp(3rem, 8vw, 5rem);
     overflow: hidden;
     background: #ffffff;
     color: var(--site-footer-blue);
@@ -272,12 +258,12 @@
 
   .landing-compact-solutions-industries-kicker {
     margin: 0;
-    padding: 0 6.5vw;
-    color: var(--site-brand-red);
+    padding: 0 var(--home-mobile-edge, clamp(1.5rem, 7vw, 3.5rem));
+    color: var(--solutions-red);
     font-family: var(--site-font-display);
     font-size: clamp(0.74rem, 1.35vw, 0.9rem);
     font-weight: 900;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.03em;
     line-height: 1.1;
     text-align: center;
     text-transform: uppercase;
@@ -297,7 +283,6 @@
 
   .landing-compact-solutions-industries-track {
     animation: landingFinalPartnerMarquee 48s linear infinite;
-    backface-visibility: hidden;
     will-change: transform;
   }
 
@@ -307,14 +292,14 @@
 
   .landing-compact-solutions-industries-item {
     display: grid;
-    min-width: clamp(10.25rem, 21vw, 13.75rem);
-    height: clamp(3.4rem, 6.8vw, 4.3rem);
-    padding: 0 clamp(1rem, 2.4vw, 1.65rem);
+    min-width: clamp(10rem, 22vw, 13.75rem);
+    height: clamp(3.25rem, 7vw, 4.25rem);
+    padding: 0 clamp(1rem, 2.4vw, 1.6rem);
     place-items: center;
     border-left: 1px solid rgba(var(--site-footer-blue-rgb), 0.18);
     color: var(--site-footer-blue);
     font-family: var(--site-font-display);
-    font-size: clamp(0.76rem, 1.25vw, 0.95rem);
+    font-size: clamp(0.72rem, 1.25vw, 0.9rem);
     font-weight: 850;
     line-height: 1.1;
     text-align: center;
@@ -326,110 +311,68 @@
     .landing-compact-solutions-industries-item:last-child {
     border-right: 1px solid rgba(var(--site-footer-blue-rgb), 0.18);
   }
+
+  .landing-compact-solutions-stage.is-motion-reduced .landing-compact-solutions-transition {
+    display: none;
+  }
+
+  .landing-compact-solutions-stage.is-motion-reduced .landing-compact-solutions-rail {
+    visibility: visible;
+  }
 }
 
 @media (max-width: 767px) {
   .landing-compact-solutions-stage {
-    --landing-compact-solutions-image-top: 6%;
-    --landing-compact-solutions-image-height: 88%;
     height: max(38rem, 100svh);
     min-height: max(38rem, 100svh);
   }
 
-  .landing-compact-solutions-copy {
-    top: calc(47.3vw + 32svh + 1.2rem);
+  .landing-compact-solution-card-note,
+  .landing-compact-solutions-transition-note {
+    width: 72%;
+    padding: clamp(1.05rem, 5.9vw, 1.6rem);
   }
 
-  .landing-compact-solutions-copy h2 {
-    font-size: clamp(1rem, 4.5vw, 1.14rem);
-    line-height: 1.18;
+  .landing-compact-solutions-transition-note {
+    left: 24.1%;
   }
 
-  .landing-compact-solutions-copy-body-clip {
-    margin-top: clamp(0.9rem, 3.5vw, 1rem);
+  .landing-compact-solution-card-note h2,
+  .landing-compact-solutions-transition-note h2 {
+    font-size: clamp(1.1rem, 5vw, 1.4rem);
   }
 
-  .landing-compact-solutions-copy p {
-    font-size: clamp(0.76rem, 2.95vw, 0.84rem);
-    line-height: 1.58;
-  }
-
-  .landing-compact-solutions-followup {
-    align-items: stretch;
-    padding:
-      calc(var(--site-header-clearance, 0px) + clamp(0.75rem, 3vw, 1rem))
-      4.5vw
-      clamp(2rem, 5svh, 3rem)
-      clamp(0.7rem, 2.6vw, 0.95rem);
-  }
-
-  .landing-compact-solutions-followup-list {
-    display: grid;
-    align-content: space-between;
-    height: 100%;
-    padding-left: 0;
-  }
-
-  .landing-compact-solutions-followup-item {
-    padding: 0 0 clamp(0.5rem, 1.35svh, 0.8rem);
-  }
-
-  .landing-compact-solutions-followup-item h3 {
-    font-size: clamp(1rem, 4.5vw, 1.14rem);
-  }
-
-  .landing-compact-solutions-followup-item p {
-    font-size: clamp(0.62rem, 2.4vw, 0.72rem);
-    line-height: 1.48;
-  }
-
-  .landing-compact-solutions-stage.is-settled .landing-compact-solutions-primary {
-    transform: translate3d(6.5vw, 32.5svh, 0) scale(0.382);
+  .landing-compact-solution-card-note p,
+  .landing-compact-solutions-transition-note p {
+    margin-top: clamp(0.82rem, 3vw, 1rem);
+    font-size: clamp(0.78rem, 3.25vw, 0.93rem);
+    line-height: 1.5;
   }
 
   .landing-compact-solutions-industries {
-    gap: 0.9rem;
-    padding-block: clamp(2rem, 7vw, 2.6rem);
+    padding-top: clamp(1.9rem, 7vw, 2.5rem);
   }
 
   .landing-compact-solutions-industries-kicker {
-    padding-inline: var(--home-mobile-edge, clamp(1.5rem, 7vw, 2rem));
-    font-size: clamp(0.7rem, 2.85vw, 0.78rem);
+    font-size: clamp(0.7rem, 2.85vw, 0.8rem);
   }
 
   .landing-compact-solutions-industries-item {
-    min-width: clamp(9.6rem, 42vw, 11.5rem);
-    height: clamp(3.15rem, 14vw, 3.65rem);
-    font-size: clamp(0.7rem, 2.8vw, 0.78rem);
+    min-width: clamp(9.5rem, 42vw, 11.5rem);
+    height: clamp(3.1rem, 14vw, 3.6rem);
+    font-size: clamp(0.7rem, 2.8vw, 0.8rem);
   }
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
   .landing-compact-solutions-stage {
-    height: max(44rem, 100svh);
-    min-height: max(44rem, 100svh);
+    height: max(47rem, 100svh);
+    min-height: max(47rem, 100svh);
   }
 
-  .landing-compact-solutions-copy {
-    top: calc(47.3vw + 28svh + 2rem);
-  }
-
-  .landing-compact-solutions-copy h2 {
-    font-size: clamp(1.25rem, 2.55vw, 1.75rem);
-    line-height: 1.18;
-  }
-
-  .landing-compact-solutions-copy-body-clip {
-    margin-top: clamp(1.1rem, 2.1vw, 1.35rem);
-  }
-
-  .landing-compact-solutions-copy p {
-    font-size: clamp(0.94rem, 1.85vw, 1.06rem);
-    line-height: 1.62;
-  }
-
-  .landing-compact-solutions-followup {
-    padding-right: clamp(2.5rem, 6.5vw, 4.5rem);
+  .landing-compact-solution-card-note,
+  .landing-compact-solutions-transition-note {
+    top: 47.5%;
   }
 }
 
