@@ -194,10 +194,8 @@ const FINAL_OPERATION_STEPS = [
   },
 ];
 
-// This compact-only rail deliberately uses the operational steps above, but gives every
-// step a visual card of its own. The first image is the supplied sourcing photography;
-// the remaining imagery keeps the same logistics story as the desktop final-flow.
-const COMPACT_SOLUTION_CARDS = [
+// One data source keeps the compact carousel and the desktop collage in sync.
+const SOLUTION_CARDS = [
   {
     ...FINAL_OPERATION_STEPS[0],
     title: 'SOURCING',
@@ -853,11 +851,14 @@ export function HomePage() {
   const projectPreviewStageRef = useRef(null);
   const compactSolutionsStageRef = useRef(null);
   const compactSolutionsRailRef = useRef(null);
+  const desktopSolutionsStageRef = useRef(null);
+  const desktopSolutionsRailRef = useRef(null);
+  const activeDesktopSolutionIndexRef = useRef(0);
   const serviceImagePreloadersRef = useRef([]);
   const hasPreloadedServiceImagesRef = useRef(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
-  const [activeFinalOperation, setActiveFinalOperation] = useState(FINAL_OPERATION_STEPS[0].key);
   const [activeCompactSolutionIndex, setActiveCompactSolutionIndex] = useState(0);
+  const [activeDesktopSolutionIndex, setActiveDesktopSolutionIndex] = useState(0);
   const [isCompactHomeViewport, setIsCompactHomeViewport] = useState(
     () =>
       typeof window !== 'undefined' &&
@@ -868,11 +869,32 @@ export function HomePage() {
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
-  const activeFinalOperationStep =
-    FINAL_OPERATION_STEPS.find((step) => step.key === activeFinalOperation) ??
-    FINAL_OPERATION_STEPS[0];
   const activeCompactSolution =
-    COMPACT_SOLUTION_CARDS[activeCompactSolutionIndex] ?? COMPACT_SOLUTION_CARDS[0];
+    SOLUTION_CARDS[activeCompactSolutionIndex] ?? SOLUTION_CARDS[0];
+  const activeDesktopSolution =
+    SOLUTION_CARDS[activeDesktopSolutionIndex] ?? SOLUTION_CARDS[0];
+
+  const setDesktopSolutionIndex = (index) => {
+    const normalizedIndex = Math.max(0, Math.min(index, SOLUTION_CARDS.length - 1));
+
+    activeDesktopSolutionIndexRef.current = normalizedIndex;
+    setActiveDesktopSolutionIndex((currentIndex) =>
+      currentIndex === normalizedIndex ? currentIndex : normalizedIndex
+    );
+
+    return normalizedIndex;
+  };
+
+  const selectDesktopSolution = (index) => {
+    const normalizedIndex = setDesktopSolutionIndex(index);
+    const rail = desktopSolutionsRailRef.current;
+    const card = rail?.children[normalizedIndex];
+
+    if (rail && card) {
+      const railInset = Number.parseFloat(window.getComputedStyle(rail).paddingLeft) || 0;
+      rail.scrollTo({ left: Math.max(0, card.offsetLeft - railInset), behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
@@ -1082,13 +1104,17 @@ export function HomePage() {
     const transitionImage = transitionPhoto.querySelector('img');
     let activeSolutionIndex = activeCompactSolutionIndex;
     let railScrollFrame;
+    const getCardScrollLeft = (card) => {
+      const railInset = Number.parseFloat(window.getComputedStyle(rail).paddingLeft) || 0;
+      return Math.max(0, card.offsetLeft - railInset);
+    };
 
     const getClosestSolutionIndex = () => {
       if (!cards.length) return 0;
 
       return cards.reduce((closestIndex, card, index) => {
-        const closestDistance = Math.abs(cards[closestIndex].offsetLeft - rail.scrollLeft);
-        const distance = Math.abs(card.offsetLeft - rail.scrollLeft);
+        const closestDistance = Math.abs(getCardScrollLeft(cards[closestIndex]) - rail.scrollLeft);
+        const distance = Math.abs(getCardScrollLeft(card) - rail.scrollLeft);
 
         return distance < closestDistance ? index : closestIndex;
       }, 0);
@@ -1103,7 +1129,7 @@ export function HomePage() {
 
     const prepareReverseTransition = () => {
       const index = getClosestSolutionIndex();
-      const card = COMPACT_SOLUTION_CARDS[index];
+      const card = SOLUTION_CARDS[index];
 
       cancelAnimationFrame(railScrollFrame);
       railScrollFrame = undefined;
@@ -1262,6 +1288,434 @@ export function HomePage() {
       cancelAnimationFrame(railScrollFrame);
       animationContext.revert();
       stage.classList.remove('is-rail-ready');
+      ScrollTrigger.refresh();
+    };
+  }, [isCompactHomeViewport, prefersReducedMotion]);
+
+  useLayoutEffect(() => {
+    const stage = desktopSolutionsStageRef.current;
+    const rail = desktopSolutionsRailRef.current;
+    if (!stage || !rail || isCompactHomeViewport || typeof window === 'undefined') {
+      return undefined;
+    }
+
+    const transition = stage.querySelector('.landing-desktop-solutions-transition');
+    const transitionPhoto = stage.querySelector('.landing-desktop-solutions-transition-photo');
+    const transitionBoard = stage.querySelector('.landing-desktop-solutions-transition-board');
+    const transitionPaperclip = stage.querySelector(
+      '.landing-desktop-solutions-transition-paperclip'
+    );
+    const transitionNote = stage.querySelector('.landing-desktop-solutions-transition-note');
+    const pagination = stage.querySelector('.landing-desktop-solutions-pagination');
+
+    if (
+      !transition ||
+      !transitionPhoto ||
+      !transitionBoard ||
+      !transitionPaperclip ||
+      !transitionNote ||
+      !pagination
+    ) {
+      return undefined;
+    }
+
+    const transitionImage = transitionPhoto.querySelector('img');
+    const cards = Array.from(rail.querySelectorAll('.landing-desktop-solution-card'));
+    const previewArticle = stage
+      .closest('.landing-close-canvas')
+      ?.querySelector('.landing-project-preview-desktop-article');
+
+    const normalizeSolutionIndex = (index) =>
+      Math.max(0, Math.min(index, SOLUTION_CARDS.length - 1));
+
+    const syncTransitionCard = (index) => {
+      const card = SOLUTION_CARDS[normalizeSolutionIndex(index)];
+      if (!transitionImage || !card) return;
+
+      transitionImage.src = card.image;
+      transitionImage.style.objectPosition = card.imagePosition;
+    };
+
+    let railScrollFrame;
+
+    const getClosestSolutionIndex = () => {
+      if (!cards.length) return 0;
+
+      return cards.reduce((closestIndex, card, index) => {
+        const closestDistance = Math.abs(cards[closestIndex].offsetLeft - rail.scrollLeft);
+        const distance = Math.abs(card.offsetLeft - rail.scrollLeft);
+
+        return distance < closestDistance ? index : closestIndex;
+      }, 0);
+    };
+
+    const setActiveSolution = (index) => {
+      const normalizedIndex = normalizeSolutionIndex(index);
+
+      if (activeDesktopSolutionIndexRef.current === normalizedIndex) return;
+
+      activeDesktopSolutionIndexRef.current = normalizedIndex;
+      setActiveDesktopSolutionIndex(normalizedIndex);
+    };
+
+    const syncActiveSolution = () => {
+      if (railScrollFrame !== undefined) return;
+
+      railScrollFrame = requestAnimationFrame(() => {
+        railScrollFrame = undefined;
+        setActiveSolution(getClosestSolutionIndex());
+      });
+    };
+
+    const prepareReverseTransition = () => {
+      const index = getClosestSolutionIndex();
+
+      syncTransitionCard(index);
+      setActiveSolution(index);
+      gsap.set(transition, { display: 'block' });
+      gsap.set(rail, { visibility: 'hidden' });
+    };
+
+    if (prefersReducedMotion) {
+      stage.classList.add('is-desktop-solutions-settled', 'is-motion-reduced');
+
+      return () => {
+        stage.classList.remove('is-desktop-solutions-settled', 'is-motion-reduced');
+      };
+    }
+
+    rail.addEventListener('scroll', syncActiveSolution, { passive: true });
+
+    let dragState = null;
+    const stopRailDrag = (event) => {
+      if (!dragState) return;
+
+      if (rail.hasPointerCapture?.(dragState.pointerId)) {
+        rail.releasePointerCapture(dragState.pointerId);
+      }
+
+      dragState = null;
+      rail.classList.remove('is-dragging');
+      event?.preventDefault();
+    };
+    const startRailDrag = (event) => {
+      if (
+        event.pointerType !== 'mouse' ||
+        event.button !== 0 ||
+        !stage.classList.contains('is-desktop-solutions-settled')
+      ) {
+        return;
+      }
+
+      dragState = {
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startScrollLeft: rail.scrollLeft,
+      };
+      rail.setPointerCapture(event.pointerId);
+      rail.classList.add('is-dragging');
+    };
+    const moveRailDrag = (event) => {
+      if (!dragState || event.pointerId !== dragState.pointerId) return;
+
+      rail.scrollLeft = dragState.startScrollLeft - (event.clientX - dragState.startX);
+      event.preventDefault();
+    };
+
+    rail.addEventListener('pointerdown', startRailDrag);
+    rail.addEventListener('pointermove', moveRailDrag);
+    rail.addEventListener('pointerup', stopRailDrag);
+    rail.addEventListener('pointercancel', stopRailDrag);
+
+    const getLayoutMetrics = (element, card) => {
+      if (!element) return null;
+
+      let x = 0;
+      let y = 0;
+      let node = element;
+
+      while (node && node !== stage) {
+        x += node.offsetLeft;
+        y += node.offsetTop;
+        node = node.offsetParent;
+      }
+
+      const styles = window.getComputedStyle(element);
+      const elementRect = element.getBoundingClientRect();
+      const stageRect = stage.getBoundingClientRect();
+      const railInset = Number.parseFloat(window.getComputedStyle(rail).paddingLeft) || 0;
+      const cardOffset = card?.offsetLeft ?? railInset;
+      // A carousel card can be at any scroll offset when the browser zooms or
+      // resizes. Rebase its geometry to the rail's snap position so a GSAP
+      // refresh always returns the photo to the same visual endpoint.
+      const cardVisualOffset = cardOffset - rail.scrollLeft - railInset;
+
+      return {
+        x: x - cardOffset + railInset,
+        y,
+        width: element.offsetWidth,
+        height: element.offsetHeight,
+        padding: Number.parseFloat(styles.paddingLeft) || 0,
+        visualX: elementRect.left - stageRect.left - cardVisualOffset,
+        visualY: elementRect.top - stageRect.top,
+        visualBottom: elementRect.bottom - stageRect.top,
+      };
+    };
+
+    const getFinalMetrics = () => {
+      // Every rail card has the same settled geometry. Measuring the source
+      // card and normalizing it above keeps the destination independent of
+      // whichever card the visitor last viewed.
+      const card = cards[0];
+
+      return {
+        photo: getLayoutMetrics(
+          card?.querySelector('.landing-desktop-solution-card-photo'),
+          card
+        ),
+        board: getLayoutMetrics(
+          card?.querySelector('.landing-desktop-solution-card-board'),
+          card
+        ),
+        paperclip: getLayoutMetrics(
+          card?.querySelector('.landing-desktop-solution-card-paperclip'),
+          card
+        ),
+        note: getLayoutMetrics(
+          card?.querySelector('.landing-desktop-solution-card-note'),
+          card
+        ),
+      };
+    };
+    const getInitialPhotoWidth = () =>
+      previewArticle?.getBoundingClientRect().width ?? stage.clientWidth * 0.822;
+    const getInitialPhotoX = () => {
+      const articleRect = previewArticle?.getBoundingClientRect();
+      const stageRect = stage.getBoundingClientRect();
+      return articleRect ? articleRect.left - stageRect.left : stage.clientWidth * 0.089;
+    };
+
+    let desktopSolutionsTimeline;
+
+    const animationContext = gsap.context(() => {
+      const SETTLE_PROGRESS = 0.92;
+      let hasSettled = false;
+      const finalPhoto = () => getFinalMetrics().photo;
+      const finalBoard = () => getFinalMetrics().board;
+      const finalPaperclip = () => getFinalMetrics().paperclip;
+      const finalNote = () => getFinalMetrics().note;
+      const getInitialPhotoHeight = () => {
+        const naturalEntryHeight = Math.min(
+          stage.clientHeight * 0.68,
+          getInitialPhotoWidth() * 0.56
+        );
+        const redSheetBottom = finalBoard()?.visualBottom ?? 0;
+
+        // The red sheet already sits at its settled coordinates while the
+        // image enters. Let the unframed entry photo extend just beyond that
+        // lower edge so no red sliver is exposed before the collage begins.
+        return Math.max(
+          naturalEntryHeight,
+          stage.clientHeight * 0.705,
+          redSheetBottom + stage.clientHeight * 0.025
+        );
+      };
+      const getTopLeftPhotoEndpoint = () => {
+        const photo = finalPhoto();
+        if (!photo) return { x: 0, y: 0 };
+
+        const angle = (-5.5 * Math.PI) / 180;
+        const cosine = Math.cos(angle);
+        const sine = Math.sin(angle);
+        const corners = [
+          [0, 0],
+          [photo.width * cosine, photo.width * sine],
+          [-photo.height * sine, photo.height * cosine],
+          [
+            photo.width * cosine - photo.height * sine,
+            photo.width * sine + photo.height * cosine,
+          ],
+        ];
+        const minX = Math.min(...corners.map(([x]) => x));
+        const minY = Math.min(...corners.map(([, y]) => y));
+
+        return {
+          x: photo.visualX - minX,
+          y: photo.visualY - minY,
+        };
+      };
+
+      const setSettledState = (shouldSettle) => {
+        const stageIsSettled = stage.classList.contains('is-desktop-solutions-settled');
+        if (shouldSettle === hasSettled && shouldSettle === stageIsSettled) return;
+
+        hasSettled = shouldSettle;
+        stage.classList.toggle('is-desktop-solutions-settled', shouldSettle);
+
+        if (shouldSettle) {
+          gsap.set(transition, { display: 'none' });
+          gsap.set(rail, { visibility: 'visible' });
+          return;
+        }
+
+        prepareReverseTransition();
+      };
+
+      // These are the timeline's true entry values. They must be reapplied
+      // before every ScrollTrigger refresh: browser zoom changes CSS pixels
+      // without remounting React, so one-time GSAP sets drift from the Preview
+      // article's newly computed x/width.
+      const applyTransitionGeometry = () => {
+        gsap.set(transitionPhoto, {
+          width: getInitialPhotoWidth(),
+          height: getInitialPhotoHeight(),
+          x: getInitialPhotoX(),
+          y: 0,
+          padding: 0,
+          rotation: 0,
+          transformOrigin: '0 0',
+          force3D: true,
+        });
+        gsap.set(transitionBoard, {
+          x: finalBoard()?.x ?? 0,
+          y: finalBoard()?.y ?? 0,
+          width: finalBoard()?.width ?? 0,
+          height: finalBoard()?.height ?? 0,
+          scale: 1.045,
+          force3D: true,
+        });
+        gsap.set(transitionPaperclip, {
+          x: finalPaperclip()?.x ?? 0,
+          // Keep the clip completely above the entry photo. It becomes a
+          // physical fastener only once the red sheet and Polaroid are close
+          // enough to form the settled collage.
+          y: (finalPaperclip()?.y ?? 0) - stage.clientHeight * 0.65,
+          force3D: true,
+        });
+        gsap.set(transitionNote, {
+          x: finalNote()?.x ?? 0,
+          y: (finalNote()?.y ?? 0) + stage.clientHeight,
+          width: finalNote()?.width ?? 0,
+          height: finalNote()?.height ?? 0,
+          force3D: true,
+        });
+        gsap.set(pagination, { y: stage.clientHeight * 0.1, force3D: true });
+      };
+
+      gsap.set(transition, { display: 'block' });
+      gsap.set(rail, { visibility: 'hidden' });
+      applyTransitionGeometry();
+
+      desktopSolutionsTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: stage,
+            start: 'top top',
+            end: () => `+=${Math.round(stage.clientHeight * 1.04)}`,
+            pin: true,
+            pinType: 'fixed',
+            pinSpacing: true,
+            // Direct scrub keeps every value tied to the user's scroll
+            // position; no delayed catch-up can make the collage wobble.
+            scrub: true,
+            invalidateOnRefresh: true,
+            onRefreshInit: () => {
+              applyTransitionGeometry();
+              desktopSolutionsTimeline?.invalidate();
+            },
+            onRefresh: (self) => {
+              setSettledState(self.progress >= SETTLE_PROGRESS);
+            },
+            onUpdate: (self) => {
+              setSettledState(self.progress >= SETTLE_PROGRESS);
+            },
+          },
+        })
+        .to(
+          transitionPhoto,
+          {
+            width: () => finalPhoto()?.width ?? 0,
+            height: () => finalPhoto()?.height ?? 0,
+            x: () => getTopLeftPhotoEndpoint().x,
+            y: () => getTopLeftPhotoEndpoint().y,
+            padding: () => finalPhoto()?.padding ?? 0,
+            rotation: -5.5,
+            ease: 'none',
+            duration: SETTLE_PROGRESS,
+            force3D: true,
+          },
+          0
+        )
+        .to(
+          transitionBoard,
+          { scale: 1, ease: 'none', duration: 0.6, force3D: true },
+          0.16
+        )
+        .to(
+          transitionPaperclip,
+          { y: () => finalPaperclip()?.y ?? 0, ease: 'none', duration: 0.2, force3D: true },
+          0.72
+        )
+        .to(
+          transitionNote,
+          { y: () => finalNote()?.y ?? 0, ease: 'none', duration: 0.48, force3D: true },
+          0.4
+        )
+        .to(pagination, { y: 0, ease: 'none', duration: 0.1 }, 0.82)
+        .to({}, { duration: 1 - SETTLE_PROGRESS });
+    }, stage);
+
+    let refreshFrame;
+    let progressToRestore = null;
+    const refreshForLayout = () => {
+      const scrollTrigger = desktopSolutionsTimeline?.scrollTrigger;
+      if (scrollTrigger?.isActive) {
+        // Zoom changes the height of content above this pin. Preserve the
+        // visitor's position within the transform instead of letting a raw
+        // document scroll offset jump to a different point in the timeline.
+        progressToRestore = scrollTrigger.progress;
+      }
+
+      cancelAnimationFrame(refreshFrame);
+      refreshFrame = requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+
+        const refreshedTrigger = desktopSolutionsTimeline?.scrollTrigger;
+        if (progressToRestore !== null && refreshedTrigger) {
+          const restoredScroll =
+            refreshedTrigger.start +
+            (refreshedTrigger.end - refreshedTrigger.start) * progressToRestore;
+
+          progressToRestore = null;
+          window.scrollTo(window.scrollX, restoredScroll);
+          ScrollTrigger.update();
+          return;
+        }
+
+        progressToRestore = null;
+      });
+    };
+    const resizeObserver = new ResizeObserver(refreshForLayout);
+    resizeObserver.observe(stage);
+    if (previewArticle) resizeObserver.observe(previewArticle);
+
+    window.addEventListener('resize', refreshForLayout, { passive: true });
+    window.visualViewport?.addEventListener('resize', refreshForLayout, { passive: true });
+    document.fonts?.ready.then(refreshForLayout);
+    ScrollTrigger.refresh();
+
+    return () => {
+      rail.removeEventListener('scroll', syncActiveSolution);
+      rail.removeEventListener('pointerdown', startRailDrag);
+      rail.removeEventListener('pointermove', moveRailDrag);
+      rail.removeEventListener('pointerup', stopRailDrag);
+      rail.removeEventListener('pointercancel', stopRailDrag);
+      cancelAnimationFrame(railScrollFrame);
+      cancelAnimationFrame(refreshFrame);
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', refreshForLayout);
+      window.visualViewport?.removeEventListener('resize', refreshForLayout);
+      animationContext.revert();
+      stage.classList.remove('is-desktop-solutions-settled');
       ScrollTrigger.refresh();
     };
   }, [isCompactHomeViewport, prefersReducedMotion]);
@@ -2109,11 +2563,11 @@ export function HomePage() {
               className="landing-compact-solutions-rail"
               aria-label="Felmex solutions carousel"
             >
-              {COMPACT_SOLUTION_CARDS.map((solution, solutionIndex) => (
+              {SOLUTION_CARDS.map((solution, solutionIndex) => (
                 <article
                   className="landing-compact-solution-card"
                   key={solution.key}
-                  aria-label={`${solution.title}, solution ${solutionIndex + 1} of ${COMPACT_SOLUTION_CARDS.length}`}
+                  aria-label={`${solution.title}, solution ${solutionIndex + 1} of ${SOLUTION_CARDS.length}`}
                 >
                   <div className="landing-compact-solution-card-scene">
                     <span className="landing-compact-solution-card-board" aria-hidden="true" />
@@ -2166,7 +2620,7 @@ export function HomePage() {
             </div>
 
             <div className="landing-compact-solutions-pagination" aria-label="Active solution">
-              {COMPACT_SOLUTION_CARDS.map((solution, solutionIndex) => (
+              {SOLUTION_CARDS.map((solution, solutionIndex) => (
                 <span
                   className={
                     solutionIndex === activeCompactSolutionIndex
@@ -2291,64 +2745,129 @@ export function HomePage() {
               </p>
             </aside>
 
-            <div className="landing-final-flow" aria-label="Felmex operations model">
-              <div className="landing-final-step-frame" aria-hidden="true" />
-              <nav className="landing-final-step-nav" aria-label="Operations stages" role="tablist">
-                {FINAL_OPERATION_STEPS.map((step) => {
-                  const isActive = step.key === activeFinalOperation;
+            <section className="landing-desktop-solutions" aria-label="Solutions">
+              <div ref={desktopSolutionsStageRef} className="landing-desktop-solutions-stage">
+                <div
+                  ref={desktopSolutionsRailRef}
+                  className="landing-desktop-solutions-rail"
+                  aria-label="Felmex solutions carousel"
+                >
+                  {SOLUTION_CARDS.map((solution, solutionIndex) => {
+                    const isActive = solutionIndex === activeDesktopSolutionIndex;
 
-                  return (
-                    <button
-                      id={`landing-final-tab-${step.key}`}
-                      className={`landing-final-step-button${isActive ? ' is-active' : ''}`}
-                      key={step.key}
-                      type="button"
-                      role="tab"
-                      aria-selected={isActive}
-                      aria-controls="landing-final-operation-panel"
-                      onClick={() => {
-                        setActiveFinalOperation(step.key);
-                      }}
-                    >
-                      <span>{step.label}</span>
-                      <span className="landing-final-step-dot" aria-hidden="true" />
-                    </button>
-                  );
-                })}
-              </nav>
-
-              <div
-                id="landing-final-operation-panel"
-                className="landing-final-operation-panel"
-                role="tabpanel"
-                aria-labelledby={`landing-final-tab-${activeFinalOperationStep.key}`}
-              >
-                <h2 className="landing-final-operation-copy">{activeFinalOperationStep.text}</h2>
-              </div>
-
-              <div className="landing-final-partners" aria-label="Industries we service">
-                <p className="landing-final-partner-kicker">Industries We Service</p>
-                <div className="landing-final-partner-rail">
-                  <div className="landing-final-partner-track">
-                    {[0, 1, 2, 3].map((setIndex) => (
-                      <div
-                        className="landing-final-partner-set"
-                        key={setIndex}
-                        aria-hidden={setIndex !== 0}
+                    return (
+                      <article
+                        className="landing-desktop-solution-card"
+                        key={solution.key}
+                        aria-hidden={!isActive}
+                        aria-label={`${solution.title}, solution ${solutionIndex + 1} of ${SOLUTION_CARDS.length}`}
                       >
-                        {FINAL_INDUSTRIES.map((industry) => (
-                          <div className="landing-final-partner-item" key={`${setIndex}-${industry}`}>
-                            <span className="landing-final-partner-name landing-final-industry-name">
-                              {industry}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
+                        <div className="landing-desktop-solution-card-scene">
+                          <span className="landing-desktop-solution-card-board" aria-hidden="true" />
+                          <figure className="landing-desktop-solution-card-photo">
+                            <img
+                              src={solution.image}
+                              alt={solution.imageAlt}
+                              loading="lazy"
+                              decoding="async"
+                              style={{ objectPosition: solution.imagePosition }}
+                            />
+                          </figure>
+                          <img
+                            className="landing-desktop-solution-card-paperclip"
+                            src="/service-catalog-paperclip.png"
+                            alt=""
+                            aria-hidden="true"
+                            decoding="async"
+                          />
+                          <aside className="landing-desktop-solution-card-note">
+                            <h2>{solution.title}</h2>
+                            <span aria-hidden="true" />
+                            <p>{solution.text}</p>
+                          </aside>
+                        </div>
+                      </article>
+                    );
+                  })}
                 </div>
+
+                <div className="landing-desktop-solutions-transition" aria-hidden="true">
+                  <span className="landing-desktop-solutions-transition-board" />
+                  <figure className="landing-desktop-solutions-transition-photo">
+                    <img
+                      src={activeDesktopSolution.image}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      style={{ objectPosition: activeDesktopSolution.imagePosition }}
+                    />
+                  </figure>
+                  <img
+                    className="landing-desktop-solutions-transition-paperclip"
+                    src="/service-catalog-paperclip.png"
+                    alt=""
+                    decoding="async"
+                  />
+                  <aside className="landing-desktop-solutions-transition-note">
+                    <h2>{activeDesktopSolution.title}</h2>
+                    <span aria-hidden="true" />
+                    <p>{activeDesktopSolution.text}</p>
+                  </aside>
+                </div>
+
+                <div className="landing-desktop-solutions-pagination" aria-label="Choose a solution">
+                  {SOLUTION_CARDS.map((solution, solutionIndex) => {
+                    const isActive = solutionIndex === activeDesktopSolutionIndex;
+
+                    return (
+                      <button
+                        className={isActive ? 'is-active' : undefined}
+                        key={solution.key}
+                        type="button"
+                        aria-pressed={isActive}
+                        aria-label={`Show ${solution.title}`}
+                        onClick={() => selectDesktopSolution(solutionIndex)}
+                      />
+                    );
+                  })}
+                </div>
+
+                <nav className="landing-desktop-solutions-arrows" aria-label="Solutions carousel controls">
+                  <button
+                    type="button"
+                    aria-label="Previous solution"
+                    disabled={activeDesktopSolutionIndex === 0}
+                    onClick={() => selectDesktopSolution(activeDesktopSolutionIndex - 1)}
+                  >
+                    <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                      <path d="M14.75 5.5 8.25 12l6.5 6.5" />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Next solution"
+                    disabled={activeDesktopSolutionIndex === SOLUTION_CARDS.length - 1}
+                    onClick={() => selectDesktopSolution(activeDesktopSolutionIndex + 1)}
+                  >
+                    <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                      <path d="m9.25 5.5 6.5 6.5-6.5 6.5" />
+                    </svg>
+                  </button>
+                </nav>
+
+                <footer className="landing-desktop-solutions-footer">
+                  <p>Industries We Serve</p>
+                  <div className="landing-desktop-solutions-industries" aria-label="Industries we serve">
+                    <div className="landing-desktop-solutions-industries-track" aria-hidden="true">
+                      {[...FINAL_INDUSTRIES, ...FINAL_INDUSTRIES].map((industry, industryIndex) => (
+                        <span key={`${industry}-${industryIndex}`}>{industry}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <p>Moving Your Business Forward, Together.</p>
+                </footer>
               </div>
-            </div>
+            </section>
 
             <div className="landing-final-cta scroll-section">
               <div className="landing-final-cta-desktop">

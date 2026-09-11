@@ -15,13 +15,6 @@
 }
 
 @media (min-width: 961px) {
-  .landing-final-step-button .landing-final-step-dot {
-    display: none;
-  }
-
-  .landing-final-step-button.is-active .landing-final-step-dot {
-    display: block;
-  }
 
   .landing-final-curtain {
     --landing-journal-pin-boundary: clamp(3rem, 6.3svh, 3.75rem);
@@ -113,6 +106,7 @@
 
   .landing-close {
     --desktop-project-panel-top: 19.3svh;
+    --desktop-project-card-width: min(82.2vw, 85.875rem);
     --desktop-project-card-height: 65.65svh;
     --desktop-project-card-lift: 35.85svh;
     position: relative;
@@ -150,7 +144,7 @@
       minmax(8.75rem, 12.5rem);
     justify-content: space-between;
     column-gap: clamp(2.5rem, 4.8vw, 5.25rem);
-    width: min(82.2vw, 85.875rem);
+    width: var(--desktop-project-card-width);
     height: var(--desktop-project-card-height);
     margin: calc(-1 * var(--desktop-project-card-lift)) auto 0;
     left: 0.45vw;
@@ -311,14 +305,6 @@
   .landing-project-preview-desktop-read-more:focus-visible {
     outline: 2px solid rgba(255, 255, 255, 0.75);
     outline-offset: 0.3rem;
-  }
-
-  .landing-final-flow {
-    margin-top: clamp(3rem, 5.8svh, 4.5rem);
-  }
-
-  .landing-final-step-frame {
-    display: none;
   }
 
   .landing-final-cta {

@@ -17,10 +17,6 @@
     padding: 0;
   }
 
-  .landing-close .landing-final-flow {
-    display: none;
-  }
-
   .landing-final-cta {
     --landing-final-cta-tablet-edge: clamp(3rem, 7vw, 5.5rem);
     --landing-final-cta-fold-gap: clamp(2.35rem, 4.5vw, 3.6rem);

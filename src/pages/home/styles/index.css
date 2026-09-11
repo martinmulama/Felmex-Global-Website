@@ -7,6 +7,7 @@
 @import './sections/testimonials.css';
 @import './sections/project-preview.css';
 @import './responsive/desktop/project-preview.css';
+@import './responsive/desktop/solutions-spotlight.css';
 @import './responsive/desktop/overview.css';
 @import './responsive/desktop/services.css';
 @import './responsive/desktop/testimonials.css';

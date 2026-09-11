@@ -25,7 +25,9 @@
   }
 
   .landing-project-preview-stage {
-    --landing-project-preview-title-pane: clamp(24rem, 44vw, 28rem);
+    /* Match the mobile entry composition: the article only peeks until the
+       visitor swipes, leaving the project heading and brief as the anchor. */
+    --landing-project-preview-title-pane: clamp(30rem, 62vw, 40rem);
     --landing-project-preview-tablet-card-gap: clamp(1.5rem, 4svh, 2.75rem);
     display: flex;
     gap: 0;
@@ -92,20 +94,22 @@
   .landing-project-preview-rule {
     display: block;
     order: 0;
+    justify-self: start;
     width: clamp(2.6rem, 4vw, 3.25rem);
     height: 0.18rem;
     margin: 0;
   }
 
   .landing-project-preview-title {
-    display: block;
-    max-width: 100%;
-  }
-
-  .landing-project-preview-title {
     order: 1;
+    justify-self: stretch;
+    justify-content: flex-start;
     width: 100%;
+    max-width: 100%;
     margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.24em;
     color: var(--project-preview-navy);
     font-family: var(--site-font-display);
     font-size: clamp(2.25rem, 3.95vw, 2.9rem);
@@ -113,12 +117,25 @@
     line-height: 1.03;
     letter-spacing: 0;
     text-align: left;
+    white-space: nowrap;
+  }
+
+  .landing-project-preview-title-mask {
+    flex: 0 1 auto;
+    width: auto;
+    min-width: 0;
+  }
+
+  .landing-project-preview-title-typed {
+    max-width: none;
   }
 
   .landing-project-preview-brief {
     display: block;
     order: 2;
-    width: min(100%, 31ch);
+    justify-self: stretch;
+    width: 100%;
+    max-width: none;
     margin: 0;
     color: rgba(7, 27, 53, 0.76);
     font-family: var(--site-font-sans);

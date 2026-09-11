@@ -1,4 +1,4 @@
-/* Compact-only, scroll-built solutions collage. Desktop keeps the final-flow treatment. */
+/* Compact-only, scroll-built solutions collage. Desktop uses a matching pinned rail. */
 .landing-mobile-solutions {
   display: none;
 }
@@ -282,8 +282,18 @@
   }
 
   .landing-compact-solutions-industries-track {
-    animation: landingFinalPartnerMarquee 48s linear infinite;
+    animation: landingCompactSolutionsIndustries 48s linear infinite;
     will-change: transform;
+  }
+
+  @keyframes landingCompactSolutionsIndustries {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
   }
 
   .landing-compact-solutions-industries-set {

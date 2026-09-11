@@ -39,5 +39,6 @@ export default {
   rejectedCss: true,
   safelist: {
     standard: dynamicRuntimeClasses,
+    keyframes: ['landingCompactSolutionsIndustries'],
   },
 };
