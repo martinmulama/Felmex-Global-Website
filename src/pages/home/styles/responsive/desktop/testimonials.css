@@ -5,7 +5,8 @@
 @media (min-width: 1025px) {
   .landing-testimonials {
     --testimonial-desktop-header-height: clamp(22rem, 28vw, 28rem);
-    --testimonial-desktop-tile-offset: clamp(4rem, 5vw, 5.75rem);
+    --testimonial-desktop-tile-offset: clamp(2.5rem, 3vw, 3rem);
+    --testimonial-desktop-bottom-inset: clamp(2.5rem, 3vw, 3.75rem);
     --testimonial-desktop-title-top: calc(
       clamp(3rem, 4.8vw, 5.5rem) + 2px + clamp(1.35rem, 2vw, 1.85rem) +
         clamp(1rem, 1.3vw, 1.2rem)
@@ -28,6 +29,7 @@
     min-height: clamp(58rem, 64vw, 72rem);
     margin-inline: auto;
     display: grid;
+    align-content: start;
     grid-template-columns: minmax(21rem, 0.7fr) minmax(0, 1fr);
     background: transparent;
   }
@@ -37,9 +39,10 @@
     z-index: 3;
     min-width: 0;
     display: grid;
-    align-content: start;
+    align-content: end;
     justify-items: start;
     padding: var(--testimonial-desktop-title-top) 0 0;
+    padding-bottom: var(--testimonial-desktop-bottom-inset);
     background: transparent;
   }
 
@@ -184,11 +187,12 @@
   }
 
   .landing-testimonials-desktop-quotes {
-    --testimonial-desktop-quote-gutter: clamp(1.8rem, 3.5vw, 3.75rem);
     min-width: 0;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: var(--testimonial-desktop-tile-offset) clamp(2rem, 3vw, 3rem) clamp(2.5rem, 3vw, 3.75rem);
+    grid-template-columns: minmax(0, 1fr);
+    align-content: space-between;
+    gap: clamp(2rem, 2.5vw, 2.5rem);
+    padding: var(--testimonial-desktop-tile-offset) clamp(2rem, 3vw, 3rem) var(--testimonial-desktop-bottom-inset);
     background: transparent;
   }
 
@@ -202,12 +206,12 @@
     height: auto;
     min-height: 0;
     margin: 0;
-    padding: 0 var(--testimonial-desktop-quote-gutter);
+    padding: 0;
     display: grid;
     grid-column: auto;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: clamp(7rem, 8.6vw, 9rem) minmax(0, 1fr);
     align-content: start;
-    gap: 0;
+    gap: clamp(1.5rem, 2.4vw, 2.75rem);
     overflow: visible;
     border: 0;
     border-radius: 0;
@@ -215,38 +219,37 @@
     box-shadow: none;
   }
 
-  .landing-testimonials-desktop .landing-testimonial-panel:first-child {
-    padding-left: 0;
+  .landing-testimonial-logo {
+    align-self: stretch;
+    display: grid;
+    place-items: center;
+    min-height: clamp(8rem, 8.5vw, 8.75rem);
+    padding: 0 8%;
+    overflow: hidden;
+    background: var(--testimonial-red);
+    clip-path: polygon(28% 0, 100% 0, 72% 100%, 0 100%);
   }
 
-  .landing-testimonials-desktop .landing-testimonial-panel:last-child {
-    padding-right: 0;
+  .landing-testimonial-logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
   }
 
-  .landing-testimonials-desktop .landing-testimonial-panel:not(:last-child) {
-    border-right: 0;
+  .landing-testimonials-desktop .landing-testimonial-logo {
+    padding: 0;
   }
 
-  /* Anchor the separator midway between the two quote blocks, rather than at
-     the edge of the first grid track. */
-  .landing-testimonials-desktop .landing-testimonial-panel:first-child::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: var(--testimonial-desktop-quote-gutter);
-    bottom: 0;
-    width: 1px;
-    background: rgba(255, 255, 255, 0.24);
-  }
-
-  .landing-testimonials-desktop .landing-testimonial-index {
-    position: static;
-    justify-self: start;
-    margin: 0 0 clamp(1.7rem, 2.8vw, 2.8rem);
+  .landing-testimonials-desktop .landing-testimonial-logo img {
+    width: clamp(3.25rem, 3.7vw, 3.75rem);
+    height: auto;
   }
 
   .landing-testimonials-desktop .landing-testimonial-detail {
     order: initial;
+    align-self: end;
     height: auto;
     min-height: 0;
     align-content: start;
@@ -256,7 +259,7 @@
 
   .landing-testimonials-desktop .landing-testimonial-quote,
   .landing-testimonials-desktop .landing-testimonial-panel:not(.is-active) .landing-testimonial-quote {
-    max-width: 17ch;
+    max-width: 31ch;
   }
 
   .landing-testimonials-desktop .landing-testimonial-rule {

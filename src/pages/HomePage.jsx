@@ -2284,20 +2284,17 @@ export function HomePage() {
               role="list"
               aria-label="Client testimonials"
             >
-              {CLIENT_QUOTES.slice(0, 2).map((quote, index) => (
+              {CLIENT_QUOTES.slice(0, 2).map((quote) => (
                 <article
                   key={quote.company}
                   className={`landing-testimonial-panel scroll-section ${quote.tone}`}
                   role="listitem"
                 >
-                  <span className="landing-testimonial-index" aria-hidden="true">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
+                  <div className="landing-testimonial-logo">
+                    <img src={quote.logo} alt={quote.logoAlt} loading="lazy" decoding="async" />
+                  </div>
 
                   <div className="landing-testimonial-detail">
-                    <span className="landing-testimonial-mark" aria-hidden="true">
-                      &ldquo;
-                    </span>
                     <blockquote className="landing-testimonial-quote">
                       <span className="landing-testimonial-quote-punctuation">&ldquo;</span>
                       {quote.quote}
@@ -2365,20 +2362,17 @@ export function HomePage() {
                 role="list"
                 aria-label="Client testimonials"
               >
-                {CLIENT_QUOTES.slice(0, 2).map((quote, index) => (
+                {CLIENT_QUOTES.slice(0, 2).map((quote) => (
                   <article
                     key={quote.company}
                     className={`landing-testimonial-panel scroll-section ${quote.tone}`}
                     role="listitem"
                   >
-                    <span className="landing-testimonial-index" aria-hidden="true">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
+                    <div className="landing-testimonial-logo">
+                      <img src={quote.logo} alt={quote.logoAlt} loading="lazy" decoding="async" />
+                    </div>
 
                     <div className="landing-testimonial-detail">
-                      <span className="landing-testimonial-mark" aria-hidden="true">
-                        &ldquo;
-                      </span>
                       <blockquote className="landing-testimonial-quote">
                         <span className="landing-testimonial-quote-punctuation">&ldquo;</span>
                         {quote.quote}
@@ -2391,16 +2385,6 @@ export function HomePage() {
                       </div>
                     </div>
 
-                    <figure className="landing-testimonial-visual">
-                      <img
-                        className="landing-testimonial-photo"
-                        src={quote.image}
-                        alt=""
-                        aria-hidden="true"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </figure>
                   </article>
                 ))}
               </div>
