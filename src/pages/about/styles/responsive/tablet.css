@@ -26,7 +26,8 @@
   .abt-curtain-nav,
   .abt-story-section,
   .abt-values-section,
-  .abt-curtain-stage > .why-choose-felmex--split {
+  .abt-curtain-stage > .why-choose-felmex--split,
+  .abt-desktop-legacy-flow > .why-choose-felmex--split {
     display: none;
   }
 
