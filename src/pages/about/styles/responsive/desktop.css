@@ -1043,6 +1043,57 @@
     pointer-events: none;
   }
 
+  .abt-desktop-hero-stats {
+    position: absolute;
+    top: min(
+      calc(2rem + var(--abt-desktop-hero-collage-height) + 2.5rem),
+      calc(100% - 5.75rem)
+    );
+    left: 50%;
+    z-index: 3;
+    display: grid;
+    width: min(42rem, 46vw);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid rgba(255, 255, 255, 0.52);
+    transform: translateX(-50%);
+  }
+
+  .abt-desktop-hero-stats article {
+    display: grid;
+    gap: 0.45rem;
+    min-width: 0;
+    padding: 0.9rem clamp(0.7rem, 1.3vw, 1.2rem) 0;
+    text-align: center;
+  }
+
+  .abt-desktop-hero-stats article + article {
+    border-left: 1px solid rgba(255, 255, 255, 0.28);
+  }
+
+  .abt-desktop-hero-stats strong,
+  .abt-desktop-hero-stats span {
+    display: block;
+    margin: 0;
+    font-family: var(--site-font-display);
+  }
+
+  .abt-desktop-hero-stats strong {
+    color: #ffffff;
+    font-size: clamp(1.55rem, 2.15vw, 2.15rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+  }
+
+  .abt-desktop-hero-stats span {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: clamp(0.6rem, 0.75vw, 0.72rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
   .abt-desktop-scroll-visual--about .abt-desktop-hero-photo--warehouse {
     left: 53.5%;
     right: auto;

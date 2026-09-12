@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CHAPTERS = [
+export const ABOUT_FLOW_CHAPTERS = [
   { id: 'who', label: 'Who We Are', statements: [
     ['Who We Are', 'We are a global multimodal logistics partner built to simplify complex movement across air, sea, road, and rail. Our work combines disciplined coordination with practical execution so cargo keeps moving without unnecessary friction.'],
     ['How We Work', 'Every shipment is managed through clear handoffs, transparent communication, and reliable follow-through. We align sourcing, forwarding, customs, warehousing, and delivery so each stage supports the next with less delay and less guesswork.'],
@@ -37,7 +37,7 @@ function PinnedCard({ why = false, target = false }) {
   </div>;
 }
 
-export function DesktopAboutFlow() {
+export function DesktopAboutFlow({ stats = [] }) {
   const root = useRef(null);
   useLayoutEffect(() => {
     const flow = root.current;
@@ -57,6 +57,7 @@ export function DesktopAboutFlow() {
       const why = flow.querySelector('.abt-pinned-card--why');
       const aboutLayer = flow.querySelector('.abt-desktop-about-visual-layer');
       const whyLayer = flow.querySelector('.abt-desktop-why-visual-layer');
+      const heroStats = flow.querySelector('.abt-desktop-hero-stats');
       const track = flow.querySelector('.abt-desktop-reading-track');
       const chapters = [...track.children];
       const nav = flow.querySelector('.abt-desktop-scroll-nav');
@@ -80,7 +81,7 @@ export function DesktopAboutFlow() {
         const progress = timeline?.scrollTrigger?.progress ?? 0;
         timeline?.scrollTrigger?.kill();
         timeline?.kill();
-        gsap.set([photo, back, note, clip, noteCopy, noteTitle, noteRule, target.querySelector('.abt-pinned-card-clip'), ...team, track, nav, why, collage, aboutLayer, whyLayer], { clearProps: 'all' });
+        gsap.set([photo, back, note, clip, noteCopy, noteTitle, noteRule, target.querySelector('.abt-pinned-card-clip'), ...team, track, nav, why, collage, aboutLayer, whyLayer, heroStats], { clearProps: 'all' });
         const h = stage.clientHeight;
         const entry = h * 0.8;
         const hold = h * 0.3;
@@ -129,6 +130,7 @@ export function DesktopAboutFlow() {
           .to([noteCopy, noteRule], { clipPath: 'inset(0 0 100% 0)', duration: entry * 0.2 }, 0)
           .to(noteTitle, { clipPath: 'inset(0% 0 0 0)', duration: entry * 0.25 }, entry * 0.75)
           .to(team, { y: -h, duration: entry * 0.7 }, 0)
+          .to(heroStats, { y: -h, duration: entry * 0.7 }, 0)
           .to(track, { y: 0, duration: entry * 0.6 }, entry * 0.4)
           .to(nav, { y: 0, duration: entry * 0.4 }, entry * 0.6)
           .to(target.querySelector('.abt-pinned-card-clip'), { y: 0, duration: entry * 0.25 }, entry * 0.75)
@@ -185,16 +187,22 @@ export function DesktopAboutFlow() {
           <h2>About Us</h2>
         </aside>
       </div>
+      <div className="abt-desktop-hero-stats" aria-label="Felmex in numbers">
+        {stats.map((stat) => <article key={stat.label}>
+          <strong>{stat.value}</strong>
+          <span>{stat.label}</span>
+        </article>)}
+      </div>
       <PinnedCard target />
       </div>
       <div className="abt-desktop-why-visual-layer"><PinnedCard why /></div>
       <div className="abt-desktop-reading-track">
-        {CHAPTERS.map(chapter => <section className="abt-desktop-reading-chapter" id={`abt-desktop-${chapter.id}`} key={chapter.id} aria-label={chapter.label}>
+        {ABOUT_FLOW_CHAPTERS.map(chapter => <section className="abt-desktop-reading-chapter" id={`abt-desktop-${chapter.id}`} key={chapter.id} aria-label={chapter.label}>
           {chapter.statements.map(([label, copy]) => <article className="abt-desktop-scroll-statement" key={label}><p>{label}</p><div>{copy}</div></article>)}
         </section>)}
       </div>
       <nav className="abt-desktop-scroll-nav" aria-label="About overview sections">
-        {CHAPTERS.map(chapter => <a href={`#abt-desktop-${chapter.id}`} key={chapter.id}>{chapter.label}</a>)}
+        {ABOUT_FLOW_CHAPTERS.map(chapter => <a href={`#abt-desktop-${chapter.id}`} key={chapter.id}>{chapter.label}</a>)}
       </nav>
     </div>
   </section>;

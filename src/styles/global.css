@@ -1019,18 +1019,18 @@ a {
 
 @media (max-width: 960px) {
   :root {
-    --site-header-clearance: clamp(5.35rem, 20vw, 6.35rem);
-    --site-nav-height: clamp(5.35rem, 20vw, 6.35rem);
-    --site-nav-action-width: clamp(7.45rem, 23vw, 8.3rem);
-    --site-nav-action-height: clamp(2.65rem, 8.6vw, 3rem);
+    --site-header-clearance: clamp(4.25rem, 16vw, 5rem);
+    --site-nav-height: clamp(4.25rem, 16vw, 5rem);
+    --site-nav-action-width: clamp(7rem, 21vw, 8rem);
+    --site-nav-action-height: clamp(2.35rem, 7.4vw, 2.75rem);
     --site-mobile-menu-edge: clamp(1.45rem, 6.8vw, 3rem);
   }
 
   .site-header,
   .site-header.is-interior-page {
-    --site-nav-height: clamp(5.35rem, 20vw, 6.35rem);
-    --site-nav-action-width: clamp(7.45rem, 23vw, 8.3rem);
-    --site-nav-action-height: clamp(2.65rem, 8.6vw, 3rem);
+    --site-nav-height: clamp(4.25rem, 16vw, 5rem);
+    --site-nav-action-width: clamp(7rem, 21vw, 8rem);
+    --site-nav-action-height: clamp(2.35rem, 7.4vw, 2.75rem);
     border-bottom-color: rgba(16, 23, 42, 0.08);
     background: #ffffff;
     box-shadow: none;

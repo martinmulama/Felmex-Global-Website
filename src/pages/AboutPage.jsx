@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { DesktopAboutFlow } from './about/DesktopAboutFlow';
+import { CompactAboutFlow } from './about/CompactAboutFlow';
 import { SplitPanelPreloader } from '../components/preloader/SplitPanelPreloader';
 import './AboutPage.css';
 import { WhyChooseFelmex } from '../components/why-choose/WhyChooseFelmex';
@@ -109,9 +110,9 @@ const MOBILE_ABOUT_TABS = [
 
 const CORE_VALUES = ['Integrity', 'Reliability', 'Excellence', 'Collaboration'];
 const ABOUT_STATS = [
-  { value: '12+', label: 'Years Operating' },
-  { value: '150+', label: 'Satisfied Clients' },
-  { value: '1,500+', label: 'Shipments Delivered' },
+  { value: '12+', count: 12, label: 'Years Operating' },
+  { value: '150+', count: 150, label: 'Satisfied Clients' },
+  { value: '1,500+', count: 1500, label: 'Shipments Delivered' },
 ];
 const PARTNER_REVEAL_PATTERNS = [
   'vertical-up',
@@ -444,6 +445,7 @@ export function AboutPage() {
     >
       <SplitPanelPreloader isAppLoaded={isAppLoaded} />
       <section className="abt-mobile-reference" aria-label="About Felmex mobile overview">
+        <CompactAboutFlow isLoaded={isAppLoaded} stats={ABOUT_STATS} />
         <section className="abt-mobile-hero" aria-label="About introduction">
           <p className="abt-mobile-hero-kicker">About Felmex</p>
           <h1 className="abt-mobile-title">
@@ -812,7 +814,7 @@ export function AboutPage() {
                 </div>
               </section>
             </div>
-            {isDesktop ? <DesktopAboutFlow /> : <section className="abt-desktop-scroll-flow" aria-label="About Felmex overview">
+            {isDesktop ? <DesktopAboutFlow stats={ABOUT_STATS} /> : <section className="abt-desktop-scroll-flow" aria-label="About Felmex overview">
               <div className="abt-desktop-pinned-stage">
                 <div className="abt-desktop-scroll-visual abt-desktop-scroll-visual--about" aria-hidden="true">
                   <span className="abt-desktop-hero-card-back abt-desktop-hero-card-back--team" />

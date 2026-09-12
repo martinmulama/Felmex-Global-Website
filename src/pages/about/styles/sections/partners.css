@@ -160,6 +160,15 @@
   filter: invert(1) grayscale(1) brightness(2.65) contrast(1.18);
 }
 
+@media (max-width: 1024px) {
+  .abt-mobile-partner-grid .abt-partner-reveal > img,
+  .abt-partners-grid .abt-partner-reveal > img {
+    clip-path: none;
+    transition: none;
+    will-change: auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .abt-partner-reveal > img {
     transition: none;
