@@ -154,16 +154,42 @@ export function DesktopAboutFlow({ stats = [] }) {
         history.replaceState(null, '', link.hash);
       };
       nav.addEventListener('click', navigate);
-      let size = `${stage.clientWidth}:${stage.clientHeight}`;
-      const observer = new ResizeObserver(() => {
-        const next = `${stage.clientWidth}:${stage.clientHeight}`;
-        if(next !== size) { size = next; context.rebuild(); ScrollTrigger.refresh(); }
-      });
-      observer.observe(stage);
+      // ScrollTrigger replaces the stage with a pin spacer. A ResizeObserver on
+      // the stage therefore sees the pin itself as a layout change and can keep
+      // rebuilding the trigger at a zoom-dependent scroll position. Rebuild from
+      // actual viewport changes instead, including Chrome desktop zoom events.
+      const viewportKey = () => {
+        const viewport = window.visualViewport;
+        return [
+          window.innerWidth,
+          window.innerHeight,
+          viewport?.width ?? 0,
+          viewport?.height ?? 0,
+          viewport?.scale ?? 1,
+        ].map((value) => Math.round(value * 100) / 100).join(':');
+      };
+      let viewportSize = viewportKey();
+      let resizeFrame;
+      const rebuildForViewport = () => {
+        const next = viewportKey();
+        if (next === viewportSize) return;
+
+        viewportSize = next;
+        cancelAnimationFrame(resizeFrame);
+        resizeFrame = requestAnimationFrame(() => {
+          context.rebuild();
+          ScrollTrigger.refresh();
+        });
+      };
+
+      window.addEventListener('resize', rebuildForViewport, { passive: true });
+      window.visualViewport?.addEventListener('resize', rebuildForViewport, { passive: true });
       document.fonts.ready.then(() => { if(!disposed) { context.rebuild(); ScrollTrigger.refresh(); } });
       return () => {
         disposed = true;
-        observer.disconnect();
+        cancelAnimationFrame(resizeFrame);
+        window.removeEventListener('resize', rebuildForViewport);
+        window.visualViewport?.removeEventListener('resize', rebuildForViewport);
         nav.removeEventListener('click', navigate);
         timeline?.scrollTrigger?.kill();
         timeline?.kill();
