@@ -1300,14 +1300,38 @@
 }
 
 @media (min-width: 1025px) and (prefers-reduced-motion: reduce) {
-  .abt-desktop-pinned-stage { height: auto; overflow: visible; }
+  .abt-desktop-pinned-stage {
+    height: auto;
+    overflow: visible;
+    background: #ffffff;
+  }
   .abt-desktop-scroll-flow::before { display: none; }
   .abt-desktop-about-visual-layer { position: relative; }
   .abt-desktop-scroll-visual--about { position: relative; }
+  .abt-desktop-why-visual-layer,
+  .abt-desktop-scroll-nav { display: none; }
+  .abt-desktop-hero-stats {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: min(42rem, 46vw);
+    margin: clamp(3rem, 5vw, 4.5rem) auto;
+    border-top-color: rgba(7, 27, 53, 0.32);
+    transform: none;
+  }
+  .abt-desktop-hero-stats article + article {
+    border-left-color: rgba(7, 27, 53, 0.2);
+  }
+  .abt-desktop-hero-stats strong { color: var(--abt-ink); }
+  .abt-desktop-hero-stats span { color: rgba(7, 27, 53, 0.68); }
   .abt-desktop-reading-track {
     position: relative;
     top: auto;
-    margin-top: 6rem;
+    left: auto;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 0;
+    padding: clamp(5rem, 9vw, 8rem) 31.5% clamp(6rem, 10vw, 9rem);
+    background: var(--abt-blue);
   }
-  .abt-desktop-scroll-nav { top: calc(var(--abt-desktop-hero-collage-height) + 6rem); }
 }

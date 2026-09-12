@@ -585,6 +585,33 @@
   }
 }
 
+@media (min-width: 400px) and (max-width: 767.98px) {
+  .abt-compact-source-note {
+    /* Prevent the wider mobile hero title canvas from masking the source note. */
+    top: 16%;
+  }
+
+  .abt-compact-source-paperclip {
+    top: -1.1rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .abt-compact-flow {
+    /* Reserve space for the note that intentionally projects beyond the photo. */
+    --abt-compact-card-gap: clamp(3rem, 6vw, 3.75rem);
+  }
+
+  .abt-compact-source-note {
+    /* Keep the initial note below the white hero canvas before the scrub starts. */
+    top: 16%;
+  }
+
+  .abt-compact-source-paperclip {
+    top: -1.1rem;
+  }
+}
+
 @media (max-width: 1024px) and (prefers-reduced-motion: reduce) {
   .abt-compact-flow-hero .abt-compact-hero-reveal {
     transform: none;
@@ -599,23 +626,25 @@
     height: auto;
     min-height: 0;
     margin-top: 0;
-    padding: calc(var(--abt-compact-collage-start) + var(--abt-compact-collage-height) + 4rem)
-      var(--abt-compact-gutter)
-      4.5rem;
+    padding: 0 var(--abt-compact-gutter) 0;
+    background: #ffffff;
   }
 
-  .abt-compact-about-visual-layer,
+  .abt-compact-stage-canvas,
   .abt-compact-why-visual-layer {
+    display: none;
+  }
+
+  .abt-compact-about-visual-layer {
     position: relative;
-    height: var(--abt-compact-card-height);
+    height: calc(var(--abt-compact-collage-start) + var(--abt-compact-collage-height));
   }
 
   .abt-compact-source {
     top: var(--abt-compact-collage-start);
   }
 
-  .abt-compact-pinned-card--target,
-  .abt-compact-pinned-card--why {
+  .abt-compact-pinned-card--target {
     visibility: hidden;
   }
 
@@ -623,13 +652,20 @@
     position: relative;
     top: auto;
     right: auto;
-    left: calc(var(--abt-compact-card-width) + var(--abt-compact-card-gap));
-    width: calc(100% - var(--abt-compact-card-width) - var(--abt-compact-card-gap));
+    left: auto;
+    width: auto;
+    margin: 0 calc(-1 * var(--abt-compact-gutter));
+    padding: clamp(3.5rem, 9vw, 5.5rem)
+      max(var(--abt-compact-gutter), calc((100% - 42rem) / 2))
+      clamp(4.5rem, 10vw, 6.5rem);
+    background: var(--abt-blue);
   }
 
   .abt-compact-hero-stats {
     position: relative;
     top: auto;
-    margin: 0 var(--abt-compact-gutter) 2rem;
+    right: auto;
+    left: auto;
+    margin: 0 0 clamp(2.5rem, 6vw, 4rem);
   }
 }
