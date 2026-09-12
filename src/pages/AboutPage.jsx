@@ -1,9 +1,12 @@
-import { useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { DesktopAboutFlow } from './about/DesktopAboutFlow';
+import { CompactAboutFlow } from './about/CompactAboutFlow';
 import { SplitPanelPreloader } from '../components/preloader/SplitPanelPreloader';
 import './AboutPage.css';
 import { WhyChooseFelmex } from '../components/why-choose/WhyChooseFelmex';
 import { ScrollSectionTitle } from '../components/scroll-reveal/ScrollSectionTitle';
 import { useSplitPanelPreloader } from '../hooks/useSplitPanelPreloader';
+
 
 const ABOUT_BRIEFS = [
   {
@@ -107,9 +110,9 @@ const MOBILE_ABOUT_TABS = [
 
 const CORE_VALUES = ['Integrity', 'Reliability', 'Excellence', 'Collaboration'];
 const ABOUT_STATS = [
-  { value: '12+', label: 'Years Operating' },
-  { value: '150+', label: 'Satisfied Clients' },
-  { value: '1,500+', label: 'Shipments Delivered' },
+  { value: '12+', count: 12, label: 'Years Operating' },
+  { value: '150+', count: 150, label: 'Satisfied Clients' },
+  { value: '1,500+', count: 1500, label: 'Shipments Delivered' },
 ];
 const PARTNER_REVEAL_PATTERNS = [
   'vertical-up',
@@ -123,6 +126,46 @@ const PARTNER_REVEAL_PATTERNS = [
   'vertical-up',
   'horizontal-right',
 ];
+
+const DESKTOP_ABOUT_STATEMENTS = [
+  {
+    label: 'Who We Are',
+    copy:
+      'We are a global multimodal logistics partner built to simplify complex movement across air, sea, road, and rail. Our work combines disciplined coordination with practical execution so cargo keeps moving without unnecessary friction.',
+  },
+  {
+    label: 'How We Work',
+    copy:
+      'Every shipment is managed through clear handoffs, transparent communication, and reliable follow-through. We align sourcing, forwarding, customs, warehousing, and delivery so each stage supports the next with less delay and less guesswork.',
+  },
+  {
+    label: 'What We Value',
+    copy:
+      'We believe operational clarity matters as much as speed. Accountability, visibility, and consistency guide the way we plan, communicate, and solve problems for clients navigating demanding supply chains.',
+  },
+  {
+    label: 'Our Commitment',
+    copy:
+      'From first coordination to final delivery, we focus on keeping businesses informed, supported, and ready for growth. Our role is to make logistics feel structured, dependable, and easier to trust.',
+  },
+];
+
+const DESKTOP_WHY_CHOOSE_STATEMENTS = [
+  {
+    label: 'Transparent Communication',
+    copy: 'Clear updates and complete visibility from origin to destination.',
+  },
+  {
+    label: 'Global Reach',
+    copy: 'Integrated logistics across air, sea, road, and rail.',
+  },
+  {
+    label: 'Reliable Delivery',
+    copy: 'Every shipment handled with precision and accountability.',
+  },
+];
+
+const DESKTOP_ABOUT_NAV = ['Who We Are', 'Our Story', 'Our Mission'];
 
 const PARTNER_LOGOS = [
   {
@@ -312,6 +355,7 @@ export function AboutPage() {
   const [mobileSlideDirection, setMobileSlideDirection] = useState(1);
   const mobileSwipeStartRef = useRef(null);
   const mobilePendingTabIndexRef = useRef(null);
+  const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 1025px)').matches);
   const activeBriefIndex = Math.max(
     ABOUT_BRIEFS.findIndex((brief) => brief.id === activeBriefId),
     0
@@ -386,6 +430,13 @@ export function AboutPage() {
     changeMobileTab(deltaX < 0 ? 1 : -1);
   };
 
+  useLayoutEffect(() => {
+    const media = window.matchMedia('(min-width: 1025px)');
+    const update = () => setIsDesktop(media.matches);
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+
   return (
     <section
       className={`abt-page${isAppLoaded ? ' is-loaded' : ''}`}
@@ -394,6 +445,7 @@ export function AboutPage() {
     >
       <SplitPanelPreloader isAppLoaded={isAppLoaded} />
       <section className="abt-mobile-reference" aria-label="About Felmex mobile overview">
+        <CompactAboutFlow isLoaded={isAppLoaded} stats={ABOUT_STATS} />
         <section className="abt-mobile-hero" aria-label="About introduction">
           <p className="abt-mobile-hero-kicker">About Felmex</p>
           <h1 className="abt-mobile-title">
@@ -762,6 +814,107 @@ export function AboutPage() {
                 </div>
               </section>
             </div>
+            {isDesktop ? <DesktopAboutFlow stats={ABOUT_STATS} /> : <section className="abt-desktop-scroll-flow" aria-label="About Felmex overview">
+              <div className="abt-desktop-pinned-stage">
+                <div className="abt-desktop-scroll-visual abt-desktop-scroll-visual--about" aria-hidden="true">
+                  <span className="abt-desktop-hero-card-back abt-desktop-hero-card-back--team" />
+                  <figure className="abt-desktop-hero-photo abt-desktop-hero-photo--team">
+                    <img src="/overview/team.png" alt="" width="1190" height="1322" decoding="async" />
+                  </figure>
+                  <span className="abt-desktop-hero-card-back abt-desktop-hero-card-back--warehouse" />
+                  <figure className="abt-desktop-hero-photo abt-desktop-hero-photo--warehouse">
+                    <img
+                      src="/overview/felmex-container-lift.png"
+                      alt=""
+                      width="1314"
+                      height="1197"
+                      decoding="async"
+                    />
+                  </figure>
+                  <aside className="abt-desktop-hero-note">
+                    <img
+                      className="abt-desktop-hero-paperclip"
+                      src="/service-catalog-paperclip.png"
+                      alt=""
+                      width="1254"
+                      height="1254"
+                      decoding="async"
+                    />
+                    <p>
+                      <span>{activeBrief.label}</span>
+                      {activeBrief.copy}
+                    </p>
+                    <span aria-hidden="true" />
+                  </aside>
+                </div>
+
+                <div className="abt-desktop-scroll-content abt-desktop-scroll-content--about">
+                  {DESKTOP_ABOUT_STATEMENTS.map((statement, index) => (
+                    <article
+                      className="abt-desktop-scroll-statement"
+                      id={`abt-desktop-statement-${index}`}
+                      key={statement.label}
+                    >
+                      <p>{statement.label}</p>
+                      <span aria-hidden="true" />
+                      <div>{statement.copy}</div>
+                    </article>
+                  ))}
+                </div>
+
+                <nav className="abt-desktop-scroll-nav" aria-label="About overview sections">
+                  {DESKTOP_ABOUT_NAV.map((label, index) => (
+                    <a href={`#abt-desktop-statement-${index}`} key={label}>
+                      {label}
+                    </a>
+                  ))}
+                </nav>
+
+                <div className="abt-desktop-scroll-visual abt-desktop-scroll-visual--why" aria-hidden="true">
+                  <span className="abt-desktop-why-card-back" />
+                  <figure className="abt-desktop-why-photo">
+                    <img
+                      src="/about-our-story-people.png"
+                      alt=""
+                      width="1774"
+                      height="887"
+                      decoding="async"
+                    />
+                  </figure>
+                  <aside className="abt-desktop-why-note">
+                    <img
+                      className="abt-desktop-why-paperclip"
+                      src="/service-catalog-paperclip.png"
+                      alt=""
+                      width="1254"
+                      height="1254"
+                      decoding="async"
+                    />
+                    <p>
+                      <span>Why Choose Felmex</span>
+                      Clear communication, global reach, and reliable delivery at every handoff.
+                    </p>
+                    <span aria-hidden="true" />
+                  </aside>
+                </div>
+
+                <div className="abt-desktop-scroll-content abt-desktop-scroll-content--why">
+                  <p className="abt-desktop-scroll-kicker">Why Choose Felmex</p>
+                  <h2>Reliable movement, built around your business.</h2>
+                  <div className="abt-desktop-why-statement-list">
+                    {DESKTOP_WHY_CHOOSE_STATEMENTS.map((statement) => (
+                      <article className="abt-desktop-scroll-statement" key={statement.label}>
+                        <p>{statement.label}</p>
+                        <span aria-hidden="true" />
+                        <div>{statement.copy}</div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+            }
+            <div className="abt-desktop-legacy-flow">
             <section className="abt-desktop-stats-strip" aria-labelledby="abt-stats-title">
               <div className="abt-desktop-stats-strip-inner">
                 <header className="abt-desktop-stats-intro">
@@ -896,6 +1049,7 @@ export function AboutPage() {
               </figure>
             </section>
             <WhyChooseFelmex />
+            </div>
             <section className="abt-partners-section scroll-section" aria-labelledby="abt-partners-title">
               <div className="abt-partners-header">
                 <p className="abt-partners-kicker">Our Partners</p>

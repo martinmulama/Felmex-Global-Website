@@ -9,24 +9,23 @@
     font-family: var(--site-font-display);
   }
 
-  .abt-mobile-reference
-    > :not(.abt-mobile-hero):not(.abt-mobile-hero-collage):not(.abt-mobile-stats-strip):not(.abt-mobile-brand-story):not(.abt-mobile-tabs):not(.abt-mobile-why-choose) {
+  .abt-mobile-reference > :not(.abt-compact-flow) {
     display: none;
   }
 
-  .abt-hero {
-    display: none;
-  }
+  .abt-hero { display: none; }
 
-  .abt-curtain-section {
-    margin-top: 0;
-  }
+  .abt-curtain-section { margin-top: 0; }
 
+  .abt-curtain-canvas,
   .abt-curtain-scene,
   .abt-curtain-nav,
+  .abt-curtain-stage > .abt-desktop-scroll-flow,
+  .abt-desktop-legacy-flow,
   .abt-story-section,
   .abt-values-section,
-  .abt-curtain-stage > .why-choose-felmex--split {
+  .abt-curtain-stage > .why-choose-felmex--split,
+  .abt-desktop-legacy-flow > .why-choose-felmex--split {
     display: none;
   }
 
