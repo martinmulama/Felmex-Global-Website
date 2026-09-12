@@ -6,7 +6,9 @@ export const CLIENT_QUOTES = [
     image: '/testimonials/testimonial-test-2.webp',
     quote: 'Reliable status updates keep our import desk moving.',
     role: 'Procurement Lead',
-    company: 'Industrial Importer',
+    company: 'Varelon Industrial',
+    logo: '/testimonials/varelon-industrial.svg',
+    logoAlt: 'Varelon Industrial',
     tone: 'is-sky',
   },
   {
@@ -16,7 +18,9 @@ export const CLIENT_QUOTES = [
     image: '/testimonials/testimonial-test-3.webp',
     quote: 'Felmex feels like an extension of our operations desk.',
     role: 'Operations Director',
-    company: 'Consumer Goods Network',
+    company: 'Lucera Collective',
+    logo: '/testimonials/lucera-collective.svg',
+    logoAlt: 'Lucera Collective',
     tone: 'is-amber',
   },
   {

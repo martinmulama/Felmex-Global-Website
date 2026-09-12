@@ -463,6 +463,67 @@
   }
 }
 
+/* Compact quote cards pair each testimonial with its client mark. */
+@media (max-width: 1024px) {
+  .landing-testimonials-compact .landing-testimonial-panel,
+  .landing-testimonials-compact .landing-testimonial-panel.is-active,
+  .landing-testimonials-compact .landing-testimonial-panel:nth-child(n) {
+    display: grid;
+    grid-template-columns: clamp(5.5rem, 23vw, 7.5rem) minmax(0, 1fr);
+    align-items: stretch;
+    gap: clamp(1.25rem, 5vw, 2rem);
+    padding: 0 0 clamp(2.5rem, 10vw, 3.6rem);
+  }
+
+  .landing-testimonials-compact .landing-testimonial-panel + .landing-testimonial-panel {
+    padding-top: clamp(2.5rem, 10vw, 3.6rem);
+  }
+
+  .landing-testimonials-compact .landing-testimonial-logo {
+    align-self: stretch;
+    min-height: clamp(9rem, 34vw, 10.5rem);
+    display: grid;
+    place-items: center;
+    padding: 0 8%;
+    overflow: hidden;
+    background: var(--testimonial-red);
+    clip-path: polygon(28% 0, 100% 0, 72% 100%, 0 100%);
+  }
+
+  .landing-testimonials-compact .landing-testimonial-logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+
+  .landing-testimonials-compact .landing-testimonial-detail {
+    min-height: clamp(9rem, 34vw, 10.5rem);
+    align-content: center;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .landing-testimonials-compact .landing-testimonial-panel,
+  .landing-testimonials-compact .landing-testimonial-panel.is-active,
+  .landing-testimonials-compact .landing-testimonial-panel:nth-child(n) {
+    grid-template-columns: clamp(8.5rem, 17vw, 10.5rem) minmax(0, 1fr);
+    gap: clamp(1.8rem, 4vw, 2.75rem);
+  }
+
+  .landing-testimonials-compact .landing-testimonial-logo,
+  .landing-testimonials-compact .landing-testimonial-detail {
+    min-height: clamp(10.5rem, 23vw, 12.5rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .landing-testimonials-bleed {
+    padding-top: calc(var(--testimonial-compact-photo-overlap) + clamp(2.75rem, 11vw, 3.5rem));
+  }
+}
+
 /* Match the mobile service catalogue heading: a red rule leads an aligned,
    left-justified title. Its smaller top inset removes the extra white pause
    before the testimonial section. */

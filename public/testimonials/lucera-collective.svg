@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title">
+  <title id="title">Lucera Collective</title>
+  <g fill="none" stroke="#fff" stroke-width="6">
+    <circle cx="80" cy="57" r="31"/>
+    <path d="M58 74 102 40M59 40l43 34"/>
+  </g>
+  <g fill="#fff">
+    <text x="80" y="124" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="800" letter-spacing="1.4">LUCERA</text>
+    <text x="80" y="142" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="700" letter-spacing="2.8">COLLECTIVE</text>
+  </g>
+</svg>
