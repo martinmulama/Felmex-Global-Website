@@ -2,29 +2,143 @@
   --home-preloader-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+body.is-home-loading {
+  overflow: hidden;
+}
+
+/* Page loops resume together when the loader hands control to the hero. */
+body.is-home-loading #root *,
+body.is-home-loading #root *::before,
+body.is-home-loading #root *::after {
+  animation-play-state: paused !important;
+}
+
 #preloader {
   position: fixed;
-  inset: 0;
-  z-index: 1000;
+  inset: 0 auto 0 0;
+  width: 100vw;
+  z-index: 10000;
   display: grid;
   place-items: center;
+  overflow: hidden;
   background: #ed1c24;
   color: #ffffff;
-  transform: translateX(0);
-  transition: transform 1.2s var(--home-preloader-ease);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+.home-preloader__grid {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(58vw, 48rem);
+  height: min(46svh, 25rem);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.8rem, 1.6vw, 1.45rem);
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  contain: layout paint;
+}
+
+.home-preloader__cell {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+.home-preloader__vehicle,
+.home-preloader__wordmark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
   will-change: transform;
 }
 
-#load-counter {
-  font-family: var(--site-font-display, 'Rajdhani', 'Segoe UI', Arial, sans-serif);
-  font-size: clamp(5rem, 17vw, 16rem);
-  font-weight: 800;
-  line-height: 0.8;
-  letter-spacing: -0.075em;
-  font-variant-numeric: tabular-nums;
+.home-preloader__wordmark {
+  transform: translate3d(-135%, 0, 0);
 }
 
-body.is-loaded #preloader {
-  pointer-events: none;
-  transform: translateX(100%);
+#preloader[data-phase='brand'] .home-preloader__grid,
+#preloader[data-phase='exit'] .home-preloader__grid {
+  display: none;
+}
+
+.home-preloader__filters {
+  position: absolute;
+}
+
+.home-preloader__silhouette {
+  display: block;
+  width: 86%;
+  height: 75%;
+  overflow: hidden;
+}
+
+.home-preloader__vehicle--plane .home-preloader__silhouette {
+  width: 78%;
+  height: 90%;
+}
+
+.home-preloader__vehicle--truck .home-preloader__silhouette {
+  width: 80%;
+  height: 75%;
+}
+
+.home-preloader__vehicle--ship .home-preloader__silhouette {
+  width: 80%;
+  height: 66%;
+}
+
+.home-preloader__wordmark svg {
+  display: block;
+  width: min(78vw, 38rem);
+  height: auto;
+  fill: #ffffff;
+}
+
+@media (max-width: 640px) {
+  .home-preloader__grid {
+    width: min(88vw, 27rem);
+    height: min(42svh, 21rem);
+    gap: clamp(0.65rem, 3.2vw, 1rem);
+  }
+
+  .home-preloader__silhouette {
+    width: 84%;
+    height: 72%;
+  }
+
+  .home-preloader__vehicle--plane .home-preloader__silhouette {
+    width: 76%;
+    height: 88%;
+  }
+
+  .home-preloader__vehicle--truck .home-preloader__silhouette {
+    width: 80%;
+    height: 72%;
+  }
+
+  .home-preloader__vehicle--ship .home-preloader__silhouette {
+    width: 78%;
+    height: 64%;
+  }
+
+  .home-preloader__wordmark svg {
+    width: min(82vw, 27rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #preloader,
+  .home-preloader__vehicle,
+  .home-preloader__wordmark {
+    will-change: auto;
+  }
 }

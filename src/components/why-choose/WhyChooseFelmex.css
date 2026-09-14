@@ -295,6 +295,24 @@ body.is-loaded
   transition-delay: 0.75s;
 }
 
+body.is-home-loading .why-choose-felmex--home-hero :is(
+  .why-choose-felmex__train-visual-reveal,
+  .why-choose-felmex__title-line-content,
+  .why-choose-felmex__hero-reveal-item
+) {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .why-choose-felmex--home-hero :is(
+    .why-choose-felmex__train-visual-reveal,
+    .why-choose-felmex__title-line-content,
+    .why-choose-felmex__hero-reveal-item
+  ) {
+    transition: none;
+  }
+}
+
 .why-choose-felmex__hero-subtext {
   width: 100%;
   max-width: var(--why-train-copy-max);

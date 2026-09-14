@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 const MINIMUM_VISIBLE_DURATION = 160;
+const WORDMARK_ENTRY_DURATION = 560;
 
 export function useSplitPanelPreloader() {
   const [isAppLoaded, setIsAppLoaded] = useState(false);
@@ -17,7 +18,13 @@ export function useSplitPanelPreloader() {
 
     const revealPreloader = () => {
       const elapsed = window.performance.now() - mountedAt;
-      const remainingVisibleTime = Math.max(0, MINIMUM_VISIBLE_DURATION - elapsed);
+      // The existing load boundary remains the trigger. On a warm cache, give
+      // the FELMEX mark time to reach centre before the page reveal begins.
+      const remainingVisibleTime = Math.max(
+        0,
+        MINIMUM_VISIBLE_DURATION - elapsed,
+        WORDMARK_ENTRY_DURATION - elapsed
+      );
 
       revealTimerId = window.setTimeout(() => {
         // Keep the closed curtain in a committed frame before changing its transform.
