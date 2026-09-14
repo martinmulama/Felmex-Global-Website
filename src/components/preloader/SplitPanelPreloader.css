@@ -1,40 +1,58 @@
 #split-preloader {
   position: fixed;
   z-index: 9999;
-  inset: 0;
+  inset: 0 auto 0 0;
+  width: 100vw;
+  display: grid;
+  place-items: center;
   overflow: hidden;
-}
-
-#split-preloader .panel-left,
-#split-preloader .panel-right {
-  position: fixed;
-  z-index: 9999;
-  top: 0;
-  width: 50%;
-  height: 100vh;
-  transform: translateX(0);
-  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #ed1c24;
+  color: #ffffff;
+  transform: translate3d(0, 0, 0);
+  transition: transform 1.05s cubic-bezier(0.76, 0, 0.24, 1);
   will-change: transform;
 }
 
-#split-preloader .panel-left {
-  left: 0;
-  background: #0b2240;
+.split-preloader__wordmark {
+  width: min(78vw, 38rem);
+  transform: translate3d(-135%, 0, 0);
+  animation: split-preloader-wordmark-enter 0.56s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform;
 }
 
-#split-preloader .panel-right {
-  right: 0;
-  background: #e31e24;
+.split-preloader__wordmark svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  fill: currentColor;
 }
 
 #split-preloader.is-loaded {
   pointer-events: none;
+  transform: translate3d(100%, 0, 0);
 }
 
-#split-preloader.is-loaded .panel-left {
-  transform: translateX(-100%);
+@keyframes split-preloader-wordmark-enter {
+  to {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-#split-preloader.is-loaded .panel-right {
-  transform: translateX(100%);
+@media (max-width: 640px) {
+  .split-preloader__wordmark {
+    width: min(82vw, 27rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #split-preloader {
+    transition-delay: 0s;
+    transition-duration: 1ms;
+    will-change: auto;
+  }
+
+  .split-preloader__wordmark {
+    animation-duration: 1ms;
+    will-change: auto;
+  }
 }

@@ -455,7 +455,8 @@ export function WhyChooseFelmex({
                     alt=""
                     width={segment.width}
                     height={segment.height}
-                    loading="lazy"
+                    loading="eager"
+                    data-preloader-critical
                     decoding="async"
                   />
                   <div className="why-choose-felmex__copy">

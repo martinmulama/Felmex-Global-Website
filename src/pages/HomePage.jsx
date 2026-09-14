@@ -845,6 +845,7 @@ function ServiceMobileIconStack({ icons }) {
 gsap.registerPlugin(ScrollTrigger);
 
 export function HomePage() {
+  const [isHomeRevealed, setIsHomeRevealed] = useState(false);
   const overviewRef = useRef(null);
   const servicesListRef = useRef(null);
   const projectPreviewTitleRef = useRef(null);
@@ -1723,7 +1724,7 @@ export function HomePage() {
   useEffect(() => {
     const title = projectPreviewTitleRef.current;
     const typedPhrase = title?.querySelector('.landing-project-preview-title-typed');
-    if (!typedPhrase || typeof window === 'undefined') return undefined;
+    if (!isHomeRevealed || !typedPhrase || typeof window === 'undefined') return undefined;
 
     let timeoutId = null;
     let phraseIndex = 0;
@@ -1826,12 +1827,12 @@ export function HomePage() {
       observer.disconnect();
       window.clearTimeout(timeoutId);
     };
-  }, [prefersReducedMotion]);
+  }, [isHomeRevealed, prefersReducedMotion]);
 
   useEffect(() => {
     const stage = projectPreviewStageRef.current;
     const titlePane = stage?.querySelector('.landing-project-preview-intro');
-    if (!stage || !titlePane || !isCompactHomeViewport || typeof window === 'undefined') {
+    if (!isHomeRevealed || !stage || !titlePane || !isCompactHomeViewport || typeof window === 'undefined') {
       return undefined;
     }
 
@@ -1939,7 +1940,7 @@ export function HomePage() {
       resizeObserver?.disconnect();
       stage.classList.remove('is-auto-revealing');
     };
-  }, [isCompactHomeViewport, prefersReducedMotion]);
+  }, [isHomeRevealed, isCompactHomeViewport, prefersReducedMotion]);
 
   useEffect(() => {
     const list = servicesListRef.current;
@@ -2033,7 +2034,7 @@ export function HomePage() {
 
   return (
     <>
-      <HomePreloader />
+      <HomePreloader onReveal={setIsHomeRevealed} />
       <div className="hero hero--why-choose">
         <WhyChooseFelmex variant="home-hero" />
       </div>
