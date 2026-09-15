@@ -6,7 +6,7 @@
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: #ed1c24;
+  background: var(--site-footer-blue);
   color: #ffffff;
   transform: translate3d(0, 0, 0);
   transition: transform 1.05s cubic-bezier(0.76, 0, 0.24, 1);
@@ -14,9 +14,12 @@
 }
 
 .split-preloader__wordmark {
-  width: min(78vw, 38rem);
+  /* Do not inherit the page's responsive root font size while its CSS loads. */
+  width: min(78vw, 608px);
   transform: translate3d(-135%, 0, 0);
   animation: split-preloader-wordmark-enter 0.56s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  contain: layout paint;
+  backface-visibility: hidden;
   will-change: transform;
 }
 
@@ -38,9 +41,16 @@
   }
 }
 
+@media (min-width: 1025px) {
+  .split-preloader__wordmark {
+    /* Matches the established 80% desktop scale without a mid-entry resize. */
+    width: min(78vw, 486px);
+  }
+}
+
 @media (max-width: 640px) {
   .split-preloader__wordmark {
-    width: min(82vw, 27rem);
+    width: min(82vw, 432px);
   }
 }
 

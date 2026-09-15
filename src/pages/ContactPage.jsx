@@ -1,8 +1,6 @@
 import { useMemo, useState } from 'react';
-import { SplitPanelPreloader } from '../components/preloader/SplitPanelPreloader';
 import { CONTACT_OFFICES } from './contact/data';
 import { ScrollSectionTitle } from '../components/scroll-reveal/ScrollSectionTitle';
-import { useSplitPanelPreloader } from '../hooks/useSplitPanelPreloader';
 import './ContactPage.css';
 
 const ACTIVE_OFFICE_STORAGE_KEY = 'felmex-active-office';
@@ -77,7 +75,6 @@ function OperationsNote({ compact = false }) {
 }
 
 export function ContactPage() {
-  const isAppLoaded = useSplitPanelPreloader();
   const [activeOfficeId, setActiveOfficeId] = useState(getInitialOfficeId);
   const [formStatus, setFormStatus] = useState('');
   const activeOffice = useMemo(
@@ -126,7 +123,6 @@ export function ContactPage() {
 
   return (
     <section className="cnt-page scroll-section" id="contact-top" aria-label="Contact Felmex Global Logistics">
-      <SplitPanelPreloader isAppLoaded={isAppLoaded} />
       <div className="cnt-contact-layout">
         <aside className="cnt-office-panel" aria-labelledby="cnt-office-title">
           <div className="cnt-office-intro">

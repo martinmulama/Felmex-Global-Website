@@ -19,7 +19,7 @@ function CompactPinnedCard({ why = false, target = false }) {
   </div>;
 }
 
-export function CompactAboutFlow({ isLoaded = false, stats = [] }) {
+export function CompactAboutFlow({ isLoaded = false, isPreloaderExited = false, stats = [] }) {
   const root = useRef(null);
   const [counts, setCounts] = useState(() => stats.map(() => 0));
 
@@ -51,6 +51,8 @@ export function CompactAboutFlow({ isLoaded = false, stats = [] }) {
   }, [isLoaded, stats]);
 
   useLayoutEffect(() => {
+    if (!isPreloaderExited) return undefined;
+
     const flow = root.current;
     const media = gsap.matchMedia();
 
@@ -208,9 +210,13 @@ export function CompactAboutFlow({ isLoaded = false, stats = [] }) {
     });
 
     return () => media.revert();
-  }, []);
+  }, [isPreloaderExited]);
 
-  return <section className={`abt-compact-flow${isLoaded ? ' is-loaded' : ''}`} ref={root} aria-label="About Felmex overview">
+  return <section
+    className={`abt-compact-flow${isLoaded ? ' is-loaded' : ''}${isPreloaderExited ? ' is-flow-ready' : ''}`}
+    ref={root}
+    aria-label="About Felmex overview"
+  >
     <header className="abt-compact-flow-hero">
       <div className="abt-compact-hero-kicker-mask"><p className="abt-compact-hero-reveal">About Us</p></div>
       <div className="abt-compact-hero-title-mask"><h1 className="abt-compact-hero-reveal">About Us<span>.</span></h1></div>

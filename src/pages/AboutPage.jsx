@@ -1,11 +1,9 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { DesktopAboutFlow } from './about/DesktopAboutFlow';
 import { CompactAboutFlow } from './about/CompactAboutFlow';
-import { SplitPanelPreloader } from '../components/preloader/SplitPanelPreloader';
 import './AboutPage.css';
 import { WhyChooseFelmex } from '../components/why-choose/WhyChooseFelmex';
 import { ScrollSectionTitle } from '../components/scroll-reveal/ScrollSectionTitle';
-import { useSplitPanelPreloader } from '../hooks/useSplitPanelPreloader';
 
 
 const ABOUT_BRIEFS = [
@@ -347,8 +345,7 @@ function MobileAboutIcon({ kind }) {
   return icons[kind] ?? icons.crowd;
 }
 
-export function AboutPage() {
-  const isAppLoaded = useSplitPanelPreloader();
+export function AboutPage({ isAppLoaded = false, isPreloaderExited = false }) {
   const [activeBriefId, setActiveBriefId] = useState(ABOUT_BRIEFS[0].id);
   const [isMobilePanelSliding, setIsMobilePanelSliding] = useState(false);
   const [isMobilePanelSettling, setIsMobilePanelSettling] = useState(false);
@@ -443,9 +440,12 @@ export function AboutPage() {
       id="about-top"
       aria-label="About Felmex"
     >
-      <SplitPanelPreloader isAppLoaded={isAppLoaded} />
       <section className="abt-mobile-reference" aria-label="About Felmex mobile overview">
-        <CompactAboutFlow isLoaded={isAppLoaded} stats={ABOUT_STATS} />
+        <CompactAboutFlow
+          isLoaded={isAppLoaded}
+          isPreloaderExited={isPreloaderExited}
+          stats={ABOUT_STATS}
+        />
         <section className="abt-mobile-hero" aria-label="About introduction">
           <p className="abt-mobile-hero-kicker">About Felmex</p>
           <h1 className="abt-mobile-title">
@@ -814,7 +814,7 @@ export function AboutPage() {
                 </div>
               </section>
             </div>
-            {isDesktop ? <DesktopAboutFlow stats={ABOUT_STATS} /> : <section className="abt-desktop-scroll-flow" aria-label="About Felmex overview">
+            {isDesktop ? <DesktopAboutFlow isPreloaderExited={isPreloaderExited} stats={ABOUT_STATS} /> : <section className="abt-desktop-scroll-flow" aria-label="About Felmex overview">
               <div className="abt-desktop-pinned-stage">
                 <div className="abt-desktop-scroll-visual abt-desktop-scroll-visual--about" aria-hidden="true">
                   <span className="abt-desktop-hero-card-back abt-desktop-hero-card-back--team" />
