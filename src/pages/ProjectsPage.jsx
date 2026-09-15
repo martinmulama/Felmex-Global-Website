@@ -3,10 +3,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
-import { SplitPanelPreloader } from '../components/preloader/SplitPanelPreloader';
 import { MQ } from '../constants/breakpoints';
 import { CONTACT_CHANNELS } from '../data/contact';
-import { useSplitPanelPreloader } from '../hooks/useSplitPanelPreloader';
 import { ONGOING_PROJECTS } from './projects/data';
 import './ProjectsPage.css';
 
@@ -204,7 +202,6 @@ function ProjectColumn({ project, projectIndex, onOpen }) {
 }
 
 export function ProjectsPage() {
-  const isAppLoaded = useSplitPanelPreloader();
   const pageRef = useRef(null);
   const pinRef = useRef(null);
   const viewportRef = useRef(null);
@@ -405,7 +402,6 @@ export function ProjectsPage() {
   if (projectList.length === 0) {
     return (
       <section className="prj-page" id="projects-top" aria-label="Projects">
-        <SplitPanelPreloader isAppLoaded={isAppLoaded} />
       </section>
     );
   }
@@ -418,7 +414,6 @@ export function ProjectsPage() {
       ref={pageRef}
       onWheel={handleDetailWheel}
     >
-      <SplitPanelPreloader isAppLoaded={isAppLoaded} />
       <div className="prj-horizontal-pin" ref={pinRef}>
         <div className="prj-gallery-viewport" ref={viewportRef}>
           <div className="prj-track" ref={trackRef}>

@@ -1,5 +1,6 @@
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { cloneElement, Suspense, lazy, useEffect, useState } from 'react';
 import { SplitPanelPreloader } from './components/preloader/SplitPanelPreloader';
+import { useSplitPanelPreloader } from './hooks/useSplitPanelPreloader';
 import { MainLayout } from './layouts/MainLayout';
 import { DEFAULT_REPORT_SLUG, findReportBySlug } from './data/reports';
 import { HomePage } from './pages/HomePage';
@@ -132,6 +133,25 @@ function preloadRouteForPath(pathname) {
   }
 
   return Promise.resolve();
+}
+
+function SecondaryRoute({ children }) {
+  // Keep one curtain mounted while a lazy interior page loads. This prevents a
+  // cold route from replacing the moving FELMEX mark midway through its entry.
+  const isAppLoaded = useSplitPanelPreloader();
+  const [isPreloaderExited, setIsPreloaderExited] = useState(false);
+
+  return (
+    <>
+      <SplitPanelPreloader
+        isAppLoaded={isAppLoaded}
+        onExitComplete={() => setIsPreloaderExited(true)}
+      />
+      <Suspense fallback={null}>
+        {cloneElement(children, { isAppLoaded, isPreloaderExited })}
+      </Suspense>
+    </>
+  );
 }
 
 function App() {
@@ -354,7 +374,7 @@ function App() {
       {isHomePage ? (
         activePage
       ) : (
-        <Suspense fallback={<SplitPanelPreloader isAppLoaded={false} />}>{activePage}</Suspense>
+        <SecondaryRoute key={pathname}>{activePage}</SecondaryRoute>
       )}
     </MainLayout>
   );

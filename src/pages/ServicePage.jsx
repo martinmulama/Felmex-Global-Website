@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { SplitPanelPreloader } from '../components/preloader/SplitPanelPreloader';
 import { ScrollSectionTitle } from '../components/scroll-reveal/ScrollSectionTitle';
-import { useSplitPanelPreloader } from '../hooks/useSplitPanelPreloader';
 import './ServicePage.css';
 
 const SERVICE_COMPACT_FAQ_QUERY =
@@ -790,8 +788,7 @@ function ServiceCatalogDetailOverlay({ category, categoryIndex, onClose }) {
   );
 }
 
-export function ServicePage() {
-  const isAppLoaded = useSplitPanelPreloader();
+export function ServicePage({ isAppLoaded = false }) {
   const [activeCategoryId, setActiveCategoryId] = useState(SERVICE_CATEGORIES[0].id);
   const [isCatalogDetailOpen, setIsCatalogDetailOpen] = useState(false);
   const [isCompactFaqViewport, setIsCompactFaqViewport] = useState(() =>
@@ -929,8 +926,6 @@ export function ServicePage() {
       id="services-top"
       aria-label="Felmex services"
     >
-      <SplitPanelPreloader isAppLoaded={isAppLoaded} />
-
       <section className="svc-hero" aria-label="Services introduction">
         <div className="svc-hero-copy">
           <div className="clip-mask svc-hero-kicker-mask">

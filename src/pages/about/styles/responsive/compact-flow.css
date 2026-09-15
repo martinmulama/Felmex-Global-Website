@@ -30,6 +30,43 @@
     color: var(--abt-ink);
   }
 
+  /* Hold only the reading track; the note and statistics use an eased clip
+     reveal once the curtain is completely out of frame. */
+  .abt-compact-flow:not(.is-flow-ready) .abt-compact-reading-track {
+    visibility: hidden;
+  }
+
+  .abt-compact-source-note,
+  .abt-compact-hero-stats {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .abt-compact-flow:not(.is-flow-ready) .abt-compact-source-note {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .abt-compact-flow:not(.is-flow-ready) .abt-compact-hero-stats {
+    clip-path: inset(100% 0 0 0);
+  }
+
+  .abt-compact-flow.is-flow-ready .abt-compact-source-note {
+    animation: abt-compact-note-enter 0.68s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+  }
+
+  .abt-compact-flow.is-flow-ready .abt-compact-hero-stats {
+    animation: abt-compact-stats-enter 0.68s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  }
+
+  @keyframes abt-compact-note-enter {
+    from { clip-path: inset(0 0 100% 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+
+  @keyframes abt-compact-stats-enter {
+    from { clip-path: inset(100% 0 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+
   .abt-compact-flow-hero {
     position: absolute;
     top: 0;
@@ -123,6 +160,8 @@
     position: absolute;
     inset: 0;
     z-index: 0;
+    /* Match the GSAP starting state before the preloader can expose this layer. */
+    clip-path: inset(100% 0 0 0);
     background: var(--abt-blue);
     pointer-events: none;
   }
@@ -613,6 +652,12 @@
 }
 
 @media (max-width: 1024px) and (prefers-reduced-motion: reduce) {
+  .abt-compact-flow.is-flow-ready .abt-compact-source-note,
+  .abt-compact-flow.is-flow-ready .abt-compact-hero-stats {
+    animation: none;
+    clip-path: inset(0 0 0 0);
+  }
+
   .abt-compact-flow-hero .abt-compact-hero-reveal {
     transform: none;
     transition: none;

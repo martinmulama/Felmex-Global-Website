@@ -21,7 +21,7 @@ body.is-home-loading #root *::after {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: #ed1c24;
+  background: var(--site-footer-blue);
   color: #ffffff;
   transform: translate3d(0, 0, 0);
   will-change: transform;

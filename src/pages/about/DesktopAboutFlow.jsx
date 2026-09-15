@@ -37,9 +37,11 @@ function PinnedCard({ why = false, target = false }) {
   </div>;
 }
 
-export function DesktopAboutFlow({ stats = [] }) {
+export function DesktopAboutFlow({ isPreloaderExited = false, stats = [] }) {
   const root = useRef(null);
   useLayoutEffect(() => {
+    if (!isPreloaderExited) return undefined;
+
     const flow = root.current;
     const media = gsap.matchMedia();
     media.add('(min-width: 1025px) and (prefers-reduced-motion: no-preference)', (context) => {
@@ -196,9 +198,13 @@ export function DesktopAboutFlow({ stats = [] }) {
       };
     });
     return () => media.revert();
-  }, []);
+  }, [isPreloaderExited]);
 
-  return <section className="abt-desktop-scroll-flow" ref={root} aria-label="About Felmex overview">
+  return <section
+    className={`abt-desktop-scroll-flow${isPreloaderExited ? ' is-flow-ready' : ''}`}
+    ref={root}
+    aria-label="About Felmex overview"
+  >
     <div className="abt-desktop-pinned-stage">
       <div className="abt-desktop-about-visual-layer">
       <div className="abt-desktop-scroll-visual abt-desktop-scroll-visual--about" aria-hidden="true">

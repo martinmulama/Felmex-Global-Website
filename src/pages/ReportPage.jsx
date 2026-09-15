@@ -1,17 +1,13 @@
 import { DEFAULT_REPORT_SLUG, findReportBySlug } from '../data/reports';
-import { SplitPanelPreloader } from '../components/preloader/SplitPanelPreloader';
 import { ScrollSectionTitle } from '../components/scroll-reveal/ScrollSectionTitle';
-import { useSplitPanelPreloader } from '../hooks/useSplitPanelPreloader';
 import './ReportPage.css';
 
 export function ReportPage({ slug = DEFAULT_REPORT_SLUG }) {
-  const isAppLoaded = useSplitPanelPreloader();
   const report = findReportBySlug(slug);
 
   if (!report) {
     return (
       <section className="report-page" aria-label="Report not found">
-        <SplitPanelPreloader isAppLoaded={isAppLoaded} />
         <div className="container report-not-found">
           <p className="report-not-found-kicker">Report unavailable</p>
           <h1 className="report-not-found-title">We could not find that report.</h1>
@@ -26,7 +22,6 @@ export function ReportPage({ slug = DEFAULT_REPORT_SLUG }) {
 
   return (
     <section className="report-page" id="report-top" aria-label="Full report">
-      <SplitPanelPreloader isAppLoaded={isAppLoaded} />
       <header className="container report-hero" aria-label="Report header">
         <a className="report-back-link" href="/blog#blog-top">
           ← Back to journal

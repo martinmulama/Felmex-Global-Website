@@ -999,6 +999,44 @@
     background: transparent;
   }
 
+  /* Keep reading content and navigation out of the hero while the curtain
+     leaves. The floating note and statistics use their own eased clip reveal. */
+  .abt-desktop-scroll-flow:not(.is-flow-ready) .abt-desktop-reading-track,
+  .abt-desktop-scroll-flow:not(.is-flow-ready) .abt-desktop-scroll-nav {
+    visibility: hidden;
+  }
+
+  .abt-desktop-hero-note,
+  .abt-desktop-hero-stats {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .abt-desktop-scroll-flow:not(.is-flow-ready) .abt-desktop-hero-note {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .abt-desktop-scroll-flow:not(.is-flow-ready) .abt-desktop-hero-stats {
+    clip-path: inset(100% 0 0 0);
+  }
+
+  .abt-desktop-scroll-flow.is-flow-ready .abt-desktop-hero-note {
+    animation: abt-desktop-note-enter 0.68s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+  }
+
+  .abt-desktop-scroll-flow.is-flow-ready .abt-desktop-hero-stats {
+    animation: abt-desktop-stats-enter 0.68s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  }
+
+  @keyframes abt-desktop-note-enter {
+    from { clip-path: inset(0 0 100% 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+
+  @keyframes abt-desktop-stats-enter {
+    from { clip-path: inset(100% 0 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+
   .abt-desktop-pinned-stage {
     position: relative;
     width: 100%;
@@ -1300,6 +1338,12 @@
 }
 
 @media (min-width: 1025px) and (prefers-reduced-motion: reduce) {
+  .abt-desktop-scroll-flow.is-flow-ready .abt-desktop-hero-note,
+  .abt-desktop-scroll-flow.is-flow-ready .abt-desktop-hero-stats {
+    animation: none;
+    clip-path: inset(0 0 0 0);
+  }
+
   .abt-desktop-pinned-stage {
     height: auto;
     overflow: visible;
