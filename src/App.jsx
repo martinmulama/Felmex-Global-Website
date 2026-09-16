@@ -95,6 +95,63 @@ function setMetaContent(attributeName, attributeValue, content) {
   metaElement.setAttribute('content', content);
 }
 
+function setLinkHref(rel, href) {
+  if (typeof document === 'undefined') return;
+
+  let linkElement = document.head.querySelector(`link[rel="${rel}"]`);
+
+  if (!linkElement) {
+    linkElement = document.createElement('link');
+    linkElement.setAttribute('rel', rel);
+    document.head.appendChild(linkElement);
+  }
+
+  linkElement.setAttribute('href', href);
+}
+
+function setRouteStructuredData(pathname, reportSlug, canonicalUrl) {
+  if (typeof document === 'undefined') return;
+
+  const scriptId = 'route-structured-data';
+  const existingScript = document.getElementById(scriptId);
+  const report = pathname === '/blog/report' || pathname.startsWith('/blog/report/')
+    ? findReportBySlug(reportSlug)
+    : null;
+
+  if (!report) {
+    existingScript?.remove();
+    return;
+  }
+
+  const articleData = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `${canonicalUrl}#article`,
+    headline: report.title,
+    description: report.dek,
+    image: new URL(report.image, window.location.origin).href,
+    datePublished: '2026-03-27',
+    dateModified: '2026-03-27',
+    author: {
+      '@type': 'Organization',
+      name: report.analyst,
+    },
+    publisher: {
+      '@id': 'https://felmexglobal.com/#organization',
+    },
+    mainEntityOfPage: canonicalUrl,
+  };
+  const scriptElement = existingScript ?? document.createElement('script');
+
+  scriptElement.id = scriptId;
+  scriptElement.type = 'application/ld+json';
+  scriptElement.textContent = JSON.stringify(articleData);
+
+  if (!existingScript) {
+    document.head.appendChild(scriptElement);
+  }
+}
+
 function readWindowLocation() {
   if (typeof window === 'undefined') {
     return {
@@ -219,6 +276,8 @@ function App() {
     setMetaContent('name', 'twitter:title', metadata.title);
     setMetaContent('name', 'twitter:description', metadata.description);
     setMetaContent('name', 'twitter:image', absoluteImageUrl);
+    setLinkHref('canonical', canonicalUrl);
+    setRouteStructuredData(pathname, reportSlug, canonicalUrl);
   }, [pathname, reportSlug]);
 
   useEffect(() => {
