@@ -2,14 +2,12 @@ import { cloneElement, Suspense, lazy, useEffect, useState } from 'react';
 import { SplitPanelPreloader } from './components/preloader/SplitPanelPreloader';
 import { useSplitPanelPreloader } from './hooks/useSplitPanelPreloader';
 import { MainLayout } from './layouts/MainLayout';
-import { DEFAULT_REPORT_SLUG, findReportBySlug } from './data/reports';
 import { HomePage } from './pages/HomePage';
 import { scrollToTarget } from './utils/scroll';
 
 const loadAboutPage = () => import('./pages/AboutPage');
 const loadContactPage = () => import('./pages/ContactPage');
 const loadProjectsPage = () => import('./pages/ProjectsPage');
-const loadReportPage = () => import('./pages/ReportPage');
 const loadServicePage = () => import('./pages/ServicePage');
 
 const AboutPage = lazy(() => loadAboutPage().then((module) => ({ default: module.AboutPage })));
@@ -19,7 +17,6 @@ const ContactPage = lazy(() =>
 const ProjectsPage = lazy(() =>
   loadProjectsPage().then((module) => ({ default: module.ProjectsPage }))
 );
-const ReportPage = lazy(() => loadReportPage().then((module) => ({ default: module.ReportPage })));
 const ServicePage = lazy(() =>
   loadServicePage().then((module) => ({ default: module.ServicePage }))
 );
@@ -28,7 +25,7 @@ const DEFAULT_DESCRIPTION =
   'Reliable freight forwarding, customs, warehousing, and project logistics solutions.';
 const DEFAULT_SOCIAL_IMAGE = '/hero-air-panel.webp';
 
-function getRouteMetadata(pathname, reportSlug) {
+function getRouteMetadata(pathname) {
   if (pathname === '/services' || pathname.startsWith('/services/')) {
     return {
       title: `Services | ${SITE_NAME}`,
@@ -53,15 +50,6 @@ function getRouteMetadata(pathname, reportSlug) {
       description:
         'Contact Felmex Global Logistics for freight quotes, customs support, and routing assistance.',
       image: '/contact-network-hero-1440.webp',
-    };
-  }
-
-  if (pathname === '/blog/report' || pathname.startsWith('/blog/report/')) {
-    const report = findReportBySlug(reportSlug);
-    return {
-      title: report ? `${report.title} | ${SITE_NAME}` : `Report | ${SITE_NAME}`,
-      description: report?.dek ?? DEFAULT_DESCRIPTION,
-      image: report?.image ?? DEFAULT_SOCIAL_IMAGE,
     };
   }
 
@@ -109,49 +97,6 @@ function setLinkHref(rel, href) {
   linkElement.setAttribute('href', href);
 }
 
-function setRouteStructuredData(pathname, reportSlug, canonicalUrl) {
-  if (typeof document === 'undefined') return;
-
-  const scriptId = 'route-structured-data';
-  const existingScript = document.getElementById(scriptId);
-  const report = pathname === '/blog/report' || pathname.startsWith('/blog/report/')
-    ? findReportBySlug(reportSlug)
-    : null;
-
-  if (!report) {
-    existingScript?.remove();
-    return;
-  }
-
-  const articleData = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    '@id': `${canonicalUrl}#article`,
-    headline: report.title,
-    description: report.dek,
-    image: new URL(report.image, window.location.origin).href,
-    datePublished: '2026-03-27',
-    dateModified: '2026-03-27',
-    author: {
-      '@type': 'Organization',
-      name: report.analyst,
-    },
-    publisher: {
-      '@id': 'https://www.felmexglobal.com/#organization',
-    },
-    mainEntityOfPage: canonicalUrl,
-  };
-  const scriptElement = existingScript ?? document.createElement('script');
-
-  scriptElement.id = scriptId;
-  scriptElement.type = 'application/ld+json';
-  scriptElement.textContent = JSON.stringify(articleData);
-
-  if (!existingScript) {
-    document.head.appendChild(scriptElement);
-  }
-}
-
 function readWindowLocation() {
   if (typeof window === 'undefined') {
     return {
@@ -179,10 +124,6 @@ function preloadRouteForPath(pathname) {
 
   if (pathname === '/services' || pathname.startsWith('/services/')) {
     return loadServicePage();
-  }
-
-  if (pathname === '/blog/report' || pathname.startsWith('/blog/report/')) {
-    return loadReportPage();
   }
 
   if (pathname === '/blog' || pathname.startsWith('/blog/')) {
@@ -214,28 +155,14 @@ function SecondaryRoute({ children }) {
 function App() {
   const [currentLocation, setCurrentLocation] = useState(() => readWindowLocation());
   const { pathname, hash } = currentLocation;
-  const pathSegments = pathname.split('/').filter(Boolean);
-  const isReportPage = pathSegments[0] === 'blog' && pathSegments[1] === 'report';
-  const reportSlug = pathSegments[2] ?? DEFAULT_REPORT_SLUG;
   const isProjectsPage = pathname === '/blog' || pathname.startsWith('/blog/');
-  const isProjectsIndexPage = isProjectsPage && !isReportPage;
   const isAboutPage = pathname === '/about' || pathname.startsWith('/about/');
   const isContactPage = pathname === '/contact' || pathname.startsWith('/contact/');
   const isServicesPage = pathname === '/services' || pathname.startsWith('/services/');
   const isHomePage =
-    !isProjectsPage && !isReportPage && !isServicesPage && !isAboutPage && !isContactPage;
-  const isPreviewPage = isReportPage;
-  const previewLabel = isReportPage
-    ? 'Report page'
-    : isProjectsPage
-    ? 'Projects page'
-    : isContactPage
-    ? 'Contact page'
-    : 'Page';
+    !isProjectsPage && !isServicesPage && !isAboutPage && !isContactPage;
   const activePage = isHomePage ? (
     <HomePage />
-  ) : isReportPage ? (
-    <ReportPage slug={reportSlug} />
   ) : isServicesPage ? (
     <ServicePage />
   ) : isAboutPage ? (
@@ -263,7 +190,7 @@ function App() {
   useEffect(() => {
     if (typeof document === 'undefined' || typeof window === 'undefined') return;
 
-    const metadata = getRouteMetadata(pathname, reportSlug);
+    const metadata = getRouteMetadata(pathname);
     const absoluteImageUrl = new URL(metadata.image, window.location.origin).href;
     const canonicalUrl = new URL(pathname, window.location.origin).href;
 
@@ -277,8 +204,7 @@ function App() {
     setMetaContent('name', 'twitter:description', metadata.description);
     setMetaContent('name', 'twitter:image', absoluteImageUrl);
     setLinkHref('canonical', canonicalUrl);
-    setRouteStructuredData(pathname, reportSlug, canonicalUrl);
-  }, [pathname, reportSlug]);
+  }, [pathname]);
 
   useEffect(() => {
     if (typeof document === 'undefined' || typeof window === 'undefined') return undefined;
@@ -425,11 +351,7 @@ function App() {
   }, [pathname, hash]);
 
   return (
-    <MainLayout
-      isContentPreview={isPreviewPage}
-      previewLabel={previewLabel}
-      hideFooter={isProjectsIndexPage}
-    >
+    <MainLayout hideFooter={isProjectsPage}>
       {isHomePage ? (
         activePage
       ) : (

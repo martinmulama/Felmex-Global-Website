@@ -29,6 +29,12 @@ services:
         name: Permissions-Policy
         value: "camera=(), geolocation=(), microphone=()"
     routes:
+      - type: redirect
+        source: "/blog/report"
+        destination: "/blog"
+      - type: redirect
+        source: "/blog/report/*"
+        destination: "/blog"
       - type: rewrite
         source: "/*"
         destination: "/index.html"
