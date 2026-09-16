@@ -18,6 +18,7 @@ const HOME_DESKTOP_PROJECT_PREVIEW_PARAGRAPHS = [
   HOME_DESKTOP_PROJECT_PREVIEW.lead,
   ...(HOME_DESKTOP_PROJECT_PREVIEW.bodyParagraphs ?? [HOME_DESKTOP_PROJECT_PREVIEW.body]),
 ].filter(Boolean);
+const HOME_DESKTOP_PROJECT_TEASERS = ONGOING_PROJECTS.slice(0, 3);
 const SERVICE_CATALOG_IMAGE_WIDTHS = [640, 960, 1280];
 const SERVICE_CATALOG_IMAGE_SIZES =
   '(min-width: 1081px) min(60rem, 68vw), (max-width: 640px) 92vw, 100vw';
@@ -2457,6 +2458,22 @@ export function HomePage() {
                     <span>View all projects</span>
                   </a>
                 </header>
+
+                <div
+                  className="landing-project-preview-teasers"
+                  aria-label="Selected project articles"
+                >
+                  {HOME_DESKTOP_PROJECT_TEASERS.map((project) => (
+                    <article className="landing-project-preview-teaser" key={project.id}>
+                      <h3>{project.title}</h3>
+                      <p>{project.subtitle}</p>
+                      <a href="/projects">
+                        <span>Read more</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </article>
+                  ))}
+                </div>
 
                 <div className="landing-project-preview-controlbar" aria-hidden="true">
                   <span className="landing-project-preview-nav landing-project-preview-nav--down">
