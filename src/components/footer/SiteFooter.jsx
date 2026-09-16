@@ -46,7 +46,6 @@ export function SiteFooter({ id = 'contact' }) {
   ];
   const resourceLinks = [
     { label: 'Case Studies', href: '/blog' },
-    { label: 'Reports', href: '/blog/report' },
     { label: 'Client Testimonials', href: homeHash('clients') },
     { label: 'Service Catalog', href: homeHash('services-catalog') },
     { label: 'Request Support', href: contactFormHref },
