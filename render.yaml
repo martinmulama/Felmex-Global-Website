@@ -31,10 +31,10 @@ services:
     routes:
       - type: redirect
         source: "/blog/report"
-        destination: "/blog"
+        destination: "/"
       - type: redirect
         source: "/blog/report/*"
-        destination: "/blog"
+        destination: "/"
       - type: rewrite
         source: "/*"
         destination: "/index.html"
