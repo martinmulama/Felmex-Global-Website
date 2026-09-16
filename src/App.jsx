@@ -137,7 +137,7 @@ function setRouteStructuredData(pathname, reportSlug, canonicalUrl) {
       name: report.analyst,
     },
     publisher: {
-      '@id': 'https://felmexglobal.com/#organization',
+      '@id': 'https://www.felmexglobal.com/#organization',
     },
     mainEntityOfPage: canonicalUrl,
   };
