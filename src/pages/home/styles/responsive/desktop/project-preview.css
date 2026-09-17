@@ -10,8 +10,7 @@
 .landing-project-preview-desktop-copy,
 .landing-final-cta-desktop,
 .landing-project-preview-brief,
-.landing-project-preview-swipe-hint,
-.landing-project-preview-teasers {
+.landing-project-preview-swipe-hint {
   display: none;
 }
 
@@ -103,89 +102,6 @@
     font-weight: 500;
     line-height: 1.55;
     text-wrap: balance;
-  }
-
-  /* Editorial previews are intentionally desktop-only: they lead into the
-     featured project without changing the dedicated tablet and mobile rails. */
-  @media (min-width: 1025px) {
-    .landing-project-preview-teasers {
-      position: absolute;
-      top: clamp(10.5rem, 20.5svh, 14rem);
-      /* Match the featured article's width and intentional fractional offset
-         below, so it becomes the visual centre of the whole preview. */
-      left: calc(50% + 0.45vw);
-      z-index: 1;
-      display: grid;
-      width: min(82.2vw, 85.875rem);
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: clamp(2.4rem, 7vw, 8.5rem);
-      align-items: start;
-      transform: translateX(-50%);
-    }
-
-    .landing-project-preview-teaser {
-      min-width: 0;
-      color: rgba(7, 27, 53, 0.58);
-    }
-
-    .landing-project-preview-teaser:nth-child(2) {
-      margin-top: clamp(1.6rem, 3.8svh, 2.6rem);
-    }
-
-    .landing-project-preview-teaser h3,
-    .landing-project-preview-teaser p {
-      margin: 0;
-    }
-
-    .landing-project-preview-teaser h3 {
-      max-width: 19ch;
-      color: rgba(7, 27, 53, 0.55);
-      font-family: var(--site-font-display);
-      font-size: clamp(1.22rem, 1.55vw, 1.62rem);
-      font-weight: 800;
-      line-height: 1.18;
-      letter-spacing: 0;
-    }
-
-    .landing-project-preview-teaser p {
-      max-width: 35ch;
-      margin-top: clamp(0.7rem, 1vw, 0.92rem);
-      color: rgba(7, 27, 53, 0.48);
-      font-family: var(--site-font-sans);
-      font-size: clamp(0.88rem, 0.96vw, 1rem);
-      font-weight: 600;
-      line-height: 1.55;
-    }
-
-    .landing-project-preview-teaser a {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      width: 100%;
-      margin-top: clamp(1rem, 1.7vw, 1.35rem);
-      padding-top: clamp(0.85rem, 1.3vw, 1.1rem);
-      border-top: 1px solid rgba(7, 27, 53, 0.16);
-      color: rgba(237, 11, 20, 0.66);
-      font-family: var(--site-font-sans);
-      font-size: clamp(0.65rem, 0.72vw, 0.75rem);
-      font-weight: 800;
-      letter-spacing: 0.035em;
-      line-height: 1;
-      text-decoration: none;
-      text-transform: uppercase;
-      transition: color 180ms ease, border-color 180ms ease;
-    }
-
-    .landing-project-preview-teaser a:hover,
-    .landing-project-preview-teaser a:focus-visible {
-      border-color: rgba(237, 11, 20, 0.5);
-      color: var(--site-brand-red);
-    }
-
-    .landing-project-preview-teaser a:focus-visible {
-      outline: 2px solid rgba(237, 11, 20, 0.35);
-      outline-offset: 0.28rem;
-    }
   }
 
   .landing-close {
