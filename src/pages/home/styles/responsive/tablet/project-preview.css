@@ -130,18 +130,42 @@
     max-width: none;
   }
 
-  .landing-project-preview-brief {
-    display: block;
+  .landing-project-preview-team {
     order: 2;
     justify-self: stretch;
+    display: grid;
+    grid-template-columns: auto 1px minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(0.9rem, 1.8vw, 1.35rem);
     width: 100%;
-    max-width: none;
     margin: 0;
-    color: rgba(7, 27, 53, 0.76);
+  }
+
+  .landing-project-preview-team-icons {
+    display: block;
+    width: clamp(9.95rem, 22.4vw, 13.68rem);
+  }
+
+  .landing-project-preview-team-icons img {
+    display: block;
+    width: clamp(16rem, 36vw, 22rem);
+    height: auto;
+    transform: translateX(-16.4%);
+  }
+
+  .landing-project-preview-team-divider {
+    width: 1px;
+    height: clamp(3.5rem, 6.3vw, 4.1rem);
+    background: rgba(7, 27, 53, 0.24);
+  }
+
+  .landing-project-preview-team-statement {
+    margin: 0;
+    color: var(--project-preview-navy);
     font-family: var(--site-font-sans);
-    font-size: clamp(0.9rem, 1.55vw, 1.04rem);
+    font-size: clamp(0.78rem, 1.3vw, 0.92rem);
     font-weight: 500;
-    line-height: 1.58;
+    line-height: 1.48;
   }
 
   .landing-project-preview-swipe-hint {

@@ -9,7 +9,6 @@
 
 .landing-project-preview-desktop-copy,
 .landing-final-cta-desktop,
-.landing-project-preview-brief,
 .landing-project-preview-swipe-hint {
   display: none;
 }
@@ -93,14 +92,49 @@
     text-align: center;
   }
 
-  .landing-project-preview-brief {
+  .landing-project-preview-team {
+    display: grid;
+    grid-template-columns: auto 1px minmax(0, 1fr);
+    align-items: center;
+    column-gap: clamp(2.2rem, 3.7vw, 4.1rem);
+    /* Share the featured article's exact horizontal footprint so both parts
+       read as a single, centred composition. */
+    position: relative;
+    left: 0.45vw;
+    width: min(82.2vw, 85.875rem);
+    margin: clamp(4.1rem, 9.3svh, 6.6rem) auto 0;
+    text-align: left;
+  }
+
+  .landing-project-preview-team-icons {
     display: block;
-    width: min(100%, 42rem);
-    margin: clamp(0.9rem, 1.8vw, 1.25rem) auto 0;
-    color: rgba(7, 27, 53, 0.78);
-    font-size: clamp(0.92rem, 1vw, 1.04rem);
+    width: clamp(18.66rem, 24.88vw, 27.99rem);
+  }
+
+  .landing-project-preview-team-icons img {
+    display: block;
+    width: clamp(30rem, 40vw, 45rem);
+    height: auto;
+    transform: translateX(-16.4%);
+  }
+
+  .landing-project-preview-team-divider {
+    display: block;
+    width: 1px;
+    height: clamp(4.75rem, 7.8vw, 6.5rem);
+    background: rgba(7, 27, 53, 0.24);
+  }
+
+  .landing-project-preview-team-statement {
+    justify-self: end;
+    max-width: 43rem;
+    margin: 0;
+    color: var(--project-preview-navy);
+    font-family: var(--site-font-sans);
+    font-size: clamp(1.02rem, 1.38vw, 1.42rem);
     font-weight: 500;
-    line-height: 1.55;
+    line-height: 1.48;
+    letter-spacing: 0;
     text-wrap: balance;
   }
 
