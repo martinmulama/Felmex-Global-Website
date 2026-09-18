@@ -229,31 +229,10 @@
   content: none;
 }
 
-.landing-testimonial-index,
-.landing-testimonial-detail,
-.landing-testimonial-visual {
+
+.landing-testimonial-detail {
   position: relative;
   z-index: 1;
-}
-
-.landing-testimonial-index {
-  position: absolute;
-  top: -1.45rem;
-  left: clamp(3.2rem, 4.6vw, 4.05rem);
-  min-width: 2.82rem;
-  height: 2.9rem;
-  display: inline-grid;
-  place-items: center;
-  padding-inline: 0.55rem;
-  border-radius: 0;
-  background: var(--testimonial-red);
-  color: #ffffff;
-  font-family: var(--site-font-display);
-  font-size: 1.28rem;
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: 0;
-  box-shadow: 0 14px 26px rgba(237, 28, 36, 0.24);
 }
 
 .landing-testimonial-detail {
@@ -272,24 +251,6 @@
   transform: none;
   pointer-events: auto;
   transition: none;
-}
-
-.landing-testimonial-mark {
-  position: relative;
-  top: auto;
-  left: auto;
-  width: max-content;
-  display: block;
-  color: var(--testimonial-red);
-  font-family: var(--site-font-display);
-  font-size: 4.2rem;
-  line-height: 0.62;
-  font-weight: 800;
-  letter-spacing: 0;
-}
-
-.landing-testimonial-panel:not(.is-active) .landing-testimonial-mark {
-  font-size: 4.2rem;
 }
 
 .landing-testimonial-quote {
@@ -348,50 +309,8 @@
   font-weight: 500;
 }
 
-.landing-testimonial-visual {
-  order: 2;
-  justify-self: end;
-  align-self: center;
-  width: var(--testimonial-visual-width);
-  height: clamp(17rem, 24vw, 23rem);
-  min-height: 0;
-  margin: 0;
-  padding: 0;
-  display: block;
-  overflow: hidden;
-  border-radius: 0;
-  background: rgba(255, 255, 255, 0.12);
-  transform: none;
-  transition: none;
-}
-
-.landing-testimonial-panel:nth-child(1) .landing-testimonial-visual {
-  align-self: end;
-}
-
 .landing-testimonial-panel:nth-child(1) .landing-testimonial-quote {
   max-width: 18.5ch;
-}
-
-.landing-testimonial-panel:nth-child(3) .landing-testimonial-visual {
-  height: clamp(19.5rem, 28.5vw, 27rem);
-}
-
-.landing-testimonial-photo {
-  position: static;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-  filter: saturate(1) contrast(1.02);
-  transform: none;
-  transition: none;
-}
-
-.landing-testimonial-panel.is-active .landing-testimonial-photo {
-  transform: none;
-  filter: saturate(1) contrast(1.02);
 }
 
 @media (min-width: 961px) {
@@ -474,27 +393,10 @@
     padding-block: 2rem 1.75rem;
   }
 
-  .landing-testimonial-index {
-    left: clamp(1.45rem, 3.1vw, 2.5rem);
-  }
-
-  .landing-testimonial-mark,
-  .landing-testimonial-panel:not(.is-active) .landing-testimonial-mark {
-    font-size: 3.35rem;
-  }
-
   .landing-testimonial-quote,
   .landing-testimonial-panel:not(.is-active) .landing-testimonial-quote {
     max-width: 13.5ch;
     font-size: 1rem;
-  }
-
-  .landing-testimonial-visual {
-    height: clamp(13.5rem, 22vw, 17.2rem);
-  }
-
-  .landing-testimonial-panel:nth-child(3) .landing-testimonial-visual {
-    height: clamp(15.2rem, 26vw, 20rem);
   }
 }
 
@@ -642,21 +544,8 @@
     justify-self: end;
   }
 
-  .landing-testimonial-index {
-    top: -1.05rem;
-    left: var(--testimonial-mobile-quote-pad-x);
-    min-width: 2.55rem;
-    height: 2.55rem;
-    font-size: 1.12rem;
-  }
-
   .landing-testimonial-detail {
     gap: 0.75rem;
-  }
-
-  .landing-testimonial-mark,
-  .landing-testimonial-panel:not(.is-active) .landing-testimonial-mark {
-    font-size: 3.15rem;
   }
 
   .landing-testimonial-quote,
@@ -672,13 +561,6 @@
   .landing-testimonial-company {
     max-width: 22ch;
     font-size: 0.95rem;
-  }
-
-  .landing-testimonial-visual,
-  .landing-testimonial-panel:nth-child(3) .landing-testimonial-visual {
-    width: 100%;
-    height: clamp(14rem, 40vw, 18.5rem);
-    align-self: stretch;
   }
 }
 
@@ -723,19 +605,9 @@
     line-height: 1.58;
   }
 
-  .landing-testimonial-mark,
-  .landing-testimonial-panel:not(.is-active) .landing-testimonial-mark {
-    font-size: 2.72rem;
-  }
-
   .landing-testimonial-source,
   .landing-testimonial-company {
     font-size: 0.88rem;
-  }
-
-  .landing-testimonial-visual,
-  .landing-testimonial-panel:nth-child(3) .landing-testimonial-visual {
-    height: clamp(12.2rem, 44vw, 15.5rem);
   }
 }
 
@@ -776,10 +648,6 @@
     padding: 1.72rem var(--testimonial-mobile-quote-pad-x) 1rem;
   }
 
-  .landing-testimonial-index {
-    left: var(--testimonial-mobile-quote-pad-x);
-  }
-
   .landing-testimonial-detail {
     gap: 0.62rem;
   }
@@ -797,11 +665,6 @@
   .landing-testimonial-source,
   .landing-testimonial-company {
     font-size: 0.82rem;
-  }
-
-  .landing-testimonial-visual,
-  .landing-testimonial-panel:nth-child(3) .landing-testimonial-visual {
-    height: 12rem;
   }
 }
 

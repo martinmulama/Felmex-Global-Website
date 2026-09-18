@@ -71,21 +71,8 @@
     justify-self: stretch;
   }
 
-  .landing-testimonial-index {
-    top: clamp(-1.2rem, -1.7vw, -1.05rem);
-    left: var(--testimonial-mobile-quote-pad-x);
-    min-width: 2.75rem;
-    height: 2.75rem;
-    font-size: 1.18rem;
-  }
-
   .landing-testimonial-detail {
     gap: clamp(0.82rem, 1.8vw, 1.05rem);
-  }
-
-  .landing-testimonial-mark,
-  .landing-testimonial-panel:not(.is-active) .landing-testimonial-mark {
-    font-size: clamp(3.2rem, 5.7vw, 3.8rem);
   }
 
   .landing-testimonial-quote,
@@ -99,10 +86,5 @@
   .landing-testimonial-company {
     max-width: 24ch;
     font-size: clamp(0.94rem, 1.55vw, 1.04rem);
-  }
-
-  .landing-testimonial-visual,
-  .landing-testimonial-panel:nth-child(3) .landing-testimonial-visual {
-    height: clamp(17rem, 34vw, 21rem);
   }
 }

@@ -2288,7 +2288,7 @@ export function HomePage() {
               {CLIENT_QUOTES.slice(0, 2).map((quote) => (
                 <article
                   key={quote.company}
-                  className={`landing-testimonial-panel scroll-section ${quote.tone}`}
+                  className="landing-testimonial-panel scroll-section"
                   role="listitem"
                 >
                   <div className="landing-testimonial-logo">
@@ -2366,7 +2366,7 @@ export function HomePage() {
                 {CLIENT_QUOTES.slice(0, 2).map((quote) => (
                   <article
                     key={quote.company}
-                    className={`landing-testimonial-panel scroll-section ${quote.tone}`}
+                    className="landing-testimonial-panel scroll-section"
                     role="listitem"
                   >
                     <div className="landing-testimonial-logo">
@@ -2427,10 +2427,16 @@ export function HomePage() {
                       <span className="landing-project-preview-title-typed">Current Work</span>
                     </span>
                   </h2>
-                  <p className="landing-project-preview-brief">
-                    Live updates from our active operations, proven track records from past projects,
-                    and a strategic look at where we are heading next in global trade.
-                  </p>
+                  <div className="landing-project-preview-team">
+                    <div className="landing-project-preview-team-icons" aria-hidden="true">
+                      <img src="/project-team-icons.png" alt="" width="2164" height="727" />
+                    </div>
+                    <span className="landing-project-preview-team-divider" aria-hidden="true" />
+                    <p className="landing-project-preview-team-statement">
+                      Our team handles every project and curates your logistics experience with deep
+                      operational expertise, so your logistics needs are met with utmost professionalism.
+                    </p>
+                  </div>
                   <span className="landing-project-preview-swipe-hint" aria-hidden="true">
                     <span>Swipe left to read</span>
                     <span>←</span>

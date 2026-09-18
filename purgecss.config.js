@@ -21,9 +21,6 @@ export const HOME_CSS_FILES = [
 export const PURGECSS_CONTENT = ['index.html', 'src/**/*.{js,jsx,ts,tsx}'];
 
 const dynamicRuntimeClasses = [
-  'is-sky',
-  'is-amber',
-  'is-sage',
   /^landing-service-entry--(air|ship|road|rail|warehouse|parcel)$/u,
   /^landing-service-mobile-icon--[12]$/u,
   /^landing-overview-mobile-switcher--(about|mission|vision|idd)$/u,
