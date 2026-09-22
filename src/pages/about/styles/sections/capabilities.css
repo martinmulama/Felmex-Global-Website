@@ -1,0 +1,306 @@
+.abt-capabilities {
+  position: relative;
+  overflow: hidden;
+  /* Continue directly from the reading flow using the shared About section
+     rhythm; the mission chapter already supplies its own release inset. */
+  padding: var(--abt-section-pad-y) 0 clamp(7.5rem, 12vw, 12rem);
+  background: var(--abt-blue);
+  color: #ffffff;
+}
+
+.abt-capabilities-inner {
+  position: relative;
+  width: min(100%, 112rem);
+  margin: 0 auto;
+}
+
+.abt-capabilities-heading {
+  width: min(100% - clamp(7rem, 14vw, 15.4rem), 96.6rem);
+  margin: 0 auto clamp(3.5rem, 6vw, 5.75rem);
+  text-align: center;
+}
+
+.abt-capabilities-heading h2 {
+  max-width: none;
+  margin: 0 auto;
+  color: #ffffff;
+  font-family: var(--site-font-display);
+  font-size: var(--abt-home-section-title-size);
+  font-weight: 800;
+  line-height: var(--abt-home-section-title-line-height);
+  letter-spacing: var(--abt-home-section-title-tracking);
+  white-space: nowrap;
+}
+
+.abt-capabilities-scene { position: relative; }
+
+.abt-capabilities-connector {
+  position: absolute;
+  top: 0;
+  left: 3.5%;
+  z-index: 0;
+  width: 93%;
+  overflow: visible;
+  fill: rgba(255, 255, 255, 0.88);
+}
+
+.abt-capabilities-connector path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.82);
+  stroke-width: 2;
+}
+
+.abt-capability-card-track {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(3.25rem, 7.1vw, 8.4rem);
+  padding: 0 clamp(3.5rem, 7vw, 7.7rem);
+}
+
+.abt-capability-card {
+  position: relative;
+  min-width: 0;
+  padding-top: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+.abt-capability-compact-connector { display: none; }
+
+.abt-capability-card:nth-child(1) { transform: rotate(-6.55deg); }
+.abt-capability-card:nth-child(2) { transform: rotate(5.35deg); }
+.abt-capability-card:nth-child(3) { transform: rotate(-3.45deg); }
+
+.abt-capability-paper {
+  position: relative;
+  z-index: 1;
+  min-height: clamp(25rem, 29vw, 31rem);
+  padding: clamp(4.5rem, 5.5vw, 5.9rem) clamp(2.2rem, 3.2vw, 3.15rem)
+    clamp(3.1rem, 4.2vw, 4.2rem);
+  box-sizing: border-box;
+  overflow: visible;
+  clip-path: polygon(
+    0 0, 100% 0, 100% 91%, 97% 90.5%, 95% 92.5%, 92% 91%, 89% 94%, 85% 92%,
+    81% 94.3%, 76% 92.4%, 72% 95.2%, 67% 93%, 62% 94.5%, 57% 92.5%, 52% 95%,
+    47% 93%, 42% 94.8%, 37% 92.7%, 32% 95.7%, 27% 93.5%, 22% 96%, 18% 94%,
+    14% 96.4%, 10% 94.2%, 6% 96.1%, 3% 93.7%, 0 94.5%
+  );
+  background-color: #eb1d25;
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(255, 255, 255, 0.14) 0 0.75px, transparent 1px),
+    radial-gradient(ellipse at 70% 42%, rgba(105, 0, 0, 0.18) 0 0.75px, transparent 1px),
+    repeating-linear-gradient(112deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 5px),
+    linear-gradient(115deg, #f1262b, #df121b 70%, #d70d17);
+  background-size: 4px 4px, 5px 6px, 5px 5px, auto;
+  box-shadow: 0 1.5rem 2.6rem rgba(0, 0, 0, 0.3);
+}
+
+.abt-capability-paper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.42;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.11), transparent 27%, rgba(79, 0, 5, 0.1));
+}
+
+/* Each card in the reference was torn by hand, not cut to one repeating
+   silhouette. Keep their distinct lower edges when the cards are arranged. */
+.abt-capability-card:nth-child(1) .abt-capability-paper {
+  clip-path: polygon(
+    0 0, 100% 0, 100% 91%, 97% 90%, 95% 92.5%, 92% 91%, 89% 94%, 85% 92%,
+    81% 94.8%, 76% 92.2%, 71% 95.4%, 66% 93%, 60% 95.3%, 55% 93%, 50% 95.8%,
+    45% 93.5%, 40% 96%, 35% 93.2%, 30% 96.3%, 25% 93.7%, 20% 96.5%, 15% 94%,
+    10% 96.8%, 6% 94.4%, 2% 96.2%, 0 93.5%
+  );
+}
+
+.abt-capability-card:nth-child(2) .abt-capability-paper {
+  clip-path: polygon(
+    0 0, 100% 0, 100% 92%, 97% 91%, 94% 93.5%, 91% 92%, 88% 94.4%, 84% 92.5%,
+    80% 95%, 76% 93.4%, 72% 96.2%, 67% 93.7%, 62% 95.5%, 57% 93.4%, 52% 96%,
+    47% 94%, 42% 96.5%, 37% 93.7%, 32% 96.1%, 27% 94%, 22% 96.8%, 18% 94.4%,
+    14% 96.2%, 10% 94.2%, 6% 96.7%, 3% 94.4%, 0 95.3%
+  );
+}
+
+.abt-capability-card:nth-child(3) .abt-capability-paper {
+  clip-path: polygon(
+    0 0, 100% 0, 100% 91%, 97% 90.7%, 94% 93%, 91% 91.2%, 88% 94.2%, 84% 92.4%,
+    80% 95%, 75% 92.8%, 70% 95.7%, 65% 93.3%, 60% 96.1%, 55% 93.5%, 50% 95.8%,
+    45% 93.2%, 40% 96.5%, 35% 94%, 30% 96.6%, 25% 93.8%, 20% 96.3%, 16% 94%,
+    12% 96.9%, 8% 94.2%, 4% 96.1%, 0 93.6%
+  );
+}
+
+.abt-capability-paper h2,
+.abt-capability-paper p {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+}
+
+.abt-capability-paper h2 {
+  max-width: 12ch;
+  margin-top: clamp(1.15rem, 1.7vw, 1.65rem);
+  color: #ffffff;
+  font-family: var(--site-font-display);
+  font-size: clamp(1.45rem, 2.1vw, 2.18rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+}
+
+.abt-capability-paper p {
+  margin-top: clamp(1rem, 1.55vw, 1.45rem);
+  color: rgba(255, 255, 255, 0.98);
+  font-family: var(--site-font-sans);
+  font-size: clamp(1rem, 1.3vw, 1.3rem);
+  font-weight: 500;
+  line-height: 1.48;
+}
+
+.abt-capability-icon {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: clamp(4.4rem, 6vw, 6.1rem);
+  height: auto;
+  mix-blend-mode: screen;
+}
+
+.abt-capability-pin {
+  position: absolute;
+  top: clamp(-1.7rem, -2.35vw, -1.15rem);
+  left: 50%;
+  z-index: 3;
+  width: clamp(4.25rem, 5.4vw, 5.5rem);
+  height: auto;
+  transform: translateX(-50%) rotate(5deg);
+}
+
+@media (max-width: 1024px) {
+  .abt-capabilities {
+    padding: var(--abt-section-pad-y) 0 clamp(5.5rem, 10vw, 7.5rem);
+  }
+
+  .abt-capabilities-inner { width: 100%; }
+  .abt-capabilities-heading {
+    width: auto;
+    margin: 0 max(1.35rem, calc((100% - 58rem) / 2)) clamp(3rem, 6vw, 4.25rem);
+  }
+
+  .abt-capabilities-connector { display: none; }
+
+  .abt-capability-card-track {
+    --abt-capability-card-width: min(55vw, 27rem);
+    --abt-capability-card-gap: clamp(2rem, 4vw, 3rem);
+    --abt-capability-track-edge: max(1.35rem, calc((100% - 58rem) / 2));
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: var(--abt-capability-card-width);
+    grid-template-columns: none;
+    gap: var(--abt-capability-card-gap);
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    padding: 1.9rem var(--abt-capability-track-edge) 2.5rem;
+    scroll-padding-inline: var(--abt-capability-track-edge);
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .abt-capability-card {
+    scroll-snap-align: start;
+    padding-top: 0.8rem;
+  }
+
+  .abt-capability-compact-connector {
+    position: absolute;
+    top: 2.15rem;
+    left: var(--abt-capability-track-edge);
+    z-index: 0;
+    display: block;
+    width: calc(
+      var(--abt-capability-card-width) + var(--abt-capability-card-width) +
+      var(--abt-capability-card-width) + var(--abt-capability-card-gap) +
+      var(--abt-capability-card-gap)
+    );
+    height: 5rem;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .abt-capability-compact-connector path {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.86);
+    stroke-width: 2.25;
+  }
+
+  .abt-capability-compact-connector circle { fill: rgba(255, 255, 255, 0.88); }
+
+  .abt-capability-paper {
+    min-height: clamp(25rem, 53vw, 28rem);
+    padding: clamp(4.2rem, 6vw, 5rem) clamp(2rem, 3.8vw, 2.6rem) clamp(3.2rem, 5vw, 4rem);
+  }
+
+  .abt-capability-paper p { font-size: clamp(1rem, 1.8vw, 1.15rem); }
+}
+
+@media (max-width: 767.98px) {
+  .abt-capabilities { padding: var(--abt-section-pad-y) 0 5.4rem; }
+
+  .abt-capabilities-heading {
+    margin: 0 1.25rem 3rem;
+  }
+
+  .abt-capabilities-heading h2 {
+    font-size: clamp(1.25rem, 5.6vw, 1.45rem);
+  }
+
+  .abt-capability-card-track {
+    --abt-capability-card-width: min(70vw, 20rem);
+    --abt-capability-card-gap: clamp(1.75rem, 8vw, 2.25rem);
+    --abt-capability-track-edge: 1.25rem;
+    padding: 1.7rem var(--abt-capability-track-edge) 2.25rem;
+    scroll-padding-inline: var(--abt-capability-track-edge);
+  }
+
+  .abt-capability-paper {
+    min-height: 21.25rem;
+    padding: 3.45rem 1.45rem 2.45rem;
+  }
+
+  .abt-capability-icon { width: clamp(3.15rem, 13vw, 3.85rem); }
+
+  .abt-capability-pin {
+    top: -1.3rem;
+    width: clamp(3.35rem, 14vw, 4rem);
+  }
+
+  .abt-capability-paper h2 { font-size: clamp(1.2rem, 5.65vw, 1.45rem); }
+  .abt-capability-paper p {
+    margin-top: 0.8rem;
+    font-size: clamp(0.8rem, 3.75vw, 0.92rem);
+    line-height: 1.42;
+  }
+
+  .abt-capability-compact-connector {
+    top: 1.2rem;
+    height: 4rem;
+  }
+
+  .abt-capability-pin { z-index: 3; }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* The compact reading flow already releases with a lower inset on tablet.
+     Use a shorter handoff here than the desktop section rhythm. */
+  .abt-capabilities {
+    padding-top: clamp(1.5rem, 2.5vw, 2rem);
+  }
+
+  .abt-capabilities-heading {
+    margin-bottom: clamp(2.25rem, 3.5vw, 3rem);
+  }
+}

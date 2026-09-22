@@ -482,9 +482,10 @@
 
   .abt-desktop-hero-paperclip {
     position: absolute;
-    top: clamp(-2rem, -2.3vw, -1.45rem);
-    left: 50%;
-    z-index: 2;
+    /* Lives alongside the note so the note's clip-path reveal cannot crop it. */
+    top: calc(clamp(1.05rem, 1.45vw, 1.65rem) + clamp(-2rem, -2.3vw, -1.45rem));
+    left: 72.25%;
+    z-index: 4;
     width: clamp(3.25rem, 3.8vw, 3.85rem);
     height: auto;
     filter: drop-shadow(0.12rem 0.22rem 0.12rem rgba(6, 25, 45, 0.32));
@@ -1063,8 +1064,7 @@
     background: var(--abt-blue);
   }
 
-  .abt-desktop-about-visual-layer,
-  .abt-desktop-why-visual-layer {
+  .abt-desktop-about-visual-layer {
     position: absolute;
     inset: 0;
     z-index: 2;
@@ -1188,7 +1188,6 @@
 
   .abt-pinned-card--target { visibility: hidden; }
   .abt-pinned-card--target .abt-pinned-card-clip { visibility: hidden; }
-  .abt-pinned-card--why { visibility: hidden; }
 
   .abt-pinned-card-back,
   .abt-pinned-card-photo,
@@ -1220,7 +1219,6 @@
   }
 
   .abt-pinned-card-photo img { width: 100%; height: 100%; object-fit: cover; }
-  .abt-pinned-card--why .abt-pinned-card-photo img { object-position: 37% center; }
 
   .abt-pinned-card-note {
     top: 55%;
@@ -1259,7 +1257,9 @@
     display: grid;
     align-content: start;
     gap: clamp(3rem, 8svh, 5.5rem);
-    padding-bottom: 16svh;
+    /* The primary chapters now each contain one complete paragraph, so the
+       former multi-statement spacing left an unnecessarily large pause. */
+    padding-bottom: clamp(3.5rem, 7svh, 5rem);
     scroll-margin-top: var(--abt-reading-top);
   }
 
@@ -1352,7 +1352,6 @@
   .abt-desktop-scroll-flow::before { display: none; }
   .abt-desktop-about-visual-layer { position: relative; }
   .abt-desktop-scroll-visual--about { position: relative; }
-  .abt-desktop-why-visual-layer,
   .abt-desktop-scroll-nav { display: none; }
   .abt-desktop-hero-stats {
     position: relative;
