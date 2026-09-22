@@ -9,7 +9,7 @@
     font-family: var(--site-font-display);
   }
 
-  .abt-mobile-reference > :not(.abt-compact-flow) {
+  .abt-mobile-reference > :not(.abt-compact-flow):not(.abt-capabilities--compact) {
     display: none;
   }
 

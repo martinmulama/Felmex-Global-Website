@@ -1,39 +1,28 @@
 import { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { AboutCapabilityCards } from './AboutCapabilityCards';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const ABOUT_FLOW_CHAPTERS = [
-  { id: 'who', label: 'Who We Are', statements: [
-    ['Who We Are', 'We are a global multimodal logistics partner built to simplify complex movement across air, sea, road, and rail. Our work combines disciplined coordination with practical execution so cargo keeps moving without unnecessary friction.'],
-    ['How We Work', 'Every shipment is managed through clear handoffs, transparent communication, and reliable follow-through. We align sourcing, forwarding, customs, warehousing, and delivery so each stage supports the next with less delay and less guesswork.'],
-    ['What We Value', 'We believe operational clarity matters as much as speed. Accountability, visibility, and consistency guide the way we plan, communicate, and solve problems for clients navigating demanding supply chains.'],
-    ['Our Commitment', 'From first coordination to final delivery, we focus on keeping businesses informed, supported, and ready for growth. Our role is to make logistics feel structured, dependable, and easier to trust.'],
-  ] },
   { id: 'story', label: 'Our Story', statements: [
-    ['Our Story', 'FELMEX Global Logistics was founded on a simple principle: freight should be predictable, transparent, and accountable.'],
-    ['Built Around Your Business', 'As trade grew more complex, businesses needed more than transportation; they needed a partner capable of coordinating every stage of the supply chain with precision and care.'],
-    ['One Connected Network', 'Today, FELMEX integrates sea, road, rail, and air freight into one seamless network, helping businesses move confidently across borders with reliability, integrity, and efficiency.'],
+    ['Our Story', 'We were founded on a simple principle: freight should be predictable, transparent, and accountable. As trade grew more complex, businesses needed more than transportation; they needed a partner capable of coordinating every stage of the supply chain with precision and care. Today, we integrate sea, road, rail, and air freight into one seamless network, helping businesses move confidently across borders with reliability, integrity, and efficiency.'],
+  ] },
+  { id: 'who', label: 'Who We Are', statements: [
+    ['Who We Are', 'We are a global multimodal logistics partner, simplifying movement across air, sea, road, and rail. We manage each shipment through clear handoffs, transparent communication, and reliable follow-through, aligning sourcing, forwarding, customs, warehousing, and delivery. Accountability, visibility, and consistency guide the way we plan, communicate, and solve problems across demanding supply chains. From first coordination to final delivery, we keep businesses informed, supported, and ready for growth.'],
   ] },
   { id: 'mission', label: 'Our Mission', statements: [
-    ['Our Mission', 'FELMEX Global Logistics exists to simplify complexity in international trade. We integrate air, sea, road, and rail services into one cohesive network, ensuring reliable, transparent, and future-ready supply chain solutions for our partners worldwide.'],
-    ['Our Vision', 'Redefine global logistics by delivering seamless, multimodal solutions that connect businesses, markets, and communities with efficiency and integrity.'],
-    ['Our Values', 'Integrity, reliability, excellence, and collaboration guide every route, handoff, and cargo promise.'],
-  ] },
-  { id: 'why', label: 'Why Choose Felmex', statements: [
-    ['Transparent Communication', 'Clear updates and complete visibility from origin to destination. We keep your business informed with transparent communication and reliable follow-through at every handoff.'],
-    ['Global Reach', 'Integrated logistics across air, sea, road, and rail. We connect sourcing, forwarding, customs, warehousing, and delivery so each stage supports the next.'],
-    ['Reliable Delivery', 'Every shipment handled with precision and accountability. From first coordination to final delivery, we focus on keeping your cargo moving and your business ready for growth.'],
+    ['Our Mission', 'We exist to simplify complexity in international trade. We integrate air, sea, road, and rail services into one cohesive network, ensuring reliable, transparent, and future-ready supply chain solutions for our partners worldwide. Our vision is to redefine global logistics by delivering seamless, multimodal solutions that connect businesses, markets, and communities with efficiency and integrity. Integrity, reliability, excellence, and collaboration guide every route, handoff, and cargo promise.'],
   ] },
 ];
 
-function PinnedCard({ why = false, target = false }) {
-  return <div className={`abt-pinned-card${target ? ' abt-pinned-card--target' : ' abt-pinned-card--why'}`} aria-hidden="true">
+function PinnedCard() {
+  return <div className="abt-pinned-card abt-pinned-card--target" aria-hidden="true">
     <span className="abt-pinned-card-back" />
-    <figure className="abt-pinned-card-photo"><img src={why ? '/overview/harbor.png' : '/overview/felmex-container-lift.png'} alt="" /></figure>
+    <figure className="abt-pinned-card-photo"><img src="/overview/felmex-container-lift.png" alt="" /></figure>
     <img className="abt-pinned-card-clip" src="/service-catalog-paperclip.png" alt="" />
-    <aside className="abt-pinned-card-note"><span /><h2>{why ? 'Why Choose Felmex' : 'About Us'}</h2></aside>
+    <aside className="abt-pinned-card-note"><span /><h2>About Us</h2></aside>
   </div>;
 }
 
@@ -56,9 +45,7 @@ export function DesktopAboutFlow({ isPreloaderExited = false, stats = [] }) {
       const noteRule = note.querySelector(':scope > span');
       const team = collage.querySelectorAll('[class$="--team"]');
       const target = flow.querySelector('.abt-pinned-card--target');
-      const why = flow.querySelector('.abt-pinned-card--why');
       const aboutLayer = flow.querySelector('.abt-desktop-about-visual-layer');
-      const whyLayer = flow.querySelector('.abt-desktop-why-visual-layer');
       const heroStats = flow.querySelector('.abt-desktop-hero-stats');
       const track = flow.querySelector('.abt-desktop-reading-track');
       const chapters = [...track.children];
@@ -83,12 +70,11 @@ export function DesktopAboutFlow({ isPreloaderExited = false, stats = [] }) {
         const progress = timeline?.scrollTrigger?.progress ?? 0;
         timeline?.scrollTrigger?.kill();
         timeline?.kill();
-        gsap.set([photo, back, note, clip, noteCopy, noteTitle, noteRule, target.querySelector('.abt-pinned-card-clip'), ...team, track, nav, why, collage, aboutLayer, whyLayer, heroStats], { clearProps: 'all' });
+        gsap.set([photo, back, note, clip, noteCopy, noteTitle, noteRule, target.querySelector('.abt-pinned-card-clip'), ...team, track, nav, collage, aboutLayer, heroStats], { clearProps: 'all' });
         const h = stage.clientHeight;
         const entry = h * 0.8;
         const hold = h * 0.3;
         const contentTop = track.offsetTop;
-        const whyOffset = chapters.at(-1).offsetTop;
         const finalChapter = chapters.at(-1);
         const finalBottomInset = Math.max(48, h * 0.09);
         // Bring the last chapter down to the normal lower section inset before
@@ -96,19 +82,14 @@ export function DesktopAboutFlow({ isPreloaderExited = false, stats = [] }) {
         // leaving most of a viewport blank before the partners block.
         const travel = Math.max(
           0,
-          whyOffset + contentTop - (h - finalChapter.offsetHeight - finalBottomInset)
+          finalChapter.offsetTop + contentTop - (h - finalChapter.offsetHeight - finalBottomInset)
         );
-        // Release as the final Why Choose chapter reaches its resting place.
-        // Its own lower whitespace provides the same separation used between
-        // the regular page sections; an additional pinned hold made the
-        // partners block arrive too late.
+        // Release as the final mission chapter reaches its resting place so
+        // the capability cards can begin as the next independent section.
         const end = entry + hold + travel;
         destinations = chapters.map(chapter => entry + hold + Math.min(chapter.offsetTop, travel));
         gsap.set(track, { y: h });
         gsap.set(nav, { y: -h });
-        gsap.set(why, { visibility: 'visible' });
-        const cardBottom = target.offsetTop + target.offsetHeight + 48;
-        gsap.set(whyLayer, { clipPath: `inset(${cardBottom}px 0 0 0)` });
         gsap.set(noteTitle, { visibility: 'visible', clipPath: 'inset(100% 0 0 0)' });
         gsap.set(target.querySelector('.abt-pinned-card-clip'), { visibility: 'visible', y: -h });
         const setActive = () => {
@@ -137,11 +118,6 @@ export function DesktopAboutFlow({ isPreloaderExited = false, stats = [] }) {
           .to(nav, { y: 0, duration: entry * 0.4 }, entry * 0.6)
           .to(target.querySelector('.abt-pinned-card-clip'), { y: 0, duration: entry * 0.25 }, entry * 0.75)
           .to(track, { y: -travel, duration: travel }, entry + hold);
-        // Both cards occupy the same measured slot throughout the handoff.
-        const handoff = entry + hold + Math.min(whyOffset, travel) - h * 0.45;
-        timeline.set(aboutLayer, { clipPath: `inset(0 0 ${h - cardBottom}px 0)` }, handoff)
-          .to(aboutLayer, { clipPath: `inset(0 0 ${h}px 0)`, duration: h * 0.4 }, handoff)
-          .to(whyLayer, { clipPath: 'inset(0px 0 0 0)', duration: h * 0.4 }, handoff);
         timeline.progress(progress);
         setActive();
       };
@@ -200,11 +176,12 @@ export function DesktopAboutFlow({ isPreloaderExited = false, stats = [] }) {
     return () => media.revert();
   }, [isPreloaderExited]);
 
-  return <section
-    className={`abt-desktop-scroll-flow${isPreloaderExited ? ' is-flow-ready' : ''}`}
-    ref={root}
-    aria-label="About Felmex overview"
-  >
+  return <>
+    <section
+      className={`abt-desktop-scroll-flow${isPreloaderExited ? ' is-flow-ready' : ''}`}
+      ref={root}
+      aria-label="About Felmex overview"
+    >
     <div className="abt-desktop-pinned-stage">
       <div className="abt-desktop-about-visual-layer">
       <div className="abt-desktop-scroll-visual abt-desktop-scroll-visual--about" aria-hidden="true">
@@ -212,9 +189,9 @@ export function DesktopAboutFlow({ isPreloaderExited = false, stats = [] }) {
         <figure className="abt-desktop-hero-photo abt-desktop-hero-photo--team"><img src="/overview/team.png" alt="" width="1190" height="1322" /></figure>
         <span className="abt-desktop-hero-card-back abt-desktop-hero-card-back--warehouse" />
         <figure className="abt-desktop-hero-photo abt-desktop-hero-photo--warehouse"><img src="/overview/felmex-container-lift.png" alt="" width="1314" height="1197" /></figure>
+        <img className="abt-desktop-hero-paperclip" src="/service-catalog-paperclip.png" alt="" width="1254" height="1254" />
         <aside className="abt-desktop-hero-note">
-          <img className="abt-desktop-hero-paperclip" src="/service-catalog-paperclip.png" alt="" width="1254" height="1254" />
-          <p>FELMEX coordinates freight, customs, warehousing, and last-mile movement with accountable handoffs.</p>
+          <p>We coordinate freight, customs, warehousing, and last-mile movement with accountable handoffs.</p>
           <span aria-hidden="true" />
           <h2>About Us</h2>
         </aside>
@@ -225,9 +202,8 @@ export function DesktopAboutFlow({ isPreloaderExited = false, stats = [] }) {
           <span>{stat.label}</span>
         </article>)}
       </div>
-      <PinnedCard target />
+      <PinnedCard />
       </div>
-      <div className="abt-desktop-why-visual-layer"><PinnedCard why /></div>
       <div className="abt-desktop-reading-track">
         {ABOUT_FLOW_CHAPTERS.map(chapter => <section className="abt-desktop-reading-chapter" id={`abt-desktop-${chapter.id}`} key={chapter.id} aria-label={chapter.label}>
           {chapter.statements.map(([label, copy]) => <article className="abt-desktop-scroll-statement" key={label}><p>{label}</p><div>{copy}</div></article>)}
@@ -236,6 +212,8 @@ export function DesktopAboutFlow({ isPreloaderExited = false, stats = [] }) {
       <nav className="abt-desktop-scroll-nav" aria-label="About overview sections">
         {ABOUT_FLOW_CHAPTERS.map(chapter => <a href={`#abt-desktop-${chapter.id}`} key={chapter.id}>{chapter.label}</a>)}
       </nav>
-    </div>
-  </section>;
+      </div>
+    </section>
+    <AboutCapabilityCards />
+  </>;
 }

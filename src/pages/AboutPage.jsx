@@ -14,7 +14,7 @@ const ABOUT_BRIEFS = [
     navLabelLines: ['Who We Are'],
     titleLines: ['Who We Are'],
     copy:
-      'FELMEX coordinates freight, customs, warehousing, and last-mile movement with accountable handoffs.',
+      'We coordinate freight, customs, warehousing, and last-mile movement with accountable handoffs.',
   },
   {
     id: 'mission',
@@ -532,7 +532,7 @@ export function AboutPage({ isAppLoaded = false, isPreloaderExited = false }) {
                 <h2>Origin</h2>
                 <span className="abt-mobile-story-entry-rule" aria-hidden="true" />
                 <p>
-                  FELMEX Global Logistics was founded on a simple principle: freight should be
+                  We were founded on a simple principle: freight should be
                   predictable, transparent, and accountable.
                 </p>
               </article>
@@ -550,7 +550,7 @@ export function AboutPage({ isAppLoaded = false, isPreloaderExited = false }) {
                 <h2>Today</h2>
                 <span className="abt-mobile-story-entry-rule" aria-hidden="true" />
                 <p>
-                  Today, FELMEX integrates sea, road, rail, and air freight into one seamless network,
+                  Today, we integrate sea, road, rail, and air freight into one seamless network,
                   helping businesses move confidently across borders with reliability, integrity, and
                   efficiency.
                 </p>
@@ -690,7 +690,7 @@ export function AboutPage({ isAppLoaded = false, isPreloaderExited = false }) {
             </span>
           </ScrollSectionTitle>
           <p>
-            Partner with FELMEX Global Logistics for seamless, reliable, and scalable logistics
+            Partner with us for seamless, reliable, and scalable logistics
             solutions that drive growth and open new opportunities.
           </p>
           <a className="abt-mobile-final-cta-link" href="/contact">
@@ -721,7 +721,7 @@ export function AboutPage({ isAppLoaded = false, isPreloaderExited = false }) {
             </span>
             <span className="clip-mask abt-hero-subtitle-line-mask">
               <span className="abt-hero-reveal">
-                Learn how FELMEX moves cargo with discipline from planning to delivery.
+                Learn how we move cargo with discipline from planning to delivery.
               </span>
             </span>
           </p>
@@ -976,7 +976,7 @@ export function AboutPage({ isAppLoaded = false, isPreloaderExited = false }) {
                 <span className="abt-story-rule" aria-hidden="true" />
                 <div className="abt-story-text">
                   <p>
-                    FELMEX Global Logistics was founded on a simple principle: freight should be
+                    We were founded on a simple principle: freight should be
                     predictable, transparent, and accountable.
                   </p>
                   <p>
@@ -985,7 +985,7 @@ export function AboutPage({ isAppLoaded = false, isPreloaderExited = false }) {
                     precision and care.
                   </p>
                   <p>
-                    Today, FELMEX integrates sea, road, rail, and air freight into one seamless
+                    Today, we integrate sea, road, rail, and air freight into one seamless
                     network, helping businesses move confidently across borders with reliability,
                     integrity, and efficiency.
                   </p>
@@ -1020,7 +1020,7 @@ export function AboutPage({ isAppLoaded = false, isPreloaderExited = false }) {
                       Mission
                     </p>
                     <p>
-                      FELMEX Global Logistics exists to simplify complexity in international trade.
+                      We exist to simplify complexity in international trade.
                       We integrate air, sea, road, and rail services into one cohesive network,
                       ensuring reliable, transparent, and future-ready supply chain solutions for
                       our partners worldwide.
@@ -1101,7 +1101,7 @@ export function AboutPage({ isAppLoaded = false, isPreloaderExited = false }) {
                 </div>
                 <div className="abt-final-cta-copy">
                   <p>
-                    Partner with FELMEX Global Logistics for seamless, reliable, and scalable
+                    Partner with us for seamless, reliable, and scalable
                     logistics solutions that drive growth and open new opportunities.
                   </p>
                   <a className="abt-final-cta-link" href="/contact">
